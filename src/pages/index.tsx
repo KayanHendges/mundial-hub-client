@@ -45,6 +45,7 @@ export default function Home(props: HomeProps) {
   return (
     <div className={styles.homepage}>
       <h1>{props.products[0].name}</h1>
+      <h1>oi</h1>
     </div>
   )
 }
