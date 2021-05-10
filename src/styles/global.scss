@@ -5,21 +5,25 @@
 }
 
 :root {
-    --white: #FFF;
-  
     --gray-50: #F7F8FA;
     --gray-100: #E6E8EB;
     --gray-200: #AFB2B1;
     --gray-500: #808080;
     --gray-800: #494D4B;
-  
+    --gray-900: #212529;
+    --gray-950: #191c1f;    
+    
     --green-500: #04D361;
     
     --purple-300: #9F75FF;
     --purple-400: #9164FA; 
     --purple-500: #8257E5;
     --purple-800: #6F48C9;
-  }
+
+    --white: #FFF;
+
+    --yellow-line: #c4aa04;
+}
 
 @media (max-width: 1080px) {
     html {
