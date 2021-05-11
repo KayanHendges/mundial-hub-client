@@ -35,26 +35,96 @@ type Products = {
     virtualProduct: Number;
   }
 
-type HomeProps = {
+type ProductProps = {
     products: Products[]
 }
   
-// props: HomeProps
-export default function products (props: HomeProps){
+// props: ProductProps
+export default function products (props: ProductProps){
       return (
-        <div className={styles.ProductContainer} >
-          <div className={styles.ProductContent}>
+        <div className={styles.ProductsContainer} >
+          <div className={styles.ProductsContent}>
             <div className={styles.Title}>
               <h1>Produtos</h1>
+              <button type="button" className={styles.RegisterProducts}>
+                Cadastrar Produtos
+              </button>
             </div>
-            <div className={styles.Forms}>
-              <div className={styles.FormItemId} >
-                <label>Refer.</label>
-                <input type="number" id="referId" name="referId" />
+            <div className={styles.FormsContainer}>
+              <div className={styles.RowInput}>
+                <div className={styles.FormItemId} >
+                  <label>Refer.</label>
+                  <input type="text" id="referId" name="referId" maxLength={4} />
+                </div>
+                <div className={styles.FormItemName} >
+                  <label>Descrição</label>
+                  <input type="text" id="nameProduct" name="nameProduct" maxLength={90} />
+                </div>
               </div>
-              <div className={styles.FormItemName} >
-                <label>Descrição</label>
-                <input type="number" id="nameProduct" name="nameProduct" />
+              <div className={styles.RowButton} >
+                <button type="submit" className={styles.ClearFilter} >
+                  Limpar Filtro
+                </button>
+                <button type="submit" className={styles.Filter} >
+                  Filtrar
+                </button>
+              </div>
+            </div>
+            <div className={styles.ProductListContainer}>
+              <div className={styles.ProductListHeader} >
+                <div className={styles.CheckBoxHeader}>
+                  <input type="checkbox" />
+                </div>
+                <div className={styles.IdHeader}>
+                  <span>
+                    Código
+                  </span>
+                </div>
+                <div className={styles.ProductHeader}>
+                  <span>
+                    Produto
+                  </span>
+                </div>
+                <div className={styles.PriceHeader}>
+                  <span>
+                    Preço
+                  </span>
+                </div>
+                <div className={styles.StockHeader}>
+                  <span>
+                    Estoque
+                  </span>
+                </div>
+                <div className={styles.ButtonHeader}>
+                </div>
+              </div>
+              <div className={styles.ProductList}>
+                <div className={styles.ProductContainer}>
+                  <div className={styles.CheckBox}>
+                    <input type="checkbox" />
+                  </div>
+                  <div className={styles.Id}>
+                    <span>{props.products[0].reference}</span>
+                  </div>
+                  <div className={styles.Product}>
+                    <img src={props.products[0].pictureSource1} alt="product-image" />
+                    <span>{props.products[0].description}</span>
+                  </div>
+                  <div className={styles.Price}>
+                    <span>R${props.products[0].price},00</span>
+                  </div>
+                  <div className={styles.Stock}>
+                    <span>{props.products[0].stock}</span>
+                  </div>
+                  <div className={styles.Buttons}>
+                    <button type="button" >
+                      Editar
+                    </button>
+                    <button type="button" >
+                      +
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -3,7 +3,6 @@
     height: 100%;
     
     background-color: var(--gray-950);
-    border: solid 1px red;
     
     display: flex;
     justify-content: center;
@@ -21,12 +20,19 @@
 .itemContainer {
     width: 3rem;
     height: 3rem;
-    border: solid 1px green;
 
     display: flex;
     text-align: center;
     align-items: center;
     justify-content: center;
+
+    transition: 0.2s;
+
+    &:hover,
+    &:focus {
+    background-color: var(--gray-900);
+
+    }
     
     a {
         text-decoration: none;
@@ -36,12 +42,12 @@
         width: 3rem;
 
         padding: 0.5rem;
-        border: 1px solid blue;
 
         display: flex;
         text-align: center;
         align-items: center;
         justify-content: center;
+
     }
 
     img {

@@ -5,6 +5,9 @@
 }
 
 :root {
+    --blue-600: #2c57ac;
+    --blue-800: #1d3f81 ;
+
     --gray-50: #F7F8FA;
     --gray-100: #E6E8EB;
     --gray-200: #AFB2B1;
@@ -14,6 +17,8 @@
     --gray-950: #191c1f;    
     
     --green-500: #04D361;
+    --green-600: #00ad4e;
+
     
     --purple-300: #9F75FF;
     --purple-400: #9164FA; 
@@ -60,6 +65,12 @@ h2 {
     font-size: 1.5rem;
 }
 
-button {
+button, input[type=checkbox] {
     cursor: pointer;
+}
+
+span {
+    font-weight: 600;
+    font-family: Lexend, sans-serif;
+    color: var(--gray-800);
 }

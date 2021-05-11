@@ -15,6 +15,13 @@
     img {
         height: 2rem;
         width: auto;
+
+        transition: .2s;
+        
+        &:hover,
+        &:focus {
+            padding: 0.05rem;
+        }
     }
 
     p {
