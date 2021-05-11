@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next';
 import { api } from '../../services/api';
 
+import styles from './styles.module.scss';
 
 type Products = {
     ean: string;
@@ -41,8 +42,22 @@ type HomeProps = {
 // props: HomeProps
 export default function products (props: HomeProps){
       return (
-        <div>
-            <h1>Products</h1>
+        <div className={styles.ProductContainer} >
+          <div className={styles.ProductContent}>
+            <div className={styles.Title}>
+              <h1>Produtos</h1>
+            </div>
+            <div className={styles.Forms}>
+              <div className={styles.FormItemId} >
+                <label>Refer.</label>
+                <input type="number" id="referId" name="referId" />
+              </div>
+              <div className={styles.FormItemName} >
+                <label>Descrição</label>
+                <input type="number" id="nameProduct" name="nameProduct" />
+              </div>
+            </div>
+          </div>
         </div>
     )
 }

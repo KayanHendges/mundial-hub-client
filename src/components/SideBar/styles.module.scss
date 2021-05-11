@@ -31,17 +31,21 @@
     a {
         text-decoration: none;
         outline: none;
+
+        height: 3rem;
+        width: 3rem;
+
+        padding: 0.5rem;
+        border: 1px solid blue;
+
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
     }
-    
-    a:link {
-        outline: none; /* removes outline */
-        text-decoration: none;
-      }
 
     img {
         width: 1.5rem;
         height: auto;
-
-        margin: 0.5rem;
     }
 }

@@ -7,7 +7,7 @@ export default function SideBar (){
             <div className={styles.itemBar}>
                 <div className={styles.itemContainer}>
                     <a href="/products">
-                        <img src="/tag.svg" alt="tag" />
+                        <img src="/tag1.png" alt="tag" />
                     </a>
                 </div>
             </div>
