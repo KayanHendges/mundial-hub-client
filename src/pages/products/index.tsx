@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next';
 import { api } from '../../services/api';
+import Head from 'next/head';
 
 import styles from './styles.module.scss';
 
@@ -43,6 +44,9 @@ type ProductProps = {
 export default function products (props: ProductProps){
       return (
         <div className={styles.ProductsContainer} >
+          <Head>
+            <title>Produtos</title>
+          </Head>
           <div className={styles.ProductsContent}>
             <div className={styles.Title}>
               <h1>Produtos</h1>
@@ -99,32 +103,37 @@ export default function products (props: ProductProps){
                 </div>
               </div>
               <div className={styles.ProductList}>
-                <div className={styles.ProductContainer}>
-                  <div className={styles.CheckBox}>
-                    <input type="checkbox" />
-                  </div>
-                  <div className={styles.Id}>
-                    <span>{props.products[0].reference}</span>
-                  </div>
-                  <div className={styles.Product}>
-                    <img src={props.products[0].pictureSource1} alt="product-image" />
-                    <span>{props.products[0].description}</span>
-                  </div>
-                  <div className={styles.Price}>
-                    <span>R${props.products[0].price},00</span>
-                  </div>
-                  <div className={styles.Stock}>
-                    <span>{props.products[0].stock}</span>
-                  </div>
-                  <div className={styles.Buttons}>
-                    <button type="button" >
-                      Editar
-                    </button>
-                    <button type="button" >
-                      +
-                    </button>
-                  </div>
-                </div>
+                {props.products.map((product, index) => {
+                  return (
+                    <div className={styles.ProductContainer}>
+                      <div className={styles.CheckBox}>
+                        <input type="checkbox" />
+                      </div>
+                      <div className={styles.Id}>
+                        <span>{product.reference}</span>
+                      </div>
+                      <div className={styles.Product}>
+                        <img src={product.pictureSource1} alt="product-image" />
+                        <span>{product.description}</span>
+                      </div>
+                      <div className={styles.Price}>
+                        <span>R${product.price},00</span>
+                      </div>
+                      <div className={styles.Stock}>
+                        <span>{product.stock}</span>
+                      </div>
+                      <div className={styles.Buttons}>
+                        <button type="button" >
+                          Editar
+                        </button>
+                        <button type="button" >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  )
+                })}
+
               </div>
             </div>
           </div>

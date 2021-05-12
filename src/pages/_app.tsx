@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
         <Header />
         <main>
           <SideBar />
-          <Component {...pageProps} className={styles.container} />
+          <Component {...pageProps} />
         </main>
       </div>
     )

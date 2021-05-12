@@ -1,6 +1,10 @@
 .ProductsContainer {
-    width: 100%;
-    height: 100%;
+    display: flex;
+    width: calc(100vw - 3rem);
+    height: calc(100vh - 4rem);
+
+    overflow-x: hidden;
+    overflow-y: scroll;
 
     padding: 1rem 1rem 0 1rem;
     background-color: var(--gray-100);
@@ -9,11 +13,11 @@
 
 .ProductsContent {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
 
     display: flex;
     flex-direction: column;
-    
+
     padding: 1rem 1rem 0;
     background-color: var(--white);
     border: solid 1px var(--gray-200);
@@ -178,10 +182,12 @@
 
 .ProductListContainer {
     display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: flex-start;
     flex-direction: column;
     
     width: 100%;
-    height: 100%;
 
     background-color: white;
 
@@ -199,6 +205,8 @@
     }
 
     .ProductList {
+        display: flex;
+        flex-direction: column;
 
         width: 100%;
         height: 100%;

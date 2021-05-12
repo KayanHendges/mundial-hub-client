@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import styles from './home.module.scss';
 
 export default function Home() {
@@ -5,7 +6,11 @@ export default function Home() {
   
   return (
     <div className={styles.homepage}>
-      <h1>Oi</h1>
+      <Head>
+        <title>HUB | Home</title>
+      </Head>
+
+      <h1>Home</h1>
     </div>
   )
 }
