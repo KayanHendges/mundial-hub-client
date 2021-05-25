@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next';
+import Link from 'next/link'
 import { api } from '../../services/api';
 import Head from 'next/head';
 
@@ -105,7 +106,7 @@ export default function products (props: ProductProps){
               <div className={styles.ProductList}>
                 {props.products.map((product, index) => {
                   return (
-                    <div className={styles.ProductContainer}>
+                    <div key={product.reference} className={styles.ProductContainer}>
                       <div className={styles.CheckBox}>
                         <input type="checkbox" />
                       </div>
@@ -123,9 +124,13 @@ export default function products (props: ProductProps){
                         <span>{product.stock}</span>
                       </div>
                       <div className={styles.Buttons}>
-                        <button type="button" >
-                          Editar
-                        </button>
+                        <Link href={`/products/${product.reference}`}>
+                          <a>
+                            <button type="button" >
+                              Editar
+                            </button>
+                          </a>
+                        </Link>
                         <button type="button" >
                           +
                         </button>
