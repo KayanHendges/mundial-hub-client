@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import { api } from '../../services/api'
+import styles from './productPage.module.scss'
 
 type Product = {
     ean: string;
@@ -42,8 +43,15 @@ export default function product({ product }: ProductProps) {
     const router = useRouter()
 
     return (
-        <div>
-            <h1>{product.name}</h1>
+        <div className={styles.Wrapper}>
+            <h1>Produto</h1>
+            <form action="editProduct">
+              <div className={styles.ProductContainer}>
+                <div className={styles.NameContainer} >
+                  <input type="text" />
+                </div>
+              </div>
+            </form>
         </div>
     )
 }
@@ -56,11 +64,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-    const { slug } = ctx.params;
+    const { productPage } = ctx.params;
     
     const { data } = await api.get('products', {
       params: {
-          reference: `${slug}`
+          reference: `${productPage}`
       }
     })
   
