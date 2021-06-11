@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
+import { FormEvent, useState } from 'react'
 import { api } from '../../services/api'
 import styles from './productPage.module.scss'
 
@@ -42,14 +43,42 @@ type ProductProps = {
 export default function product({ product }: ProductProps) {
     const router = useRouter()
 
+    const [ name, setName] = useState(product.name)
+
+    function handleChangeProduct(e: FormEvent) {
+      e.preventDefault();
+
+      console.log(e)
+      console.log(name)
+
+      api.patch(`/products/${product.reference}`, {
+        name,
+      }).then(() => {
+        alert('Produto Salvo com sucesso')
+
+        router.push('/products')
+      }).catch(() => {
+        alert('Erro no cadastro')
+      })
+    }
+
     return (
         <div className={styles.Wrapper}>
             <h1>Produto</h1>
-            <form action="editProduct">
+            <form onSubmit={handleChangeProduct}>
               <div className={styles.ProductContainer}>
                 <div className={styles.NameContainer} >
-                  <input type="text" />
+                  <label>Nome do Produto</label>
+                  <input 
+                  type="text" 
+                  className={styles.DefaultInput} 
+                  value={name}
+                  onChange={(e) => { setName(e.target.value) }}
+                  />
                 </div>
+                <button type="submit">
+                  Salvar
+                </button>
               </div>
             </form>
         </div>
