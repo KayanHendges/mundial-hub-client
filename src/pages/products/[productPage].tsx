@@ -25,7 +25,7 @@ type Product = {
     availability: Number;
     availabilityDays: Number;
     reference: string;
-    relatedCategories: string;
+    relatedCategories: Array<number>;
     releaseDate: string;
     pictureSource1: string;
     pictureSource2: string;
@@ -44,6 +44,8 @@ export default function product({ product }: ProductProps) {
     const router = useRouter()
 
     const [ name, setName] = useState(product.name)
+    const [ description, setDescription] = useState(product.description)
+    const [ categoryId, setCategoryId] = useState(product.categoryId)
 
     function handleChangeProduct(e: FormEvent) {
       e.preventDefault();
@@ -53,6 +55,7 @@ export default function product({ product }: ProductProps) {
 
       api.patch(`/products/${product.reference}`, {
         name,
+        description,
       }).then(() => {
         alert('Produto Salvo com sucesso')
 
@@ -64,17 +67,45 @@ export default function product({ product }: ProductProps) {
 
     return (
         <div className={styles.Wrapper}>
-            <h1>Produto</h1>
-            <form onSubmit={handleChangeProduct}>
-              <div className={styles.ProductContainer}>
-                <div className={styles.NameContainer} >
+            <form onSubmit={handleChangeProduct} className={styles.formContainer}>
+              <div className={styles.productContainer}>
+                <h1>Produto</h1>
+                <div className={styles.defaultInputContainer} >
                   <label>Nome do Produto</label>
                   <input 
                   type="text" 
-                  className={styles.DefaultInput} 
+                  className={styles.defaultInput} 
                   value={name}
                   onChange={(e) => { setName(e.target.value) }}
                   />
+                </div>
+                <div className={styles.defaultInputContainer} >
+                  <label>Descrição do Produto</label>
+                  <textarea
+                  rows={1}
+                  className={styles.textArea} 
+                  value={description}
+                  onChange={(e) => { setDescription(e.target.value) }}
+                  />
+                </div>
+                <div className={styles.categoryContainer}>
+                  <span>Categoria Principal</span>
+                  <input 
+                  type="text"
+                  className={styles.defaultInput}
+                  value={categoryId}
+                  onChange={(e) => { setName(e.target.value) }}
+                  />
+                  <span>Categorias Relacionadas</span>
+                  <div className={styles.relatedCategoryList}>
+                    {product.relatedCategories.map((category, index) => {
+                      return (
+                        <div key={index} className={styles.relatedCategoryContainer}>
+                          <span>{category}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
                 <button type="submit">
                   Salvar
