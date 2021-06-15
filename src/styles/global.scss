@@ -76,15 +76,10 @@ span {
 }
 
 body::-webkit-scrollbar {
-    width: 12px;               /* width of the entire scrollbar */
-  }
+    width: 2px;               /* width of the entire scrollbar */
+}
   
-  body::-webkit-scrollbar-track {
-    background: orange;        /* color of the tracking area */
-  }
-  
-  body::-webkit-scrollbar-thumb {
-    background-color: blue;    /* color of the scroll thumb */
+body::-webkit-scrollbar-thumb {
+    background-color: rgb(218, 218, 218);    /* color of the scroll thumb */
     border-radius: 20px;       /* roundness of the scroll thumb */
-    border: 3px solid orange;  /* creates padding around scroll thumb */
-  }
+}

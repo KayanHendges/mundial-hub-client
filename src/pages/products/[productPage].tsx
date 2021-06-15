@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
 import { api } from '../../services/api'
@@ -67,6 +68,9 @@ export default function product({ product }: ProductProps) {
 
     return (
         <div className={styles.Wrapper}>
+          <Head>
+            <title>{product.name}</title>
+          </Head>
             <form onSubmit={handleChangeProduct} className={styles.formContainer}>
               <div className={styles.productContainer}>
                 <h1>Produto</h1>
@@ -98,13 +102,29 @@ export default function product({ product }: ProductProps) {
                   />
                   <span>Categorias Relacionadas</span>
                   <div className={styles.relatedCategoryList}>
-                    {product.relatedCategories.map((category, index) => {
-                      return (
-                        <div key={index} className={styles.relatedCategoryContainer}>
-                          <span>{category}</span>
-                        </div>
-                      )
-                    })}
+                    <div className={styles.wrapperList} >
+                      {product.relatedCategories.map((category, index) => {
+                        return (
+                          <div key={index} className={styles.relatedCategoryContainer}>
+                            <span>{category}</span>
+                            <button type="button">Remover</button>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                  <span>Buscar Categorias</span>
+                  <div className={styles.searchCategoryList}> 
+                    <div className={styles.wrapperList} >
+                      {product.relatedCategories.map((category, index) => {
+                        return (
+                          <div key={index} className={styles.relatedCategoryContainer}>
+                            <span>{category}</span>
+                            <button type="button" className={styles.addButton}>Adicionar</button>
+                          </div>
+                        )
+                      })}
+                    </div>
                   </div>
                 </div>
                 <button type="submit">

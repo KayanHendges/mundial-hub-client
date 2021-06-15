@@ -75,7 +75,12 @@
         border: solid 0.1rem var(--gray-200);
         gap: 0.5rem;
 
-        .relatedCategoryList {
+        span {
+            padding-left: 0.8rem;
+        }
+
+        .relatedCategoryList,
+        .searchCategoryList {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -84,20 +89,81 @@
             border-radius: 0.8rem;
             border: solid 0.1rem var(--gray-200);
             width: 100%;
-            height: 5rem;
+            height: 8rem;
             padding: 0.2rem 0.6rem;
             overflow-y: scroll;
+            
+            .wrapperList {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 100%;
+            }
 
             .relatedCategoryContainer{
+                display: flex;
                 width: 100%;
-                height: 2rem;
-                text-align: start;
-                padding-left: 0.4rem;
+                height: 2.4rem;
+                align-items: center;
+                padding: 0 0.4rem;
+                justify-content: space-between;
+                
+                
                 
                 span {
+                    display: flex;
+                    justify-content: flex-end;
+                    width: 1rem;
                     font-size: 1rem;
                     font-weight: 400;
                 }
+
+                button {
+                    padding: 0.2rem;
+                    margin: 0rem;
+                    height: 1.5rem;
+                    
+                    display: flex;
+                    text-align: center;
+                    align-items: center;
+                    border-radius: 0.2rem;
+                    border: 1px solid var(--gray-200);
+                    background-color: white;
+                    color: var(--gray-200);
+                    
+                    transition: .2s;
+                    &:hover {
+                        background-color: #d75553;
+                        color: white;
+                        border: solid 1px #d75553;
+                    }
+                    &:active {
+                        padding: 0.1rem;
+                        margin: 0.1rem;
+                    }
+                }
+                
+                .addButton {
+                    background-color: var(--green-600);
+                    color: white;
+                    padding: 0.4rem;
+                    margin: 0rem;
+                
+                    border: none;
+                    border-radius: 0.2rem;
+                    transition: .2s;
+                
+                    &:active {
+                        padding: 0.3rem;
+                        margin: 0.1rem;
+                    }
+
+                    &:hover,
+                    &:active {
+                        background-color: var(--green-500);
+                    }
+                }
+
             }
             
             .relatedCategoryContainer + .relatedCategoryContainer {

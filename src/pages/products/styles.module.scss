@@ -180,6 +180,15 @@
     }
 }
 
+.ProductListContainer::-webkit-scrollbar {
+    width: 2px;               /* width of the entire scrollbar */
+}
+  
+.ProductListContainer::-webkit-scrollbar-thumb {
+    background-color: rgb(187, 187, 187);    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+}
+
 .ProductListContainer {
 
     display: flex;
@@ -195,6 +204,14 @@
     overflow-x: hidden;
     overflow-y: scroll;
 
+    ::-webkit-scrollbar {
+        width: 2px;               /* width of the entire scrollbar */
+    }
+      
+    ::-webkit-scrollbar-thumb {
+        background-color: rgb(218, 218, 218);    /* color of the scroll thumb */
+        border-radius: 20px;       /* roundness of the scroll thumb */
+    }
     
     
     .ProductListHeader {
