@@ -47,6 +47,7 @@ export default function product({ product }: ProductProps) {
     const [ name, setName] = useState(product.name)
     const [ description, setDescription] = useState(product.description)
     const [ categoryId, setCategoryId] = useState(product.categoryId)
+    const [ costPrice, setCostPrice ] = useState<Number>(product.costPrice)
 
     function handleChangeProduct(e: FormEvent) {
       e.preventDefault();
@@ -65,6 +66,18 @@ export default function product({ product }: ProductProps) {
         alert('Erro no cadastro')
       })
     }
+
+    function onlynumber(evt) {
+      var theEvent = evt || window.event;
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode( key );
+      //var regex = /^[0-9.,]+$/;
+      var regex = /^[0-9.]+$/;
+      if( !regex.test(key) ) {
+         theEvent.returnValue = false;
+         if(theEvent.preventDefault) theEvent.preventDefault();
+      }
+   }
 
     return (
         <div className={styles.Wrapper}>
@@ -107,7 +120,7 @@ export default function product({ product }: ProductProps) {
                         return (
                           <div key={index} className={styles.relatedCategoryContainer}>
                             <span>{category}</span>
-                            <button type="button">Remover</button>
+                            <button type="button" className={styles.removeButton}>Remover</button>
                           </div>
                         )
                       })}
@@ -127,6 +140,34 @@ export default function product({ product }: ProductProps) {
                     </div>
                   </div>
                 </div>
+                <div className={styles.priceContainer}>
+                      <div className={styles.costRow}>
+                        
+                        <div className={styles.defaultInputContainer}>
+                          <label>Custo</label>
+                          <input 
+                          type="text"
+                          onKeyPress={(e) => { onlynumber(e) }}
+                          value={costPrice}
+                          onChange={(e) => { setCostPrice(e.target.value) }}
+                          />
+                        </div>
+                        <div className={styles.defaultInputContainer}>
+                          <label>Lucro(%)</label>
+                          <input 
+                          type="text"
+                          onKeyPress={(e) => { onlynumber(e) }}
+                          />
+                        </div>
+                        <div className={styles.defaultInputContainer}>
+                          <label>Fornecedores</label>
+                          <input 
+                          type="text"
+                          />
+                        </div>
+                        <button type="button" className={styles.showProviders}>...</button>
+                      </div>
+                  </div>
                 <button type="submit">
                   Salvar
                 </button>
