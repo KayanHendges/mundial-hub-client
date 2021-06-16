@@ -7,7 +7,7 @@
       "description": "Pneu 165/70R13 Kelly Edge Touring 83T Goodyear",
       "description_small": "Pneu 165/70R13 Kelly Edge Touring 83T Goodyear",
       "price": 351,
-      "cost_price": 0,
+      "cost_price": 280,
       "promotion_price": 339,
       "start_promotion": "2021-04-20",
       "end_promotion": "2022-04-30",
@@ -44,7 +44,8 @@
           "local": 0
         }
       ],
-      "virtual_product": 0
+      "virtual_product": 0,
+      "costPrice": 15
     },
     {
       "id": 2304,

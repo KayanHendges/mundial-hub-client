@@ -47,17 +47,19 @@ export default function product({ product }: ProductProps) {
     const [ name, setName] = useState(product.name)
     const [ description, setDescription] = useState(product.description)
     const [ categoryId, setCategoryId] = useState(product.categoryId)
-    const [ costPrice, setCostPrice ] = useState<Number>(product.costPrice)
+    const [ costPrice, setCostPrice ] = useState(product.costPrice)
 
     function handleChangeProduct(e: FormEvent) {
       e.preventDefault();
 
       console.log(e)
       console.log(name)
+      console.log(costPrice)
 
       api.patch(`/products/${product.reference}`, {
         name,
         description,
+        cost_price: Number(costPrice),
       }).then(() => {
         alert('Produto Salvo com sucesso')
 
@@ -166,6 +168,9 @@ export default function product({ product }: ProductProps) {
                           />
                         </div>
                         <button type="button" className={styles.showProviders}>...</button>
+                      </div>
+                      <div className={styles.priceRow}>
+
                       </div>
                   </div>
                 <button type="submit">
