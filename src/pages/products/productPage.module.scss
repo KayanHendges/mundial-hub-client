@@ -197,5 +197,14 @@
                 }
             }
         }
+
+        .priceRow {
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            text-align: start;
+            justify-content: space-between;
+            gap: 1rem;
+        }
     }
 }

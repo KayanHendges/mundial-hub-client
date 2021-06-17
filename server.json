@@ -9,7 +9,7 @@
       "price": 351,
       "cost_price": 280,
       "promotion_price": 339,
-      "start_promotion": "2021-04-20",
+      "start_promotion": "2021-04-19",
       "end_promotion": "2022-04-30",
       "brand": "Goodyear",
       "model": "Kelly Edge Touring",
@@ -45,7 +45,8 @@
         }
       ],
       "virtual_product": 0,
-      "costPrice": 15
+      "costPrice": 15,
+      "startPromotion": "2021-04-19"
     },
     {
       "id": 2304,

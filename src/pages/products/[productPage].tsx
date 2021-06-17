@@ -48,18 +48,27 @@ export default function product({ product }: ProductProps) {
     const [ description, setDescription] = useState(product.description)
     const [ categoryId, setCategoryId] = useState(product.categoryId)
     const [ costPrice, setCostPrice ] = useState(product.costPrice)
+    const [ price, setPrice ] = useState(product.price)
+    const [ promotionPrice, setPromotionPrice] = useState(product.promotionPrice)
+    const [ startPromotion, setStartPromotion ] = useState(product.startPromotion)
+    const [ endPromotion, setEndPromotion ] = useState(product.endPromotion)
+
 
     function handleChangeProduct(e: FormEvent) {
       e.preventDefault();
 
       console.log(e)
       console.log(name)
-      console.log(costPrice)
+      console.log(startPromotion)
 
       api.patch(`/products/${product.reference}`, {
         name,
         description,
         cost_price: Number(costPrice),
+        price: Number(price),
+        promotion_price: Number(promotionPrice),
+        start_promotion: String(startPromotion),
+        end_promotion: String(endPromotion),
       }).then(() => {
         alert('Produto Salvo com sucesso')
 
@@ -150,8 +159,8 @@ export default function product({ product }: ProductProps) {
                           <input 
                           type="text"
                           onKeyPress={(e) => { onlynumber(e) }}
-                          value={costPrice}
-                          onChange={(e) => { setCostPrice(e.target.value) }}
+                          value={Number(costPrice)}
+                          onChange={(e) => { setCostPrice(Number(e.target.value)) }}
                           />
                         </div>
                         <div className={styles.defaultInputContainer}>
@@ -170,7 +179,40 @@ export default function product({ product }: ProductProps) {
                         <button type="button" className={styles.showProviders}>...</button>
                       </div>
                       <div className={styles.priceRow}>
-
+                        <div className={styles.defaultInputContainer}>
+                          <label>Preço de Venda</label>
+                          <input 
+                          type="text"
+                          onKeyPress={(e) => { onlynumber(e) }}
+                          value={Number(price)}
+                          onChange={(e) => { setPrice(Number(e.target.value)) }}
+                          />
+                        </div>
+                        <div className={styles.defaultInputContainer}>
+                          <label>Valor da Promoção</label>
+                          <input 
+                          type="text"
+                          onKeyPress={(e) => { onlynumber(e) }}
+                          value={Number(promotionPrice)}
+                          onChange={(e) => { setPromotionPrice(Number(e.target.value)) }}
+                          />
+                        </div>
+                        <div className={styles.defaultInputContainer}>
+                          <label>Início</label>
+                          <input 
+                          type="date" 
+                          value={startPromotion}
+                          onChange={(e) => { setStartPromotion(e.target.value) }}
+                          />
+                        </div>
+                        <div className={styles.defaultInputContainer}>
+                          <label>Fim</label>
+                          <input 
+                          type="date" 
+                          value={endPromotion}
+                          onChange={(e) => { setEndPromotion(e.target.value) }}
+                          />
+                        </div>
                       </div>
                   </div>
                 <button type="submit">
