@@ -1,3 +1,4 @@
+import { url } from 'inspector'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -52,6 +53,32 @@ export default function product({ product }: ProductProps) {
     const [ promotionPrice, setPromotionPrice] = useState(product.promotionPrice)
     const [ startPromotion, setStartPromotion ] = useState(product.startPromotion)
     const [ endPromotion, setEndPromotion ] = useState(product.endPromotion)
+    const [ imageSource, setImageSource ] = useState([
+        product.pictureSource1,
+        product.pictureSource2,
+        product.pictureSource3,
+        product.pictureSource4,
+        product.pictureSource5,
+        product.pictureSource6,
+    ])
+
+    function SetImageSourceValue(position: number, value: string) {
+      let updatedImageSource = []
+      
+      imageSource.map((imageUrl, index) => {
+        if (index === position) {
+          console.log(`${index} = ${position}`)
+          updatedImageSource.push(value)
+        }
+        else {
+          console.log(`${index} != ${position}`)
+          updatedImageSource.push((imageUrl))
+        }
+      })
+      console.log(updatedImageSource)
+      setImageSource(updatedImageSource)
+    }
+
 
 
     function handleChangeProduct(e: FormEvent) {
@@ -69,6 +96,12 @@ export default function product({ product }: ProductProps) {
         promotion_price: Number(promotionPrice),
         start_promotion: String(startPromotion),
         end_promotion: String(endPromotion),
+        picture_source_1: String(imageSource[0]),
+        picture_source_2: String(imageSource[1]),
+        picture_source_3: String(imageSource[2]),
+        picture_source_4: String(imageSource[3]),
+        picture_source_5: String(imageSource[4]),
+        picture_source_6: String(imageSource[5]),
       }).then(() => {
         alert('Produto Salvo com sucesso')
 
@@ -215,6 +248,28 @@ export default function product({ product }: ProductProps) {
                         </div>
                       </div>
                   </div>
+                <div className={styles.imageContainer}>
+                  <h3>Imagem do Produto</h3>
+                  <div className={styles.imageGallery}>
+                      {imageSource.map((imageUrl, index) => {
+                        if (imageUrl.length > 0) {
+                          return (
+                            <div className={styles.imageInputArea} key={index}>
+                              <div className={styles.imageArea}>
+                                <img src={imageUrl} alt="Erro" />
+                              </div>
+                              <div className={styles.defaultInputContainer}>
+                                <input
+                                value={imageSource[index]}
+                                onChange={(e) => SetImageSourceValue(index, String(e.target.value))}
+                                />
+                              </div>
+                            </div>
+                          )
+                        }
+                      })}
+                  </div>
+                </div>
                 <button type="submit">
                   Salvar
                 </button>
