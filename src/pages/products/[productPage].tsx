@@ -62,20 +62,17 @@ export default function product({ product }: ProductProps) {
         product.pictureSource6,
     ])
 
-    function SetImageSourceValue(position: number, value: string) {
+    function setImageSourceValue(position: number, value: string) {
       let updatedImageSource = []
-      
       imageSource.map((imageUrl, index) => {
         if (index === position) {
-          console.log(`${index} = ${position}`)
+          if (index > 0)
           updatedImageSource.push(value)
         }
         else {
-          console.log(`${index} != ${position}`)
           updatedImageSource.push((imageUrl))
         }
-      })
-      console.log(updatedImageSource)
+      })      
       setImageSource(updatedImageSource)
     }
 
@@ -261,12 +258,28 @@ export default function product({ product }: ProductProps) {
                               <div className={styles.defaultInputContainer}>
                                 <input
                                 value={imageSource[index]}
-                                onChange={(e) => SetImageSourceValue(index, String(e.target.value))}
+                                onChange={(e) => setImageSourceValue(index, e.target.value)}
                                 />
                               </div>
                             </div>
                           )
                         }
+
+                        if (imageUrl.length === 0) {
+                          return (
+                            <div className={styles.addImageSource} key={index}>
+                              <div className={styles.imageArea}>
+                                <button type="button" className={styles.addImageButton}>+</button>
+                              </div>
+                              <div className={styles.defaultInputContainer}>
+                                <input
+                                value={imageSource[index]}
+                                onChange={(e) => setImageSourceValue(index, e.target.value)}
+                                />
+                              </div>
+                            </div>
+                          )
+                        }                        
                       })}
                   </div>
                 </div>
@@ -289,42 +302,38 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
     const { productPage } = ctx.params;
     
-    const { data } = await api.get('products', {
-      params: {
-          reference: `${productPage}`
-      }
-    })
+    const { data } = await api.get(`products/${productPage}`)
   
     const product = {
-        ean: data[0].ean,
-        name: data[0].name,
-        description: data[0].description,
-        descriptionSmall: data[0].description_small,
-        price: data[0].price,
-        costPrice: data[0].cost_price,
-        promotionPrice: data[0].promotion_price,
-        startPromotion: data[0].start_promotion,
-        endPromotion: data[0].end_promotion,
-        brand: data[0].brand,
-        model: data[0].model,
-        weight: data[0].weight,
-        lenght: data[0].lenght,
-        widht: data[0].widht,
-        height: data[0].height,
-        stock: data[0].stock,
-        categoryId: data[0].category_id,
-        availability: data[0].availability,
-        availabilityDays: data[0].availability_days,
-        reference: data[0].reference,
-        relatedCategories: data[0].related_categories,
-        releaseDate: data[0].release_date,
-        pictureSource1: data[0].picture_source_1,
-        pictureSource2: data[0].picture_source_2,
-        pictureSource3: data[0].picture_source_3,
-        pictureSource4: data[0].picture_source_4,
-        pictureSource5: data[0].picture_source_5,
-        pictureSource6: data[0].picture_source_6,
-        virtualProduct: data[0].virtual_product
+        ean: data.ean,
+        name: data.name,
+        description: data.description,
+        descriptionSmall: data.description_small,
+        price: data.price,
+        costPrice: data.cost_price,
+        promotionPrice: data.promotion_price,
+        startPromotion: data.start_promotion,
+        endPromotion: data.end_promotion,
+        brand: data.brand,
+        model: data.model,
+        weight: data.weight,
+        lenght: data.lenght,
+        widht: data.widht,
+        height: data.height,
+        stock: data.stock,
+        categoryId: data.category_id,
+        availability: data.availability,
+        availabilityDays: data.availability_days,
+        reference: data.reference,
+        relatedCategories: data.related_categories,
+        releaseDate: data.release_date,
+        pictureSource1: data.picture_source_1,
+        pictureSource2: data.picture_source_2,
+        pictureSource3: data.picture_source_3,
+        pictureSource4: data.picture_source_4,
+        pictureSource5: data.picture_source_5,
+        pictureSource6: data.picture_source_6,
+        virtualProduct: data.virtual_product
       }
   
     return {

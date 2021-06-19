@@ -104,7 +104,7 @@ export default function products (props: ProductProps){
                 </div>
               </div>
               <div className={styles.ProductList}>
-                {props.products.map((product, index) => {
+                {props.products.map((product) => {
                   return (
                     <div key={product.reference} className={styles.ProductContainer}>
                       <div className={styles.CheckBox}>
