@@ -146,105 +146,6 @@ export default function product({ product }: ProductProps) {
                   onChange={(e) => { setDescription(e.target.value) }}
                   />
                 </div>
-                <div className={styles.categoryContainer}>
-                  <span>Categoria Principal</span>
-                  <input 
-                  type="text"
-                  className={styles.defaultInput}
-                  value={categoryId}
-                  onChange={(e) => { setName(e.target.value) }}
-                  />
-                  <span>Categorias Relacionadas</span>
-                  <div className={styles.relatedCategoryList}>
-                    <div className={styles.wrapperList} >
-                      {product.relatedCategories.map((category, index) => {
-                        return (
-                          <div key={index} className={styles.relatedCategoryContainer}>
-                            <span>{category}</span>
-                            <button type="button" className={styles.removeButton}>Remover</button>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                  <span>Buscar Categorias</span>
-                  <div className={styles.searchCategoryList}> 
-                    <div className={styles.wrapperList} >
-                      {product.relatedCategories.map((category, index) => {
-                        return (
-                          <div key={index} className={styles.relatedCategoryContainer}>
-                            <span>{category}</span>
-                            <button type="button" className={styles.addButton}>Adicionar</button>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.priceContainer}>
-                      <div className={styles.costRow}>
-                        
-                        <div className={styles.defaultInputContainer}>
-                          <label>Custo</label>
-                          <input 
-                          type="text"
-                          onKeyPress={(e) => { onlynumber(e) }}
-                          value={Number(costPrice)}
-                          onChange={(e) => { setCostPrice(Number(e.target.value)) }}
-                          />
-                        </div>
-                        <div className={styles.defaultInputContainer}>
-                          <label>Lucro(%)</label>
-                          <input 
-                          type="text"
-                          onKeyPress={(e) => { onlynumber(e) }}
-                          />
-                        </div>
-                        <div className={styles.defaultInputContainer}>
-                          <label>Fornecedores</label>
-                          <input 
-                          type="text"
-                          />
-                        </div>
-                        <button type="button" className={styles.showProviders}>...</button>
-                      </div>
-                      <div className={styles.priceRow}>
-                        <div className={styles.defaultInputContainer}>
-                          <label>Preço de Venda</label>
-                          <input 
-                          type="text"
-                          onKeyPress={(e) => { onlynumber(e) }}
-                          value={Number(price)}
-                          onChange={(e) => { setPrice(Number(e.target.value)) }}
-                          />
-                        </div>
-                        <div className={styles.defaultInputContainer}>
-                          <label>Valor da Promoção</label>
-                          <input 
-                          type="text"
-                          onKeyPress={(e) => { onlynumber(e) }}
-                          value={Number(promotionPrice)}
-                          onChange={(e) => { setPromotionPrice(Number(e.target.value)) }}
-                          />
-                        </div>
-                        <div className={styles.defaultInputContainer}>
-                          <label>Início</label>
-                          <input 
-                          type="date" 
-                          value={startPromotion}
-                          onChange={(e) => { setStartPromotion(e.target.value) }}
-                          />
-                        </div>
-                        <div className={styles.defaultInputContainer}>
-                          <label>Fim</label>
-                          <input 
-                          type="date" 
-                          value={endPromotion}
-                          onChange={(e) => { setEndPromotion(e.target.value) }}
-                          />
-                        </div>
-                      </div>
-                  </div>
                 <div className={styles.imageContainer}>
                   <h3>Imagem do Produto</h3>
                   <div className={styles.imageGallery}>
@@ -283,6 +184,118 @@ export default function product({ product }: ProductProps) {
                       })}
                   </div>
                 </div>
+                <div className={styles.categoryContainer}>
+                  <span>Categoria Principal</span>
+                  <input 
+                  type="text"
+                  className={styles.defaultInput}
+                  value={categoryId}
+                  onChange={(e) => { setName(e.target.value) }}
+                  />
+                  <span>Categorias Relacionadas</span>
+                  <div className={styles.relatedCategoryList}>
+                    <div className={styles.wrapperList} >
+                      {product.relatedCategories.map((category, index) => {
+                        return (
+                          <div key={index} className={styles.relatedCategoryContainer}>
+                            <span>{category}</span>
+                            <button type="button" className={styles.removeButton}>Remover</button>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                  <span>Buscar Categorias</span>
+                  <div className={styles.searchCategoryList}> 
+                    <div className={styles.wrapperList} >
+                      {product.relatedCategories.map((category, index) => {
+                        return (
+                          <div key={index} className={styles.relatedCategoryContainer}>
+                            <span>{category}</span>
+                            <button type="button" className={styles.addButton}>Adicionar</button>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.priceContainer}>
+                  <div className={styles.costRow}>
+                    <div className={styles.defaultInputContainer}>
+                      <label>Custo</label>
+                      <input 
+                      type="text"
+                      onKeyPress={(e) => { onlynumber(e) }}
+                      value={Number(costPrice)}
+                      onChange={(e) => { setCostPrice(Number(e.target.value)) }}
+                      />
+                    </div>
+                    <div className={styles.defaultInputContainer}>
+                      <label>Lucro(%)</label>
+                      <input 
+                      type="text"
+                      onKeyPress={(e) => { onlynumber(e) }}
+                      />
+                    </div>
+                    <div className={styles.defaultInputContainer}>
+                      <label>Fornecedores</label>
+                      <input 
+                      type="text"
+                      />
+                    </div>
+                    <button type="button" className={styles.showProviders}>...</button>
+                  </div>
+                  <div className={styles.priceRow}>
+                    <div className={styles.defaultInputContainer}>
+                      <label>Preço de Venda</label>
+                      <input 
+                      type="text"
+                      onKeyPress={(e) => { onlynumber(e) }}
+                      value={Number(price)}
+                      onChange={(e) => { setPrice(Number(e.target.value)) }}
+                      />
+                    </div>
+                    <div className={styles.defaultInputContainer}>
+                      <label>Valor da Promoção</label>
+                      <input 
+                      type="text"
+                      onKeyPress={(e) => { onlynumber(e) }}
+                      value={Number(promotionPrice)}
+                      onChange={(e) => { setPromotionPrice(Number(e.target.value)) }}
+                      />
+                    </div>
+                    <div className={styles.defaultInputContainer}>
+                      <label>Início</label>
+                      <input 
+                      type="date" 
+                      value={startPromotion}
+                      onChange={(e) => { setStartPromotion(e.target.value) }}
+                      />
+                    </div>
+                    <div className={styles.defaultInputContainer}>
+                      <label>Fim</label>
+                      <input 
+                      type="date" 
+                      value={endPromotion}
+                      onChange={(e) => { setEndPromotion(e.target.value) }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.stockContainer}>
+                  <h2>Estoque</h2>
+                  <div className={styles.stockRow}>
+                    <div className={styles.defaultInputContainer}>
+                      <label>Estoque atual</label>
+                      <input
+                      type="text"
+                      onKeyPress={(e) => { onlynumber(e) }}
+                      value={Number(costPrice)}
+                      onChange={(e) => { setCostPrice(Number(e.target.value)) }}
+                      />
+                    </div>
+                  </div>
+                </div>                
                 <button type="submit">
                   Salvar
                 </button>
