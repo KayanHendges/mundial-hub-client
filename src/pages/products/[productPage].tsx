@@ -61,6 +61,7 @@ export default function product({ product }: ProductProps) {
         product.pictureSource5,
         product.pictureSource6,
     ])
+    const [ stock, setStock ] = useState(product.stock)
 
     function setImageSourceValue(position: number, value: string) {
       let updatedImageSource = []
@@ -290,9 +291,13 @@ export default function product({ product }: ProductProps) {
                       <input
                       type="text"
                       onKeyPress={(e) => { onlynumber(e) }}
-                      value={Number(costPrice)}
-                      onChange={(e) => { setCostPrice(Number(e.target.value)) }}
+                      value={Number(stock)}
+                      onChange={(e) => { setStock(Number(e.target.value)) }}
                       />
+                    </div>
+                    <div className={styles.providerStock}>
+                      <img src="/logo-retangular-fundo-branco.png" alt="provider-icon" />
+                      <span>10</span>
                     </div>
                   </div>
                 </div>                
