@@ -66,6 +66,9 @@ export default function product({ product }: ProductProps) {
     const [ lenght, setLenght ] = useState(product.lenght)
     const [ widht, setWidht ] = useState(product.widht)
     const [ height, setHeight ] = useState(product.height)
+    const [ reference, setReference ] = useState(product.reference)
+    const [ brand, setBrand ] = useState(product.brand)
+    const [ model, setModel ] = useState(product.model)
 
     function setImageSourceValue(position: number, value: string) {
       let updatedImageSource = []
@@ -104,6 +107,14 @@ export default function product({ product }: ProductProps) {
         picture_source_4: String(imageSource[3]),
         picture_source_5: String(imageSource[4]),
         picture_source_6: String(imageSource[5]),
+        stock,
+        weight,
+        height,
+        widht,
+        lenght,
+        reference,
+        brand,
+        model,
       }).then(() => {
         alert('Produto Salvo com sucesso')
 
@@ -150,6 +161,35 @@ export default function product({ product }: ProductProps) {
                   value={description}
                   onChange={(e) => { setDescription(e.target.value) }}
                   />
+                </div>
+                <div className={styles.defaultRowInput}>
+                  <div className={styles.defaultInputContainer}>
+                    <label>Referencia</label>
+                    <input 
+                    type="text"
+                    onKeyPress={(e) => { onlynumber(e) }}
+                    value={reference}
+                    onChange={(e) => { setReference(e.target.value) }}
+                    />
+                  </div>
+                  <div className={styles.defaultInputContainer}>
+                    <label>Marca</label>
+                    <input 
+                    type="text"
+                    onKeyPress={(e) => { onlynumber(e) }}
+                    value={brand}
+                    onChange={(e) => { setBrand(e.target.value) }}
+                    />
+                  </div>
+                  <div className={styles.defaultInputContainer}>
+                    <label>Modelo</label>
+                    <input 
+                    type="text"
+                    onKeyPress={(e) => { onlynumber(e) }}
+                    value={model}
+                    onChange={(e) => { setModel(e.target.value) }}
+                    />
+                  </div>
                 </div>
                 <div className={styles.imageContainer}>
                   <h3>Imagem do Produto</h3>

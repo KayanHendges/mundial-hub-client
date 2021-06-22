@@ -27,6 +27,13 @@
         gap: 1rem;
 
     }
+
+    .defaultRowInput {
+        display: flex;
+        gap: 1rem;
+        align-items: baseline;
+        text-align: start;
+    }
     
     .defaultInputContainer {
         display: flex;
