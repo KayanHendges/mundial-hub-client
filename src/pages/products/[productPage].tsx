@@ -62,6 +62,10 @@ export default function product({ product }: ProductProps) {
         product.pictureSource6,
     ])
     const [ stock, setStock ] = useState(product.stock)
+    const [ weight, setWeight ] = useState(product.weight)
+    const [ lenght, setLenght ] = useState(product.lenght)
+    const [ widht, setWidht ] = useState(product.widht)
+    const [ height, setHeight ] = useState(product.height)
 
     function setImageSourceValue(position: number, value: string) {
       let updatedImageSource = []
@@ -244,7 +248,7 @@ export default function product({ product }: ProductProps) {
                       type="text"
                       />
                     </div>
-                    <button type="button" className={styles.showProviders}>...</button>
+                    <button type="button">...</button>
                   </div>
                   <div className={styles.priceRow}>
                     <div className={styles.defaultInputContainer}>
@@ -286,7 +290,7 @@ export default function product({ product }: ProductProps) {
                 <div className={styles.stockContainer}>
                   <h2>Estoque</h2>
                   <div className={styles.stockRow}>
-                    <div className={styles.defaultInputContainer}>
+                    <div className={styles.stockInputContainer}>
                       <label>Estoque atual</label>
                       <input
                       type="text"
@@ -299,8 +303,62 @@ export default function product({ product }: ProductProps) {
                       <img src="/logo-retangular-fundo-branco.png" alt="provider-icon" />
                       <span>10</span>
                     </div>
+                  <button type="button">...</button>
                   </div>
                 </div>                
+                <div className={styles.sizeContainer}>
+                  <h2>Peso e dimensões</h2>
+                  <div className={styles.rowSize}>
+                    <div className={styles.sizeInputContainer}>
+                      <label>Peso</label>
+                      <div>
+                        <input 
+                        type="text"
+                        onKeyPress={(e) => { onlynumber(e) }}
+                        value={Number(weight)}
+                        onChange={(e) => { setWeight(Number(e.target.value)) }}
+                        />
+                        <span>gramas</span>
+                      </div>
+                    </div>
+                    <div className={styles.sizeInputContainer}>
+                      <label>Altura</label>
+                      <div>
+                        <input 
+                        type="text"
+                        onKeyPress={(e) => { onlynumber(e) }}
+                        value={Number(height)}
+                        onChange={(e) => { setHeight(Number(e.target.value)) }}
+                        />
+                        <span>cm</span>
+                      </div>
+                    </div>
+                    <div className={styles.sizeInputContainer}>
+                      <label>Largura</label>
+                      <div>
+                        <input 
+                        type="text"
+                        onKeyPress={(e) => { onlynumber(e) }}
+                        value={Number(widht)}
+                        onChange={(e) => { setWidht(Number(e.target.value)) }}
+                        />
+                        <span>cm</span>
+                      </div>
+                    </div>
+                    <div className={styles.sizeInputContainer}>
+                      <label>Comprimento</label>
+                      <div>
+                        <input 
+                        type="text"
+                        onKeyPress={(e) => { onlynumber(e) }}
+                        value={Number(lenght)}
+                        onChange={(e) => { setLenght(Number(e.target.value)) }}
+                        />
+                        <span>cm</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <button type="submit">
                   Salvar
                 </button>
