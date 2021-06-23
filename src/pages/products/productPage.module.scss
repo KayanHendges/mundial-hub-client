@@ -68,6 +68,30 @@
         }
     }
 
+    .shortInputContainer {
+        display: flex;
+        align-items: baseline;
+        text-align: start;
+        width: 50%;
+        gap: 1rem;
+        padding-right: 0.5rem;
+    
+        label {
+            font-weight: 600;
+            padding-left: 0.3rem;
+        }
+    
+        input {
+            height: 2rem;
+            padding: 0.4rem 0.8rem;
+            width: 100%;
+            border-radius: 0.4rem;
+            border: solid 0.1rem var(--gray-200);
+            color: var(--gray-800);
+            font-weight: 600;
+        }
+    }
+
     .defaultInput {
         padding: 0.3rem 0.6rem;
         width: 100%;
@@ -436,6 +460,13 @@
                 }
             }
         }
+    }
+    
+    .otherContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
     }
 
 }

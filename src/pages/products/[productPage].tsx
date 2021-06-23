@@ -24,7 +24,7 @@ type Product = {
     height: Number;
     stock: Number;
     categoryId: string;
-    availability: Number;
+    availability: String;
     availabilityDays: Number;
     reference: string;
     relatedCategories: Array<number>;
@@ -67,8 +67,11 @@ export default function product({ product }: ProductProps) {
     const [ widht, setWidht ] = useState(product.widht)
     const [ height, setHeight ] = useState(product.height)
     const [ reference, setReference ] = useState(product.reference)
+    const [ ean, setEan ] = useState(product.ean)
     const [ brand, setBrand ] = useState(product.brand)
     const [ model, setModel ] = useState(product.model)
+    const [ availability, setAvailability ] = useState(product.availability)
+    const [ availabilityDays, setAvailabilityDays ] = useState(product.availabilityDays)
 
     function setImageSourceValue(position: number, value: string) {
       let updatedImageSource = []
@@ -164,6 +167,24 @@ export default function product({ product }: ProductProps) {
                 </div>
                 <div className={styles.defaultRowInput}>
                   <div className={styles.defaultInputContainer}>
+                    <label>Marca</label>
+                    <input 
+                    type="text"
+                    value={brand}
+                    onChange={(e) => { setBrand(e.target.value) }}
+                    />
+                  </div>
+                  <div className={styles.defaultInputContainer}>
+                    <label>Modelo</label>
+                    <input 
+                    type="text"
+                    value={model}
+                    onChange={(e) => { setModel(e.target.value) }}
+                    />
+                  </div>
+                </div>
+                <div className={styles.shortInputContainer}>
+                  <div className={styles.defaultInputContainer}>
                     <label>Referencia</label>
                     <input 
                     type="text"
@@ -173,21 +194,12 @@ export default function product({ product }: ProductProps) {
                     />
                   </div>
                   <div className={styles.defaultInputContainer}>
-                    <label>Marca</label>
+                    <label>Ean</label>
                     <input 
                     type="text"
                     onKeyPress={(e) => { onlynumber(e) }}
-                    value={brand}
-                    onChange={(e) => { setBrand(e.target.value) }}
-                    />
-                  </div>
-                  <div className={styles.defaultInputContainer}>
-                    <label>Modelo</label>
-                    <input 
-                    type="text"
-                    onKeyPress={(e) => { onlynumber(e) }}
-                    value={model}
-                    onChange={(e) => { setModel(e.target.value) }}
+                    value={ean}
+                    onChange={(e) => { setEan(e.target.value) }}
                     />
                   </div>
                 </div>
@@ -396,6 +408,28 @@ export default function product({ product }: ProductProps) {
                         />
                         <span>cm</span>
                       </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.otherContainer}>
+                  <h2>Outras informações</h2>
+                  <div className={styles.defaultRowInput}>
+                    <div className={styles.defaultInputContainer}>
+                      <label>Disponibilidade</label>
+                      <input 
+                      type="text"
+                      value={String(availability)}
+                      onChange={(e) => { setAvailability(e.target.value) }}
+                      />
+                    </div>
+                    <div className={styles.defaultInputContainer}>
+                      <label>Prazo de disponibilidade</label>
+                      <input 
+                      type="text"
+                      onKeyPress={(e) => { onlynumber(e) }}
+                      value={Number(availabilityDays)}
+                      onChange={(e) => { setAvailabilityDays(Number(e.target.value)) }}
+                      />
                     </div>
                   </div>
                 </div>
