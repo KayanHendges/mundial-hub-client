@@ -87,7 +87,10 @@ export default function product({ product }: ProductProps) {
       setImageSource(updatedImageSource)
     }
 
-
+    let selectOptions = []
+    for (let i = 0; i <= 120; i++){
+      selectOptions.push(<option value={i}>{i} dias</option> )
+    }
 
     function handleChangeProduct(e: FormEvent) {
       e.preventDefault();
@@ -118,6 +121,14 @@ export default function product({ product }: ProductProps) {
         reference,
         brand,
         model,
+        availability,
+        availability_days: Number(availabilityDays),
+        metatag: [{
+          type: "",
+          content: "",
+          local: 0
+        }],
+        virtual_product: 0,
       }).then(() => {
         alert('Produto Salvo com sucesso')
 
@@ -424,17 +435,17 @@ export default function product({ product }: ProductProps) {
                     </div>
                     <div className={styles.defaultInputContainer}>
                       <label>Prazo de disponibilidade</label>
-                      <input 
-                      type="text"
-                      onKeyPress={(e) => { onlynumber(e) }}
+                      <select
                       value={Number(availabilityDays)}
                       onChange={(e) => { setAvailabilityDays(Number(e.target.value)) }}
-                      />
+                      >
+                        {selectOptions.map((option) => option)}
+                      </select>
                     </div>
                   </div>
                 </div>
-                <button type="submit">
-                  Salvar
+                <button type="submit" className={styles.submitButton}>
+                  Salvar Alterações
                 </button>
               </div>
             </form>
