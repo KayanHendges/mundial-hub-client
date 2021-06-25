@@ -9,15 +9,21 @@ export default function SideBar (){
         <div className={styles.sideBar}>
             <div className={styles.itemContainer} onChange={this}>
                 <div className={styles.iconBox}>
-                    <Link href="/products">
-                        <a>
-                            <img src="/tag1.png" alt="tag" />
-                        </a>
-                    </Link>
+                    <a>
+                        <img src="/tag1.png" alt="tag" />
+                    </a>
                 </div>
                 <div className={styles.itemTextContainer}>
-                    <p>Produtos</p>
+                    <span>Catalogo</span>
                 </div>
+            </div>
+            <div className={styles.subItemContainer}>
+                <Link href={"/products"}>
+                    <p>Produtos</p>
+                </Link>
+                <Link href={"/categories"}>
+                    <p>Categorias</p>
+                </Link>
             </div>
         </div>
     )

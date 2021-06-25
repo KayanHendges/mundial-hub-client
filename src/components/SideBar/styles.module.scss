@@ -16,6 +16,7 @@
         justify-content: flex-start;
         width: auto;
         transition: 0.2s;
+        cursor: pointer;
 
         &:hover,
         &:focus {
@@ -62,13 +63,38 @@
             display: none;
             text-align: center;
             align-items: center;
-            color: white;
+            
+            span {
+                color: white;
+            }
         }
     }
     
+    .subItemContainer {
+        display: none;
+        flex-direction: column;
+        text-align: start;
+        padding-left: 3rem;
+        background-color: var(--gray-850);
+
+        p {
+            color: var(--gray-200);
+            line-height: 2rem;
+            cursor: pointer;
+            
+            &:hover {
+                color: var(--gray-100);
+            }
+        }
+    }
+
     &:hover {        
         .itemTextContainer {
             left: 0rem;
+            display: flex;
+        }
+
+        .subItemContainer {
             display: flex;
         }
     }
