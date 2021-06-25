@@ -1,57 +1,75 @@
 .sideBar {
-    width: 3rem;
+    position: absolute;
+    left: 0;
     height: 100%;
-    
+    width: auto;
     background-color: var(--gray-950);
     
     display: flex;
-    justify-content: center;
-   
-}
-
-.itemBar {
-    display: flex;
     flex-direction: column;
+    justify-content: flex-start;
 
-
-    
-}
-
-.itemContainer {
-    width: 3rem;
-    height: 3rem;
-
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-
-    transition: 0.2s;
-
-    &:hover,
-    &:focus {
-    background-color: var(--gray-900);
-
-    }
-    
-    a {
-        text-decoration: none;
-        outline: none;
-
+    .itemContainer {
         height: 3rem;
-        width: 3rem;
-
-        padding: 0.5rem;
-
         display: flex;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
+        text-align: start;
+        justify-content: flex-start;
+        width: auto;
+        transition: 0.2s;
 
+        &:hover,
+        &:focus {
+        background-color: var(--gray-900);
+    
+        }
+    
+        .iconBox {
+            width: 3rem;
+            height: 3rem;
+        
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+                    
+            a {
+                text-decoration: none;
+                outline: none;
+        
+                height: 3rem;
+                width: 3rem;
+        
+                padding: 0.5rem;
+        
+                display: flex;
+                text-align: center;
+                align-items: center;
+                justify-content: center;
+        
+            }
+        
+            img {
+                width: 1.5rem;
+                height: auto;
+            }
+        }
+        
+        .itemTextContainer {
+            position: relative;
+            width: 10rem;
+            height: 100%;
+            left: -7rem;
+            display: none;
+            text-align: center;
+            align-items: center;
+            color: white;
+        }
     }
-
-    img {
-        width: 1.5rem;
-        height: auto;
+    
+    &:hover {        
+        .itemTextContainer {
+            left: 0rem;
+            display: flex;
+        }
     }
 }
