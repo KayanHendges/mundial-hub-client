@@ -1,7 +1,7 @@
 .sideBar {
     position: absolute;
     left: 0;
-    height: 100%;
+    height: calc(100vh - 4rem);
     width: auto;
     background-color: var(--gray-950);
     
