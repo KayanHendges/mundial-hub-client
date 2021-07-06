@@ -138,5 +138,326 @@
       ],
       "virtual_product": 0
     }
+  ],
+  "categories": [
+    {
+      "Category": {
+        "slug": "Pneus",
+        "id": "1",
+        "parent_id":"",
+        "name": "Pneus",
+        "description": "",
+        "order": "1",
+        "title": "",
+        "small_description": "",
+        "link": {
+          "http": "http://www.mundialpneumaticos.com.br/pneus",
+          "https": "https://www.mundialpneumaticos.com.br/pneus"
+        },
+        "has_acceptance_term": "0",
+        "acceptance_term": "",
+        "images": [
+          {
+            "http": "",
+            "https": ""
+          }
+        ],
+        "has_product": "1",
+        "children": [
+          {
+            "Category": {
+              "slug": "automovel",
+              "id": "7",
+              "parent_id": "1",
+              "name": "Automóvel",
+              "description": "",
+              "order": "1",
+              "title": "",
+              "small_description": "",
+              "link": {
+                "http": "http://www.mundialpneumaticos.com.br/pneus/automovel",
+                "https": "https://www.mundialpneumaticos.com.br/pneus/automovel"
+              },
+              "has_acceptance_term": "0",
+              "acceptance_term": "",
+              "images": [
+                {
+                  "http": "",
+                  "https": ""
+                }
+              ],
+              "has_product": "1",
+              "children": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Category": {
+        "slug": "Marcas",
+        "id": "3",
+        "parent_id":"",
+        "name": "Marcas",
+        "description": "",
+        "order": "2",
+        "title": "",
+        "small_description": "",
+        "link": {
+          "http": "http://www.mundialpneumaticos.com.br/marca",
+          "https": "https://www.mundialpneumaticos.com.br/marca"
+        },
+        "has_acceptance_term": "0",
+        "acceptance_term": "",
+        "images": [
+          {
+            "http": "",
+            "https": ""
+          }
+        ],
+        "has_product": "1",
+        "children": [
+          {
+            "Category": {
+              "slug": "Goodyear",
+              "id": "21",
+              "parent_id": "3",
+              "name": "Goodyear",
+              "description": "",
+              "order": "2",
+              "title": "",
+              "small_description": "",
+              "link": {
+                "http": "http://www.mundialpneumaticos.com.br/marcas/goodyear",
+                "https": "https://www.mundialpneumaticos.com.br/marcas/goodyear"
+              },
+              "has_acceptance_term": "0",
+              "acceptance_term": "",
+              "images": [
+                {
+                  "http": "",
+                  "https": ""
+                }
+              ],
+              "has_product": "1",
+              "children": [
+                {
+                  "Category": {
+                    "slug": "Kelly-Edge-Touring",
+                    "id": "63",
+                    "parent_id": "21",
+                    "name": "Kelly Edge Touring",
+                    "description": "",
+                    "order": "1",
+                    "title": "",
+                    "small_description": "",
+                    "link": {
+                      "http": "http://www.mundialpneumaticos.com.br/marcas/goodyear/kelly-edge-touring",
+                      "https": "https://www.mundialpneumaticos.com.br/marcas/goodyear/kelly-edge-touring"
+                    },
+                    "has_acceptance_term": "0",
+                    "acceptance_term": "",
+                    "images": [
+                      {
+                        "http": "",
+                        "https": ""
+                      }
+                    ],
+                    "has_product": "1",
+                    "children": null
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "Category": {
+              "slug": "Bridgestone",
+              "id": "25",
+              "parent_id": "3",
+              "name": "Bridgestone",
+              "description": "",
+              "order": "1",
+              "title": "",
+              "small_description": "",
+              "link": {
+                "http": "http://www.mundialpneumaticos.com.br/marcas/bridgestone",
+                "https": "https://www.mundialpneumaticos.com.br/marcas/bridgestone"
+              },
+              "has_acceptance_term": "0",
+              "acceptance_term": "",
+              "images": [
+                {
+                  "http": "",
+                  "https": ""
+                }
+              ],
+              "has_product": "1",
+              "children": [
+                {
+                  "Category": {
+                    "slug": "turanza-er30",
+                    "id": "151",
+                    "parent_id": "25",
+                    "name": "Turanza ER30",
+                    "description": "",
+                    "order": "1",
+                    "title": "",
+                    "small_description": "",
+                    "link": {
+                      "http": "http://www.mundialpneumaticos.com.br/marcas/bridgestone/turanza-er30",
+                      "https": "https://www.mundialpneumaticos.com.br/marcas/bridgestone/turanza-er30"
+                    },
+                    "has_acceptance_term": "0",
+                    "acceptance_term": "",
+                    "images": [
+                      {
+                        "http": "",
+                        "https": ""
+                      }
+                    ],
+                    "has_product": "1",
+                    "children": null
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Category": {
+        "slug": "Medidas",
+        "id": "5",
+        "parent_id":"",
+        "name": "Medidas",
+        "description": "",
+        "order": "3",
+        "title": "",
+        "small_description": "",
+        "link": {
+          "http": "http://www.mundialpneumaticos.com.br/medida",
+          "https": "https://www.mundialpneumaticos.com.br/medida"
+        },
+        "has_acceptance_term": "0",
+        "acceptance_term": "",
+        "images": [
+          {
+            "http": "",
+            "https": ""
+          }
+        ],
+        "has_product": "1",
+        "children": [
+          {
+            "Category": {
+              "slug": "aro-13",
+              "id": "31",
+              "parent_id": "5",
+              "name": "Aro 13",
+              "description": "",
+              "order": "1",
+              "title": "",
+              "small_description": "",
+              "link": {
+                "http": "http://www.mundialpneumaticos.com.br/medidas/aro-13",
+                "https": "https://www.mundialpneumaticos.com.br/medidas/aro-13"
+              },
+              "has_acceptance_term": "0",
+              "acceptance_term": "",
+              "images": [
+                {
+                  "http": "",
+                  "https": ""
+                }
+              ],
+              "has_product": "1",
+              "children": [
+                {
+                  "Category": {
+                    "slug": "16570r13",
+                    "id": "57",
+                    "parent_id": "31",
+                    "name": "165/70R13",
+                    "description": "",
+                    "order": "1",
+                    "title": "",
+                    "small_description": "",
+                    "link": {
+                      "http": "http://www.mundialpneumaticos.com.br/medidas/aro-13/16570r13",
+                      "https": "https://www.mundialpneumaticos.com.br/medidas/aro-13/16570r13"
+                    },
+                    "has_acceptance_term": "0",
+                    "acceptance_term": "",
+                    "images": [
+                      {
+                        "http": "",
+                        "https": ""
+                      }
+                    ],
+                    "has_product": "1",
+                    "children": null
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "Category": {
+              "slug": "aro-15",
+              "id": "37",
+              "parent_id": "5",
+              "name": "Aro 15",
+              "description": "",
+              "order": "2",
+              "title": "",
+              "small_description": "",
+              "link": {
+                "http": "http://www.mundialpneumaticos.com.br/medidas/aro-15",
+                "https": "https://www.mundialpneumaticos.com.br/medidas/aro-15"
+              },
+              "has_acceptance_term": "0",
+              "acceptance_term": "",
+              "images": [
+                {
+                  "http": "",
+                  "https": ""
+                }
+              ],
+              "has_product": "1",
+              "children": [
+                {
+                  "Category": {
+                    "slug": "19555r15",
+                    "id": "161",
+                    "parent_id": "37",
+                    "name": "195/55R15",
+                    "description": "",
+                    "order": "1",
+                    "title": "",
+                    "small_description": "",
+                    "link": {
+                      "http": "http://www.mundialpneumaticos.com.br/medidas/aro-15/19555r15",
+                      "https": "https://www.mundialpneumaticos.com.br/medidas/aro-15/19555r15"
+                    },
+                    "has_acceptance_term": "0",
+                    "acceptance_term": "",
+                    "images": [
+                      {
+                        "http": "",
+                        "https": ""
+                      }
+                    ],
+                    "has_product": "1",
+                    "children": null
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
   ]
 }
