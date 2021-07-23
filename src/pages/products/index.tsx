@@ -51,9 +51,11 @@ export default function products (props: ProductProps){
           <div className={styles.ProductsContent}>
             <div className={styles.Title}>
               <h1>Produtos</h1>
-              <button type="button" className={styles.RegisterProducts}>
-                Cadastrar Produtos
-              </button>
+              <Link href='/products/novo-produto'>
+                <button type="button" className={styles.RegisterProducts}>
+                  Cadastrar Produtos
+                </button>
+              </Link>
             </div>
             <div className={styles.FormsContainer}>
               <div className={styles.RowInput}>

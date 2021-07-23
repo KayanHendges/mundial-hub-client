@@ -10,13 +10,13 @@ export default function test(props) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-    const {data} = await api.get('http://localhost:4000/produtos')
+    const {data} = await api.get('produtos/2')
 
     console.log(data)
 
     return {
         props: {
-            data
+            empty: ""
         }
     }
 }
