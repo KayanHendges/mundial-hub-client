@@ -303,8 +303,8 @@ export default function product() {
                       <input 
                       type="text"
                       onKeyPress={(e) => { onlynumber(e) }}
-                      value={Number(costPrice)}
-                      onChange={(e) => { setCostPrice(Number(e.target.value)) }}
+                      value={parseFloat(costPrice)}
+                      onChange={(e) => { setCostPrice(parseFloat(e.target.value)) }}
                       />
                     </div>
                     <div className={styles.defaultInputContainer}>
