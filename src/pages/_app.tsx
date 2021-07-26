@@ -1,8 +1,8 @@
 import '../styles/global.scss';
 
 import styles from '../styles/app.module.scss';
-import Header from '../components/header/index';
-import SideBar from '../components/sideBar';
+import Header from '../components/Header/index';
+import SideBar from '../components/SideBar';
 
 function MyApp({ Component, pageProps }) {
     return (
