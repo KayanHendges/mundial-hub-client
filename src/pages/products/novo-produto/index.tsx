@@ -5,37 +5,6 @@ import styles from './style.module.scss'
 import { api } from '../../../services/api2'
 import { GetStaticProps } from 'next'
 
-type Product = {
-    ean: string;
-    name: string;
-    description: string;
-    descriptionSmall: string;
-    price: Number;
-    costPrice: Number;
-    promotionPrice: Number;
-    startPromotion: string;
-    endPromotion: string;
-    brand: string;
-    model: string;
-    weight: Number;
-    lenght: Number;
-    widht: Number;
-    height: Number;
-    stock: Number;
-    categoryId: string;
-    availability: String;
-    availabilityDays: Number;
-    reference: string;
-    relatedCategories: Array<number>;
-    releaseDate: string;
-    pictureSource1: string;
-    pictureSource2: string;
-    pictureSource3: string;
-    pictureSource4: string;
-    pictureSource5: string;
-    pictureSource6: string;
-    virtualProduct: Number;
-  }
 
 export default function product() {
     const router = useRouter()
@@ -304,7 +273,7 @@ export default function product() {
                       type="text"
                       onKeyPress={(e) => { onlynumber(e) }}
                       value={parseFloat(costPrice)}
-                      onChange={(e) => { setCostPrice(parseFloat(e.target.value)) }}
+                      onChange={(e) => { setCostPrice(e.target.value) }}
                       />
                     </div>
                     <div className={styles.defaultInputContainer}>
@@ -329,7 +298,7 @@ export default function product() {
                       type="text"
                       onKeyPress={(e) => { onlynumber(e) }}
                       value={Number(price)}
-                      onChange={(e) => { setPrice(Number(e.target.value)) }}
+                      onChange={(e) => { setPrice(e.target.value) }}
                       />
                     </div>
                     <div className={styles.defaultInputContainer}>
@@ -338,7 +307,7 @@ export default function product() {
                       type="text"
                       onKeyPress={(e) => { onlynumber(e) }}
                       value={Number(promotionPrice)}
-                      onChange={(e) => { setPromotionPrice(Number(e.target.value)) }}
+                      onChange={(e) => { setPromotionPrice(e.target.value) }}
                       />
                     </div>
                     <div className={styles.defaultInputContainer}>
@@ -368,7 +337,7 @@ export default function product() {
                       type="text"
                       onKeyPress={(e) => { onlynumber(e) }}
                       value={Number(stock)}
-                      onChange={(e) => { setStock(Number(e.target.value)) }}
+                      onChange={(e) => { setStock(e.target.value) }}
                       />
                     </div>
                     <div className={styles.providerStock}>
@@ -388,7 +357,7 @@ export default function product() {
                         type="text"
                         onKeyPress={(e) => { onlynumber(e) }}
                         value={Number(weight)}
-                        onChange={(e) => { setWeight(Number(e.target.value)) }}
+                        onChange={(e) => { setWeight(e.target.value) }}
                         />
                         <span>gramas</span>
                       </div>
@@ -400,7 +369,7 @@ export default function product() {
                         type="text"
                         onKeyPress={(e) => { onlynumber(e) }}
                         value={Number(height)}
-                        onChange={(e) => { setHeight(Number(e.target.value)) }}
+                        onChange={(e) => { setHeight(e.target.value) }}
                         />
                         <span>cm</span>
                       </div>
@@ -412,7 +381,7 @@ export default function product() {
                         type="text"
                         onKeyPress={(e) => { onlynumber(e) }}
                         value={Number(widht)}
-                        onChange={(e) => { setWidht(Number(e.target.value)) }}
+                        onChange={(e) => { setWidht(e.target.value) }}
                         />
                         <span>cm</span>
                       </div>
@@ -424,7 +393,7 @@ export default function product() {
                         type="text"
                         onKeyPress={(e) => { onlynumber(e) }}
                         value={Number(lenght)}
-                        onChange={(e) => { setLenght(Number(e.target.value)) }}
+                        onChange={(e) => { setLenght(e.target.value) }}
                         />
                         <span>cm</span>
                       </div>
@@ -446,7 +415,7 @@ export default function product() {
                       <label>Prazo de disponibilidade</label>
                       <select
                       value={Number(availabilityDays)}
-                      onChange={(e) => { setAvailabilityDays(Number(e.target.value)) }}
+                      onChange={(e) => { setAvailabilityDays(e.target.value) }}
                       >
                         {selectOptions.map((option) => option)}
                       </select>
