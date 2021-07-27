@@ -31,46 +31,9 @@ export default function categories (props: CategoryProps){
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-    const { data } = await api.get('categories2', {
-      params: {
-      }
-    })
-
-    function childrenMap (category) {
-      if (category.children === null) {
-        return {
-          categoryId: category.id,
-          parentId: category.parent_id,
-          name: category.name,
-          order: Number(category.order),
-          hasProduct: Number(category.has_product),
-          children: null
-        }
-      }
-      else {
-        return {
-          categoryId: category.id,
-          parentId: category.parent_id,
-          name: category.name,
-          order: Number(category.order),
-          hasProduct: Number(category.has_product),
-          children: category.children.map(children => {
-            return childrenMap(children)
-          })
-        }
-      }      
-    }
-
-    const categories = data.map(category => {
-      return (
-        childrenMap(category)
-      )
-    })
-  
     return {
       props: {
-        data,
-        categories
+        
       },
       revalidate: 5,
     }

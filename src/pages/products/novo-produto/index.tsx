@@ -75,45 +75,6 @@ export default function product() {
       }).catch((error) => {
         alert(error)
       })
-
-    //    api.post(`produtos/`, {
-    //      is_kit: 0,
-    //      name,
-    //      description,
-    //      cost_price: Number(costPrice),
-    //      price: Number(price),
-    //      promotion_price: Number(promotionPrice),
-    //      start_promotion: String(startPromotion),
-    //      end_promotion: String(endPromotion),
-    //      picture_source_1: String(imageSource[0]),
-    //      picture_source_2: String(imageSource[1]),
-    //      picture_source_3: String(imageSource[2]),
-    //      picture_source_4: String(imageSource[3]),
-    //      picture_source_5: String(imageSource[4]),
-    //      picture_source_6: String(imageSource[5]),
-    //      stock,
-    //      weight,
-    //      height,
-    //      widht,
-    //      lenght,
-    //      reference,
-    //      brand,
-    //      model,
-    //      availability,
-    //      availability_days: Number(availabilityDays),
-    //      metatag: [{
-    //        type: "",
-    //        content: "",
-    //        local: 0
-    //      }],
-    //      virtual_product: 0,
-    //    }).then(() => {
-    //      alert('Produto Salvo com sucesso')
-
-    //      router.push('/products')
-    //    }).catch((error) => {
-    //      alert(error)
-    //    })
     }
 
     function onlynumber(evt) {
