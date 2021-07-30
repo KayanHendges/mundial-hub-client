@@ -18,7 +18,7 @@ export default function SideBar (){
                 </div>
             </div>
             <div className={styles.subItemContainer}>
-                <Link href={"/products"}>
+                <Link href={"/produtos"}>
                     <p>Produtos</p>
                 </Link>
                 <Link href={"/categories"}>
