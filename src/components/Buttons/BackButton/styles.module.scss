@@ -1,0 +1,35 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+    padding: 0.2rem;
+    margin: 1px;
+    border: 1px solid var(--complementar-text);
+    border-radius: 1rem;
+    
+    background-color: var(--gray-5);
+    cursor: pointer;
+    
+    &:hover {
+        border: 2px solid var(--blue-button);
+        margin: 0px;
+    }
+
+    .circle {
+        width: 1.5rem;
+        height: 1.5rem;
+
+        font-weight: 700;
+        color: var(--white-text);
+        background-color: var(--blue-button);
+        text-align: center;
+        align-items: center;
+        border-radius: 50%;
+    }
+
+    span {
+        color: var(--white-text);
+        margin: 0 .5rem;
+    }
+}

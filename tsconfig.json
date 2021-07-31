@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/pages/produtos/novo-produto/index.tsx", "src/components/Produto/Selector/index.tsx", "src/components/Produto/Selector/SelectorFunction/index.js"  ],
   "exclude": [
     "node_modules"
   ]
