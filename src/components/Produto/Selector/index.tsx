@@ -9,8 +9,8 @@ export default function Selector(props){
 
     const [ option0, setOption0 ] = useState({
         color: "var(--white-text)",
-        underlineColor: "none",
-        underlinePadding: "0.7rem",
+        underlineColor: "2px solid var(--white-text)",
+        underlinePadding: "0.5rem",
         display: "flex"
     })
     const [ option1, setOption1 ] = useState({
@@ -32,9 +32,7 @@ export default function Selector(props){
         display: "none"
     })
 
-    console.log(option1.display)
-
-    function seletor(option) {
+    function seletor(option){
         if(option == 0) {
             setOption0({
                 color: "var(--white-text)",
@@ -145,7 +143,7 @@ export default function Selector(props){
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <span 
-                onClick={() => seletor(0)} 
+                onClick={() => seletor(0)}
                 style={{
                     color: `${option0.color}`,
                     borderBottom: `${option0.underlineColor}`,
@@ -185,7 +183,11 @@ export default function Selector(props){
                     dategorias
                 </span>
             </div>
-            <DadosGerais display={{display: `${option0.display}`}} />
+            <DadosGerais
+            display={{display: `${option0.display}`}}
+            values={props.values}
+            onChange={props.onChange}
+            />
             <Categorias display={{display: `${option1.display}`}}/>
         </div>
     )
