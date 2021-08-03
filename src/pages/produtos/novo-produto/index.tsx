@@ -3,7 +3,8 @@ import styles from './styles.module.scss'
 import Header from '../../../components/Produto/Header';
 import Selector from '../../../components/Produto/Selector';
 import { useState } from 'react';
-
+import titleize from '../../../services/Titleize'
+import onlyNumber from '../../../services/onlyNumber'
 
 
 export default function produtos(){
@@ -15,7 +16,15 @@ export default function produtos(){
         idTray: 1,
         brand: "Goodyear",
         model: "EfficientGrip",
-        description: "teste"
+        description: "",
+        images: {
+            imageUrl1: "https://images.tcdn.com.br/img/img_prod/668385/pneu_285_75r16_catchfors_a_t_lb_122_119s_lanvigator_6673_1_7efd5805c3cd1ae58dc6beebd6ab9e95.jpg",
+            imageUrl2: "",
+            imageUrl3: "",
+            imageUrl4: "",
+            imageUrl5: "",
+            imageUrl6: "",
+        },
     }
     
     const [ values, setValues ] = useState(startValues)
@@ -27,24 +36,26 @@ export default function produtos(){
         })
       }
 
+    function handleDescription(boolean){ // ativa/desativa a descrição automatica
+        if(boolean == true){ // desativa
+            setValues({
+                ...values,
+                description: values.description 
+            })
+        } else {
+            setValues({ // ativa
+                ...values,
+                description: titleize(values.name)
+            })
+        }
+    }
+
     function handleChange(e){
         setValue(
             e.target.getAttribute('name'),
             e.target.value
         )
     }
-
-    function onlyNumber(evt) {
-        var theEvent = evt || window.event;
-        var key = theEvent.keyCode || theEvent.which;
-        key = String.fromCharCode( key );
-        //var regex = /^[0-9.,]+$/;
-        var regex = /^[0-9.]+$/;
-        if( !regex.test(key) ) {
-           theEvent.returnValue = false;
-           if(theEvent.preventDefault) theEvent.preventDefault();
-        }
-     }
 
     return (
         <div className={styles.Wrapper}>
@@ -57,6 +68,7 @@ export default function produtos(){
             values={values}
             onChange={handleChange}
             onlyNumber={onlyNumber}
+            handleDescription={handleDescription}
             />
         </div>
     )

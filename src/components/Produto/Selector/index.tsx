@@ -160,7 +160,7 @@ export default function Selector(props){
                     paddingBottom: `${option1.underlinePadding}`
                 }}
                 >
-                    dategorias
+                    categorias
                 </span>
                 <span 
                 onClick={() => seletor(2)} 
@@ -170,7 +170,7 @@ export default function Selector(props){
                     paddingBottom: `${option2.underlinePadding}`
                 }}
                 >
-                    dados gerais
+                    preço e estoque
                 </span>
                 <span
                 onClick={() => seletor(3)} 
@@ -180,7 +180,7 @@ export default function Selector(props){
                     paddingBottom: `${option3.underlinePadding}`
                 }}
                 >
-                    dategorias
+                    dados complementares
                 </span>
             </div>
             <DadosGerais
@@ -188,6 +188,7 @@ export default function Selector(props){
             values={props.values}
             onChange={props.onChange}
             onlyNumber={props.onlyNumber}
+            handleDescription={props.handleDescription}
             />
             <Categorias
             display={{display: `${option1.display}`}}

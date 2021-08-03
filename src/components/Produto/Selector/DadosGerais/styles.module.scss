@@ -13,6 +13,32 @@
         display: flex;
 
         gap: 1rem;
+
+        
     }
 
+    .descriptionArea {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        text-align: start;
+        align-items: flex-start;
+        gap: 0.3rem;
+
+        .autoDescription {
+            padding: 0.05rem 0.3rem;
+            border: 1px solid var(--gray-line);
+            border-radius: 0.4rem;
+            padding-left: 0.4rem;
+            display: flex;
+            gap: 0.3rem;
+            align-items: center;
+            cursor: pointer;
+        }
+    }
+
+    .imageGallery {
+        display: flex;
+        gap: 1rem;
+    }
 }

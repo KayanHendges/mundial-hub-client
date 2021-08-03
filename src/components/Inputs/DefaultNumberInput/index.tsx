@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 
-export default function DefaultInput(props){
+export default function DefaultNumberInput(props){
     if (props.required == "required") {
         return (
             <div
@@ -15,6 +15,7 @@ export default function DefaultInput(props){
                 type={props.type}
                 name={props.name}
                 value={props.value}
+                onKeyPress={(e) => {this.props.onlyNumber(e)}}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
                 required
@@ -35,6 +36,7 @@ export default function DefaultInput(props){
                 type={props.type}
                 name={props.name}
                 value={props.value}
+                onKeyPress={(e) => {props.onlyNumber(e)}}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
                 />
