@@ -10,7 +10,12 @@ export default function produtos(){
     
     const startValues = {
         name: "teste",
-        estoque: "0"
+        reference: "0001",
+        ean: "12345678910",
+        idTray: 1,
+        brand: "Goodyear",
+        model: "EfficientGrip",
+        description: "teste"
     }
     
     const [ values, setValues ] = useState(startValues)
@@ -29,6 +34,18 @@ export default function produtos(){
         )
     }
 
+    function onlyNumber(evt) {
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode( key );
+        //var regex = /^[0-9.,]+$/;
+        var regex = /^[0-9.]+$/;
+        if( !regex.test(key) ) {
+           theEvent.returnValue = false;
+           if(theEvent.preventDefault) theEvent.preventDefault();
+        }
+     }
+
     return (
         <div className={styles.Wrapper}>
             <Header 
@@ -39,6 +56,7 @@ export default function produtos(){
             <Selector
             values={values}
             onChange={handleChange}
+            onlyNumber={onlyNumber}
             />
         </div>
     )

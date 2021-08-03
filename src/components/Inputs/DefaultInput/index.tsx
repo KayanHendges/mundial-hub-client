@@ -12,9 +12,11 @@ export default function DefaultInput(props){
                 <label>
                     {props.label}
                 </label>
-                <input 
+                <input
+                type={props.type}
                 name={props.name}
                 value={props.value}
+                onKeyPress={(e) => {props.onlyNumber(e)}}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
                 required
@@ -22,7 +24,7 @@ export default function DefaultInput(props){
             </div>
         )
     } else {
-        return (
+        return (            
             <div
             className={styles.wrapper}
             style={{
@@ -32,9 +34,12 @@ export default function DefaultInput(props){
                     {props.label}
                 </label>
                 <input 
+                type={props.type}
                 name={props.name}
                 value={props.value}
+                onKeyPress={(e) => {props.onlyNumber(e)}}
                 onChange={props.onChange}
+                placeholder={props.placeholder}
                 />
             </div>
         )

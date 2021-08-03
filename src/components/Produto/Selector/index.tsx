@@ -187,8 +187,11 @@ export default function Selector(props){
             display={{display: `${option0.display}`}}
             values={props.values}
             onChange={props.onChange}
+            onlyNumber={props.onlyNumber}
             />
-            <Categorias display={{display: `${option1.display}`}}/>
+            <Categorias
+            display={{display: `${option1.display}`}}
+            />
         </div>
     )
 }
