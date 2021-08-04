@@ -17,14 +17,14 @@ export default function produtos(){
         brand: "Goodyear",
         model: "EfficientGrip",
         description: "",
-        images: {
-            imageUrl1: "https://images.tcdn.com.br/img/img_prod/668385/pneu_285_75r16_catchfors_a_t_lb_122_119s_lanvigator_6673_1_7efd5805c3cd1ae58dc6beebd6ab9e95.jpg",
-            imageUrl2: "",
-            imageUrl3: "",
-            imageUrl4: "",
-            imageUrl5: "",
-            imageUrl6: "",
-        },
+        images: [
+            {imageUrl: "https://images.tcdn.com.br/img/img_prod/668385/pneu_285_75r16_catchfors_a_t_lb_122_119s_lanvigator_6673_1_7efd5805c3cd1ae58dc6beebd6ab9e95.jpg"},
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""}
+        ]
     }
     
     const [ values, setValues ] = useState(startValues)
@@ -69,6 +69,7 @@ export default function produtos(){
             onChange={handleChange}
             onlyNumber={onlyNumber}
             handleDescription={handleDescription}
+            setValue={setValue}
             />
         </div>
     )

@@ -14,27 +14,83 @@ export default function DadosGerais(props){
     const [ borderColor, setBorderColor ] = useState("var(--gray-line)")
 
     const [ imageGallery, setImageGallery ] = useState([
-        {"imageUrl": `${props.values.images.imageUrl1}`},
-        {"imageUrl": `${props.values.images.imageUrl2}`},
-        {"imageUrl": `${props.values.images.imageUrl3}`},
-        {"imageUrl": `${props.values.images.imageUrl4}`},
-        {"imageUrl": `${props.values.images.imageUrl5}`},
-        {"imageUrl": `${props.values.images.imageUrl6}`}        
+        {"imageUrl": `${props.values.images[0].imageUrl}`},
+        {"imageUrl": `${props.values.images[1].imageUrl}`},
+        {"imageUrl": `${props.values.images[2].imageUrl}`},
+        {"imageUrl": `${props.values.images[3].imageUrl}`},
+        {"imageUrl": `${props.values.images[4].imageUrl}`},
+        {"imageUrl": `${props.values.images[5].imageUrl}`}        
     ])
 
     function setImage(chave, valor){
-        console.log("me chamou", chave)
-        const updatedImages = imageGallery.map((image, index) => {
-            console.log(chave, image)
-            if(chave == image) {
-                console.log(chave, "=", image)
+        let updatedImages = []
+        
+        imageGallery.map((image, index) => {
+            if(chave == index) {
+                image.imageUrl = valor
+                
+            }
+            updatedImages.push(image)
+        })
+        setImageGallery(updatedImages)   
+    }
+
+    function leaveInput(){
+        let updatedImages = imageGallery
+        let ordenedImages = []
+        
+        updatedImages.map((image) => {
+            if(image.imageUrl.length > 0){
+                ordenedImages.push(image)
             }
         })
+
+        let ordenedImagesFilled = ordenedImages
+
+        updatedImages.map(() => {
+            if(ordenedImages.length < 6) {
+                ordenedImagesFilled.push({imageUrl: ""})
+            }
+        })
+
+        setImageGallery(ordenedImagesFilled)
+        props.setValue("images", imageGallery)
+        console.log(props.values)
+        
+    }
+
+    function changeOrder(direction, index){
+        let updatedImages = []
+        if(direction == "forward"){
+            imageGallery.map((image, i) => {
+                if(index == i) {
+                    updatedImages.push(imageGallery[index+1])
+                } else {
+                    if((index + 1) == i) {
+                        updatedImages.push(imageGallery[index])
+                    } else {
+                        updatedImages.push(image)
+                    }
+                }
+            })
+        }
+        if(direction == "backward"){
+            imageGallery.map((image, i) => {
+                if((index - 1) == i) {
+                    updatedImages.push(imageGallery[index])
+                } else {
+                    if(index == i) {
+                        updatedImages.push(imageGallery[index - 1])
+                    } else {
+                        updatedImages.push(image)
+                    }
+                }
+            })
+        }
+        setImageGallery(updatedImages)
     }
 
     function handleImages(e){
-        console.log("mexeu")
-        console.log(e.target.getAttribute('name'))
         setImage(
             e.target.getAttribute('name'),
             e.target.value
@@ -143,14 +199,48 @@ export default function DadosGerais(props){
                 </div>
                 
             </div>
+            <span className={styles.imageTitle}>imagens</span>
             <div className={styles.imageGallery}>
                 {imageGallery.map((imageUrl, index) => {
+                    let display = "none"
+                    let displayFB = "flex"
+                    let displayBB = "flex"
+                    
+                    if (imageUrl.imageUrl.length > 0) {
+                        display = "flex";
+                    } else {
+                        if (imageGallery[index-1].imageUrl.length > 0){
+                            display = "flex"
+                            displayFB = "none"
+                            displayBB = "none"
+                        }
+                    }
+                    
+                    if (index == 0){
+                        displayBB = "none"
+                    }
+                    
+                    if (index == 5){
+                        displayFB = "none"
+                    } else {
+                        console.log()
+                        if (imageGallery[index+1].imageUrl.length == 0) {
+                            displayFB = "none"
+                        }
+                    }
+
+                    let displayButtons = {displayFB, displayBB}
+                    
                     return (
                         <div key={index}>
                             <ImageContainer
-                            name={imageUrl.imageUrl}
+                            display={display}
+                            name={index}
                             url={imageUrl.imageUrl}
                             onChange={handleImages}
+                            leaveInput={leaveInput}
+                            onClick={changeOrder}
+                            displayButtons={displayButtons}
                             />
                         </div>
                     )

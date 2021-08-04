@@ -92,11 +92,3 @@ span {
     color: var(--gray-800);
 }
 
-body::-webkit-scrollbar {
-    width: 2px;               /* width of the entire scrollbar */
-}
-  
-body::-webkit-scrollbar-thumb {
-    background-color: rgb(218, 218, 218);    /* color of the scroll thumb */
-    border-radius: 20px;       /* roundness of the scroll thumb */
-}
