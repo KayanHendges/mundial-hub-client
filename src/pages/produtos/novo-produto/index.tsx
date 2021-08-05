@@ -60,9 +60,10 @@ export default function produtos(){
     return (
         <div className={styles.Wrapper}>
             <Header 
-            submit={"Salvar Produto"}
-            strong={"Novo Produto"}
-            title={"Insira as informações do produto que deseja cadastrar"}
+            submit="salvar produto"
+            strong="Novo Produto"
+            title="Insira as informações do produto que deseja cadastrar"
+            href="/produtos"
             />
             <Selector
             values={values}

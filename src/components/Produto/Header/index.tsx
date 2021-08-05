@@ -6,7 +6,7 @@ export default function Header(props) {
     return (
         <div className={styles.header}>
             <div className={styles.toolsBar}>
-                <BackButton href="/produtos" />
+                <BackButton href={props.href} />
                 <BlueButton text={props.submit}/>
             </div>
             <div className={styles.title}>

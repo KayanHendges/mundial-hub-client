@@ -17,6 +17,9 @@ export default function DefaultInput(props){
                 value={props.value}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
+                onBlur={() => {if(props.leaveInput != undefined){
+                    return props.leaveInput()
+                }}}
                 required
                 />
             </div>
@@ -37,6 +40,9 @@ export default function DefaultInput(props){
                 value={props.value}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
+                onBlur={() => {if(props.leaveInput != undefined){
+                    return props.leaveInput()
+                }}}
                 />
             </div>
         )
