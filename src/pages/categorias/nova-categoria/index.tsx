@@ -1,9 +1,15 @@
 import { GetStaticProps } from 'next';
-import Header from '../../../components/Produto/Header';
+import { api } from '../../../services/api2';
 import styles from './styles.module.scss'
+
+import Header from '../../../components/Produto/Header';
 import DefaultInput from '../../../components/Inputs/DefaultInput';
 import DefaultTextArea from '../../../components/Inputs/DefaultTextArea';
+import SlugInput from '../../../components/Inputs/SlugInput';
+
+import stringToSlug from '../../../services/stringToSlug';
 import { useState } from 'react';
+import router from 'next/router';
 
 export default function novaCategorias(){
 
@@ -13,7 +19,7 @@ export default function novaCategorias(){
         category_description: "",
         category_title: "",
         category_slug:"",
-        order_list:"",
+        order_list: 0,
         has_acceptance_term: 0,
         acceptance_term: "",
         category_meta_key:"",
@@ -43,7 +49,12 @@ export default function novaCategorias(){
     }
 
     function leaveInput(){
-        console.log("sai")
+        setValues({
+            ...values,
+            category_meta_key: values.category_name,
+            category_meta_desc: values.category_name,
+            category_slug: stringToSlug(values.category_name)
+        })
     }
 
     function switchTerm(){
@@ -60,10 +71,36 @@ export default function novaCategorias(){
             }
     }
 
+    console.log(values.category_slug)
+
+    function submitCategory(e) {
+        e.preventDefault();
+
+        api.post('/categorias', {
+            category_name: values.category_name,
+            category_small_description: values.category_small_desc,
+            category_description: values.category_description,
+            category_title: values.category_title,
+            category_slug: values.category_slug,
+            order_list: values.order_list,
+            has_acceptance_term: values.has_acceptance_term,
+            acceptance_term: values.acceptance_term,
+            category_meta_key: values.category_meta_key,
+            category_meta_desc: values.category_meta_desc,
+            property: values.property,
+        }).then(() => {
+          alert('Categoria salva com sucesso')
+  
+          router.push('/categorias')
+        }).catch((error) => {
+          alert(error)
+        })
+      }
+
     return (
-        <div className={styles.wrapper}>
+        <form onSubmit={submitCategory} className={styles.wrapper}>
             <Header
-            submit={"salvar categoria"}
+            textButton={"salvar categoria"}
             strong={"Nova Categoria"}
             title={"Insira as informações da nova categoria"}
             href="/categorias"
@@ -100,12 +137,12 @@ export default function novaCategorias(){
                 onChange={handleChange}
                 placeholder=""
                 />
-                <DefaultInput // slug
-                label="slug"
+                <SlugInput 
+                label="url"
+                url={`mundialpneumaticos.com.br/`}
                 name="category_slug"
                 value={values.category_slug}
                 onChange={handleChange}
-                placeholder=""
                 />
                 <div
                 className={styles.switch}
@@ -135,19 +172,19 @@ export default function novaCategorias(){
                 <DefaultInput // meta_keywords
                 label="keywords meta tag"
                 name="category_meta_key"
-                value={values.category_name}
+                value={values.category_meta_key}
                 onChange={handleChange}
                 placeholder=""
                 />
                 <DefaultInput // meta_description
                 label="descrição Meta tag"
                 name="category_meta_desc"
-                value={values.category_name}
+                value={values.category_meta_desc}
                 onChange={handleChange}
                 placeholder=""
                 />
             </div>
-        </div>
+        </form>
     )
 }
 

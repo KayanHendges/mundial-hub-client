@@ -7,7 +7,7 @@ export default function Header(props) {
         <div className={styles.header}>
             <div className={styles.toolsBar}>
                 <BackButton href={props.href} />
-                <BlueButton text={props.submit}/>
+                <BlueButton text={props.textButton} submitButton={props.submitButton}/>
             </div>
             <div className={styles.title}>
                 <strong>
