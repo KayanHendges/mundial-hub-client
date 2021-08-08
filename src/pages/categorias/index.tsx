@@ -14,6 +14,7 @@ export default function categorias(){
 
 export const getStaticProps: GetStaticProps = async () => {
 
+    
 
     return {
         props: {

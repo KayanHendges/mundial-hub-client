@@ -11,7 +11,7 @@ import stringToSlug from '../../../services/stringToSlug';
 import { useState } from 'react';
 import router from 'next/router';
 
-export default function novaCategorias(){
+export default function novaCategorias(props){
 
     const startValues = {
         category_name: "",
@@ -19,7 +19,7 @@ export default function novaCategorias(){
         category_description: "",
         category_title: "",
         category_slug:"",
-        order_list: 0,
+        order_list: props.lastCategory+1,
         has_acceptance_term: 0,
         acceptance_term: "",
         category_meta_key:"",
@@ -71,10 +71,9 @@ export default function novaCategorias(){
             }
     }
 
-    console.log(values.category_slug)
-
     function submitCategory(e) {
         e.preventDefault();
+        
 
         api.post('/categorias', {
             category_name: values.category_name,
@@ -125,7 +124,7 @@ export default function novaCategorias(){
                 <DefaultTextArea
                 label="Descrição" // Description
                 rows={1}
-                name="category_name_description"
+                name="category_description"
                 value={values.category_description}
                 onChange={handleChange}
                 placeholder="Descrição da categoria..."
@@ -190,9 +189,22 @@ export default function novaCategorias(){
 
 export const getStaticProps: GetStaticProps = async () => {
 
+    const { data } = await api.get('/categorias') 
+
+    const index = data.length -1
+    const indexLength = () => {
+        if(index == -1 ){
+            return 0
+        } else {
+            return data[index].order_list
+        }
+    }
+
+    const lastCategory = indexLength()
+
     return {
         props: {
-            
-        }
+            lastCategory: lastCategory
+        },
     }
 }

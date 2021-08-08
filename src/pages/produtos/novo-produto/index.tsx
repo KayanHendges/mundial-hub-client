@@ -60,7 +60,7 @@ export default function produtos(){
     return (
         <div className={styles.Wrapper}>
             <Header 
-            submit="salvar produto"
+            textButton="salvar produto"
             strong="Novo Produto"
             title="Insira as informações do produto que deseja cadastrar"
             href="/produtos"
