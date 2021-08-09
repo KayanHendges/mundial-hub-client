@@ -189,7 +189,7 @@ export default function novaCategorias(props){
 
 export const getStaticProps: GetStaticProps = async () => {
 
-    const { data } = await api.get('/categorias') 
+    const { data } = await api.get('/categorias/arvore') 
 
     const index = data.length -1
     const indexLength = () => {
