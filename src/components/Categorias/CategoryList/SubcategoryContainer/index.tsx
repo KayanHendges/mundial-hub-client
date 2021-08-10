@@ -1,10 +1,12 @@
+import DropDownButton from '../DropDownButton'
+import PopUp from '../PopUp'
 import styles from './styles.module.scss'
 
 export default function SubcategoryContainer(props){
+
     function hasChildren(category, padding){
         let list = []
         category.map(children => {
-            console.log(children.category_name, padding)
             if(children.children != null){
                 list.push(
                     <div
@@ -22,14 +24,10 @@ export default function SubcategoryContainer(props){
                                 {children.category_name}
                             </span>
                             <div className={styles.buttons}>
-                                <div className={styles.showSubcategory}>
-                                    {">"}
-                                </div>
-                                <div className={styles.more}>
-                                    <span>
-                                        ...
-                                    </span>
-                                </div>
+                                <PopUp
+                                categoryId={children.hub_category_id}
+                                category={children}
+                                />
                             </div>
                         </div>
                         {hasChildren(children.children, padding + 2)}
@@ -37,7 +35,6 @@ export default function SubcategoryContainer(props){
                 )
             } else {
                 let count = padding
-                console.log(category.length)
                 if(category.length > 1){
                     count = padding -2
                 }
@@ -57,11 +54,10 @@ export default function SubcategoryContainer(props){
                                 {children.category_name}
                             </span>
                             <div className={styles.buttons}>
-                                <div className={styles.more}>
-                                    <span>
-                                        ...
-                                    </span>
-                                </div>
+                                    <PopUp
+                                    categoryId={children.hub_category_id}
+                                    category={children}
+                                    />
                             </div>
                         </div>
                     </div>

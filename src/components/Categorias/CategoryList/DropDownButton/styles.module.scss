@@ -1,0 +1,13 @@
+.showSubcategory{
+    position: relative;
+    cursor: pointer;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--white-text);
+    border-radius: 50%;
+    background-color: var(--blue-button);
+    transition: 0.2s;
+    &:hover{
+        background-color: var(--light-blue-button);
+    }
+}

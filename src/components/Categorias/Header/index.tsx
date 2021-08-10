@@ -1,8 +1,7 @@
 import styles from './styles.module.scss'
 
-import BackButton from '../../BackButton/Index'
-import LinkBlueButton from '../../LinkBlueButton'
-import Link from 'next/link'
+import BackButton from '../../Buttons/BackButton/Index'
+import LinkBlueButton from '../../Buttons/LinkBlueButton'
 
 export default function Header(props){
     return(

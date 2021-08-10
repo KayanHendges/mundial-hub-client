@@ -25,7 +25,7 @@ export default function SlugInput(props){
                 </span>
                 <input 
                 name={props.name}
-                value={slug}
+                value={`${slug}`}
                 onChange={props.onChange}
                 />
             </div>

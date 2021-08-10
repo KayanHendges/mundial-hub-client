@@ -39,8 +39,12 @@
             
         }
 
+        .urlSpan{
+            width: auto;
+        }
+
         input {
-            width: 100%;
+            width: auto;
             outline: none;
             background-color: var(--gray-4);
             border: none;
