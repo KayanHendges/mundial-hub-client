@@ -192,6 +192,7 @@ export default function Selector(props){
             setValue={props.setValue}
             />
             <Categorias
+            categories={props.categories}
             display={{display: `${option1.display}`}}
             />
         </div>

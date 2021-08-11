@@ -5,20 +5,21 @@ import Selector from '../../../components/Produto/Selector';
 import { useState } from 'react';
 import titleize from '../../../services/Titleize'
 import onlyNumber from '../../../services/onlyNumber'
+import { api } from '../../../services/api2';
 
 
-export default function produtos(){
+export default function produtos(props){
     
     const startValues = {
-        name: "teste",
-        reference: "0001",
-        ean: "12345678910",
-        idTray: 1,
-        brand: "Goodyear",
-        model: "EfficientGrip",
+        name: "",
+        reference: "",
+        ean: "",
+        idTray: "",
+        brand: "",
+        model: "",
         description: "",
         images: [
-            {imageUrl: "https://images.tcdn.com.br/img/img_prod/668385/pneu_285_75r16_catchfors_a_t_lb_122_119s_lanvigator_6673_1_7efd5805c3cd1ae58dc6beebd6ab9e95.jpg"},
+            {imageUrl: ""},
             {imageUrl: ""},
             {imageUrl: ""},
             {imageUrl: ""},
@@ -67,6 +68,7 @@ export default function produtos(){
             />
             <Selector
             values={values}
+            categories={props.categories}
             onChange={handleChange}
             onlyNumber={onlyNumber}
             handleDescription={handleDescription}
@@ -78,10 +80,16 @@ export default function produtos(){
 
 export const getStaticProps: GetStaticProps = async () => {
 
+    const productsData = await api.get('produtos')
+    const categoriesData = await api.get('categorias/arvore')
+    
+    const products = productsData.data 
+    const categories = categoriesData.data
 
     return {
         props: {
-            
+            products: products,
+            categories: categories
         }
     }
 }

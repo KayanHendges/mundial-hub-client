@@ -1,0 +1,70 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+
+    overflow-y: scroll;
+    padding: 1.5rem;
+
+    .formContainer {
+        width: 100%;
+        max-width: 50rem;
+        display: flex;
+        flex-direction: column;
+
+        gap: .5rem;
+
+        .switch {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+
+            width: 12.5rem;
+            height: 2rem;
+            cursor: pointer;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem 0;
+            border-radius: 1rem;
+            border: 1px solid var(--complementar-text);
+
+            span {
+                color: var(--complementar-text);
+            }
+
+            &:hover{
+                color: var(--white-text);
+                border: 1px solid var(--white-text);
+                
+                span {
+                    color: var(--white-text);
+                }
+            }
+
+            .switchColor{
+                width: 1rem;
+                height: 1rem;
+                border-radius: 50%;
+
+                transition: all .2s;
+            }
+        }
+
+        .acceptanceTerm{
+            width: 100%;
+        }
+    }
+
+    &::-webkit-scrollbar {
+        width: 0.4rem;               /* width of the entire scrollbar */
+    }
+      
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--gray-line);    /* color of the scroll thumb */
+        border-radius: 20px;       /* roundness of the scroll thumb */
+        
+        &:hover {
+            background-color: var(--complementar-text);
+        }  
+    }
+}

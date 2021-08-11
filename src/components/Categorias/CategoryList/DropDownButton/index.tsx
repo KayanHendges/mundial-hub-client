@@ -6,7 +6,6 @@ export default function DropDownButton(){
     const [ style, setStyle ] = useState("rotate(0deg)")
 
     function handleStyle(){
-        console.log('ola')
         if(style == "rotate(0deg)"){ // ativa
             setStyle("rotate(90deg)")
         } else {

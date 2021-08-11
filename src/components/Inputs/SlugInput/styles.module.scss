@@ -40,11 +40,23 @@
         }
 
         .urlSpan{
-            width: auto;
+            white-space: nowrap;
+            &::-webkit-scrollbar {
+                height: 0.3rem;               /* width of the entire scrollbar */
+            }
+              
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--complementar-text);    /* color of the scroll thumb */
+                border-radius: 20px;       /* roundness of the scroll thumb */
+                
+                &:hover {
+                    background-color: var(--white-text);
+                }  
+            }
         }
 
         input {
-            width: auto;
+            width: 100%;
             outline: none;
             background-color: var(--gray-4);
             border: none;

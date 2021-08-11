@@ -55,7 +55,6 @@ export default function DadosGerais(props){
 
         setImageGallery(ordenedImagesFilled)
         props.setValue("images", imageGallery)
-        console.log(props.values)
         
     }
 
@@ -209,11 +208,18 @@ export default function DadosGerais(props){
                     if (imageUrl.imageUrl.length > 0) {
                         display = "flex";
                     } else {
-                        if (imageGallery[index-1].imageUrl.length > 0){
+                        if(index == 0){
                             display = "flex"
                             displayFB = "none"
                             displayBB = "none"
+                        } else {
+                            if (imageGallery[index-1].imageUrl.length > 0){
+                                display = "flex"
+                                displayFB = "none"
+                                displayBB = "none"
+                            }
                         }
+                        
                     }
                     
                     if (index == 0){
@@ -223,7 +229,6 @@ export default function DadosGerais(props){
                     if (index == 5){
                         displayFB = "none"
                     } else {
-                        console.log()
                         if (imageGallery[index+1].imageUrl.length == 0) {
                             displayFB = "none"
                         }

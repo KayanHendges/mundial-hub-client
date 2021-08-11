@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import styles from './addSubcategory.module.scss'
+import styles from './editCategory.module.scss'
 import { api } from '../../services/api2';
 
 import Header from '../../components/Produto/Header';
@@ -11,21 +11,27 @@ import stringToSlug from '../../services/stringToSlug';
 import { useState } from 'react';
 import router from 'next/router';
 
-export default function addSubcategory(props, ctx){
+export default function addSubcategory(props){
 
     const startValues = {
-        category_name: "",
-        category_small_desc: "",
-        category_description: "",
-        category_title: "",
-        category_slug:"",
-        order_list: props.lastCategory+1,
-        has_acceptance_term: 0,
-        acceptance_term: "",
-        category_meta_key:"",
-        category_meta_desc:"",
-        property: "",
-        parent_id: ctx.params
+        hub_category_id: props.category.hub_category_id,
+        tray_category_id: props.category.category_name,
+        category_name: props.category.category_name,
+        category_description: props.category.category_description,
+        category_slug: props.category.category_slug,
+        order_list: props.category.order_list,
+        category_title: props.category.category_title,
+        category_small_desc: props.category.category_small_description,
+        has_acceptance_term: props.category.has_acceptance_term,
+        acceptance_term: props.category.acceptance_term,
+        category_meta_key: props.category.category_meta_key,
+        category_meta_desc: props.category.category_meta_desc,
+        property: props.category.property,
+        http_image: props.category.http_image,
+        https_image: props.category.https_image,
+        http_link: props.category.http_link,
+        https_link: props.category.https_link,
+        parent_id: props.category.category_parent_id
     }
 
     const [ values, setValues ] = useState(startValues)
@@ -76,25 +82,32 @@ export default function addSubcategory(props, ctx){
         e.preventDefault();
         
 
-        api.post('/categorias', {
+        api.patch(`/categorias/${values.hub_category_id}`, {
+            hub_category_id: values.hub_category_id,
+            tray_category_id: values.tray_category_id,
             category_name: values.category_name,
-            category_small_description: values.category_small_desc,
             category_description: values.category_description,
-            category_title: values.category_title,
-            category_slug: `${props.parentCategory.category_slug}/${values.category_slug}`,
+            category_slug: values.category_slug,
             order_list: values.order_list,
+            category_title: values.category_title,
+            category_small_description: values.category_small_desc,
             has_acceptance_term: values.has_acceptance_term,
             acceptance_term: values.acceptance_term,
             category_meta_key: values.category_meta_key,
             category_meta_desc: values.category_meta_desc,
             property: values.property,
-            category_parent_id: props.parentCategory.hub_category_id
+            http_image: values.http_image,
+            https_image: values.https_image,
+            http_link: values.http_link,
+            https_link: values.https_link,
+            category_parent_id: values.parent_id
         }).then(() => {
           alert('Categoria salva com sucesso')
   
           router.push('/categorias')
         }).catch((error) => {
           alert(error)
+          console.log(error)
         })
       }
 
@@ -102,8 +115,8 @@ export default function addSubcategory(props, ctx){
         <form onSubmit={submitCategory} className={styles.wrapper}>
             <Header
             textButton={"salvar categoria"}
-            strong={"Nova Categoria"}
-            title={"Insira as informações da nova categoria"}
+            strong={startValues.category_name}
+            title={"Todas as informações da categoria"}
             href="/categorias"
             />
             <div className={styles.formContainer}>
@@ -140,7 +153,6 @@ export default function addSubcategory(props, ctx){
                 />
                 <SlugInput
                 label="url"
-                url={`mundialpneumaticos.com.br/${props.parentCategory.category_slug}/`}
                 name="category_slug"
                 value={values.category_slug}
                 onChange={handleChange}
@@ -197,41 +209,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
 
-    const parentId  = ctx.params.addSubcategory
-    const { data } = await api.get(`categorias/arvore`) 
-
-    let parentCategory = "Nenhum parent ID encontrado"
-
-    function findParentId(category){
-        if(category != null){
-            let result = category.map(children => {
-                if(children.hub_category_id == parentId){
-                    parentCategory = children
-                } else {
-                    return findParentId(children.children)
-                }
-            })
-        }
-        
-    }
-
-    findParentId(data)
-
-    const index = data.length -1
-    const indexLength = () => {
-        if(index == -1 ){
-            return 0
-        } else {
-            return data[index].order_list
-        }
-    }
-
-    const lastCategory = indexLength()
+    const id  = ctx.params.editCategory
+    const { data } = await api.get(`categorias/${id}`) 
 
     return {
         props: {
-            lastCategory: lastCategory,
-            parentCategory: parentCategory
+            category: data
         },
     }
 }

@@ -40,7 +40,7 @@ export default function PopUp(props){
 
     function handleDisplay(){
         if(display == "none"){ //ativa
-            setDisplay("flex")
+            setDisplay("block")
         } else { // desativa
             setDisplay("none")
         }
@@ -55,12 +55,19 @@ export default function PopUp(props){
             className={styles.container}
             style={{display: `${display}`}}
             >
-                <Link href={`/categorias/${props.categoryId}`}>
-                    <h1
+                <Link href={`/categorias/nova-subcategoria/${props.categoryId}`}>
+                    <div
                     className={styles.newSubcategory}
                     >
                         incluir subcategoria
-                    </h1>
+                    </div>
+                </Link>
+                <Link href={`/categorias/${props.categoryId}`}>
+                    <div
+                    className={styles.newSubcategory}
+                    >
+                        editar
+                    </div>
                 </Link>
                 <h1
                 className={styles.delete}
