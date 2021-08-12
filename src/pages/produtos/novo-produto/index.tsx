@@ -59,7 +59,7 @@ export default function produtos(props){
     }
 
     return (
-        <div className={styles.Wrapper}>
+        <div className={styles.wrapper}>
             <Header 
             textButton="salvar produto"
             strong="Novo Produto"

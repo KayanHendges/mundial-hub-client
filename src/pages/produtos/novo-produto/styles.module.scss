@@ -1,18 +1,22 @@
-.Wrapper {
+.wrapper {
     width: 100%;
     height: 100%;
 
     overflow-y: scroll;
     padding: 1.5rem;
-
-    .ProductListContainer::-webkit-scrollbar {
-        width: 2px;
-        background-color: var(--gray-5);               /* width of the entire scrollbar */
-    }
-      
-    .ProductListContainer::-webkit-scrollbar-thumb {
-        background-color: var(--gray-4);    /* color of the scroll thumb */
-        border-radius: 20px;       /* roundness of the scroll thumb */
-    }
     
+}
+
+.wrapper::-webkit-scrollbar {
+    width: 0.3rem;
+    background-color: var(--gray-3);               /* width of the entire scrollbar */
+}
+  
+.wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--gray-5);    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+
+    &:hover{
+        background-color: var(--gray-line);
+    }
 }

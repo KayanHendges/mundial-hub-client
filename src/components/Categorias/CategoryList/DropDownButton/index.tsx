@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styles from './styles.module.scss'
 
-export default function DropDownButton(){
+export default function DropDownButton(props){
 
     const [ style, setStyle ] = useState("rotate(0deg)")
 
@@ -16,8 +16,7 @@ export default function DropDownButton(){
     return(
         <div
         className={styles.showSubcategory}
-        onClick={() => handleStyle()}
-        style={{ transform: `${style}` }}
+        style={{ transform: `${props.rotate}` }}
         >
             {">"}
         </div>
