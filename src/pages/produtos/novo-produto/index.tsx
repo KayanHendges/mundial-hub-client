@@ -18,6 +18,7 @@ export default function produtos(props){
         brand: "",
         model: "",
         description: "",
+        related_categories: [],
         images: [
             {imageUrl: ""},
             {imageUrl: ""},
@@ -51,6 +52,28 @@ export default function produtos(props){
         }
     }
 
+    function handleCategories(id, parentsId, boolean){
+        console.log(id, parentsId, boolean)
+        if(boolean && values.related_categories.indexOf(id) == -1){
+            const relatedCategories = values.related_categories
+            relatedCategories.push(id)
+            setValues({
+                ...values,
+                related_categories: relatedCategories
+            })
+        }
+        if(!boolean && values.related_categories.indexOf(id) > -1){
+            const relatedCategories = values.related_categories
+            relatedCategories.splice(values.related_categories.indexOf(id), 1)
+            setValues({
+                ...values,
+                related_categories: relatedCategories
+            })
+        }
+    }
+
+    console.log(values.related_categories)
+
     function handleChange(e){
         setValue(
             e.target.getAttribute('name'),
@@ -62,7 +85,7 @@ export default function produtos(props){
         <div className={styles.wrapper}>
             <Header 
             textButton="salvar produto"
-            strong="Novo Produto"
+            strong="Novo produto"
             title="Insira as informações do produto que deseja cadastrar"
             href="/produtos"
             />
@@ -73,6 +96,7 @@ export default function produtos(props){
             onlyNumber={onlyNumber}
             handleDescription={handleDescription}
             setValue={setValue}
+            handleCategories={handleCategories}
             />
         </div>
     )

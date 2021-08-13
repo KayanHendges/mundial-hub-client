@@ -4,17 +4,7 @@ import styles from './styles.module.scss'
 import SubcategoryContainer from './SubcategoryContainer'
 
 
-export default function CategoryList(props){
-
-    const [ style, setStyle ] = useState("rotate(0deg)")
-
-    function handleStyle(){
-        if(style == "rotate(0deg)"){ // ativa
-            setStyle("rotate(90deg)")
-        } else {
-            setStyle("rotate(0deg)")
-        }
-    }
+export default function CategoryList(props){    
 
     const startValues = props.categories.map(category => {
         return {
@@ -72,6 +62,14 @@ export default function CategoryList(props){
         setDisplay(displayList)
     }
 
+    function displayButton(id){
+        if (props.values.related_categories.indexOf(id) > -1){
+            return "none"
+        } else {
+            return "flex"
+        }
+    }
+
     return(
         <div
         className={styles.wrapper}
@@ -97,6 +95,7 @@ export default function CategoryList(props){
                                 className={styles.categoryContent}
                                 >
                                     <div
+                                    onClick={() => handleDisplay(category.hub_category_id)}
                                     className={styles.dropDown}
                                     >
                                         <DropDownButton rotate={whatRotate(category.hub_category_id)}/>
@@ -106,12 +105,17 @@ export default function CategoryList(props){
                                     >
                                         {category.category_name}
                                     </span>
-                                    <button>
+                                    <button
+                                    onClick={() => props.handleCategories(category.hub_category_id, null, true)}
+                                    style={{display: `${displayButton(category.hub_category_id)}`}}
+                                    >
                                         adicionar
                                     </button>
                                 </div>
                                 <div style={{display: `${whatDisplay(category.hub_category_id)}`}}>
                                     <SubcategoryContainer
+                                    values={props.values}
+                                    handleCategories={props.handleCategories}
                                     children={category}
                                     />
                                 </div>
@@ -130,7 +134,10 @@ export default function CategoryList(props){
                                     <span>
                                         {category.category_name}
                                     </span>
-                                    <button>
+                                    <button
+                                    style={{display: `${displayButton(category.hub_category_id)}`}}
+                                    onClick={() => props.handleCategories(category.hub_category_id, null, true)}
+                                    >
                                         adicionar
                                     </button>
                                 </div>

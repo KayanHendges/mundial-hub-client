@@ -7,7 +7,8 @@ export default function SubcategoryContainer(props){
     const startValues = props.children.children.map(category => {
         return {
             hub_category_id: category.hub_category_id,
-            displayChild: "none"
+            displayChild: "flex",
+            rotate: "rotate(90deg)"
         }
     })
 
@@ -22,22 +23,33 @@ export default function SubcategoryContainer(props){
         });
         return result[0]
     }
+
+    function whatRotate(id){
+        let result = []
+        display.map((category) => {
+            if(category.hub_category_id == id){
+                result.push(category.rotate)
+            }
+        });
+        return result[0]
+    }
     
     function handleDisplay(id){
         let displayList = []
         display.map(category => {
-            console.log(id, category)
             if(category.hub_category_id == id){
                 if(category.displayChild == "none"){
                     const categoryDisplay = {
                         hub_category_id: category.hub_category_id,
-                        displayChild: "flex"
+                        displayChild: "flex",
+                        rotate: "rotate(90deg)"
                     }
                     displayList.push(categoryDisplay)
                 } else {
                     const categoryDisplay = {
                         hub_category_id: category.hub_category_id,
-                        displayChild: "none"
+                        displayChild: "none",
+                        rotate: "rotate(0deg)"
                     }
                     displayList.push(categoryDisplay)
                 }
@@ -64,12 +76,16 @@ export default function SubcategoryContainer(props){
                             className={styles.dropDown}
                             onClick={() => handleDisplay(children.hub_category_id)}
                             >
-                                <DropDownButton />
+                                <DropDownButton rotate={whatRotate(children.hub_category_id)}/>
                             </div>
-                            <span>
+                            <span
+                            onClick={() => handleDisplay(children.hub_category_id)}
+                            >
                                 {children.category_name}
                             </span>
-                            <button>
+                            <button
+                            onClick={() => props.handleCategories(children.hub_category_id, false)}
+                            >
                                 adicionar
                             </button>
                         </div>
@@ -84,7 +100,7 @@ export default function SubcategoryContainer(props){
             } else {
                 categories.push(
                     <div
-                    className={styles.categoryContainer}
+                    className={styles.categoryContainerNC} // No childrens
                     key={children.hub_category_id}
                     >
                         <div
@@ -93,6 +109,11 @@ export default function SubcategoryContainer(props){
                             <span>
                                 {children.category_name}
                             </span>
+                            <button
+                            onClick={() => props.handleCategories(children.hub_category_id, false)}
+                            >
+                                adicionar
+                            </button>
                         </div>
                     </div>
                 )

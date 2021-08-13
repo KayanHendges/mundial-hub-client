@@ -10,11 +10,15 @@ export default function Categorias(props){
         className={styles.wrapper}
         style={{display:`${props.display.display}`}}
         >
-            <CategoryList 
+            <CategoryList
+            values={props.values}
             categories={props.categories}
+            handleCategories={props.handleCategories}
             />
             <RelatedCategoryList
+            values={props.values}
             categories={props.categories}
+            handleCategories={props.handleCategories}
             />
         </div>
     )

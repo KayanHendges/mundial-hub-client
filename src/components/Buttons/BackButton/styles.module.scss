@@ -26,6 +26,11 @@
         text-align: center;
         align-items: center;
         border-radius: 50%;
+
+        -webkit-user-select: none;  
+        -moz-user-select: none;     
+        -ms-user-select: none;      
+        user-select: none;
     }
 
     span {

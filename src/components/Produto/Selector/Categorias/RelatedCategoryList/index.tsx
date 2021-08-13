@@ -4,12 +4,13 @@ import styles from './styles.module.scss'
 import SubcategoryContainer from './SubcategoryContainer'
 
 
-export default function relatedCategory(props){
+export default function RelatedCategories(props){    
 
     const startValues = props.categories.map(category => {
         return {
             hub_category_id: category.hub_category_id,
-            displayChild: "none"
+            displayChild: "flex",
+            rotate: "rotate(90deg)"
         }
     })
 
@@ -24,6 +25,16 @@ export default function relatedCategory(props){
         });
         return result[0]
     }
+
+    function whatRotate(id){
+        let result = []
+        display.map((category) => {
+            if(category.hub_category_id == id){
+                result.push(category.rotate)
+            }
+        });
+        return result[0]
+    }
     
     function handleDisplay(id){
         let displayList = []
@@ -32,13 +43,15 @@ export default function relatedCategory(props){
                 if(category.displayChild == "none"){
                     const categoryDisplay = {
                         hub_category_id: category.hub_category_id,
-                        displayChild: "flex"
+                        displayChild: "flex",
+                        rotate: "rotate(90deg)"
                     }
                     displayList.push(categoryDisplay)
                 } else {
                     const categoryDisplay = {
                         hub_category_id: category.hub_category_id,
-                        displayChild: "none"
+                        displayChild: "none",
+                        rotate: "rotate(0deg)"
                     }
                     displayList.push(categoryDisplay)
                 }
@@ -74,17 +87,25 @@ export default function relatedCategory(props){
                                 className={styles.categoryContent}
                                 >
                                     <div
+                                    onClick={() => handleDisplay(category.hub_category_id)}
                                     className={styles.dropDown}
+                                    >
+                                        <DropDownButton rotate={whatRotate(category.hub_category_id)}/>
+                                    </div>
+                                    <span
                                     onClick={() => handleDisplay(category.hub_category_id)}
                                     >
-                                        <DropDownButton />
-                                    </div>
-                                    <span>
                                         {category.category_name}
                                     </span>
+                                    <button
+                                    onClick={() => props.handleCategories(category.hub_category_id, false)}
+                                    >
+                                        adicionar
+                                    </button>
                                 </div>
                                 <div style={{display: `${whatDisplay(category.hub_category_id)}`}}>
                                     <SubcategoryContainer
+                                    handleCategories={props.handleCategories}
                                     children={category}
                                     />
                                 </div>
@@ -97,9 +118,17 @@ export default function relatedCategory(props){
                             key={category.hub_category_id}
                             >
                                 <div
-                                className={styles.categoryContent}
+                                onClick={() => handleDisplay(category.hub_category_id)}
+                                className={styles.categoryContentNC}
                                 >
-                                    {category.category_name}
+                                    <span>
+                                        {category.category_name}
+                                    </span>
+                                    <button
+                                    onClick={() => props.handleCategories(category.hub_category_id, false)}
+                                    >
+                                        adicionar
+                                    </button>
                                 </div>
                             </div>
                         )
