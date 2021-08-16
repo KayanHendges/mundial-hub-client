@@ -18,6 +18,7 @@ export default function Categorias(props){
             <RelatedCategoryList
             values={props.values}
             categories={props.categories}
+            categoriesList={props.categoriesList}
             handleCategories={props.handleCategories}
             />
         </div>

@@ -62,6 +62,33 @@ export default function RelatedCategories(props){
         setDisplay(displayList)
     }
 
+    function childrenListId(id){
+        let list = []
+        let childrenList = []
+
+        function myChildrens(parentId){
+            props.categoriesList.map(category => {
+                if(category.category_parent_id == parentId){
+                    list.push(category.hub_category_id)
+                    if(category.children != null){
+                        myChildrens(category.hub_category_id)
+                    }
+                }
+            })
+        }
+
+        myChildrens(id)
+        console.log("list", list)
+
+        list.map(number => {
+            if(props.values.related_categories.indexOf(number) > -1){
+                childrenList.push(number)
+            }
+        })
+
+        return childrenList
+    }
+
     return(
         <div
         className={styles.wrapper}
@@ -70,69 +97,73 @@ export default function RelatedCategories(props){
             className={styles.header}
             >
                 <span>
-                    todas as Categorias
+                    categorias selecionadas
                 </span>
             </div>
             <div
             className={styles.listContainer}
             >
                 {props.categories.map(category => {
-                    if(category.children != null){
-                        return(
-                            <div
-                            className={styles.categoryContainer}
-                            key={category.hub_category_id}
-                            >
+                    if(props.values.related_categories.indexOf(category.hub_category_id) > -1){
+                        if(category.children != null){
+                            return(
                                 <div
-                                className={styles.categoryContent}
+                                className={styles.categoryContainer}
+                                key={category.hub_category_id}
+                                >
+                                    <div
+                                    className={styles.categoryContent}
+                                    >
+                                        <div
+                                        onClick={() => handleDisplay(category.hub_category_id)}
+                                        className={styles.dropDown}
+                                        >
+                                            <DropDownButton rotate={whatRotate(category.hub_category_id)}/>
+                                        </div>
+                                        <span
+                                        onClick={() => handleDisplay(category.hub_category_id)}
+                                        >
+                                            {category.category_name}
+                                        </span>
+                                        <button
+                                        onClick={() => props.handleCategories(category.hub_category_id, childrenListId(category.hub_category_id), false)}
+                                        >
+                                            remover
+                                        </button>
+                                    </div>
+                                    <div style={{display: `${whatDisplay(category.hub_category_id)}`}}>
+                                        <SubcategoryContainer
+                                        handleCategories={props.handleCategories}
+                                        children={category}
+                                        categoriesList={props.categoriesList}
+                                        values={props.values}
+                                        />
+                                    </div>
+                                </div>
+                            )
+                        } else {
+                            return(
+                                <div
+                                className={styles.categoryContainer}
+                                key={category.hub_category_id}
                                 >
                                     <div
                                     onClick={() => handleDisplay(category.hub_category_id)}
-                                    className={styles.dropDown}
+                                    className={styles.categoryContentNC}
                                     >
-                                        <DropDownButton rotate={whatRotate(category.hub_category_id)}/>
+                                        <span>
+                                            {category.category_name}
+                                        </span>
+                                        <button
+                                        onClick={() => props.handleCategories(category.hub_category_id, null, false)}
+                                        >
+                                            remover
+                                        </button>
                                     </div>
-                                    <span
-                                    onClick={() => handleDisplay(category.hub_category_id)}
-                                    >
-                                        {category.category_name}
-                                    </span>
-                                    <button
-                                    onClick={() => props.handleCategories(category.hub_category_id, false)}
-                                    >
-                                        adicionar
-                                    </button>
                                 </div>
-                                <div style={{display: `${whatDisplay(category.hub_category_id)}`}}>
-                                    <SubcategoryContainer
-                                    handleCategories={props.handleCategories}
-                                    children={category}
-                                    />
-                                </div>
-                            </div>
-                        )
-                    } else {
-                        return(
-                            <div
-                            className={styles.categoryContainer}
-                            key={category.hub_category_id}
-                            >
-                                <div
-                                onClick={() => handleDisplay(category.hub_category_id)}
-                                className={styles.categoryContentNC}
-                                >
-                                    <span>
-                                        {category.category_name}
-                                    </span>
-                                    <button
-                                    onClick={() => props.handleCategories(category.hub_category_id, false)}
-                                    >
-                                        adicionar
-                                    </button>
-                                </div>
-                            </div>
-                        )
-                    }
+                            )
+                        }
+                    }                    
                 })}
             </div>
         </div>

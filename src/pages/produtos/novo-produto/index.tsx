@@ -53,9 +53,17 @@ export default function produtos(props){
     }
 
     function handleCategories(id, parentsId, boolean){
-        console.log(id, parentsId, boolean)
+        console.log("-------", id, parentsId, boolean)
+
         if(boolean && values.related_categories.indexOf(id) == -1){
             const relatedCategories = values.related_categories
+            if(parentsId != null) {
+                parentsId.map(number => {
+                    if(relatedCategories.indexOf(number) == -1){
+                        relatedCategories.push(number)
+                    }
+                })
+            }
             relatedCategories.push(id)
             setValues({
                 ...values,
@@ -64,6 +72,14 @@ export default function produtos(props){
         }
         if(!boolean && values.related_categories.indexOf(id) > -1){
             const relatedCategories = values.related_categories
+            if(parentsId != null) {
+                console.log(parentsId)
+                parentsId.map(number => {
+                    if(relatedCategories.indexOf(number) > -1){
+                        relatedCategories.splice(values.related_categories.indexOf(number), 1)
+                    }
+                })
+            }
             relatedCategories.splice(values.related_categories.indexOf(id), 1)
             setValues({
                 ...values,
@@ -72,7 +88,7 @@ export default function produtos(props){
         }
     }
 
-    console.log(values.related_categories)
+    console.log("---- resultado ---",values.related_categories)
 
     function handleChange(e){
         setValue(
@@ -92,6 +108,7 @@ export default function produtos(props){
             <Selector
             values={values}
             categories={props.categories}
+            categoriesList={props.categoriesList}
             onChange={handleChange}
             onlyNumber={onlyNumber}
             handleDescription={handleDescription}
@@ -106,14 +123,17 @@ export const getStaticProps: GetStaticProps = async () => {
 
     const productsData = await api.get('produtos')
     const categoriesData = await api.get('categorias/arvore')
+    const categoriesListData = await api.get('categorias')
     
     const products = productsData.data 
     const categories = categoriesData.data
+    const categoriesList= categoriesListData.data
 
     return {
         props: {
             products: products,
-            categories: categories
+            categories: categories,
+            categoriesList: categoriesList
         }
     }
 }

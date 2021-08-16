@@ -1,14 +1,14 @@
 import styles from './styles.module.scss'
 import DropDownButton from '../../../../../Categorias/CategoryList/DropDownButton'
-import { useState } from 'react'
+import { Children, useState } from 'react'
 
 export default function SubcategoryContainer(props){
 
     const startValues = props.children.children.map(category => {
         return {
             hub_category_id: category.hub_category_id,
-            displayChild: "flex",
-            rotate: "rotate(90deg)"
+            displayChild: "none",
+            rotate: "rotate(0deg)"
         }
     })
 
@@ -60,63 +60,102 @@ export default function SubcategoryContainer(props){
         setDisplay(displayList)
     }
 
+    function displayButton(id){
+        if (props.values.related_categories.indexOf(id) > -1){
+            return "flex"
+        } else {
+            return "none"
+        }
+    }
+
+    function childrenListId(id){
+        let list = []
+        let childrenList = []
+
+        function myChildrens(parentId){
+            props.categoriesList.map(category => {
+                if(category.category_parent_id == parentId){
+                    list.push(category.hub_category_id)
+                    if(category.children != null){
+                        myChildrens(category.hub_category_id)
+                    }
+                }
+            })
+        }
+
+        myChildrens(id)
+        console.log("list", list)
+
+        list.map(number => {
+            if(props.values.related_categories.indexOf(number) > -1){
+                childrenList.push(number)
+            }
+        })
+
+        return childrenList
+    }
+
     function renderCategory(category){
         let categories = []
         category.map(children => {
-            if(children.children != null){
-                categories.push(
-                    <div
-                    className={styles.categoryContainer}
-                    key={children.hub_category_id}
-                    >
+            if(props.values.related_categories.indexOf(children.hub_category_id) > -1){
+                if(children.children != null){
+                    categories.push(
                         <div
-                        className={styles.categoryContent}
+                        className={styles.categoryContainer}
+                        key={children.hub_category_id}
                         >
                             <div
-                            className={styles.dropDown}
-                            onClick={() => handleDisplay(children.hub_category_id)}
+                            className={styles.categoryContent}
                             >
-                                <DropDownButton rotate={whatRotate(children.hub_category_id)}/>
+                                <div
+                                className={styles.dropDown}
+                                onClick={() => handleDisplay(children.hub_category_id)}
+                                >
+                                    <DropDownButton rotate={whatRotate(children.hub_category_id)}/>
+                                </div>
+                                <span
+                                onClick={() => handleDisplay(children.hub_category_id)}
+                                >
+                                    {children.category_name}
+                                </span>
+                                <button
+                                style={{display: `${displayButton(children.hub_category_id)}`}}
+                                onClick={() => props.handleCategories(children.hub_category_id, childrenListId(children.hub_category_id), false)}
+                                >
+                                    remover
+                                </button>
                             </div>
-                            <span
-                            onClick={() => handleDisplay(children.hub_category_id)}
+                            <div
+                            className={styles.subcategoryContent}
+                            style={{display: `${whatDisplay(children.hub_category_id)}`}}
                             >
-                                {children.category_name}
-                            </span>
-                            <button
-                            onClick={() => props.handleCategories(children.hub_category_id, false)}
-                            >
-                                adicionar
-                            </button>
+                                {renderCategory(children.children)}
+                            </div>
                         </div>
+                    )
+                } else {
+                    categories.push(
                         <div
-                        className={styles.subcategoryContent}
-                        style={{display: `${whatDisplay(children.hub_category_id)}`}}
+                        className={styles.categoryContainerNC} // No childrens
+                        key={children.hub_category_id}
                         >
-                            {renderCategory(children.children)}
-                        </div>
-                    </div>
-                )
-            } else {
-                categories.push(
-                    <div
-                    className={styles.categoryContainerNC} // No childrens
-                    key={children.hub_category_id}
-                    >
-                        <div
-                        className={styles.categoryContent}
-                        >
-                            <span>
-                                {children.category_name}
-                            </span>
-                            <button
-                            onClick={() => props.handleCategories(children.hub_category_id, false)}
+                            <div
+                            className={styles.categoryContent}
                             >
-                                adicionar
-                            </button>
+                                <span>
+                                    {children.category_name}
+                                </span>
+                                <button
+                                style={{display: `${displayButton(children.hub_category_id)}`}}
+                                onClick={() => props.handleCategories(children.hub_category_id, null, false)}
+                                >
+                                    remover
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )
+                    )
+                }
             }
         })
         return categories

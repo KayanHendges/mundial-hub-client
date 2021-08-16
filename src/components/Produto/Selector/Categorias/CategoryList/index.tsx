@@ -78,7 +78,7 @@ export default function CategoryList(props){
             className={styles.header}
             >
                 <span>
-                    todas as Categorias
+                    todas as categorias
                 </span>
             </div>
             <div

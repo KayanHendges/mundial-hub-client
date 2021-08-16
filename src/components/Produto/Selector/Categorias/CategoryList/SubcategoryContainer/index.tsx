@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 import DropDownButton from '../../../../../Categorias/CategoryList/DropDownButton'
-import { useState } from 'react'
+import { Children, useState } from 'react'
 
 export default function SubcategoryContainer(props){
 
@@ -68,12 +68,9 @@ export default function SubcategoryContainer(props){
         }
     }
 
-    function renderCategory(category, parentId){
-        console.log(parentsId, category)
+    function renderCategory(category){
         let categories = []
         category.map(children => {
-            let parentsId = parentId
-            parentsId.push(children.category_parent_id)
             if(children.children != null){
                 categories.push(
                     <div
@@ -96,7 +93,7 @@ export default function SubcategoryContainer(props){
                             </span>
                             <button
                             style={{display: `${displayButton(children.hub_category_id)}`}}
-                            onClick={() => props.handleCategories(children.hub_category_id, parentsId, true)}
+                            onClick={() => props.handleCategories(children.hub_category_id, children.parent_list_id, true)}
                             >
                                 adicionar
                             </button>
@@ -105,7 +102,7 @@ export default function SubcategoryContainer(props){
                         className={styles.subcategoryContent}
                         style={{display: `${whatDisplay(children.hub_category_id)}`}}
                         >
-                            {renderCategory(children.children, parentsId)}
+                            {renderCategory(children.children)}
                         </div>
                     </div>
                 )
@@ -123,7 +120,7 @@ export default function SubcategoryContainer(props){
                             </span>
                             <button
                             style={{display: `${displayButton(children.hub_category_id)}`}}
-                            onClick={() => props.handleCategories(children.hub_category_id, parentsId,true)}
+                            onClick={() => props.handleCategories(children.hub_category_id, children.parent_list_id, true)}
                             >
                                 adicionar
                             </button>
@@ -135,11 +132,9 @@ export default function SubcategoryContainer(props){
         return categories
     }
     
-    const parentsId = []
-
-    const list = renderCategory(props.children.children, parentsId)
+    const list = renderCategory(props.children.children)
     
-    renderCategory(props.children.children, parentsId)
+    renderCategory(props.children.children)
     return(
         <div
         className={styles.wrapper}

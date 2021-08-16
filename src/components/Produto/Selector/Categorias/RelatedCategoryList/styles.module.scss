@@ -7,8 +7,7 @@
     align-items: center;
     text-align: center;
     justify-content: flex-start;
-
-    border-right: 1px solid var(--gray-line);
+    
     margin-top: 1rem;
     padding: 0 1rem 1rem 1rem;
 
@@ -66,7 +65,7 @@
 
                 button{
                     align-items: center;
-                    border: 1px solid var(--complementar-text);
+                    border: 1px solid rgb(223, 17, 17);
                     border-radius: .4rem;
                     padding: .1rem .3rem;
                     background-color: var(--gray-5);
@@ -77,8 +76,7 @@
                     transition: .2s;
     
                     &:hover{
-                        border: 1px solid var(--white-text);
-                        color: var(--white-text);
+                        color: rgb(223, 17, 17);
                     }
                 }
             }
@@ -106,7 +104,7 @@
 
                 button{
                     align-items: center;
-                    border: 1px solid var(--complementar-text);
+                    border: 1px solid rgb(223, 17, 17);
                     border-radius: .4rem;
                     padding: .1rem .3rem;
                     background-color: var(--gray-5);
@@ -117,8 +115,7 @@
                     transition: .2s;
     
                     &:hover{
-                        border: 1px solid var(--white-text);
-                        color: var(--white-text);
+                        color: rgb(223, 17, 17);
                     }
                 }
             }
