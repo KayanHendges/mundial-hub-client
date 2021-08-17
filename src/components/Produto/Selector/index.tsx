@@ -3,6 +3,7 @@ import styles from './styles.module.scss'
 
 import DadosGerais from './DadosGerais'
 import Categorias from './Categorias'
+import PricingStock from './PricingStock'
 
 
 export default function Selector(props){
@@ -23,7 +24,7 @@ export default function Selector(props){
         color: "var(--complementar-text)",
         underlineColor: "none",
         underlinePadding: "0.7rem",
-        display: "flex"
+        display: "none"
     })
     const [ option3, setOption3 ] = useState({
         color: "var(--complementar-text)",
@@ -197,6 +198,13 @@ export default function Selector(props){
             categoriesList={props.categoriesList}
             display={{display: `${option1.display}`}}
             handleCategories={props.handleCategories}
+            />
+            <PricingStock 
+            values={props.values}
+            display={{display: `${option2.display}`}}
+            onChange={props.onChange}
+            onlyNumber={props.onlyNumber}
+            setValue={props.setValue}
             />
         </div>
     )

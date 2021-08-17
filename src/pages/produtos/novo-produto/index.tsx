@@ -6,11 +6,14 @@ import { useState } from 'react';
 import titleize from '../../../services/Titleize'
 import onlyNumber from '../../../services/onlyNumber'
 import { api } from '../../../services/api2';
+import router from 'next/router';
+import { format } from 'date-fns';
 
 
 export default function produtos(props){
     
     const startValues = {
+        is_kit: 0,
         name: "",
         reference: "",
         ean: "",
@@ -19,6 +22,13 @@ export default function produtos(props){
         model: "",
         description: "",
         related_categories: [],
+        cost: "",
+        profit: "",
+        price: "",
+        promotional_price: "",
+        start_promotion: format(new Date(), "yyyy-mm-dd"),
+        end_promotion: "",
+        stock: 0,
         images: [
             {imageUrl: ""},
             {imageUrl: ""},
@@ -53,7 +63,6 @@ export default function produtos(props){
     }
 
     function handleCategories(id, parentsId, boolean){
-        console.log("-------", id, parentsId, boolean)
 
         if(boolean && values.related_categories.indexOf(id) == -1){
             const relatedCategories = values.related_categories
@@ -73,7 +82,6 @@ export default function produtos(props){
         if(!boolean && values.related_categories.indexOf(id) > -1){
             const relatedCategories = values.related_categories
             if(parentsId != null) {
-                console.log(parentsId)
                 parentsId.map(number => {
                     if(relatedCategories.indexOf(number) > -1){
                         relatedCategories.splice(values.related_categories.indexOf(number), 1)
@@ -88,8 +96,6 @@ export default function produtos(props){
         }
     }
 
-    console.log("---- resultado ---",values.related_categories)
-
     function handleChange(e){
         setValue(
             e.target.getAttribute('name'),
@@ -97,8 +103,45 @@ export default function produtos(props){
         )
     }
 
+    function submitProduct(e) {
+        e.preventDefault();
+        
+
+        api.post('/produtos', {
+            is_kit: values.is_kit,
+            product_name: values.name,
+            reference: values.reference,
+            ean: values.ean,
+            tray_id: parseInt(values.idTray),
+            brand: values.brand,
+            model: values.model,
+            product_description: values.description,
+            product_small_description: values.name,
+            related_categories: values.related_categories,
+            cost_price: parseFloat(values.cost),
+            profit: parseFloat(values.profit),
+            price: parseFloat(values.price),
+            promotional_price: parseFloat(values.promotional_price),
+            start_promotion: values.start_promotion,
+            end_promotion: values.end_promotion,
+            stock: values.stock,
+            picture_source_1: values.images[0].imageUrl,
+            picture_source_2: values.images[1].imageUrl,
+            picture_source_3: values.images[2].imageUrl,
+            picture_source_4: values.images[3].imageUrl,
+            picture_source_5: values.images[4].imageUrl,
+            picture_source_6: values.images[5].imageUrl,
+        }).then(() => {
+            router.push('/produtos')
+            alert('produto criado com sucesso')
+        }).catch((error) => {
+          alert(error)
+          console.log(error)
+        })
+    }
+
     return (
-        <div className={styles.wrapper}>
+        <form onSubmit={submitProduct} className={styles.wrapper}>
             <Header 
             textButton="salvar produto"
             strong="Novo produto"
@@ -115,7 +158,7 @@ export default function produtos(props){
             setValue={setValue}
             handleCategories={handleCategories}
             />
-        </div>
+        </form>
     )
 }
 

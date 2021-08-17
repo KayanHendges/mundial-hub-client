@@ -78,7 +78,6 @@ export default function RelatedCategories(props){
         }
 
         myChildrens(id)
-        console.log("list", list)
 
         list.map(number => {
             if(props.values.related_categories.indexOf(number) > -1){
@@ -126,6 +125,7 @@ export default function RelatedCategories(props){
                                             {category.category_name}
                                         </span>
                                         <button
+                                        type="button"
                                         onClick={() => props.handleCategories(category.hub_category_id, childrenListId(category.hub_category_id), false)}
                                         >
                                             remover
@@ -155,6 +155,7 @@ export default function RelatedCategories(props){
                                             {category.category_name}
                                         </span>
                                         <button
+                                        type="button"
                                         onClick={() => props.handleCategories(category.hub_category_id, null, false)}
                                         >
                                             remover

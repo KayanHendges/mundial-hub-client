@@ -120,6 +120,7 @@ export default function SubcategoryContainer(props){
                                     {children.category_name}
                                 </span>
                                 <button
+                                type="button"
                                 style={{display: `${displayButton(children.hub_category_id)}`}}
                                 onClick={() => props.handleCategories(children.hub_category_id, childrenListId(children.hub_category_id), false)}
                                 >
@@ -147,6 +148,7 @@ export default function SubcategoryContainer(props){
                                     {children.category_name}
                                 </span>
                                 <button
+                                type="button"
                                 style={{display: `${displayButton(children.hub_category_id)}`}}
                                 onClick={() => props.handleCategories(children.hub_category_id, null, false)}
                                 >

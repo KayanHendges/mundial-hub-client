@@ -15,7 +15,7 @@ export default function DefaultNumberInput(props){
                 type={props.type}
                 name={props.name}
                 value={props.value}
-                onKeyPress={(e) => {props.onlyNumber(e)}}
+                onKeyPress={(e) => {this.props.onlyNumber(e)}}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
                 required

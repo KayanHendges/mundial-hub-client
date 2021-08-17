@@ -106,6 +106,7 @@ export default function CategoryList(props){
                                         {category.category_name}
                                     </span>
                                     <button
+                                    type="button"
                                     onClick={() => props.handleCategories(category.hub_category_id, null, true)}
                                     style={{display: `${displayButton(category.hub_category_id)}`}}
                                     >
@@ -135,6 +136,7 @@ export default function CategoryList(props){
                                         {category.category_name}
                                     </span>
                                     <button
+                                    type="button"
                                     style={{display: `${displayButton(category.hub_category_id)}`}}
                                     onClick={() => props.handleCategories(category.hub_category_id, null, true)}
                                     >
