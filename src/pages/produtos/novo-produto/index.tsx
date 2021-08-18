@@ -26,9 +26,12 @@ export default function produtos(props){
         profit: "",
         price: "",
         promotional_price: "",
-        start_promotion: format(new Date(), "yyyy-mm-dd"),
+        start_promotion: format(new Date(), "yyyy-MM-dd"),
         end_promotion: "",
         stock: 0,
+        available: 1,
+        availability: "imediato",
+        availabilityDays: 0,
         images: [
             {imageUrl: ""},
             {imageUrl: ""},
@@ -42,6 +45,7 @@ export default function produtos(props){
     const [ values, setValues ] = useState(startValues)
     
     function setValue(chave, valor) {
+        console.log(chave, valor)
         setValues({
           ...values,
           [chave]: valor,
@@ -103,6 +107,14 @@ export default function produtos(props){
         )
     }
 
+    function hasPromotionPrice(date){
+        if(values.promotional_price == ""){
+            return ""
+        } else {
+            return date
+        }
+    }
+
     function submitProduct(e) {
         e.preventDefault();
         
@@ -122,8 +134,8 @@ export default function produtos(props){
             profit: parseFloat(values.profit),
             price: parseFloat(values.price),
             promotional_price: parseFloat(values.promotional_price),
-            start_promotion: values.start_promotion,
-            end_promotion: values.end_promotion,
+            start_promotion: hasPromotionPrice(values.start_promotion),
+            end_promotion: hasPromotionPrice(values.end_promotion),
             stock: values.stock,
             picture_source_1: values.images[0].imageUrl,
             picture_source_2: values.images[1].imageUrl,

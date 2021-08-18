@@ -3,8 +3,33 @@ import styles from './styles.module.scss'
 import DefaultNumberInput from '../../../Inputs/DefaultNumberInput'
 import UnitInput from '../../../Inputs/UnitInput'
 import DateInput from './DateInput'
+import { useState } from 'react'
+import AvailableInput from './AvailableInput'
 
 export default function PricingStock(props){
+
+    const [ checkBox, setCheckBox ] = useState({
+        available: "disponível",
+        check: true,
+        color: "#207567"
+    })
+
+    function handleCheckBox(){
+        if(checkBox.check){ // desativa
+            setCheckBox({
+                available: "indisponível",
+                check: false,
+                color: "#E01D10"
+            })
+        } else { // ativa
+            setCheckBox({
+                available: "disponível",
+                check: true,
+                color: "#207567"
+            })
+        }
+    }
+
     return(
         <div
         className={styles.wrapper}
@@ -70,6 +95,41 @@ export default function PricingStock(props){
                 onChange={props.onChange}
                 />
             </div>
+            <div className={styles.inputContainer}>
+                <UnitInput
+                width="10rem"
+                label="estoque"
+                name="stock"
+                unit="un"
+                placeholder=""
+                value={props.values.stock}
+                onChange={props.onChange}
+                onlyNumber={props.onlyNumber}
+                />
+            </div>
+            <div
+            className={styles.switch}
+            onClick={handleCheckBox}
+            >
+                <div 
+                className={styles.switchColor}
+                style={{
+                    color: `${checkBox.color}`,
+                    border: `2px solid ${checkBox.color}`
+                }}
+                >
+                </div>
+                <p>
+                    {checkBox.available}
+                </p>
+            </div>
+            <AvailableInput 
+            width="50%"
+            label="disponibilidade"
+            value={props.values}
+            onChange={props.onChange}
+            onlyNumber={props.onlyNumber}
+            />        
         </div>
     )
 }
