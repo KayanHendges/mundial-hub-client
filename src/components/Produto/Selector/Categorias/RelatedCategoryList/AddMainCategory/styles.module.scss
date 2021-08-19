@@ -1,0 +1,21 @@
+.button{
+    height: 1rem;
+    align-items: center;
+    border-radius: .4rem;
+    padding: .1rem .3rem;
+    background-color: var(--gray-5);
+    outline: none;
+    font-size: .6rem;
+    margin-left: auto;
+    gap: .5rem;
+    transition: .5s;
+
+    &:hover{
+        color: rgb(223, 17, 17);
+    }
+
+    .text{
+        align-items: center;
+    }
+
+}

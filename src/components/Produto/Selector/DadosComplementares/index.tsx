@@ -1,0 +1,89 @@
+import styles from './styles.module.scss'
+import UnitInput from '../../../Inputs/UnitInput'
+import DefaultNumberInput from '../../../Inputs/DefaultNumberInput'
+import DefaultTextArea from '../../../Inputs/DefaultTextArea'
+
+export default function DadosComplementares(props){
+    return(
+        <div
+        className={styles.wrapper}
+        style={{display: `${props.display.display}`}}
+        >
+            <h1
+            className={styles.title}
+            >
+                Medidas
+            </h1>
+            <div
+            className={styles.inputContainer}
+            >                
+                <UnitInput 
+                width="100%"
+                label="peso"
+                name="weight"
+                unit="g"
+                placeholder=""
+                value={props.values.weight}
+                onChange={props.onChange}
+                onlyNumber={props.onlyNumber}
+                />
+                <UnitInput 
+                width="100%"
+                label="comprimento"
+                name="length"
+                unit="cm"
+                placeholder=""
+                value={props.values.length}
+                onChange={props.onChange}
+                onlyNumber={props.onlyNumber}
+                />
+                <UnitInput 
+                width="100%"
+                label="largura"
+                name="width"
+                unit="cm"
+                placeholder=""
+                value={props.values.width}
+                onChange={props.onChange}
+                onlyNumber={props.onlyNumber}
+                />
+                <UnitInput 
+                width="100%"
+                label="altura"
+                name="height"
+                unit="cm"
+                placeholder=""
+                value={props.values.height}
+                onChange={props.onChange}
+                onlyNumber={props.onlyNumber}
+                />
+            </div>
+            <h1
+            className={styles.title}
+            >
+                Complementos
+            </h1>
+            <div
+            className={styles.inputContainer}
+            >                
+                <DefaultNumberInput
+                width="10rem"
+                label="ncm"
+                name="ncm"
+                placeholder=""
+                required=""
+                value={props.values.ncm}
+                onChange={props.onChange}
+                onlyNumber={props.onlyNumber}
+                />
+            </div>
+            <DefaultTextArea
+            label="observações"
+            rows={3}
+            name="comments"
+            value={props.values.comments}
+            onChange={props.onChange}
+            />
+        </div>
+    )
+}

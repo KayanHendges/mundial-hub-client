@@ -122,7 +122,7 @@ export default function DadosGerais(props){
             />
             <div className={styles.inputContainer}>
                 <DefaultInput
-                width="100%"
+                width="33.3333%"
                 label="referencia"
                 name="reference"
                 placeholder=""
@@ -131,22 +131,12 @@ export default function DadosGerais(props){
                 onChange={props.onChange}
                 />
                 <DefaultNumberInput
-                width="100%"
+                width="33.3333%"
                 label="ean"
                 name="ean"
                 placeholder="código de barras"
                 required=""
                 value={props.values.ean}
-                onChange={props.onChange}
-                onlyNumber={props.onlyNumber}
-                />
-                <DefaultNumberInput
-                width="100%"
-                label="id da tray"
-                name="idTray"
-                placeholder="id gerado pela tray..."
-                required=""
-                value={props.values.idTray}
                 onChange={props.onChange}
                 onlyNumber={props.onlyNumber}
                 />

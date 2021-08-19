@@ -4,6 +4,7 @@ import styles from './styles.module.scss'
 import DadosGerais from './DadosGerais'
 import Categorias from './Categorias'
 import PricingStock from './PricingStock'
+import DadosComplementares from './DadosComplementares'
 
 
 export default function Selector(props){
@@ -200,11 +201,18 @@ export default function Selector(props){
             handleCategories={props.handleCategories}
             />
             <PricingStock 
-            values={props.values}
             display={{display: `${option2.display}`}}
+            values={props.values}
+            setValue={props.setValue}
             onChange={props.onChange}
             onlyNumber={props.onlyNumber}
+            />
+            <DadosComplementares
+            display={{display: `${option3.display}`}}
+            values={props.values}
             setValue={props.setValue}
+            onChange={props.onChange}
+            onlyNumber={props.onlyNumber}
             />
         </div>
     )

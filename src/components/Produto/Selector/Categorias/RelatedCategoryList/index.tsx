@@ -2,6 +2,7 @@ import { useState } from 'react'
 import DropDownButton from '../../../../Categorias/CategoryList/DropDownButton'
 import styles from './styles.module.scss'
 import SubcategoryContainer from './SubcategoryContainer'
+import AddMainCategory from './AddMainCategory'
 
 
 export default function RelatedCategories(props){    
@@ -112,6 +113,8 @@ export default function RelatedCategories(props){
                                 >
                                     <div
                                     className={styles.categoryContent}
+                                    onMouseEnter={(e) => props.handleMainCategory(e)}
+                                    onMouseLeave={(e) => props.handleMainCategory(e)}
                                     >
                                         <div
                                         onClick={() => handleDisplay(category.hub_category_id)}
@@ -124,12 +127,23 @@ export default function RelatedCategories(props){
                                         >
                                             {category.category_name}
                                         </span>
-                                        <button
-                                        type="button"
-                                        onClick={() => props.handleCategories(category.hub_category_id, childrenListId(category.hub_category_id), false)}
+                                        <div
+                                        className={styles.buttonsContainer}
                                         >
-                                            remover
-                                        </button>
+                                            <AddMainCategory 
+                                            text={props.mainCategory.text}
+                                            display={props.mainCategory.display}
+                                            borderColor={props.mainCategory.borderColor}
+                                            onMouseEnter={() => console.log('entrei')}
+                                            />
+                                            <button
+                                            type="button"
+                                            onClick={() => props.handleCategories(category.hub_category_id, childrenListId(category.hub_category_id), false)}
+                                            className={styles.removeButton}
+                                            >
+                                                remover
+                                            </button>
+                                        </div>
                                     </div>
                                     <div style={{display: `${whatDisplay(category.hub_category_id)}`}}>
                                         <SubcategoryContainer
@@ -154,12 +168,23 @@ export default function RelatedCategories(props){
                                         <span>
                                             {category.category_name}
                                         </span>
-                                        <button
-                                        type="button"
-                                        onClick={() => props.handleCategories(category.hub_category_id, null, false)}
+                                        <div
+                                        className={styles.buttonsContainer}
                                         >
-                                            remover
-                                        </button>
+                                            <AddMainCategory 
+                                            text={props.mainCategory.text}
+                                            display={props.mainCategory.display}
+                                            borderColor={props.mainCategory.borderColor}
+                                            onMouseEnter={() => console.log('entrei')}
+                                            />
+                                            <button
+                                            type="button"
+                                            onClick={() => props.handleCategories(category.hub_category_id, childrenListId(category.hub_category_id), false)}
+                                            className={styles.removeButton}
+                                            >
+                                                remover
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             )

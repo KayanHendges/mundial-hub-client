@@ -63,22 +63,33 @@
                     user-select: none;
                 }
 
-                button{
+                .buttonsContainer{
+                    display: flex;
+                    justify-content: flex-end;
                     align-items: center;
-                    border: 1px solid rgb(223, 17, 17);
-                    border-radius: .4rem;
-                    padding: .1rem .3rem;
-                    background-color: var(--gray-5);
-                    outline: none;
-                    font-size: .6rem;
-                    color: var(--complementar-text);
+                    gap: .5rem;
+
                     margin-left: auto;
-                    transition: .2s;
-    
-                    &:hover{
-                        color: rgb(223, 17, 17);
+
+                    .removeButton{
+                        height: 1rem;
+                        align-items: center;
+                        border: 1px solid rgb(223, 17, 17);
+                        border-radius: .4rem;
+                        padding: .1rem .3rem;
+                        background-color: var(--gray-5);
+                        outline: none;
+                        font-size: .6rem;
+                        color: var(--complementar-text);
+                        margin-left: auto;
+                        transition: .2s;
+        
+                        &:hover{
+                            color: rgb(223, 17, 17);
+                        }
                     }
                 }
+                
             }
             .categoryContentNC{
                 height: 2rem;
@@ -102,20 +113,30 @@
                     user-select: none;
                 }
 
-                button{
+                .buttonsContainer{
+                    display: flex;
+                    justify-content: flex-end;
                     align-items: center;
-                    border: 1px solid rgb(223, 17, 17);
-                    border-radius: .4rem;
-                    padding: .1rem .3rem;
-                    background-color: var(--gray-5);
-                    outline: none;
-                    font-size: .6rem;
-                    color: var(--complementar-text);
+                    gap: .5rem;
+
                     margin-left: auto;
-                    transition: .2s;
-    
-                    &:hover{
-                        color: rgb(223, 17, 17);
+
+                    .removeButton{
+                        height: 1rem;
+                        align-items: center;
+                        border: 1px solid rgb(223, 17, 17);
+                        border-radius: .4rem;
+                        padding: .1rem .3rem;
+                        background-color: var(--gray-5);
+                        outline: none;
+                        font-size: .6rem;
+                        color: var(--complementar-text);
+                        margin-left: auto;
+                        transition: .2s;
+        
+                        &:hover{
+                            color: rgb(223, 17, 17);
+                        }
                     }
                 }
             }
