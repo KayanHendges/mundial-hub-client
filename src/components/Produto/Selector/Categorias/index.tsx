@@ -7,16 +7,16 @@ export default function Categorias(props){
 
     const [ mainCategory, setMainCategory ] = useState({
         display: "none",
+        displayId: 0,
         text: "",
         borderColor: "1px solid var(--complementar-text)"
     })
 
-    function mouseEnterContainer(e){
-        console.log(e.type)
-
+    function mouseEnterContainer(e, id){
         if(e.type == "mouseenter"){
             setMainCategory({
                 display: "flex",
+                displayId: id,
                 text: "incluir categoria principal",
                 borderColor: "1px solid var(--white-text)"
             })
@@ -25,6 +25,7 @@ export default function Categorias(props){
         if(e.type == "mouseleave"){
             setMainCategory({
                 display: "none",
+                displayId: id,
                 text: "incluir categoria principal",
                 borderColor: "1px solid var(--complementar-text)"
             })
@@ -44,6 +45,7 @@ export default function Categorias(props){
             />
             <RelatedCategoryList
             values={props.values}
+            setValue={props.setValue}
             categories={props.categories}
             categoriesList={props.categoriesList}
             handleCategories={props.handleCategories}

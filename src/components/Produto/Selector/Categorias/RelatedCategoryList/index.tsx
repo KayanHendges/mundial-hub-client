@@ -113,14 +113,16 @@ export default function RelatedCategories(props){
                                 >
                                     <div
                                     className={styles.categoryContent}
-                                    onMouseEnter={(e) => props.handleMainCategory(e)}
-                                    onMouseLeave={(e) => props.handleMainCategory(e)}
+                                    onMouseEnter={(e) => props.handleMainCategory(e, category.hub_category_id)}
+                                    onMouseLeave={(e) => props.handleMainCategory(e, category.hub_category_id)}
                                     >
                                         <div
                                         onClick={() => handleDisplay(category.hub_category_id)}
                                         className={styles.dropDown}
                                         >
-                                            <DropDownButton rotate={whatRotate(category.hub_category_id)}/>
+                                            <DropDownButton
+                                            rotate={whatRotate(category.hub_category_id)}
+                                            />
                                         </div>
                                         <span
                                         onClick={() => handleDisplay(category.hub_category_id)}
@@ -131,10 +133,10 @@ export default function RelatedCategories(props){
                                         className={styles.buttonsContainer}
                                         >
                                             <AddMainCategory 
-                                            text={props.mainCategory.text}
-                                            display={props.mainCategory.display}
-                                            borderColor={props.mainCategory.borderColor}
-                                            onMouseEnter={() => console.log('entrei')}
+                                            mainCategory={props.mainCategory}
+                                            selectedCategory={props.values.mainCategoryId}
+                                            id={category.hub_category_id}
+                                            setValue={props.setValue}
                                             />
                                             <button
                                             type="button"
@@ -151,6 +153,9 @@ export default function RelatedCategories(props){
                                         children={category}
                                         categoriesList={props.categoriesList}
                                         values={props.values}
+                                        setValue={props.setValue}
+                                        mainCategory={props.mainCategory}
+                                        handleMainCategory={props.handleMainCategory}
                                         />
                                     </div>
                                 </div>
@@ -162,8 +167,9 @@ export default function RelatedCategories(props){
                                 key={category.hub_category_id}
                                 >
                                     <div
-                                    onClick={() => handleDisplay(category.hub_category_id)}
                                     className={styles.categoryContentNC}
+                                    onMouseEnter={(e) => props.handleMainCategory(e, category.hub_category_id)}
+                                    onMouseLeave={(e) => props.handleMainCategory(e, category.hub_category_id)}
                                     >
                                         <span>
                                             {category.category_name}
@@ -172,10 +178,10 @@ export default function RelatedCategories(props){
                                         className={styles.buttonsContainer}
                                         >
                                             <AddMainCategory 
-                                            text={props.mainCategory.text}
-                                            display={props.mainCategory.display}
-                                            borderColor={props.mainCategory.borderColor}
-                                            onMouseEnter={() => console.log('entrei')}
+                                            mainCategory={props.mainCategory}
+                                            selectedCategory={props.values.mainCategoryId}
+                                            id={category.hub_category_id}
+                                            setValue={props.setValue}
                                             />
                                             <button
                                             type="button"

@@ -140,7 +140,7 @@ export default function Selector(props){
             })
         }
     }
-
+    
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
@@ -195,6 +195,7 @@ export default function Selector(props){
             />
             <Categorias
             values={props.values}
+            setValue={props.setValue}
             categories={props.categories}
             categoriesList={props.categoriesList}
             display={{display: `${option1.display}`}}

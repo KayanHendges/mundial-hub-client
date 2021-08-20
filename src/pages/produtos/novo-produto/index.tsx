@@ -51,7 +51,6 @@ export default function produtos(props){
     const [ values, setValues ] = useState(startValues)
     
     function setValue(chave, valor) {
-        console.log(chave, valor)
         setValues({
           ...values,
           [chave]: valor,
@@ -123,7 +122,6 @@ export default function produtos(props){
 
     function submitProduct(e) {
         e.preventDefault();
-        
 
         api.post('/produtos', {
             ean: values.ean,
