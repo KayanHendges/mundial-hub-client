@@ -1,0 +1,21 @@
+.wrapper{
+    display: flex;
+    width: 100%;
+
+    table{
+        width: 100%;
+        text-align: start;
+        justify-content: start;
+
+        th, td{
+            padding: .75rem .5rem;
+            border-bottom: 1px solid var(--gray-line);
+        }
+
+        td{
+            color: var(--white-text);
+            text-align: center;
+            align-items: center;
+        }
+    }
+}

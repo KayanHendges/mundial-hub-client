@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next"
 import styles from './styles.module.scss'
-import { api } from '../../../services/api2';
+import { api } from '../../../services/api';
 
 import Header from '../../../components/Produto/Header';
 import DefaultInput from '../../../components/Inputs/DefaultInput';

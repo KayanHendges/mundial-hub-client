@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import { api } from '../../../services/api2';
+import { api } from '../../../services/api';
 import styles from './styles.module.scss'
 
 import Header from '../../../components/Produto/Header';

@@ -5,7 +5,7 @@ import Selector from '../../../components/Produto/Selector';
 import { useState } from 'react';
 import titleize from '../../../services/Titleize'
 import onlyNumber from '../../../services/onlyNumber'
-import { api } from '../../../services/api2';
+import { api } from '../../../services/api';
 import router from 'next/router';
 import { format } from 'date-fns';
 
@@ -148,7 +148,7 @@ export default function produtos(props){
             related_categories: values.related_categories,
             available: values.available,
             availability: values.availability,
-            availabilityDays: values.availabilityDays,
+            availability_days: values.availabilityDays,
             reference: values.reference,
             picture_source_1: values.images[0].imageUrl,
             picture_source_2: values.images[1].imageUrl,

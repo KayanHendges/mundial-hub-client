@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 import styles from './styles.module.scss'
 
 import Link from 'next/link';
-import { api } from '../../services/api2';
+import { api } from '../../services/api';
 
 import Header from '../../components/Categorias/Header';
 import CategoryList from '../../components/Categorias/CategoryList';
