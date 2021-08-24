@@ -2,8 +2,6 @@ import styles from './styles.module.scss'
 
 export default function PriceContainer(props){
 
-    console.log(props)
-
     if(parseFloat(props.promotionalPrice) > 0){
         return(
             <div

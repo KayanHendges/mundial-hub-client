@@ -1,27 +1,28 @@
 import styles from './styles.module.scss'
+import { CSSProperties } from 'react'
 
 export default function DateInput(props){
 
+    console.log(props)
+
     function showInput(displayValue){
         if(displayValue.length > 0){
-            return "visible"
+            return 'visible'
         } else {
-            return "hidden"
+            return 'hidden'
         }
     }
 
-    function showValue(){
-        
-    }
+    const myStyles: CSSProperties = {
+        width: `${props.width}`,
+        visibility: `${showInput(props.visibility)}`
+    } as const
 
     if(props.visibility.length > 0){
         return(
             <div
                 className={styles.wrapper}
-                style={{
-                    width: `${props.width}`,
-                    visibility: `${showInput(props.visibility)}`
-                }}>  
+                style={myStyles}>  
                     <label>
                         {props.label}
                     </label>
@@ -38,10 +39,7 @@ export default function DateInput(props){
         return(
             <div
                 className={styles.wrapper}
-                style={{
-                    width: `${props.width}`,
-                    visibility: `${showInput(props.visibility)}`
-                }}>  
+                style={myStyles}>  
                     <label>
                         {props.label}
                     </label>
