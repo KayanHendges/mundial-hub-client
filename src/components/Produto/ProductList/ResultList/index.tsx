@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+import { parseISO } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { api } from '../../../../services/api'
 import PopUp from './PopUp'
@@ -9,6 +11,7 @@ export default function ResultList(props){
     const [ produtos, setProdutos ] = useState(<div>sem resultados</div>)
 
     useEffect(() => {
+        setProdutos(<div>carregando...</div>)
         api
           .get("produtos", {
               params: {
@@ -25,8 +28,8 @@ export default function ResultList(props){
                     stock: produto.stock,
                     price: produto.price.toFixed(2).replace(".", ","),
                     promotionalPrice: produto.promotional_price.toFixed(2).replace(".", ","),
-                    startPromotion: produto.start_promotion,
-                    endPromotion: produto.end_promotion,
+                    startPromotion: format(parseISO(produto.start_promotion), 'dd/MM/yyyy'),
+                    endPromotion: format(parseISO(produto.end_promotion), 'dd/MM/yyyy'),
                 }
             })
             
@@ -105,7 +108,7 @@ export default function ResultList(props){
                                     }}
                                     >
                                         <PopUp 
-                                        
+                                        hubId={item.hubId}
                                         />
                                     </td>
                                 </tr>

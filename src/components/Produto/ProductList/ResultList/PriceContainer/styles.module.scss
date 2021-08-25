@@ -1,31 +1,25 @@
 .wrapper{
-    position: relative;
+    display: flex;
+    flex-direction: column;
 
-    .popUpButton{
-        cursor: pointer;
-        width: 1.5rem;
-        border-radius: 50%;
-        border: 1px solid var(--complementar-text);
-        background-color: var(--gray-3);
-        span {
-            bottom: .188rem;
-            position: relative;
+    .priceRow{
+        display: flex;
+        justify-content: center;
+        gap: .2rem;
+
+        span{
             color: var(--white-text);
-        }
-        &:hover{
-            background-color: var(--gray-5);
-            border: 1px solid var(--white-text);
         }
     }
 
-    .popUp{
-        width: 8rem;
-        right: 1rem;
+    .dateRow{
         display: flex;
-        flex-direction: column;
-        position: absolute;
-        border: 1px solid var(--white-text);
-        background-color: var(--gray-5);
-        border-radius: .4rem;
+        justify-content: center;
+
+        span{
+            color: var(--complementar-text);
+            font-size: .7rem;
+            font-weight: 400;
+        }
     }
 }

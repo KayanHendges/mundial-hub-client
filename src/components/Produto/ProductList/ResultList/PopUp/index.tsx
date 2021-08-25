@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useState } from 'react'
 import styles from './styles.module.scss'
 
@@ -38,7 +39,18 @@ export default function PopUp(props){
                 display: `${popUp.display}`,
             }}
             >
-                ola
+                <Link href={`/produtos/${props.hubId}`}>
+                    <span
+                    className={styles.container}
+                    >
+                        editar
+                    </span>
+                </Link>
+                <span
+                className={styles.delete}
+                >
+                    excluir
+                </span>
             </div>
         </div>
     )
