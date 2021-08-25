@@ -1,5 +1,5 @@
 import styles from './styles.module.scss'
-import DefaultInput from '../../../Inputs/DefaultInput'
+import InputSearch from './InputSearch'
 
 export default function SearchForm(props){
 
@@ -10,14 +10,15 @@ export default function SearchForm(props){
             <div
             className={styles.rowInput}
             >
-                <DefaultInput
+                <InputSearch
                 width="100%"
                 label=""
-                name="search"
+                name="searchInput"
                 placeholder="pesquise por nome, referencia ou categoria..."
                 required=""
                 value={props.search.searchInput}
                 onChange={props.onChange}
+                leaveInput={props.sendSearch}
                 />
             </div>
             <div

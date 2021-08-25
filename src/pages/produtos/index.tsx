@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import styles from './styles.module.scss'
 import { api } from '../../services/api';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import HeaderProductList from '../../components/Produto/ProductList/HeaderProductList';
 import SearchForm from '../../components/Produto/ProductList/SearchForm';
@@ -11,7 +11,8 @@ import ResultList from '../../components/Produto/ProductList/ResultList';
 export default function produtos(props){
 
     const [ search, setSearch ] = useState({
-        searchInput: ""
+        searchInput: "",
+        onChangeSearch: ""
     })
 
     function setValue(chave, valor) {
@@ -28,6 +29,13 @@ export default function produtos(props){
         )
     }
 
+    function sendSearch(){
+        setSearch({
+            ...search,
+            onChangeSearch: search.searchInput
+        })
+    }
+
     return (
         <div
         className={styles.wrapper}
@@ -39,9 +47,11 @@ export default function produtos(props){
             <SearchForm
             search={search}
             onChange={handleChange}
+            sendSearch={sendSearch}
             />
             <ResultList
             resultados={props.produtos}
+            search={search}
             />
         </div>
     )
@@ -49,7 +59,11 @@ export default function produtos(props){
 
 export const getStaticProps: GetStaticProps = async () => {
 
-    const { data } = await api.get('produtos')
+    const { data } = await api.get('produtos', {
+        params: {
+            search: ""
+        }
+    })
 
     const produtos = data.map(produto => {
         return {

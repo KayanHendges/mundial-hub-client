@@ -10,7 +10,11 @@ export default function ResultList(props){
 
     useEffect(() => {
         api
-          .get("produtos")
+          .get("produtos", {
+              params: {
+                  search: props.search.searchInput
+              }
+          })
           .then((response) => {
             const resultados = response.data.map(produto => {
                 return {
@@ -54,7 +58,7 @@ export default function ResultList(props){
                     <tbody
                     className={styles.bodyList}
                     >
-                        {props.resultados.map((item, index) => {
+                        {resultados.map((item, index) => {
                             return(
                                 <tr
                                 key={index}
@@ -115,7 +119,7 @@ export default function ResultList(props){
           .catch((err) => {
             setProdutos(<div>não foi possível se comunictar com o banco de dados</div>);
           });
-      }, []);
+      }, [props.search.onChangeSearch]);
 
     return produtos
 }
