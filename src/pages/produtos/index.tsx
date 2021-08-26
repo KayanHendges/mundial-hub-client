@@ -1,5 +1,4 @@
 import { GetStaticProps } from 'next';
-import Link from 'next/link';
 import styles from './styles.module.scss'
 import { api } from '../../services/api';
 import { useEffect, useState } from 'react';
