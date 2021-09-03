@@ -49,7 +49,6 @@ export default function produtos(props){
             sendSearch={sendSearch}
             />
             <ResultList
-            resultados={props.produtos}
             search={search}
             />
         </div>
@@ -57,30 +56,7 @@ export default function produtos(props){
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-
-    const { data } = await api.get('produtos', {
-        params: {
-            search: ""
-        }
-    })
-
-    const produtos = data.map(produto => {
-        return {
-            hubId: produto.hub_id,
-            reference: produto.reference,
-            name: produto.product_name,
-            imageUrl: produto.picture_source_1,
-            stock: produto.stock,
-            price: produto.price.toFixed(2).replace(".", ","),
-            promotionalPrice: produto.promotional_price.toFixed(2).replace(".", ","),
-            startPromotion: produto.start_promotion,
-            endPromotion: produto.end_promotion,
-        }
-    })
-
     return {
-        props: {
-            produtos: produtos
-        }
+        props: {}
     }
 }

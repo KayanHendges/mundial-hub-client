@@ -1,6 +1,7 @@
 import { format } from 'date-fns'
 import { parseISO } from 'date-fns'
 import { useEffect, useState } from 'react'
+import editProduct from '../../../../pages/produtos/[editProduct]'
 import { api } from '../../../../services/api'
 import PopUp from './PopUp'
 import PriceContainer from './PriceContainer'
@@ -19,8 +20,29 @@ export default function ResultList(props){
               }
           })
           .then((response) => {
-            const resultados = response.data.map(produto => {
-                return {
+            
+              
+              const resultados = response.data.map(produto => {
+                  function isPromotion(){
+                      if(produto.promotional_price > 0 ){
+                            console.log(produto.start_promotion, produto.hub_id)
+                            return {
+                                startPromotion: '03/09/2021',
+                                endPromotion: '31/09/2021'
+                            }
+                      } else {
+                          return {
+                            startPromotion: '03/09/2021',
+                            endPromotion: '31/09/2021'
+                          }
+                      }
+                  }
+
+                  const promotion = isPromotion()
+
+                  console.log(promotion)
+
+                  return {
                     hubId: produto.hub_id,
                     reference: produto.reference,
                     name: produto.product_name,
@@ -28,8 +50,8 @@ export default function ResultList(props){
                     stock: produto.stock,
                     price: produto.price.toFixed(2).replace(".", ","),
                     promotionalPrice: produto.promotional_price.toFixed(2).replace(".", ","),
-                    startPromotion: format(parseISO(produto.start_promotion), 'dd/MM/yyyy'),
-                    endPromotion: format(parseISO(produto.end_promotion), 'dd/MM/yyyy'),
+                    startPromotion: promotion.startPromotion,
+                    endPromotion: promotion.endPromotion,
                 }
             })
             
@@ -120,6 +142,7 @@ export default function ResultList(props){
             setProdutos(resultado)
           })
           .catch((err) => {
+            console.log(err)
             setProdutos(<div>não foi possível se comunictar com o banco de dados</div>);
           });
       }, [props.search.onChangeSearch]);
