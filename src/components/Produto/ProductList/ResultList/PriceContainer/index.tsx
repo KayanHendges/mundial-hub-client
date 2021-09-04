@@ -2,8 +2,8 @@ import styles from './styles.module.scss'
 
 export default function PriceContainer(props){
 
-    function setStyles(promotionPrice){
-        if(promotionPrice.length > 0){
+    function setStyles(promotionalPrice){
+        if(promotionalPrice.length > 0){
             return {
                 price: {
                     color: "var(--complementar-text)",
@@ -38,7 +38,7 @@ export default function PriceContainer(props){
 
     const priceStyles = setStyles(props.promotionalPrice)
 
-    if(parseFloat(props.promotionalPrice) > 0){
+
         return(
             <div
             className={styles.wrapper}
@@ -71,5 +71,5 @@ export default function PriceContainer(props){
                 </div>
             </div>
         )
-    }
+    
 }
