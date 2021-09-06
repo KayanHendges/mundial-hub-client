@@ -1,53 +1,51 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import styles from './editProduct.module.scss'
-import { api } from '../../services/api';
-
+import styles from './styles.module.scss'
 import Header from '../../components/Produto/Header';
 import Selector from '../../components/Produto/Selector';
 import { useState } from 'react';
 import titleize from '../../services/Titleize'
 import onlyNumber from '../../services/onlyNumber'
+import { api } from '../../services/api';
 import router from 'next/router';
 import { format } from 'date-fns';
 
 
-
 export default function editProduct(props){
-
     const startValues = {
-        ean: "",
-        is_kit: 0,
-        ncm: "40111000",
-        name: "",
-        description: "",
-        price: "",
-        cost: "",
-        profit: "",
-        promotional_price: "",
-        start_promotion: format(new Date(), "yyyy-MM-dd"),
-        end_promotion: "",
-        brand: "",
-        model: "",
-        weight: 0,
-        length: 0,
-        width: 0,
-        height: 0,
-        stock: 0,
-        mainCategoryId: null,
+        hubId: props.product.hub_id,
+        ean: props.product.ean,
+        is_kit: props.product.is_kit,
+        ncm: props.product.ncm,
+        name: props.product.product_name,
+        description: props.product.product_description,
+        price: props.product.price,
+        cost: props.product.cost,
+        profit: props.product.profit,
+        promotionalPrice: props.product.promotional_price,
+        startPromotion: props.product.start_promotion,
+        endPromotion: props.product.end_promotion,
+        brand: props.product.brand,
+        model: props.product.model,
+        weight: props.product.weight,
+        length: props.product.length,
+        width: props.product.width,
+        height: props.product.height,
+        stock: props.product.stock,
+        mainCategoryId: props.product.main_category_id,
         related_categories: [],
-        available: 1,
-        availability: "imediato",
-        availabilityDays: 0,
-        reference: "",
+        available: props.product.available,
+        availability: props.product.availability,
+        availabilityDays: props.product.availability_days,
+        reference: props.product.reference,
         images: [
-            {imageUrl: ""},
-            {imageUrl: ""},
-            {imageUrl: ""},
-            {imageUrl: ""},
-            {imageUrl: ""},
-            {imageUrl: ""}
+            {imageUrl: props.product.picture_source_1},
+            {imageUrl: props.product.picture_source_2},
+            {imageUrl: props.product.picture_source_3},
+            {imageUrl: props.product.picture_source_4},
+            {imageUrl: props.product.picture_source_5},
+            {imageUrl: props.product.picture_source_6}
         ],
-        comments: "",
+        comments: props.product.comments,
     }
     
     const [ values, setValues ] = useState(startValues)
@@ -115,7 +113,7 @@ export default function editProduct(props){
     }
 
     function hasPromotionPrice(date){
-        if(values.promotional_price == ""){
+        if(values.promotionalPrice == ""){
             return ""
         } else {
             return date
@@ -125,43 +123,49 @@ export default function editProduct(props){
     function submitProduct(e) {
         e.preventDefault();
 
-        api.post('/produtos', {
-            ean: values.ean,
-            is_kit: values.is_kit,
-            ncm: values.ncm,
-            product_name: values.name,
-            product_title: values.name,
-            product_description: values.description,
-            product_small_description: values.name,
-            price: parseFloat(values.price),
-            cost_price: parseFloat(values.cost),
-            profit: parseFloat(values.profit),
-            promotional_price: parseFloat(values.promotional_price),
-            start_promotion: hasPromotionPrice(values.start_promotion),
-            end_promotion: hasPromotionPrice(values.end_promotion),
-            brand: values.brand,
-            model: values.model,
-            weight: values.weight,
-            length: values.length,
-            width: values.width,
-            height: values.height,
-            stock: values.stock,
-            main_category_id: values.mainCategoryId,
-            related_categories: values.related_categories,
-            available: values.available,
-            availability: values.availability,
-            availability_days: values.availabilityDays,
-            reference: values.reference,
-            picture_source_1: values.images[0].imageUrl,
-            picture_source_2: values.images[1].imageUrl,
-            picture_source_3: values.images[2].imageUrl,
-            picture_source_4: values.images[3].imageUrl,
-            picture_source_5: values.images[4].imageUrl,
-            picture_source_6: values.images[5].imageUrl,
-            comments: "",
+        api.patch('/produtos', {
+            params: {
+                hub_id: values.hubId,
+                values: {
+                    ean: values.ean,
+                    is_kit: values.is_kit,
+                    ncm: values.ncm,
+                    product_name: values.name,
+                    product_title: values.name,
+                    product_description: values.description,
+                    product_small_description: values.name,
+                    price: parseFloat(values.price),
+                    cost_price: parseFloat(values.cost),
+                    profit: parseFloat(values.profit),
+                    promotional_price: parseFloat(values.promotionalPrice),
+                    start_promotion: hasPromotionPrice(values.startPromotion),
+                    end_promotion: hasPromotionPrice(values.endPromotion),
+                    brand: values.brand,
+                    model: values.model,
+                    weight: values.weight,
+                    length: values.length,
+                    width: values.width,
+                    height: values.height,
+                    stock: values.stock,
+                    main_category_id: values.mainCategoryId,
+                    related_categories: values.related_categories,
+                    available: values.available,
+                    availability: values.availability,
+                    availability_days: values.availabilityDays,
+                    reference: values.reference,
+                    picture_source_1: values.images[0].imageUrl,
+                    picture_source_2: values.images[1].imageUrl,
+                    picture_source_3: values.images[2].imageUrl,
+                    picture_source_4: values.images[3].imageUrl,
+                    picture_source_5: values.images[4].imageUrl,
+                    picture_source_6: values.images[5].imageUrl,
+                    comments: "",
+                }
+            }
+            
         }).then(() => {
             router.push('/produtos')
-            alert('produto criado com sucesso')
+            alert('produto salvo com sucesso')
         }).catch((error) => {
           alert(error)
           console.log(error)
@@ -172,8 +176,8 @@ export default function editProduct(props){
         <form onSubmit={submitProduct} className={styles.wrapper}>
             <Header 
             textButton="salvar produto"
-            strong="Novo produto"
-            title="Insira as informações do produto que deseja cadastrar"
+            strong={values.name}
+            title="Edite as informações do produto"
             href="/produtos"
             />
             <Selector
@@ -199,29 +203,25 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
 
-    const id  = ctx.params.editCategory
-    const { data } = await api.get(`produtos/${id}`) 
+    const id = ctx.params.editProduct
 
-    const productsData = await api.get('produtos')
-    const categoriesData = await api.get('categorias/arvore')
-    const categoriesListData = await api.get('categorias')
+    const product = await api.get(`produtos/${id}`)
+    const categories = await api.get('categorias/arvore')
+    const categoriesList = await api.get('categorias')
+
+    const productData = product.data
     
-    const products = productsData.data 
-    const categories = categoriesData.data
-    const categoriesList= categoriesListData.data
-
-    return {
-        props: {
-            product: data,
-            products: products,
-            categories: categories,
-            categoriesList: categoriesList
+    Object.keys(productData).map(function(key, index) {
+        if(productData[key] == null){
+            productData[key] = ""
         }
-    }
+      })
 
     return {
         props: {
-            category: data
-        },
+            product: productData,
+            categories: categories.data,
+            categoriesList: categoriesList.data
+        }
     }
 }

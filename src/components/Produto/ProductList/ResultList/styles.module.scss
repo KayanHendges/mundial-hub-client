@@ -1,5 +1,6 @@
 .wrapper{
     display: flex;
+    flex-direction: column;
     width: 100%;
 
     table{
@@ -17,5 +18,11 @@
             text-align: center;
             align-items: center;
         }
+    }
+
+    .resultsTr,
+    .resultsTd{
+        padding: none;
+        border: none;
     }
 }

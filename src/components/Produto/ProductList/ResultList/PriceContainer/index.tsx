@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 export default function PriceContainer(props){
 
     function setStyles(promotionalPrice){
-        if(promotionalPrice.length > 0){
+        if(parseFloat(promotionalPrice) > 0){
             return {
                 price: {
                     color: "var(--complementar-text)",

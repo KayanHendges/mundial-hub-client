@@ -4,8 +4,7 @@ export default function BlueButton (props) {
     return (
         <button 
         className={styles.button}
-        type="button"
-        onClick={() => props.onClick()}
+        type="submit"
         >
             {props.text}
         </button>

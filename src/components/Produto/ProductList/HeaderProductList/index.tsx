@@ -30,10 +30,6 @@ export default function HeaderProductList(props){
             >
                 Todos os produtos
             </span>
-            <BlueButton 
-            text={"receber produtos da Tiny"}
-            onClick={updateTiny}
-            />
             <LinkBlueButton
             href={props.hrefButton}
             text={props.textButton}

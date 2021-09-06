@@ -21,9 +21,9 @@ export default function produtos(props){
         price: "",
         cost: "",
         profit: "",
-        promotional_price: "",
-        start_promotion: format(new Date(), "yyyy-MM-dd"),
-        end_promotion: "",
+        promotionalPrice: "",
+        startPromotion: format(new Date(), "yyyy-MM-dd"),
+        endPromotion: "",
         brand: "",
         model: "",
         weight: 0,
@@ -113,7 +113,7 @@ export default function produtos(props){
     }
 
     function hasPromotionPrice(date){
-        if(values.promotional_price == ""){
+        if(values.promotionalPrice == ""){
             return ""
         } else {
             return date
@@ -134,9 +134,9 @@ export default function produtos(props){
             price: parseFloat(values.price),
             cost_price: parseFloat(values.cost),
             profit: parseFloat(values.profit),
-            promotional_price: parseFloat(values.promotional_price),
-            start_promotion: hasPromotionPrice(values.start_promotion),
-            end_promotion: hasPromotionPrice(values.end_promotion),
+            promotional_price: parseFloat(values.promotionalPrice),
+            start_promotion: hasPromotionPrice(values.startPromotion),
+            end_promotion: hasPromotionPrice(values.endPromotion),
             brand: values.brand,
             model: values.model,
             weight: values.weight,
@@ -190,7 +190,11 @@ export default function produtos(props){
 
 export const getStaticProps: GetStaticProps = async () => {
 
-    const productsData = await api.get('produtos')
+    const productsData = await api.get('produtos', {
+        params: {
+            search: '',
+        }
+    })
     const categoriesData = await api.get('categorias/arvore')
     const categoriesListData = await api.get('categorias')
     

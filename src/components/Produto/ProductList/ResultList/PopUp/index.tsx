@@ -1,5 +1,7 @@
 import Link from 'next/link'
+import router from 'next/router'
 import { useState } from 'react'
+import { api } from '../../../../../services/api'
 import styles from './styles.module.scss'
 
 export default function PopUp(props){
@@ -18,6 +20,22 @@ export default function PopUp(props){
                 display: "none"
             })
         }
+    }
+
+    function deleteProduct(hubId){
+        api.delete('produtos/', {
+            params: {
+                hub_id: hubId
+            }
+        })
+        .then(() => {
+            router.reload()
+            alert('produto excluído com sucesso')
+        })
+        .catch(erro => {
+            alert(erro)
+            console.log(erro)
+        })
     }
 
     return(
@@ -48,6 +66,7 @@ export default function PopUp(props){
                 </Link>
                 <span
                 className={styles.delete}
+                onClick={() => deleteProduct(props.hubId)}
                 >
                     excluir
                 </span>

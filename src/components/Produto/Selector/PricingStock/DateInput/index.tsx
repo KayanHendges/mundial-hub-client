@@ -3,8 +3,6 @@ import { CSSProperties } from 'react'
 
 export default function DateInput(props){
 
-    console.log(props)
-
     function showInput(displayValue){
         if(displayValue.length > 0){
             return 'visible'

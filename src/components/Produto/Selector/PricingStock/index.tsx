@@ -74,24 +74,24 @@ export default function PricingStock(props){
                 name="promotional_price"
                 placeholder=""
                 required=""
-                value={props.values.promotional_price}
+                value={props.values.promotionalPrice}
                 onChange={props.onChange}
                 onlyNumber={props.onlyNumber}
                 />
                 <DateInput 
                 width="100%"
-                visibility={props.values.promotional_price}
+                visibility={props.values.promotionalPrice}
                 label="inicio da promoção"
                 name="start_promotion"
-                value={props.values.start_promotion}
+                value={props.values.startPromotion}
                 onChange={props.onChange}
                 />
                 <DateInput 
                 width="100%"
-                visibility={props.values.promotional_price}
+                visibility={props.values.promotionalPrice}
                 label="fim da promoção"
                 name="end_promotion"
-                value={props.values.end_promotion}
+                value={props.values.endPromotion}
                 onChange={props.onChange}
                 />
             </div>

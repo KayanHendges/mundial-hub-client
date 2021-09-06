@@ -46,7 +46,7 @@ export default function ResultList(props){
               }
             })
             setProdutos(resultados)
-            setResultado(<div></div>)
+            setResultado(<></>)
             
           })
           .catch((err) => {
@@ -58,7 +58,8 @@ export default function ResultList(props){
     return(
         <div
         className={styles.wrapper}
-        >
+        >   
+            {resultado}
             <table
             className={styles.productTable}
             cellSpacing={0}
@@ -79,9 +80,6 @@ export default function ResultList(props){
                         <th></th>
                     </tr>    
                 </thead>
-                <div>
-                    {resultado}
-                </div>
                 <List
                 resultados={produtos}
                 >

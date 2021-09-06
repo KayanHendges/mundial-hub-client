@@ -12,6 +12,7 @@ export default function List(props){
             {props.resultados.map(produto => {
                 return (
                     <tr
+                    key={produto.hubId}
                     className={styles.rowItem}
                     style={{
                         height: "4rem"
