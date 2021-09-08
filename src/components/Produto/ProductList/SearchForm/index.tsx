@@ -3,6 +3,14 @@ import InputSearch from './InputSearch'
 
 export default function SearchForm(props){
 
+    const pages = () => {
+        const arrayPages = []
+        for(var page = 1; page <= props.pages.pages; page++){
+            arrayPages.push(page)
+        }
+        return arrayPages
+    }
+
     return(
         <div
         className={styles.wrapper}
@@ -30,6 +38,33 @@ export default function SearchForm(props){
                 >
                     filtrar
                 </button>
+            </div>
+            <div
+            className={styles.rowPage}
+            >
+                <div
+                className={styles.pageContainer}
+                >
+                    <div
+                    className={styles.pageList}
+                    >
+                        <div
+                        className={styles.selectedPage}
+                        >
+                            {props.pages.page}
+                        </div>
+                        {pages().map(page => {
+                            return(
+                                <div
+                                key={page}
+                                className={styles.pageItem}
+                                >
+                                    {page}
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
         </div>
     )
