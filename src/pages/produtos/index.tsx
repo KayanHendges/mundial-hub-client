@@ -11,7 +11,13 @@ export default function produtos(props){
 
     const [ search, setSearch ] = useState({
         searchInput: "",
-        onChangeSearch: ""
+        onChangeSearch: "",
+    })
+
+    const [ pages, setPages ] = useState({
+        perPage: 20,
+        pages: 5,
+        page: 1,
     })
 
     function setValue(chave, valor) {
@@ -34,6 +40,8 @@ export default function produtos(props){
             onChangeSearch: search.searchInput
         })
     }
+    
+
 
     return (
         <div
@@ -47,6 +55,8 @@ export default function produtos(props){
             search={search}
             onChange={handleChange}
             sendSearch={sendSearch}
+            pages={pages}
+            setPages={setPages}
             />
             <ResultList
             search={search}
