@@ -1,27 +1,35 @@
-import { GetStaticProps } from 'next'
-import styles from './styles.module.scss'
+import Link from "next/link"
+import { useRouter } from "next/router"
 
-export default function tray(props){
-    console.log(props)
+export default function tray(){
+
+    const router = useRouter().asPath
+    const routerSplit = router.split("?url=https://")
+    const parameter = routerSplit[1]
+    const url = `https://${parameter}/auth.php?response_type=code&consumer_key=de64a56c6cb078828acc0d62ad9ab08c16a89440edddc28dd26ab9788ebdd10d&callback=https://wwww.mundialhub.com.br/oAuth2Tray`
+
     return(
         <div>
             <h1>
                 Mundial Hub
             </h1>
-            <a href={`${props}/auth.php?response_type=code&consumer_key=de64a56c6cb078828acc0d62ad9ab08c16a89440edddc28dd26ab9788ebdd10d&callback=http://mundialhub.com.br/oAuth2Tray`}>
+            <Link href={url}>
                 <button>
-                    Integrar
+                    integrar
                 </button>
-            </a>
+            </Link>
+            <h1>
+                {parameter}
+            </h1>
         </div>
     )
 }
 
-export const getInitialProps = async ({query}) => {
+export async function getServerSideProps({ req }) {
+
+    console.log(req.query)
 
     return {
-        props: {
-            query: query
-        }
+        props: {}
     }
 }
