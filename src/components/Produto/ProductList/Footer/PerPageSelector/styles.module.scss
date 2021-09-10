@@ -1,0 +1,107 @@
+.pageContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: .5rem;
+    gap: .5rem;
+    
+    height: 2rem;
+    border-radius: 5rem;
+    background-color: var(--gray-2);
+    cursor: pointer;
+
+    &:hover {
+        .pageSpan{
+            color: var(--blue-button);
+            
+        }
+    }
+
+    .pageSpan{
+        color: var(--complementar-text);
+        font-size: .8rem;
+        -webkit-user-select: none;  
+        -moz-user-select: none;     
+        -ms-user-select: none;      
+        user-select: none;
+    }
+
+    .anchor{
+        height: 1.8rem;
+        width: 1.8rem;
+        position: relative;
+
+    }
+
+    .selectedPage{
+        display: flex;
+        background-color: var(--gray-5);
+        border-radius: 50%;
+        height: 1.8rem;
+        width: 1.8rem;
+        align-items: center;
+        justify-content: center;
+        color: var(--white-text);
+        cursor: pointer;
+        z-index: 3;
+        transition: .2s;
+
+        -webkit-user-select: none;  
+        -moz-user-select: none;     
+        -ms-user-select: none;      
+        user-select: none;
+    }
+
+    .pageList{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        bottom: -.05rem;
+        border: solid 1px var(--white-text);
+        border-radius: 5rem;
+        z-index: 2;
+        background-color: var(--gray-3);
+        
+
+        .pageItemList{
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .pageSelectedItem,
+        .pageItem {
+            display: flex;
+            border-radius: 50%;
+            height: 1.8rem;
+            width: 1.8rem;
+            align-items: center;
+            justify-content: center;
+            color: var(--white-text);
+            cursor: pointer;
+            font-size: .8rem;
+
+            -webkit-user-select: none;  
+            -moz-user-select: none;     
+            -ms-user-select: none;      
+            user-select: none;
+        }
+
+        .pageSelectedItem{
+            color: var(--white-text);
+            background-color: var(--gray-5);
+            border: 1px solid var(--blue-button);
+
+            &:hover {
+                border: 2px solid var(--blue-button);
+            }
+        }
+
+        .pageItem{
+
+            &:hover{
+                border: 1px solid var(--complementar-text);
+                background-color: var(--gray-5);
+            }
+        }
+    }
+}

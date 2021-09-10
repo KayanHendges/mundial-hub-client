@@ -13,10 +13,20 @@ export default function ResultList(props){
         api
           .get("produtos", {
               params: {
-                  search: props.search.searchInput
+                  search: props.search.searchInput,
+                  page: props.pages.page,
+                  perPage: props.pages.perPage
               }
           })
           .then((response) => {
+            console.log(response.data)
+
+            props.setPages({
+                perPage: response.data.limite_pagina,
+                pages: response.data.numero_paginas,
+                page: response.data.pagina,
+                resultsLength: response.data.numero_produtos
+            })
             const resultados = response.data.produtos.map(produto => {
                 function isPromotion(){
                     if(produto.promotional_price > 0 ){
@@ -53,7 +63,11 @@ export default function ResultList(props){
             console.log(err)
             setResultado(<div>não foi possível se comunictar com o banco de dados</div>);
           });
-      }, [props.search.onChangeSearch]);
+      }, [props.search.onChangeSearch, props.search.page, props.search.perPage]);
+
+      useEffect(() => {
+          
+      })
 
     return(
         <div

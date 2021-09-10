@@ -6,18 +6,22 @@ import { useEffect, useState } from 'react';
 import HeaderProductList from '../../components/Produto/ProductList/HeaderProductList';
 import SearchForm from '../../components/Produto/ProductList/SearchForm';
 import ResultList from '../../components/Produto/ProductList/ResultList';
+import Footer from '../../components/Produto/ProductList/Footer';
 
 export default function produtos(props){
 
     const [ search, setSearch ] = useState({
         searchInput: "",
         onChangeSearch: "",
+        perPage: 20,
+        page: 1,
     })
 
     const [ pages, setPages ] = useState({
         perPage: 20,
-        pages: 5,
+        pages: 1,
         page: 1,
+        resultLength: 0
     })
 
     function setValue(chave, valor) {
@@ -35,9 +39,16 @@ export default function produtos(props){
     }
 
     function sendSearch(){
+        setPages({
+            ...pages,
+            perPage: pages.perPage,
+            page: 1
+        })
         setSearch({
             ...search,
-            onChangeSearch: search.searchInput
+            onChangeSearch: search.searchInput,
+            page: 1,
+            perPage: pages.perPage
         })
     }
     
@@ -47,19 +58,32 @@ export default function produtos(props){
         <div
         className={styles.wrapper}
         >
-            <HeaderProductList 
-            hrefButton="/produtos/novo-produto"
-            textButton="incluir produto"
-            />
-            <SearchForm
+            <div
+            className={styles.container}
+            >
+                <HeaderProductList 
+                hrefButton="/produtos/novo-produto"
+                textButton="incluir produto"
+                />
+                <SearchForm
+                search={search}
+                setSearch={setSearch}
+                onChange={handleChange}
+                sendSearch={sendSearch}
+                pages={pages}
+                setPages={setPages}
+                />
+                <ResultList
+                pages={pages}
+                setPages={setPages}
+                search={search}
+                />
+            </div>
+            <Footer 
             search={search}
-            onChange={handleChange}
-            sendSearch={sendSearch}
+            setSearch={setSearch}
             pages={pages}
             setPages={setPages}
-            />
-            <ResultList
-            search={search}
             />
         </div>
     )

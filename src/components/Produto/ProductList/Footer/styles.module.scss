@@ -1,0 +1,24 @@
+.wrapper{
+    display: flex;
+    width: 100%;
+    height:3rem;
+    min-height: 3rem;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: var(--gray-3);
+    padding: 0 2rem;
+    border-top: 1px solid var(--gray-line);
+
+    .results{
+        margin-right: 3rem;
+        color: var(--complementar-text);
+    }
+
+    .inputs{
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: flex-end;
+    }
+}

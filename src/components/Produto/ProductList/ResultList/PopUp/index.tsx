@@ -10,8 +10,8 @@ export default function PopUp(props){
         display: "none"
     })
 
-    function handlePopUp(){
-        if(popUp.display == "none"){
+    function handlePopUp(boolean){
+        if(!boolean){
             setPopUp({
                 display: "flex"
             })
@@ -41,11 +41,12 @@ export default function PopUp(props){
     return(
         <div
         className={styles.wrapper}
+        onMouseLeave={() => handlePopUp(true)}
         >
             <button
             className={styles.popUpButton}
             type="button"
-            onClick={handlePopUp}
+            onClick={() => handlePopUp(!popUp.display)}
             >
                 <span>
                     ...

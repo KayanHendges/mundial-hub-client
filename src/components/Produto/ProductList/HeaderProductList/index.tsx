@@ -6,21 +6,6 @@ import { api } from '../../../../services/api'
 
 export default function HeaderProductList(props){
 
-    function updateTiny(){
-        console.log("update chamado")
-        api.get('/produtos/', {
-            params: {
-                function: "updateTiny"
-            }
-        })
-        .then(response => {
-            console.log(response.data)
-        })
-        .catch(erro => {
-            console.log(erro)
-        })
-    }
-
     return (
         <div
         className={styles.wrapper}
