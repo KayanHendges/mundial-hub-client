@@ -1,6 +1,6 @@
+import { useState } from 'react'
+import DropDownButton from '../../DropDownButton'
 import styles from './styles.module.scss'
-import { Children, useState } from 'react'
-import DropDownButton from '../../../../../Categorias/CategoryList/DropDownButton'
 
 export default function SubcategoryContainer(props){
 
@@ -60,14 +60,6 @@ export default function SubcategoryContainer(props){
         setDisplay(displayList)
     }
 
-    function displayButton(id){
-        if (props.values.related_categories.indexOf(id) > -1){
-            return "none"
-        } else {
-            return "flex"
-        }
-    }
-
     function renderCategory(category){
         let categories = []
         category.map(children => {
@@ -91,13 +83,6 @@ export default function SubcategoryContainer(props){
                             >
                                 {children.category_name}
                             </span>
-                            <button
-                            type="button"                            
-                            style={{display: `${displayButton(children.hub_category_id)}`}}
-                            onClick={() => props.handleCategories(children.hub_category_id, children.parent_list_id, true)}
-                            >
-                                adicionar
-                            </button>
                         </div>
                         <div
                         className={styles.subcategoryContent}
@@ -119,13 +104,6 @@ export default function SubcategoryContainer(props){
                             <span>
                                 {children.category_name}
                             </span>
-                            <button
-                            type="button"
-                            style={{display: `${displayButton(children.hub_category_id)}`}}
-                            onClick={() => props.handleCategories(children.hub_category_id, children.parent_list_id, true)}
-                            >
-                                adicionar
-                            </button>
                         </div>
                     </div>
                 )
@@ -145,4 +123,5 @@ export default function SubcategoryContainer(props){
             {list}
         </div>
     )
+
 }

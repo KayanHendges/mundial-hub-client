@@ -6,82 +6,74 @@ import styles from './styles.module.scss'
 
 export default function PopUp(props){
 
-    const [ display, setDisplay ] = useState("none")
+    console.log(props)
 
-    function deleteCategory(category_id){
-        const idToDelete = [category_id]
+    const [ popUp, setPopUp ] = useState({
+        display: "none"
+    })
 
-        function findChildrens(category){
-            if(category.children != null){
-                category.children.map(children => {
-                    idToDelete.push(children.hub_category_id)
-                    if(children.children != null){
-                        children.children.map(childrenChild => {
-                            findChildrens(childrenChild)
-                            idToDelete.push(childrenChild.hub_category_id)
-                        })
-                    }
-                })
-            }
+    function handlePopUp(boolean){
+        if(!boolean){
+            setPopUp({
+                display: "flex"
+            })
+        } else {
+            setPopUp({
+                display: "none"
+            })
         }
-        findChildrens(props.category)
-
-        api.delete(`/categorias/`, {params: {
-            idsToDelete: idToDelete
-        }})
-        .then(() => {
-          alert(`categoria id=${category_id} excluida com sucesso`)
-          router.push('/categorias')
-        }).catch((error) => {
-          alert(error)
-        })
     }
-    
 
-    function handleDisplay(){
-        if(display == "none"){ //ativa
-            setDisplay("block")
-        } else { // desativa
-            setDisplay("none")
-        }
+    function deleteProduct(hubCategoryId){
+        api.delete('categorias/', {
+            params: {
+                hub_id: hubCategoryId
+            }
+        })
+        .then(() => {
+            router.reload()
+            alert('produto excluído com sucesso')
+        })
+        .catch(erro => {
+            alert(erro)
+            console.log(erro)
+        })
     }
 
     return(
         <div
         className={styles.wrapper}
-        onClick={() => handleDisplay()}
+        onMouseLeave={() => handlePopUp(true)}
         >
-            <div
-            className={styles.container}
-            style={{display: `${display}`}}
+            <button
+            className={styles.popUpButton}
+            type="button"
+            onClick={() => handlePopUp(!popUp.display)}
             >
-                <Link href={`/categorias/nova-subcategoria/${props.categoryId}`}>
-                    <div
-                    className={styles.newSubcategory}
+                <span>
+                    ...
+                </span>
+            </button>
+            <div
+            className={styles.popUp}
+            style={{
+                display: `${popUp.display}`,
+            }}
+            >
+                <Link href={`/categorias/nova-subcategoria/${props.hubCategoryId}`}>
+                    <span
+                    className={styles.container}
                     >
                         incluir subcategoria
-                    </div>
+                    </span>
                 </Link>
-                <Link href={`/categorias/${props.categoryId}`}>
-                    <div
-                    className={styles.newSubcategory}
-                    >
-                        editar
-                    </div>
-                </Link>
-                <h1
+                <span
                 className={styles.delete}
-                onClick={() => deleteCategory(props.categoryId)}
+                onClick={() => deleteProduct(props.hubCategoryId)}
                 >
                     excluir
-                </h1>
+                </span>
             </div>
-            <div className={styles.more}>
-                    <span>
-                        ...
-                    </span>
-            </div>
-            
         </div>
     )
 }

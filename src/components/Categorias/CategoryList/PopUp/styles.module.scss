@@ -1,22 +1,20 @@
 .wrapper{
     position: relative;
-    right: -1.2rem;
-    top: .75rem;
-    height: 3rem;
-    overflow: visible;
-    display: flex;
-    .more{
-        position: relative;
-        right: 1rem;
+
+    .popUpButton{
         cursor: pointer;
         width: 1.5rem;
-        height: 1.5rem;
         border-radius: 50%;
         border: 1px solid var(--complementar-text);
+        background-color: var(--gray-3);
         span {
             bottom: .188rem;
             position: relative;
             color: var(--white-text);
+            -webkit-user-select: none;  
+            -moz-user-select: none;     
+            -ms-user-select: none;      
+            user-select: none;
         }
         &:hover{
             background-color: var(--gray-5);
@@ -24,39 +22,44 @@
         }
     }
 
-    .container{
-        height: 4.5rem;
-        position: relative;
-        right: -.6rem;
-        top: 1.6rem;
-        width: 10rem;
+    .popUp{
+        width: 13rem;
+        right: 0rem;
+        display: flex;
         flex-direction: column;
+        position: absolute;
+        z-index: 3;
+        border: 1px solid var(--white-text);
         background-color: var(--gray-5);
         border-radius: .4rem;
-        border: 1px solid var(--complementar-text);
         overflow: hidden;
-        z-index: 2;
 
-        .newSubcategory, .delete{
-            cursor: pointer;
-            border-bottom: 1px solid var(--gray-line);
+        .container, .delete{
             display: flex;
-            align-items: center;
+            width: 100%;
             justify-content: center;
-            height: 1.5rem;
+            text-align: center;
+            align-items: center;
+            height: 2rem;
             color: var(--complementar-text);
-            font-weight: 400;
-            font-size: .8rem;
-            
+            border-bottom: 1px solid var(--gray-line);
+            cursor: pointer;
+            white-space: nowrap;
+
+            -webkit-user-select: none;  
+            -moz-user-select: none;     
+            -ms-user-select: none;      
+            user-select: none;
         }
-    
-        .newSubcategory{
+
+        .container{
+            transition: .2;
             &:hover{
                 background-color: var(--gray-4);
                 color: var(--white-text);
             }
         }
-    
+
         .delete{
             transition: .2s;
             &:hover{

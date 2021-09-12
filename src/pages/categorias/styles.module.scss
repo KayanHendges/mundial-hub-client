@@ -8,3 +8,18 @@
     display: flex;
     flex-direction: column;
 }
+
+.wrapper::-webkit-scrollbar {
+    height: 0.3rem;
+    width: 0.3rem;
+    background-color: var(--gray-3);              /* width of the entire scrollbar */
+}
+  
+.wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--gray-5);    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    cursor: pointer;
+    &:hover{
+        background-color: var(--complementar-text);    /* color of the scroll thumb */
+    }
+}

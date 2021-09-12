@@ -1,9 +1,6 @@
 import { GetStaticProps } from 'next';
 import styles from './styles.module.scss'
 
-import Link from 'next/link';
-import { api } from '../../services/api';
-
 import Header from '../../components/Categorias/Header';
 import CategoryList from '../../components/Categorias/CategoryList';
 
@@ -18,7 +15,6 @@ export default function categorias(props){
             textButton="incluir categoria"
             />
             <CategoryList
-            categories={props.categories}
             />
         </div>
     )
@@ -26,11 +22,8 @@ export default function categorias(props){
 
 export const getStaticProps: GetStaticProps = async () => {
 
-    const { data } = await api.get('/categorias/arvore')
-
     return {
         props: {
-            categories: data,
         },
     }
 }

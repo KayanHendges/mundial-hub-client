@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next"
-import styles from './styles.module.scss'
+import styles from './editProduct.module.scss'
 import Header from '../../components/Produto/Header';
 import Selector from '../../components/Produto/Selector';
 import { useState } from 'react';
