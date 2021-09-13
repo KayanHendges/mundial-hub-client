@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import DropDownButton from '../../DropDownButton'
+import PopUp from '../../PopUp'
 import styles from './styles.module.scss'
 
 export default function SubcategoryContainer(props){
@@ -71,18 +72,29 @@ export default function SubcategoryContainer(props){
                     >
                         <div
                         className={styles.categoryContent}
-                        >
+                        >  
                             <div
-                            className={styles.dropDown}
-                            onClick={() => handleDisplay(children.hub_category_id)}
+                            className={styles.leftContent}
                             >
-                                <DropDownButton rotate={whatRotate(children.hub_category_id)}/>
+                                <div
+                                className={styles.dropDown}
+                                onClick={() => handleDisplay(children.hub_category_id)}
+                                >
+                                    <DropDownButton rotate={whatRotate(children.hub_category_id)}/>
+                                </div>
+                                <span
+                                onClick={() => handleDisplay(children.hub_category_id)}
+                                >
+                                    {children.category_name}
+                                </span>
                             </div>
-                            <span
-                            onClick={() => handleDisplay(children.hub_category_id)}
+                            <div
+                            className={styles.buttons}
                             >
-                                {children.category_name}
-                            </span>
+                                <PopUp 
+                                hubCategoryId={category.hub_category_id}
+                                />
+                            </div>
                         </div>
                         <div
                         className={styles.subcategoryContent}
@@ -95,15 +107,26 @@ export default function SubcategoryContainer(props){
             } else {
                 categories.push(
                     <div
-                    className={styles.categoryContainerNC} // No childrens
+                    className={styles.categoryContainerNC}
                     key={children.hub_category_id}
                     >
                         <div
-                        className={styles.categoryContent}
+                        className={styles.categoryContentNC}
                         >
-                            <span>
-                                {children.category_name}
-                            </span>
+                            <div
+                            className={styles.leftContentNC}
+                            >
+                                <span>
+                                    {children.category_name}
+                                </span> 
+                            </div>
+                            <div
+                            className={styles.buttons}
+                            >
+                                <PopUp 
+                                hubCategoryId={children.hub_category_id}
+                                />
+                            </div>
                         </div>
                     </div>
                 )

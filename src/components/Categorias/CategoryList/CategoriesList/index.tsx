@@ -85,14 +85,11 @@ export default function CategoriesList(props){
                                     onClick={() => handleDisplay(category.hub_category_id)}
                                     >
                                         <div
-                                        onClick={() => handleDisplay(category.hub_category_id)}
                                         className={styles.dropDown}
                                         >
                                             <DropDownButton rotate={whatRotate(category.hub_category_id)}/>
                                         </div>
-                                        <span
-                                        onClick={() => handleDisplay(category.hub_category_id)}
-                                        >
+                                        <span>
                                             {category.category_name}
                                         </span> 
                                     </div>
@@ -119,16 +116,12 @@ export default function CategoriesList(props){
                             key={category.hub_category_id}
                             >
                                 <div
-                                onClick={() => handleDisplay(category.hub_category_id)}
                                 className={styles.categoryContentNC}
                                 >
                                     <div
                                     className={styles.leftContentNC}
-                                    onClick={() => handleDisplay(category.hub_category_id)}
                                     >
-                                        <span
-                                        onClick={() => handleDisplay(category.hub_category_id)}
-                                        >
+                                        <span>
                                             {category.category_name}
                                         </span> 
                                     </div>
