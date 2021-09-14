@@ -10,8 +10,8 @@ export default function SubcategoryContainer(props){
     const startValues = props.children.children.map(category => {
         return {
             hub_category_id: category.hub_category_id,
-            displayChild: "none",
-            rotate: "rotate(0deg)"
+            displayChild: "flex",
+            rotate: "rotate(90deg)"
         }
     })
 

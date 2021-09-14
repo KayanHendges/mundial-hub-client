@@ -63,7 +63,11 @@ export default function SubcategoryContainer(props){
 
     function renderCategory(category){
         let categories = []
-        category.map(children => {
+        category.map((children, index) => {
+            var border = "1px solid var(--gray-line)"
+            if((index) == 0){
+                border = "none"
+            }
             if(children.children != null){
                 categories.push(
                     <div
@@ -71,6 +75,7 @@ export default function SubcategoryContainer(props){
                     key={children.hub_category_id}
                     >
                         <div
+                        style={{borderTop: `${border}`}}
                         className={styles.categoryContent}
                         >  
                             <div
@@ -111,6 +116,7 @@ export default function SubcategoryContainer(props){
                     key={children.hub_category_id}
                     >
                         <div
+                        style={{borderTop: `1px solid var(--gray-line)`}}
                         className={styles.categoryContentNC}
                         >
                             <div

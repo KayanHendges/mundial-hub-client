@@ -32,7 +32,7 @@ export default function editProduct(props){
         height: props.product.height,
         stock: props.product.stock,
         mainCategoryId: props.product.main_category_id,
-        related_categories: [],
+        related_categories: props.product.related_categories,
         available: props.product.available,
         availability: props.product.availability,
         availabilityDays: props.product.availability_days,

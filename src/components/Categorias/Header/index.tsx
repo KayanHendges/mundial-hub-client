@@ -27,10 +27,10 @@ export default function Header(props){
                 <BackButton
                 href={props.hrefBackButton}
                 />
-                <BlueButtonAction
+                {/* <BlueButtonAction
                 text={getCategories}
                 action={getCategoriesTray}
-                />
+                /> */}
                 <LinkBlueButton
                 href={props.hrefButton}
                 text={props.textButton}
