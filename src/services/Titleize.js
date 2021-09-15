@@ -1,8 +1,15 @@
-export default function titleize(text) {
+function titleize(text) {
     var words = text.toLowerCase().split(" ");
+    var emptySpace = 0
     for (var a = 0; a < words.length; a++) {
         var w = words[a];
-        words[a] = w[0].toUpperCase() + w.slice(1);
+        if(w.length == 0){
+            emptySpace = emptySpace + 1
+        } else {
+            words[(a-emptySpace)] = w[0].toUpperCase() + w.slice(1);
+        }
     }
     return words.join(" ");
 }
+
+module.exports = titleize

@@ -47,7 +47,7 @@ export default function ResultList(props){
                   hubId: produto.hub_id,
                   reference: produto.reference,
                   name: produto.product_name,
-                  imageUrl: produto.picture_source_1,
+                  imageUrl: produto.picture_source_1_90,
                   stock: produto.stock,
                   price: produto.price.toFixed(2).replace(".", ","),
                   promotionalPrice: produto.promotional_price.toFixed(2).replace(".", ","),
