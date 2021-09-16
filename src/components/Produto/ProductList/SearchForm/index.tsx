@@ -1,8 +1,10 @@
 import styles from './styles.module.scss'
 import InputSearch from './InputSearch'
-import { useEffect, useState } from 'react'
+import CheckBox from './CheckBox'
 
 export default function SearchForm(props){
+
+    function()
 
     return(
         <div
@@ -25,6 +27,10 @@ export default function SearchForm(props){
             <div
             className={styles.rowInput}
             >
+                <CheckBox 
+                label="mostrar kits"
+                function={}
+                />
                 <button
                 className={styles.submitButton}
                 type="button"
