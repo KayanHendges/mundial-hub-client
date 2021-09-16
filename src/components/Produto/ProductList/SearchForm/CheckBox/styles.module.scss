@@ -1,0 +1,23 @@
+.wrapper{
+    display: flex;
+    height: 1.5rem;
+    background-color: var(--gray-2);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0 .5rem;
+
+    border-radius: 4rem;
+
+    .label{
+        color: var(--complementar-text);
+        font-size: .8rem;
+        font-weight: 400;
+
+        -webkit-user-select: none;  
+        -moz-user-select: none;     
+        -ms-user-select: none;      
+        user-select: none;
+    }
+
+}

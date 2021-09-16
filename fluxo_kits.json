@@ -1,0 +1,91 @@
+// POST criar um produto IS_KIT 0
+
+{
+    "Product":  {
+        "ean":"149898989",
+        "name":"Produto Teste API IS_KIT 0",
+        "ncm":"99999999",
+        "description":"Descrição do Produto de Teste da API IS_KIT 0",
+        "description_small":"Produto de Teste da API",
+        "price":1000.00,
+        "cost_price":0.00,
+        "promotional_price":100.00,
+        "start_promotion":"2019-03-01",
+        "end_promotion":"2023-09-01",
+        "brand":"marca",
+        "model":"Modelo",
+        "weight":1000,
+        "length":10,
+        "width":10,
+        "height":10,
+        "stock":100,
+        "category_id":"1",
+        "available":1,
+        "availability":"imediato",
+        "availability_days":0,
+        "reference":"9999",
+        "hot": "1",
+        "release": "1",
+        "additional_button": "0",
+        "related_categories":[1, 3, 5],
+        "release_date":"",
+        "picture_source_1":"https://cdnv2.moovin.com.br/olfercalcados/imagens/produtos/original/produto-teste-de-cadastro-d2ed1b8fe1b3661403f903d095e002a1.jpg",
+        "picture_source_2":"",
+        "picture_source_3":"",
+        "picture_source_4":"",
+        "picture_source_5":"",
+        "picture_source_6":"",
+        "metatag":[{"type":"keywords",
+        "content":"Key1, Key2, Key3",
+        "local":1}],
+        "virtual_product":"0"
+    }
+}
+
+//Retorno
+
+{
+    "message": "Created",
+    "id": "8175",
+    "code": 201
+}
+
+// Então criar um is_kit 1 Ex: kit 2
+
+{
+    "Product":{
+        "is_kit": 1,
+        "name":"Kit 2 Produtos Kit Teste API",
+        "description":"Kit 2 Produtos Kit Teste API",
+        "description_small":"Kit 2 Produtos Kit Teste API",
+        "category_id":"893",
+        "available":1,
+        "reference":"999",
+        "related_categories":[1, 3, 5, 893],
+        "release_date":"",
+        "picture_source_1":"",
+        "picture_source_2":"",
+        "picture_source_3":"g"
+    }
+}
+
+//Retorno
+
+{
+    "message": "Created",
+    "id": "8179",
+    "code": 201
+}
+
+// Aplicar produtos e regras ao kit
+
+[
+    {
+        "product_parent_id": "8179",
+        "product_id": "8175",
+        "quantity": "2",
+        "price_rule": "2",
+        "discount_type": "%",
+        "discount_value": 2.5
+    },
+]

@@ -15,6 +15,7 @@ export default function produtos(props){
         onChangeSearch: "",
         perPage: 20,
         page: 1,
+        showKits: 0,
     })
 
     const [ pages, setPages ] = useState({
