@@ -4,7 +4,6 @@ import CheckBox from './CheckBox'
 
 export default function SearchForm(props){
 
-    function()
 
     return(
         <div
