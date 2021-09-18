@@ -28,7 +28,6 @@ export default function SearchForm(props){
             >
                 <CheckBox 
                 label="mostrar kits"
-                function={}
                 />
                 <button
                 className={styles.submitButton}
