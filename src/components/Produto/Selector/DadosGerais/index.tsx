@@ -1,17 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import styles from './styles.module.scss'
 
+import InputLength from '../../../Inputs/InputLength'
 import DefaultInput from '../../../Inputs/DefaultInput'
 import DefaultTextArea from '../../../Inputs/DefaultTextArea'
 import DefaultNumberInput from '../../../Inputs/DefaultNumberInput'
 import ImageContainer from '../../../Inputs/ImageContainer'
+import { api } from '../../../../services/api'
 
 
 export default function DadosGerais(props){
 
     const [ autoDescription, setAutoDescription ] = useState(false)
     const [ borderColor, setBorderColor ] = useState("var(--gray-line)")
+    const [ wasSuggestion, setWasSuggestion ] = useState(false)
 
     const [ imageGallery, setImageGallery ] = useState([
         {"imageUrl": `${props.values.images[0].imageUrl}`},
@@ -109,9 +112,40 @@ export default function DadosGerais(props){
         }
     }
 
+    async function suggestionInput(){
+        if(!wasSuggestion && props.values.name.length > 0 && props.values.brand.length == 0){
+            api.get('produtos.marca_modelo', {
+                params: {
+                    productName: props.values.name
+                }
+            }).then(response => {
+                props.setValues({...props.values, brand: response.data.brand, model: response.data.model})
+            })
+            setWasSuggestion(true)
+        }
+    }
+
+    function getReference(){
+        if(props.values.reference == ""){
+            api.get('produtos.referencia')
+            .then(response => {
+                props.setValues({...props.values, reference: response.data})
+            })
+            .catch(erro => {
+                console.log(erro)
+            })
+        } else {
+            return
+        }
+    }
+
     return(
-        <div className={styles.wrapper} style={{display:`${props.display.display}`}}>
-            <DefaultInput
+        <div 
+        className={styles.wrapper} 
+        style={{display:`${props.display.display}`}}
+        onFocus={() => getReference()}
+        >
+            <InputLength
             width="100%"
             label="nome"
             name="name"
@@ -119,6 +153,7 @@ export default function DadosGerais(props){
             required="required"
             value={props.values.name}
             onChange={props.onChange}
+            leaveInput={suggestionInput}
             />
             <div className={styles.inputContainer}>
                 <DefaultInput

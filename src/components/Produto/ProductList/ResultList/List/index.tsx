@@ -47,7 +47,7 @@ export default function List(props){
                         </td>
                         <td
                         className={styles.tdItem}>
-                            {produto.stock}
+                            {produto.stockTray}
                         </td>
                         <td
                         className={styles.tdItem}>

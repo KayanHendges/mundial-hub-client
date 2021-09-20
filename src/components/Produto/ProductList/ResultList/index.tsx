@@ -48,7 +48,7 @@ export default function ResultList(props){
                   reference: produto.reference,
                   name: produto.product_name,
                   imageUrl: produto.picture_source_1_90,
-                  stock: produto.stock,
+                  stockTray: produto.stock_tray,
                   price: produto.price.toFixed(2).replace(".", ","),
                   promotionalPrice: produto.promotional_price.toFixed(2).replace(".", ","),
                   startPromotion: promotion.startPromotion,

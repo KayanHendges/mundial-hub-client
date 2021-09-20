@@ -182,6 +182,7 @@ export default function editProduct(props){
             />
             <Selector
             values={values}
+            setValues={setValues}
             categories={props.categories}
             categoriesList={props.categoriesList}
             onChange={handleChange}

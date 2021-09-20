@@ -23,7 +23,7 @@ export default function HeaderProductList(props){
             >
                 Todos os produtos
             </span>
-            <BlueButtonAction
+             <BlueButtonAction
             text='getTrayProducts'
             action={getTrayProducts}
             />

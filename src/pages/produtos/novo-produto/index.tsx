@@ -2,7 +2,7 @@ import { GetServerSideProps, GetStaticProps } from 'next';
 import styles from './styles.module.scss'
 import Header from '../../../components/Produto/Header';
 import Selector from '../../../components/Produto/Selector';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import titleize from '../../../services/Titleize'
 import onlyNumber from '../../../services/onlyNumber'
 import { api } from '../../../services/api';
@@ -50,6 +50,24 @@ export default function produtos(props){
     
     const [ values, setValues ] = useState(startValues)
     
+    const [ categories, setCategories ] = useState([])
+    const [ categoriesList, setCategoriesList ] = useState([])
+
+    useEffect(() => {
+        api.get('categorias/arvore')
+        .then(response => {
+            setCategories(response.data)
+        })
+        .catch(erro => console.log(erro))
+
+        api.get('categorias')
+        .then(response => {
+            setCategoriesList(response.data)
+        })
+        .catch(erro => console.log(erro))
+    }, [])
+    
+
     function setValue(chave, valor) {
         setValues({
           ...values,
@@ -176,8 +194,9 @@ export default function produtos(props){
             />
             <Selector
             values={values}
-            categories={props.categories}
-            categoriesList={props.categoriesList}
+            setValues={setValues}
+            categories={categories}
+            categoriesList={categoriesList}
             onChange={handleChange}
             onlyNumber={onlyNumber}
             handleDescription={handleDescription}
@@ -188,25 +207,10 @@ export default function produtos(props){
     )
 }
 
-export const getServerSideProps = async () => {
-
-    const productsData = await api.get('produtos', {
-        params: {
-            search: '',
-        }
-    })
-    const categoriesData = await api.get('categorias/arvore')
-    const categoriesListData = await api.get('categorias')
-    
-    const products = productsData.data 
-    const categories = categoriesData.data
-    const categoriesList= categoriesListData.data
+export const getStaticProps: GetStaticProps = async () => {
 
     return {
         props: {
-            products: products,
-            categories: categories,
-            categoriesList: categoriesList
         }
     }
 }

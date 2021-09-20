@@ -1,6 +1,19 @@
+import { useState, useEffect } from 'react'
 import styles from './styles.module.scss'
 
-export default function DefaultNumberInput(props){
+export default function InputLength(props){
+    
+    const [ length, setLength ] = useState(0)
+
+    useEffect(() => {
+        countLength()
+    }, [props.value])
+
+    function countLength(){
+        const count = props.value.length
+        setLength(count)
+    }
+
     if (props.required == "required") {
         return (
             <div
@@ -15,11 +28,17 @@ export default function DefaultNumberInput(props){
                 type={props.type}
                 name={props.name}
                 value={props.value}
-                onKeyPress={(e) => {this.props.onlyNumber(e)}}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
+                onBlur={() => {if(props.leaveInput != undefined){
+                    return props.leaveInput()
+                }}}
+                autoComplete="off"
                 required
                 />
+                <span>
+                    {length}
+                </span>
             </div>
         )
     } else {
@@ -36,9 +55,12 @@ export default function DefaultNumberInput(props){
                 type={props.type}
                 name={props.name}
                 value={props.value}
-                onKeyPress={(e) => {props.onlyNumber(e)}}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
+                onBlur={() => {if(props.leaveInput != undefined){
+                    return props.leaveInput()
+                }}}
+                autoComplete="off"
                 />
             </div>
         )

@@ -188,6 +188,7 @@ export default function Selector(props){
             <DadosGerais
             display={{display: `${option0.display}`}}
             values={props.values}
+            setValues={props.setValues}
             onChange={props.onChange}
             onlyNumber={props.onlyNumber}
             handleDescription={props.handleDescription}

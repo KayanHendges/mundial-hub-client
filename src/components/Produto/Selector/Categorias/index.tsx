@@ -1,7 +1,8 @@
 import styles from './styles.module.scss'
 import CategoryList from './CategoryList'
 import RelatedCategoryList from './RelatedCategoryList'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { api } from '../../../../services/api'
 
 export default function Categorias(props){
 
@@ -33,26 +34,35 @@ export default function Categorias(props){
         
     }
 
-    return(
-        <div
-        className={styles.wrapper}
-        style={{display:`${props.display.display}`}}
-        >
-            <CategoryList
-            values={props.values}
-            categories={props.categories}
-            handleCategories={props.handleCategories}
-            />
-            <RelatedCategoryList
-            values={props.values}
-            setValue={props.setValue}
-            categories={props.categories}
-            categoriesList={props.categoriesList}
-            handleCategories={props.handleCategories}
-            mainCategory={mainCategory}
-            setMainCategory={setMainCategory}
-            handleMainCategory={mouseEnterContainer}
-            />
-        </div>
-    )
+    if(props.categories != undefined){
+        return(
+            <div
+            className={styles.wrapper}
+            style={{display:`${props.display.display}`}}
+            >
+                <CategoryList
+                values={props.values}
+                categories={props.categories}
+                handleCategories={props.handleCategories}
+                />
+                <RelatedCategoryList
+                values={props.values}
+                setValue={props.setValue}
+                categories={props.categories}
+                categoriesList={props.categoriesList}
+                handleCategories={props.handleCategories}
+                mainCategory={mainCategory}
+                setMainCategory={setMainCategory}
+                handleMainCategory={mouseEnterContainer}
+                />
+            </div>
+        )
+    } else {
+        return(
+            <div>
+                nenhuma categoria foi encontrada
+            </div>
+        )
+    }
+    
 }
