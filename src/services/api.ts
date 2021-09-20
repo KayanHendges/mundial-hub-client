@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseURL: 'http://api.mundialhub.com.br/'
+    baseURL: 'https://api.mundialhub.com.br/'
 })
