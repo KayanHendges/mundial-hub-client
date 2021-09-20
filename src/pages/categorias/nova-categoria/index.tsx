@@ -187,7 +187,7 @@ export default function novaCategorias(props){
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps = async () => {
 
     const { data } = await api.get('/categorias/arvore') 
 

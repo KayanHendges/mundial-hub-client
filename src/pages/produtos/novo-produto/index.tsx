@@ -188,7 +188,7 @@ export default function produtos(props){
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps = async () => {
 
     const productsData = await api.get('produtos', {
         params: {
