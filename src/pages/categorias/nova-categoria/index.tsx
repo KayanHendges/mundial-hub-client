@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import { api } from '../../../services/api';
 import styles from './styles.module.scss'
 
@@ -187,7 +187,7 @@ export default function novaCategorias(props){
     )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
 
     const { data } = await api.get('/categorias/arvore') 
 
@@ -204,7 +204,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
     return {
         props: {
-            lastCategory: lastCategory
+            // lastCategory: lastCategory
         },
     }
 }

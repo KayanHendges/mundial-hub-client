@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import styles from './styles.module.scss'
 import Header from '../../../components/Produto/Header';
 import Selector from '../../../components/Produto/Selector';
@@ -188,7 +188,7 @@ export default function produtos(props){
     )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
 
     const productsData = await api.get('produtos', {
         params: {
