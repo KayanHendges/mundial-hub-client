@@ -1,0 +1,140 @@
+.wrapper{
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: flex-start;
+
+    margin-top: 1rem;
+    padding: 0 1rem 1rem 1rem;
+
+    .header{
+        height: 3rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+
+        border-bottom: 1px solid var(--gray-line);
+
+        span{
+            color: var(--white-text);
+        }
+    }
+    
+    .listContainer{
+        height: 30rem;
+        width: 100%;
+
+        overflow-y: scroll;
+
+        display: flex;
+        flex-direction: column;
+
+        .categoryContainer{
+            width: 100%;
+
+            display: flex;
+            flex-direction: column;
+            
+            .categoryContent{
+                height: 2rem;
+    
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 0 .7rem 0 1rem;
+    
+                background-color: var(--gray-4);
+                border-bottom: 1px solid var(--gray-line);
+
+                span{
+                    color: var(--complementar-text);
+                    font-weight: 400;                
+                    cursor: pointer;
+
+                    -webkit-user-select: none;  
+                    -moz-user-select: none;     
+                    -ms-user-select: none;      
+                    user-select: none;
+                }
+
+                button{
+                    align-items: center;
+                    border: 1px solid var(--complementar-text);
+                    border-radius: .4rem;
+                    padding: .1rem .3rem;
+                    background-color: var(--gray-5);
+                    outline: none;
+                    font-size: .6rem;
+                    color: var(--complementar-text);
+                    margin-left: auto;
+                    transition: .2s;
+    
+                    &:hover{
+                        border: 1px solid var(--white-text);
+                        color: var(--white-text);
+                    }
+                }
+            }
+            .categoryContentNC{
+                height: 2rem;
+    
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding-left: 1rem;
+    
+                background-color: var(--gray-4);
+                border-bottom: 1px solid var(--gray-line);
+
+                span{
+                    color: var(--complementar-text);
+                    font-weight: 400;
+                    margin-left: 1.5rem;
+
+                    -webkit-user-select: none;  
+                    -moz-user-select: none;     
+                    -ms-user-select: none;      
+                    user-select: none;
+                }
+
+                button{
+                    align-items: center;
+                    border: 1px solid var(--complementar-text);
+                    border-radius: .4rem;
+                    padding: .1rem .3rem;
+                    background-color: var(--gray-5);
+                    outline: none;
+                    font-size: .6rem;
+                    color: var(--complementar-text);
+                    margin-left: auto;
+                    transition: .2s;
+    
+                    &:hover{
+                        border: 1px solid var(--white-text);
+                        color: var(--white-text);
+                    }
+                }
+            }
+        }
+    }
+
+    .listContainer::-webkit-scrollbar {
+        width: 0.5rem;
+        background-color: var(--gray-3);               /* width of the entire scrollbar */
+    }
+      
+    .listContainer::-webkit-scrollbar-thumb {
+        background-color: var(--gray-line);
+        border-radius: 20px;       /* roundness of the scroll thumb */
+    
+        &:hover{
+            background-color: var(--complementar-text);    /* color of the scroll thumb */
+        }
+    }
+}

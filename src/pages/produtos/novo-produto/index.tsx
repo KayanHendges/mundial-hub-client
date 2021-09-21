@@ -1,13 +1,13 @@
 import { GetServerSideProps, GetStaticProps } from 'next';
 import styles from './styles.module.scss'
 import Header from '../../../components/Produto/Header';
-import Selector from '../../../components/Produto/Selector';
 import { useEffect, useState } from 'react';
 import titleize from '../../../services/Titleize'
 import onlyNumber from '../../../services/onlyNumber'
 import { api } from '../../../services/api';
 import router from 'next/router';
 import { format } from 'date-fns';
+import SelectorNewProduct from '../../../components/Produto/SelectorNewProduct';
 
 
 export default function produtos(props){
@@ -26,11 +26,11 @@ export default function produtos(props){
         endPromotion: "",
         brand: "",
         model: "",
-        weight: 0,
-        length: 0,
-        width: 0,
-        height: 0,
-        stock: 0,
+        weight: "",
+        length: "",
+        width: "",
+        height: "",
+        stock: "",
         mainCategoryId: null,
         related_categories: [],
         available: 1,
@@ -157,11 +157,11 @@ export default function produtos(props){
             end_promotion: hasPromotionPrice(values.endPromotion),
             brand: values.brand,
             model: values.model,
-            weight: values.weight,
-            length: values.length,
-            width: values.width,
-            height: values.height,
-            stock: values.stock,
+            weight: parseInt(values.weight),
+            length: parseInt(values.length),
+            width: parseInt(values.width),
+            height: parseInt(values.height),
+            stock_tray: parseInt(values.stock),
             main_category_id: values.mainCategoryId,
             related_categories: values.related_categories,
             available: values.available,
@@ -192,7 +192,7 @@ export default function produtos(props){
             title="Insira as informações do produto que deseja cadastrar"
             href="/produtos"
             />
-            <Selector
+            <SelectorNewProduct
             values={values}
             setValues={setValues}
             categories={categories}

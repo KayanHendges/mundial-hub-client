@@ -1,27 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import DropDownButton from '../../../../Categorias/CategoryList/DropDownButton'
 import styles from './styles.module.scss'
 import SubcategoryContainer from './SubcategoryContainer'
 import AddMainCategory from './AddMainCategory'
 
 
-export default function RelatedCategories(props){
-    
-    // console.log(props.values.related_categories)
+export default function RelatedCategories(props){    
 
-    const [ display, setDisplay ] = useState([])
+    const startValues = props.categories.map(category => {
+        return {
+            hub_category_id: category.hub_category_id,
+            displayChild: "flex",
+            rotate: "rotate(90deg)"
+        }
+    })
 
-    useEffect(() => {
-        const startValues = props.categories.map(category => {
-            return {
-                hub_category_id: category.hub_category_id,
-                displayChild: "flex",
-                rotate: "rotate(90deg)"
-            }
-        })
-        setDisplay(startValues)
-    }, [props.categories])
-
+    const [ display, setDisplay ] = useState(startValues)
 
     function whatDisplay(id){
         let result = []

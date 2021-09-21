@@ -7,7 +7,7 @@ import PricingStock from './PricingStock'
 import DadosComplementares from './DadosComplementares'
 
 
-export default function Selector(props){
+export default function SelectorNewProduct(props){
 
     const [ option0, setOption0 ] = useState({
         color: "var(--white-text)",
@@ -205,7 +205,6 @@ export default function Selector(props){
             <PricingStock 
             display={{display: `${option2.display}`}}
             values={props.values}
-            setValues={props.setValues}
             setValue={props.setValue}
             onChange={props.onChange}
             onlyNumber={props.onlyNumber}

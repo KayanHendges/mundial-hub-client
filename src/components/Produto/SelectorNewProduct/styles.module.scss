@@ -1,0 +1,23 @@
+.wrapper {
+    width: 100%;
+    max-width: 100rem;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+
+        padding-left: 0.5rem;
+        border-bottom: 1px solid var(--gray-line);
+        gap: 2rem;
+
+        span {
+            &:hover {
+                cursor: pointer;
+            }
+            
+        }
+    }
+}

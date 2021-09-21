@@ -112,10 +112,44 @@ export default function DadosGerais(props){
         }
     }
 
+    async function suggestionInput(){
+        if(!wasSuggestion && props.values.name.length > 0 && props.values.brand.length == 0){
+            api.get('produtos.marca_modelo', {
+                params: {
+                    productName: props.values.name
+                }
+            }).then(response => {
+                console.log(response.data)
+                props.setValues({
+                    ...props.values,
+                    brand: response.data.brand,
+                    model: response.data.model,
+                    related_categories: response.data.relatedCategories
+                })
+            })
+            setWasSuggestion(true)
+        }
+    }
+
+    function getReference(){
+        if(props.values.reference == ""){
+            api.get('produtos.referencia')
+            .then(response => {
+                props.setValues({...props.values, reference: response.data})
+            })
+            .catch(erro => {
+                console.log(erro)
+            })
+        } else {
+            return
+        }
+    }
+
     return(
         <div 
         className={styles.wrapper} 
         style={{display:`${props.display.display}`}}
+        onFocus={() => getReference()}
         >
             <InputLength
             width="100%"
@@ -125,6 +159,7 @@ export default function DadosGerais(props){
             required="required"
             value={props.values.name}
             onChange={props.onChange}
+            leaveInput={suggestionInput}
             />
             <div className={styles.inputContainer}>
                 <DefaultInput

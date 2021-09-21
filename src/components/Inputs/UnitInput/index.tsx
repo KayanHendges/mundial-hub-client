@@ -18,6 +18,9 @@ export default function UnitInput(props){
                 onKeyPress={(e) => {this.props.onlyNumber(e)}}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
+                onBlur={() => {if(props.leaveInput != undefined){
+                    return props.leaveInput()
+                }}}
                 required
                 />
                 <span>
@@ -42,6 +45,9 @@ export default function UnitInput(props){
                 onKeyPress={(e) => {props.onlyNumber(e)}}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
+                onBlur={() => {if(props.leaveInput != undefined){
+                    return props.leaveInput()
+                }}}
                 />
                 <span>
                     {props.unit}

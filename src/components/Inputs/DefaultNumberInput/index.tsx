@@ -18,6 +18,9 @@ export default function DefaultNumberInput(props){
                 onKeyPress={(e) => {props.onlyNumber(e)}}
                 onChange={props.onChange}
                 placeholder={props.placeholder}
+                onBlur={() => {if(props.leaveInput != undefined){
+                    return props.leaveInput()
+                }}}
                 required
                 />
             </div>
@@ -38,6 +41,9 @@ export default function DefaultNumberInput(props){
                 value={props.value}
                 onKeyPress={(e) => {props.onlyNumber(e)}}
                 onChange={props.onChange}
+                onBlur={() => {if(props.leaveInput != undefined){
+                    return props.leaveInput()
+                }}}
                 placeholder={props.placeholder}
                 />
             </div>
