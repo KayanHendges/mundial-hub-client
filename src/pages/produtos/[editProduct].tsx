@@ -15,6 +15,7 @@ export default function editProduct(props){
     
     const startValues = {
         hubId: 0,
+        trayId: 0,
         ean: "",
         is_kit: 0,
         ncm: "",
@@ -55,6 +56,8 @@ export default function editProduct(props){
     const [ categories, setCategories ] = useState([])
     const [ categoriesList, setCategoriesList ] = useState([])
 
+    const [ headerTitle, setHeaderTitle ] = useState("")
+
     useEffect(() => {
         api.get(`produtos/${props.hubProductId}`)
         .then(response => {
@@ -67,6 +70,7 @@ export default function editProduct(props){
             })
             const startValues = {
                 hubId: productData.hub_id,
+                trayId: productData.tray_id,
                 ean: productData.ean,
                 is_kit: productData.is_kit,
                 ncm: productData.ncm,
@@ -101,6 +105,8 @@ export default function editProduct(props){
                 ],
                 comments: productData.comments,
             }
+
+            setHeaderTitle(productData.product_name)
             
             setValues(startValues)
 
@@ -197,6 +203,7 @@ export default function editProduct(props){
                 hub_id: values.hubId,
                 values: {
                     ean: values.ean,
+                    tray_id: values.trayId,
                     is_kit: values.is_kit,
                     ncm: values.ncm,
                     product_name: values.name,
@@ -217,7 +224,7 @@ export default function editProduct(props){
                     height: parseInt(values.height),
                     stock_tray: parseInt(values.stock),
                     main_category_id: values.mainCategoryId,
-                    related_categories: values.related_categories,
+                    tray_related_categories: values.related_categories,
                     available: values.available,
                     availability: values.availability,
                     availability_days: values.availabilityDays,
@@ -232,9 +239,10 @@ export default function editProduct(props){
                 }
             }
             
-        }).then(() => {
-            router.push('/produtos')
-            alert('produto salvo com sucesso')
+        }).then(response => {
+            if(response.data.code == 200){
+                router.push('/produtos')
+            }
         }).catch((error) => {
           alert(error)
           console.log(error)
@@ -245,7 +253,7 @@ export default function editProduct(props){
         <form onSubmit={submitProduct} className={styles.wrapper}>
             <Header 
             textButton="salvar produto"
-            strong={values.name}
+            strong={headerTitle}
             title="Edite as informações do produto"
             href="/produtos"
             />

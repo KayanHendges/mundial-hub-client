@@ -22,6 +22,11 @@
             justify-content: flex-start;
             align-items: center;
             padding-right: .7rem;
+            cursor: pointer;
+
+            &:hover{
+                background-color: var(--gray-4);
+            }
 
             span{
                 color: var(--complementar-text);
@@ -88,9 +93,14 @@
             align-items: center;
             padding-right: .7rem;
 
+            &:hover{
+                background-color: var(--gray-4);
+            }
+
             span{
                 color: var(--complementar-text);
                 font-weight: 400;
+                padding-left: 1.5rem;
                 
                 -webkit-user-select: none;  
                 -moz-user-select: none;     

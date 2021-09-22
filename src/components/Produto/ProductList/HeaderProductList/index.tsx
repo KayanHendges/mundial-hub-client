@@ -23,10 +23,10 @@ export default function HeaderProductList(props){
             >
                 Todos os produtos
             </span>
-             <BlueButtonAction
+            {/* <BlueButtonAction
             text='getTrayProducts'
             action={getTrayProducts}
-            />
+            /> */}
             <LinkBlueButton
             href={props.hrefButton}
             text={props.textButton}
