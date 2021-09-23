@@ -8,6 +8,7 @@ import { api } from '../../../services/api';
 import router from 'next/router';
 import { format } from 'date-fns';
 import SelectorNewProduct from '../../../components/Produto/SelectorNewProduct';
+import Head from 'next/head';
 
 
 export default function produtos(props){
@@ -149,10 +150,10 @@ export default function produtos(props){
             product_title: values.name,
             product_description: values.description,
             product_small_description: values.name,
-            price: parseFloat(values.price),
-            cost_price: parseFloat(values.cost),
-            profit: parseFloat(values.profit),
-            promotional_price: parseFloat(values.promotionalPrice),
+            price: values.price,
+            cost_price: values.cost,
+            profit: values.profit,
+            promotional_price: values.promotionalPrice,
             start_promotion: hasPromotionPrice(values.startPromotion),
             end_promotion: hasPromotionPrice(values.endPromotion),
             brand: values.brand,
@@ -175,9 +176,11 @@ export default function produtos(props){
             picture_source_5: values.images[4].imageUrl,
             picture_source_6: values.images[5].imageUrl,
             comments: "",
-        }).then(() => {
-            router.push('/produtos')
-            alert('produto criado com sucesso')
+        }).then(response => {
+            if(response.data.code == 201){
+                router.push('/produtos')
+                alert('produto criado com sucesso')
+            }
         }).catch((error) => {
           alert(error)
           console.log(error)
@@ -186,6 +189,9 @@ export default function produtos(props){
 
     return (
         <form onSubmit={submitProduct} className={styles.wrapper}>
+            <Head>
+                <title>Cadastro Produto</title>
+            </Head>
             <Header 
             textButton="salvar produto"
             strong="Novo produto"

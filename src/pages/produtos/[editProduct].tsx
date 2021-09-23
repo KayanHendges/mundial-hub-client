@@ -9,6 +9,7 @@ import { api } from '../../services/api';
 import router from 'next/router';
 import { format } from 'date-fns';
 import { parseISO } from "date-fns";
+import Head from "next/head";
 
 
 export default function editProduct(props){
@@ -66,7 +67,6 @@ export default function editProduct(props){
                 if(productData[key] == null){
                     productData[key] = ""
                 }
-
             })
             const startValues = {
                 hubId: productData.hub_id,
@@ -76,10 +76,10 @@ export default function editProduct(props){
                 ncm: productData.ncm,
                 name: productData.product_name,
                 description: productData.product_description,
-                price: productData.price.toString(),
-                cost: productData.cost_price.toString(),
+                price: parseFloat(productData.price).toFixed(2).replace(".", ","),
+                cost: parseFloat(productData.cost_price).toFixed(2).replace(".", ","),
                 profit: productData.profit.toString(),
-                promotionalPrice: productData.promotional_price.toString(),
+                promotionalPrice: parseFloat(productData.promotional_price).toFixed(2).replace(".", ","),
                 startPromotion: format(parseISO(productData.start_promotion), "yyyy-MM-dd"),
                 endPromotion: format(parseISO(productData.end_promotion), "yyyy-MM-dd"),
                 brand: productData.brand,
@@ -210,10 +210,10 @@ export default function editProduct(props){
                     product_title: values.name,
                     product_description: values.description,
                     product_small_description: values.name,
-                    price: parseFloat(values.price),
-                    cost_price: parseFloat(values.cost),
-                    profit: parseFloat(values.profit),
-                    promotional_price: parseFloat(values.promotionalPrice),
+                    price: values.price,
+                    cost_price: values.cost,
+                    profit: values.profit,
+                    promotional_price: values.promotionalPrice,
                     start_promotion: hasPromotionPrice(values.startPromotion),
                     end_promotion: hasPromotionPrice(values.endPromotion),
                     brand: values.brand,
@@ -251,6 +251,9 @@ export default function editProduct(props){
 
     return (
         <form onSubmit={submitProduct} className={styles.wrapper}>
+            <Head>
+                <title>Editar | {values.reference}</title>
+            </Head>
             <Header 
             textButton="salvar produto"
             strong={headerTitle}
@@ -282,17 +285,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
 
     const id = ctx.params.editProduct
-
-    const product = await api.get(`produtos/${id}`)
-
-    const productData = product.data
-    
-    
-
+     
     return {
         props: {
             hubProductId: id,
-            product: productData,
         }
     }
 }

@@ -1,3 +1,4 @@
+import { format, parseISO } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { api } from '../../../../services/api'
 import List from './List'
@@ -31,20 +32,22 @@ export default function ResultList(props){
                 function isPromotion(){
                     if(produto.promotional_price > 0 ){
                           return {
-                              startPromotion: '03/09/2021',
-                              endPromotion: '31/09/2021'
+                              startPromotion: format(parseISO(produto.start_promotion), "dd/MM/yyyy"),
+                              endPromotion: format(parseISO(produto.end_promotion), "dd/MM/yyyy")
                           }
                     } else {
                         return {
-                          startPromotion: '03/09/2021',
-                          endPromotion: '31/09/2021'
+                          startPromotion: '',
+                          endPromotion: ''
                         }
                     }
                 }
                 const promotion = isPromotion()
-        
+                
+
                 return {
                   hubId: produto.hub_id,
+                  trayId: produto.tray_id,
                   reference: produto.reference,
                   name: produto.product_name,
                   imageUrl: produto.picture_source_1_90,

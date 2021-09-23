@@ -6,6 +6,7 @@ import DateInput from './DateInput'
 import { useState } from 'react'
 import AvailableInput from './AvailableInput'
 import { format } from 'date-fns'
+import DefaultPriceInput from '../../../Inputs/DefaultPriceInput'
 
 export default function PricingStock(props){
     const [ checkBox, setCheckBox ] = useState({
@@ -53,7 +54,7 @@ export default function PricingStock(props){
         style={{display:`${props.display.display}`}}
         >
             <div className={styles.inputContainer}>
-                <DefaultNumberInput
+                <DefaultPriceInput
                 width="100%"
                 label="custo"
                 name="cost"
@@ -61,7 +62,6 @@ export default function PricingStock(props){
                 required=""
                 value={props.values.cost}
                 onChange={props.onChange}
-                onlyNumber={props.onlyNumber}
                 />
                 <UnitInput
                 width="100%"
@@ -73,7 +73,7 @@ export default function PricingStock(props){
                 onChange={props.onChange}
                 onlyNumber={props.onlyNumber}
                 />
-                <DefaultNumberInput
+                <DefaultPriceInput
                 width="100%"
                 label="preço de venda"
                 name="price"
@@ -81,11 +81,10 @@ export default function PricingStock(props){
                 required="required"
                 value={props.values.price}
                 onChange={props.onChange}
-                onlyNumber={props.onlyNumber}
                 />
             </div>
             <div className={styles.inputContainer}>
-                <DefaultNumberInput
+                <DefaultPriceInput
                 width="100%"
                 label="preço promocional"
                 name="promotionalPrice"
@@ -94,7 +93,6 @@ export default function PricingStock(props){
                 value={props.values.promotionalPrice}
                 onChange={props.onChange}
                 onlyNumber={props.onlyNumber}
-                leaveInput={handlePromotionDate}
                 />
                 <DateInput 
                 width="100%"

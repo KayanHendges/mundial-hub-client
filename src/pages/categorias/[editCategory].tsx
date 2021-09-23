@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from "next"
 import styles from './editCategory.module.scss'
 import { api } from '../../services/api';
+import Head from 'next/head'
 
 import Header from '../../components/Produto/Header';
 import DefaultInput from '../../components/Inputs/DefaultInput';
@@ -113,6 +114,9 @@ export default function addSubcategory(props){
 
     return (
         <form onSubmit={submitCategory} className={styles.wrapper}>
+            <Head>
+                <title>Cateogira {values.category_name}</title>
+            </Head>
             <Header
             textButton={"salvar categoria"}
             strong={startValues.category_name}

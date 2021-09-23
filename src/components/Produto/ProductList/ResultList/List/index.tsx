@@ -5,6 +5,8 @@ import { useState } from 'react'
 
 export default function List(props){
 
+    console.log(props)
+
     return (
         <tbody
         className={styles.bodyList}
@@ -66,6 +68,7 @@ export default function List(props){
                         >
                             <PopUp 
                             hubId={produto.hubId}
+                            trayId={produto.trayId}
                             />
                         </td>
                     </tr>

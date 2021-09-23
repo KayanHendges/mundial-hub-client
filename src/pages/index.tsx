@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className={styles.homepage}>
       <Head>
-        <title>HUB | Home</title>
+        <title>Home</title>
       </Head>
 
       <h1>Home</h1>

@@ -1,12 +1,12 @@
 import { GetStaticProps } from 'next';
 import styles from './styles.module.scss'
-import { api } from '../../services/api';
 import { useEffect, useState } from 'react';
 
 import HeaderProductList from '../../components/Produto/ProductList/HeaderProductList';
 import SearchForm from '../../components/Produto/ProductList/SearchForm';
 import ResultList from '../../components/Produto/ProductList/ResultList';
 import Footer from '../../components/Produto/ProductList/Footer';
+import Head from 'next/head';
 
 export default function produtos(props){
 
@@ -53,8 +53,6 @@ export default function produtos(props){
         })
     }
     
-
-
     return (
         <div
         className={styles.wrapper}
@@ -62,6 +60,9 @@ export default function produtos(props){
             <div
             className={styles.container}
             >
+                <Head>
+                    <title>Produtos</title>
+                </Head>
                 <HeaderProductList 
                 hrefButton="/produtos/novo-produto"
                 textButton="incluir produto"

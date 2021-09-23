@@ -10,6 +10,7 @@ import SlugInput from '../../../components/Inputs/SlugInput';
 import stringToSlug from '../../../services/stringToSlug';
 import { useState } from 'react';
 import router from 'next/router';
+import Head from 'next/head';
 
 export default function novaCategorias(props){
 
@@ -98,6 +99,9 @@ export default function novaCategorias(props){
 
     return (
         <form onSubmit={submitCategory} className={styles.wrapper}>
+            <Head>
+                <title>Cadastrar Categoria</title>
+            </Head>
             <Header
             textButton={"salvar categoria"}
             strong={"Nova Categoria"}

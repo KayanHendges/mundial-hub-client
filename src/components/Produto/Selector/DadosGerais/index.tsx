@@ -129,6 +129,15 @@ export default function DadosGerais(props){
             <div className={styles.inputContainer}>
                 <DefaultInput
                 width="33.3333%"
+                label="Id Tray"
+                name=""
+                placeholder=""
+                required=""
+                value={props.values.trayId}
+                onChange={props.onChange}
+                />
+                <DefaultInput
+                width="33.3333%"
                 label="referencia"
                 name="reference"
                 placeholder=""

@@ -22,13 +22,9 @@ export default function PopUp(props){
         }
     }
 
-    function deleteProduct(hubId){
-        api.delete('produtos/', {
-            params: {
-                hub_id: hubId
-            }
-        })
-        .then(() => {
+    function deleteProduct(trayId){
+        api.delete(`produtos?trayId=${trayId}`)
+        .then(response => {
             router.reload()
             alert('produto excluído com sucesso')
         })
@@ -67,7 +63,7 @@ export default function PopUp(props){
                 </Link>
                 <span
                 className={styles.delete}
-                onClick={() => deleteProduct(props.hubId)}
+                onClick={() => deleteProduct(props.trayId)}
                 >
                     excluir
                 </span>
