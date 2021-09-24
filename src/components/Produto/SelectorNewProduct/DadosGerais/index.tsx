@@ -25,6 +25,45 @@ export default function DadosGerais(props){
         {"imageUrl": `${props.values.images[5].imageUrl}`}        
     ])
 
+    const [ fill, setFill ] = useState({
+        borderColor: "1px solid var(--complementar-text)",
+        color: "var(--complementar-text)",
+        auth: true
+    })
+
+    async function handleFill(){
+
+        setWasSuggestion(false)
+        setFill({
+            borderColor: "1px solid var(--white-text)",
+            color: "var(--white-text)",
+            auth: false
+        })
+        await suggestionInput()
+        .then(response => {
+            if(response){
+                setFill({
+                    borderColor: "1px solid #207567",
+                    color: "var(--white-text)",
+                    auth: false
+                })
+            } else {
+                setFill({
+                    borderColor: "1px solid #E01D10",
+                    color: "var(--white-text)",
+                    auth: false
+                })
+            }
+        })
+        setTimeout(() => {
+            setFill({
+                borderColor: "1px solid var(--complementar-text)",
+                color: "var(--complementar-text)",
+                auth: true
+            })
+        }, 2000)
+    }
+
     function setImage(chave, valor){
         let updatedImages = []
         
@@ -35,7 +74,7 @@ export default function DadosGerais(props){
             }
             updatedImages.push(image)
         })
-        setImageGallery(updatedImages)   
+        setImageGallery(updatedImages)
     }
 
     function leaveInput(){
@@ -113,22 +152,35 @@ export default function DadosGerais(props){
     }
 
     async function suggestionInput(){
-        if(!wasSuggestion && props.values.name.length > 0 && props.values.brand.length == 0){
-            api.get('produtos.marca_modelo', {
-                params: {
-                    productName: props.values.name
-                }
-            }).then(response => {
-                console.log(response.data)
-                props.setValues({
-                    ...props.values,
-                    brand: response.data.brand,
-                    model: response.data.model,
-                    related_categories: response.data.relatedCategories
+        return new Promise((resolve, reject) => {
+            console.log()
+            if((!wasSuggestion || fill.auth) && props.values.name.length > 0){
+                api.get('produtos.marca_modelo', {
+                    params: {
+                        productName: props.values.name
+                    }
+                }).then(response => {
+                    console.log(response.data)
+                    props.setValues({
+                        ...props.values,
+                        brand: response.data.brand,
+                        model: response.data.model,
+                        related_categories: response.data.relatedCategories
+                    })
+                    if(response.data.model.length > 0){
+                        resolve(true)
+                    } else {
+                        resolve(false)
+                    }
                 })
-            })
-            setWasSuggestion(true)
-        }
+                .catch(() => {
+                    resolve(false)
+                })
+                setWasSuggestion(true)
+            } else {
+                resolve(false)
+            }
+        })
     }
 
     function getReference(){
@@ -181,6 +233,21 @@ export default function DadosGerais(props){
                 onChange={props.onChange}
                 onlyNumber={props.onlyNumber}
                 />
+            </div>
+            <div
+            className={styles.fillButton}
+            onClick={() => handleFill()}
+            style={{
+                border: `${fill.borderColor}`
+            }}
+            >
+                <span
+                style={{
+                  color: `${fill.color}`  
+                }}
+                >
+                    preencher
+                </span>
             </div>
             <div className={styles.inputContainer}>
                 <DefaultInput

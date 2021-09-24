@@ -93,6 +93,7 @@ export default function PricingStock(props){
                 value={props.values.promotionalPrice}
                 onChange={props.onChange}
                 onlyNumber={props.onlyNumber}
+                leaveInput={handlePromotionDate}
                 />
                 <DateInput 
                 width="100%"

@@ -52,8 +52,105 @@ export default function editProduct(props){
         comments: "",
     }
 
-    const [ values, setValues ] = useState(startValues)
+    const startKitValues = {
+        kit2: {
+            hubId: 0,
+            trayId: 0,
+            ean: "",
+            is_kit: 0,
+            ncm: "",
+            name: "",
+            description: "",
+            price: "0",
+            cost: "0",
+            profit: "",
+            promotionalPrice: "",
+            startPromotion: "",
+            endPromotion: "",
+            brand: "",
+            model: "",
+            weight: "",
+            length: "",
+            width: "",
+            height: "",
+            stock: "",
+            mainCategoryId: 1,
+            related_categories: [],
+            available: 0,
+            availability: "",
+            availabilityDays: 0,
+            reference: "",
+            images: [
+                {imageUrl: ""},
+                {imageUrl: ""},
+                {imageUrl: ""},
+                {imageUrl: ""},
+                {imageUrl: ""},
+                {imageUrl: ""}
+            ],
+            comments: "",
+            rules: {
+                discountType: "",
+                discountValue: "",
+                price: "",
+                priceRule: "",
+                productId: 0,
+                productParentId: 0,
+                quantity: 0,
+                trayId: "",
+            }
+        },
+        kit4: {
+            hubId: 0,
+            trayId: 0,
+            ean: "",
+            is_kit: 0,
+            ncm: "",
+            name: "",
+            description: "",
+            price: "0",
+            cost: "0",
+            profit: "",
+            promotionalPrice: "",
+            startPromotion: "",
+            endPromotion: "",
+            brand: "",
+            model: "",
+            weight: "",
+            length: "",
+            width: "",
+            height: "",
+            stock: "",
+            mainCategoryId: 1,
+            related_categories: [],
+            available: 0,
+            availability: "",
+            availabilityDays: 0,
+            reference: "",
+            images: [
+                {imageUrl: ""},
+                {imageUrl: ""},
+                {imageUrl: ""},
+                {imageUrl: ""},
+                {imageUrl: ""},
+                {imageUrl: ""}
+            ],
+            comments: "",
+            rules: {
+                discountType: "",
+                discountValue: "",
+                price: "",
+                priceRule: "",
+                productId: 0,
+                productParentId: 0,
+                quantity: 0,
+                trayId: "",
+            }
+        },
+    }
 
+    const [ values, setValues ] = useState(startValues)
+    const [ kitValues, setKitValues ] = useState(startKitValues)
     const [ categories, setCategories ] = useState([])
     const [ categoriesList, setCategoriesList ] = useState([])
 
@@ -111,19 +208,186 @@ export default function editProduct(props){
             setValues(startValues)
 
         })
-
-        api.get('categorias/arvore')
-        .then(response => {
-            setCategories(response.data)
-        })
-        .catch(erro => console.log(erro))
-
-        api.get('categorias')
-        .then(response => {
-            setCategoriesList(response.data)
-        })
-        .catch(erro => console.log(erro))
     }, [])
+
+    useEffect(() => {
+        if(values.name.length > 0){
+            api.get('categorias/arvore')
+            .then(response => {
+                setCategories(response.data)
+            })
+            .catch(erro => console.log(erro))
+
+            api.get('categorias')
+            .then(response => {
+                setCategoriesList(response.data)
+            })
+            .catch(erro => console.log(erro))
+
+            api.get(`/produtos.kits/${values.reference}`)
+            .then(response => {
+                console.log(response)
+                if(response.data.kitsFound == 2){
+                    const kit2 = response.data.kit2
+                    const startKit2 = {
+                        hubId: kit2.hub_id,
+                        trayId: kit2.tray_id,
+                        ean: kit2.ean,
+                        is_kit: kit2.is_kit,
+                        ncm: kit2.ncm,
+                        name: kit2.product_name,
+                        description: kit2.product_description,
+                        price: parseFloat(kit2.price).toFixed(2).replace(".", ","),
+                        cost: parseFloat(kit2.cost_price).toFixed(2).replace(".", ","),
+                        profit: kit2.profit.toString(),
+                        promotionalPrice: parseFloat(kit2.promotional_price).toFixed(2).replace(".", ","),
+                        startPromotion: format(parseISO(kit2.start_promotion), "yyyy-MM-dd"),
+                        endPromotion: format(parseISO(kit2.end_promotion), "yyyy-MM-dd"),
+                        brand: kit2.brand,
+                        model: kit2.model,
+                        weight: kit2.weight,
+                        length: kit2.length,
+                        width: kit2.width,
+                        height: kit2.height,
+                        stock: kit2.stock_tray,
+                        mainCategoryId: kit2.main_category_id,
+                        related_categories: kit2.related_categories,
+                        available: kit2.available,
+                        availability: kit2.availability,
+                        availabilityDays: kit2.availability_days,
+                        reference: kit2.reference,
+                        images: [
+                            {imageUrl: kit2.picture_source_1},
+                            {imageUrl: kit2.picture_source_2},
+                            {imageUrl: kit2.picture_source_3},
+                            {imageUrl: kit2.picture_source_4},
+                            {imageUrl: kit2.picture_source_5},
+                            {imageUrl: kit2.picture_source_6}
+                        ],
+                        comments: kit2.comments,
+                        rules: {
+                            discountType: kit2.rule.discount_type,
+                            discountValue: kit2.rule.discount_value,
+                            price: kit2.rule.price,
+                            priceRule: kit2.rule.price_rule,
+                            productId: kit2.rule.product_id,
+                            productParentId: kit2.rule.product_parent_id,
+                            quantity: kit2.rule.quantity,
+                            trayId: kit2.rule.tray_id,
+                        }
+                    }
+                    const kit4 = response.data.kit4
+                    const startKit4 = {
+                        hubId: kit4.hub_id,
+                        trayId: kit4.tray_id,
+                        ean: kit4.ean,
+                        is_kit: kit4.is_kit,
+                        ncm: kit4.ncm,
+                        name: kit4.product_name,
+                        description: kit4.product_description,
+                        price: parseFloat(kit4.price).toFixed(2).replace(".", ","),
+                        cost: parseFloat(kit4.cost_price).toFixed(2).replace(".", ","),
+                        profit: kit4.profit.toString(),
+                        promotionalPrice: parseFloat(kit4.promotional_price).toFixed(2).replace(".", ","),
+                        startPromotion: format(parseISO(kit4.start_promotion), "yyyy-MM-dd"),
+                        endPromotion: format(parseISO(kit4.end_promotion), "yyyy-MM-dd"),
+                        brand: kit4.brand,
+                        model: kit4.model,
+                        weight: kit4.weight,
+                        length: kit4.length,
+                        width: kit4.width,
+                        height: kit4.height,
+                        stock: kit4.stock_tray,
+                        mainCategoryId: kit4.main_category_id,
+                        related_categories: kit4.related_categories,
+                        available: kit4.available,
+                        availability: kit4.availability,
+                        availabilityDays: kit4.availability_days,
+                        reference: kit4.reference,
+                        images: [
+                            {imageUrl: kit4.picture_source_1},
+                            {imageUrl: kit4.picture_source_2},
+                            {imageUrl: kit4.picture_source_3},
+                            {imageUrl: kit4.picture_source_4},
+                            {imageUrl: kit4.picture_source_5},
+                            {imageUrl: kit4.picture_source_6}
+                        ],
+                        comments: kit4.comments,
+                        rules: {
+                            discountType: kit4.rule.discount_type,
+                            discountValue: kit4.rule.discount_value,
+                            price: kit4.rule.price,
+                            priceRule: kit4.rule.price_rule,
+                            productId: kit4.rule.product_id,
+                            productParentId: kit4.rule.product_parent_id,
+                            quantity: kit4.rule.quantity,
+                            trayId: kit4.rule.tray_id,
+                        }
+                    }
+                    setKitValues({
+                        kit2: startKit2,
+                        kit4: startKit4
+                    })
+                }
+                if(response.data.kitsFound == 1){
+                    const kit2 = response.data.kit2
+                    const startKit2 = {
+                        hubId: kit2.hub_id,
+                        trayId: kit2.tray_id,
+                        ean: kit2.ean,
+                        is_kit: kit2.is_kit,
+                        ncm: kit2.ncm,
+                        name: kit2.product_name,
+                        description: kit2.product_description,
+                        price: parseFloat(kit2.price).toFixed(2).replace(".", ","),
+                        cost: parseFloat(kit2.cost_price).toFixed(2).replace(".", ","),
+                        profit: kit2.profit.toString(),
+                        promotionalPrice: parseFloat(kit2.promotional_price).toFixed(2).replace(".", ","),
+                        startPromotion: format(parseISO(kit2.start_promotion), "yyyy-MM-dd"),
+                        endPromotion: format(parseISO(kit2.end_promotion), "yyyy-MM-dd"),
+                        brand: kit2.brand,
+                        model: kit2.model,
+                        weight: kit2.weight,
+                        length: kit2.length,
+                        width: kit2.width,
+                        height: kit2.height,
+                        stock: kit2.stock_tray,
+                        mainCategoryId: kit2.main_category_id,
+                        related_categories: kit2.related_categories,
+                        available: kit2.available,
+                        availability: kit2.availability,
+                        availabilityDays: kit2.availability_days,
+                        reference: kit2.reference,
+                        images: [
+                            {imageUrl: kit2.picture_source_1},
+                            {imageUrl: kit2.picture_source_2},
+                            {imageUrl: kit2.picture_source_3},
+                            {imageUrl: kit2.picture_source_4},
+                            {imageUrl: kit2.picture_source_5},
+                            {imageUrl: kit2.picture_source_6}
+                        ],
+                        comments: kit2.comments,
+                        rules: {
+                            discountType: kit2.rule.discount_type,
+                            discountValue: kit2.rule.discount_value,
+                            price: kit2.rule.price,
+                            priceRule: kit2.rule.price_rule,
+                            productId: kit2.rule.product_id,
+                            productParentId: kit2.rule.product_parent_id,
+                            quantity: kit2.rule.quantity,
+                            trayId: kit2.rule.tray_id,
+                        }
+                    }
+                    const startKits = {
+                        kit2: startKit2,
+                        kit4: startKitValues.kit4
+                    }
+                    setKitValues(startKits)
+                }
+            })
+            .catch(erro => console.log(erro))
+        }
+    }, [values.name])
     
     function setValue(chave, valor) {
         setValues({
@@ -270,6 +534,8 @@ export default function editProduct(props){
             handleDescription={handleDescription}
             setValue={setValue}
             handleCategories={handleCategories}
+            kitValues={kitValues}
+            setKitValues={setKitValues}
             />
         </form>
     )

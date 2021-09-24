@@ -5,139 +5,65 @@ import DadosGerais from './DadosGerais'
 import Categorias from './Categorias'
 import PricingStock from './PricingStock'
 import DadosComplementares from './DadosComplementares'
-
+import Kits from './Kits'
 
 export default function Selector(props){
 
-    const [ option0, setOption0 ] = useState({
-        color: "var(--white-text)",
-        underlineColor: "2px solid var(--white-text)",
-        underlinePadding: "0.5rem",
-        display: "flex"
-    })
-    const [ option1, setOption1 ] = useState({
-        color: "var(--complementar-text)",
-        underlineColor: "none",
-        underlinePadding: "0.7rem",
-        display: "none"
-    })
-    const [ option2, setOption2 ] = useState({
-        color: "var(--complementar-text)",
-        underlineColor: "none",
-        underlinePadding: "0.7rem",
-        display: "none"
-    })
-    const [ option3, setOption3 ] = useState({
-        color: "var(--complementar-text)",
-        underlineColor: "none",
-        underlinePadding: "0.7rem",
-        display: "none"
-    })
+    const [ options, setOptions ] = useState([true, false, false, false, false])
+    const [ optionStyle, setOptionStyles ] = useState([
+        {
+            color: "var(--white-text)",
+            underlineColor: "2px solid var(--white-text)",
+            underlinePadding: "0.5rem",
+        },
+        {
+            color: "var(--complementar-text)",
+            underlineColor: "none",
+            underlinePadding: "0.7rem",
+        }
+    ])
 
-    function seletor(option){
-        if(option == 0) {
-            setOption0({
-                color: "var(--white-text)",
-                underlineColor: "2px solid var(--white-text)",
-                underlinePadding: "0.5rem",
-                display: "flex"
-            })
-            setOption1({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-            setOption2({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-            setOption3({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
+    function whatDisplay(option){
+        if(options[option]){
+            return "flex"
+        } else {
+            return "none"
         }
-        if(option == 1) {
-            setOption0({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-            setOption1({
-                color: "var(--white-text)",
-                underlineColor: "2px solid var(--white-text)",
-                underlinePadding: "0.5rem",
-                display: "flex"
-            })
-            setOption2({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-            setOption3({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-        }
-        if(option == 2) {
-            setOption0({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-            setOption1({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-            setOption2({
-                color: "var(--white-text)",
-                underlineColor: "2px solid var(--white-text)",
-                underlinePadding: "0.5rem",
-                display: "flex"
-            })
-            setOption3({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-        }
-        if(option == 3) {
-            setOption0({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-            setOption1({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-            setOption2({
-                color: "var(--complementar-text)",
-                underlineColor: "none",
-                underlinePadding: "0.7rem",
-                display: "none"
-            })
-            setOption3({
-                color: "var(--white-text)",
-                underlineColor: "2px solid var(--white-text)",
-                underlinePadding: "0.5rem",
-                display: "flex"
-            })
+    }
+
+    function handleDisplay(option){
+        const optionList = []
+        options.map((opt, index) => {
+            if(index == option){
+                optionList.push(true)
+            } else {
+                optionList.push(false)
+            }
+        })
+        setOptions(optionList)
+    }
+
+    function whatStyle(option, key){
+        if(options[option]){
+            if(key == "color"){
+                return optionStyle[0].color
+            }
+            if(key == "underlineColor"){
+                return optionStyle[0].underlineColor
+            }
+            if(key == "underlinePadding"){
+                return optionStyle[0].underlinePadding
+            }
+        } else {
+            if(key == "color"){
+                return optionStyle[1].color
+            }
+            if(key == "underlineColor"){
+                return optionStyle[1].underlineColor
+            }
+            if(key == "underlinePadding"){
+                return optionStyle[1].underlinePadding
+            }
         }
     }
     
@@ -145,48 +71,58 @@ export default function Selector(props){
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <span 
-                onClick={() => seletor(0)}
+                onClick={() => handleDisplay(0)}
                 style={{
-                    color: `${option0.color}`,
-                    borderBottom: `${option0.underlineColor}`,
-                    paddingBottom: `${option0.underlinePadding}`
+                    color: `${whatStyle(0, "color")}`,
+                    borderBottom: `${whatStyle(0, "underlineColor")}`,
+                    paddingBottom: `${whatStyle(0, "underlinePadding")}`
                 }}
                 >
                     dados gerais
                 </span>
                 <span
-                onClick={() => seletor(1)} 
+                onClick={() => handleDisplay(1)} 
                 style={{
-                    color: `${option1.color}`,
-                    borderBottom: `${option1.underlineColor}`,
-                    paddingBottom: `${option1.underlinePadding}`
+                    color: `${whatStyle(1, "color")}`,
+                    borderBottom: `${whatStyle(1, "underlineColor")}`,
+                    paddingBottom: `${whatStyle(1, "underlinePadding")}`
                 }}
                 >
                     categorias
                 </span>
                 <span 
-                onClick={() => seletor(2)} 
+                onClick={() => handleDisplay(2)} 
                 style={{
-                    color: `${option2.color}`,
-                    borderBottom: `${option2.underlineColor}`,
-                    paddingBottom: `${option2.underlinePadding}`
+                    color: `${whatStyle(2, "color")}`,
+                    borderBottom: `${whatStyle(2, "underlineColor")}`,
+                    paddingBottom: `${whatStyle(2, "underlinePadding")}`
                 }}
                 >
                     preço e estoque
                 </span>
                 <span
-                onClick={() => seletor(3)} 
+                onClick={() => handleDisplay(3)} 
                 style={{
-                    color: `${option3.color}`,
-                    borderBottom: `${option3.underlineColor}`,
-                    paddingBottom: `${option3.underlinePadding}`
+                    color: `${whatStyle(3, "color")}`,
+                    borderBottom: `${whatStyle(3, "underlineColor")}`,
+                    paddingBottom: `${whatStyle(3, "underlinePadding")}`
                 }}
                 >
                     dados complementares
                 </span>
+                <span
+                onClick={() => handleDisplay(4)} 
+                style={{
+                    color: `${whatStyle(4, "color")}`,
+                    borderBottom: `${whatStyle(4, "underlineColor")}`,
+                    paddingBottom: `${whatStyle(4, "underlinePadding")}`
+                }}
+                >
+                    kits
+                </span>
             </div>
             <DadosGerais
-            display={{display: `${option0.display}`}}
+            display={{display: `${whatDisplay(0)}`}}
             values={props.values}
             setValues={props.setValues}
             onChange={props.onChange}
@@ -199,11 +135,11 @@ export default function Selector(props){
             setValue={props.setValue}
             categories={props.categories}
             categoriesList={props.categoriesList}
-            display={{display: `${option1.display}`}}
+            display={{display: `${whatDisplay(1)}`}}
             handleCategories={props.handleCategories}
             />
             <PricingStock 
-            display={{display: `${option2.display}`}}
+            display={{display: `${whatDisplay(2)}`}}
             values={props.values}
             setValues={props.setValues}
             setValue={props.setValue}
@@ -211,12 +147,18 @@ export default function Selector(props){
             onlyNumber={props.onlyNumber}
             />
             <DadosComplementares
-            display={{display: `${option3.display}`}}
+            display={{display: `${whatDisplay(3)}`}}
             values={props.values}
             setValue={props.setValue}
             onChange={props.onChange}
             onlyNumber={props.onlyNumber}
             />
+            <Kits 
+            display={{display: `${whatDisplay(4)}`}}
+            values={props.values}
+            kitValues={props.kitValues}
+            setKitValues={props.setKitValues}
+            />            
         </div>
     )
 }

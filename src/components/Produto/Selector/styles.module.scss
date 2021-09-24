@@ -11,9 +11,13 @@
 
         padding-left: 0.5rem;
         border-bottom: 1px solid var(--gray-line);
-        gap: 2rem;
+        gap: 1rem;
+
 
         span {
+            padding: 0 .5rem;
+            white-space: nowrap;
+            transition: .1s;
             &:hover {
                 cursor: pointer;
             }

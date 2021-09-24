@@ -205,6 +205,7 @@ export default function SelectorNewProduct(props){
             <PricingStock 
             display={{display: `${option2.display}`}}
             values={props.values}
+            setValues={props.setValues}
             setValue={props.setValue}
             onChange={props.onChange}
             onlyNumber={props.onlyNumber}

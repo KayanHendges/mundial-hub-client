@@ -16,7 +16,7 @@ export default function produtos(props){
     const startValues = {
         ean: "",
         is_kit: 0,
-        ncm: "40111000",
+        ncm: "4011.10.00",
         name: "",
         description: "",
         price: "",
