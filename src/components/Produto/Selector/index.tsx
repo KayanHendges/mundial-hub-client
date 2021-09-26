@@ -158,6 +158,7 @@ export default function Selector(props){
             values={props.values}
             kitValues={props.kitValues}
             setKitValues={props.setKitValues}
+            onChange={props.onChange}
             />            
         </div>
     )

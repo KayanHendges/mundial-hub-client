@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import DefaultInput from '../../../../Inputs/DefaultInput'
+import DefaultTextArea from '../../../../Inputs/DefaultTextArea'
 import styles from './styles.module.scss'
 
 export default function KitWrapper(props){
+
 
     const [ optionStyle, setOptionStyle ] = useState({
         show: false,
@@ -34,7 +36,7 @@ export default function KitWrapper(props){
                 className={styles.header}
                 onClick={() => handleKitContainer(!optionStyle.show)}
                 >
-                    {props.kitName}
+                    {props.kitHeader}
                 </div>
                 <div
                 className={styles.kitContainer}
@@ -46,6 +48,17 @@ export default function KitWrapper(props){
                     <DefaultInput
                     label="nome do kit"
                     width="100%"
+                    value={props.kitValues.name}
+                    onChange={props.onChange}
+                    />
+                    <DefaultTextArea
+                    rows={3}
+                    type="textarea"
+                    width="100%"
+                    label="descrição"
+                    required=""
+                    value={props.kitValues.description}
+                    onChange={props.onChange}
                     />
                 </div>
             </div>

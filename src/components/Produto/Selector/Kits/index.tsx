@@ -12,11 +12,20 @@ export default function Kits(props){
         style={{display:`${props.display.display}`}}
         >
             <KitWrapper
-            kitName="kit 2"
-            values=""
+            kitHeader="kit 2"
+            values={props.values}
+            setValues={props.setValues}
+            kitValues={props.kitValues.kit2}
+            setKitValues={props.kitValues}
+            onChange={props.onChange}
             />
             <KitWrapper
-            kitName="kit 4"
+            kitHeader="kit 4"
+            values={props.values}
+            setValues={props.setValues}
+            kitValues={props.kitValues.kit4}
+            setKitValues={props.kitValues}
+            onChange={props.onChange}
             />
         </div>
     )

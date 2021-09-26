@@ -226,7 +226,6 @@ export default function editProduct(props){
 
             api.get(`/produtos.kits/${values.reference}`)
             .then(response => {
-                console.log(response)
                 if(response.data.kitsFound == 2){
                     const kit2 = response.data.kit2
                     const startKit2 = {
@@ -266,14 +265,14 @@ export default function editProduct(props){
                         ],
                         comments: kit2.comments,
                         rules: {
-                            discountType: kit2.rule.discount_type,
-                            discountValue: kit2.rule.discount_value,
-                            price: kit2.rule.price,
-                            priceRule: kit2.rule.price_rule,
-                            productId: kit2.rule.product_id,
-                            productParentId: kit2.rule.product_parent_id,
-                            quantity: kit2.rule.quantity,
-                            trayId: kit2.rule.tray_id,
+                            discountType: kit2.rules.discount_type,
+                            discountValue: kit2.rules.discount_value,
+                            price: kit2.rules.price,
+                            priceRule: kit2.rules.price_rule,
+                            productId: kit2.rules.product_id,
+                            productParentId: kit2.rules.product_parent_id,
+                            quantity: kit2.rules.quantity,
+                            trayId: kit2.rules.tray_id,
                         }
                     }
                     const kit4 = response.data.kit4
@@ -314,20 +313,21 @@ export default function editProduct(props){
                         ],
                         comments: kit4.comments,
                         rules: {
-                            discountType: kit4.rule.discount_type,
-                            discountValue: kit4.rule.discount_value,
-                            price: kit4.rule.price,
-                            priceRule: kit4.rule.price_rule,
-                            productId: kit4.rule.product_id,
-                            productParentId: kit4.rule.product_parent_id,
-                            quantity: kit4.rule.quantity,
-                            trayId: kit4.rule.tray_id,
+                            discountType: kit4.rules.discount_type,
+                            discountValue: kit4.rules.discount_value,
+                            price: kit4.rules.price,
+                            priceRule: kit4.rules.price_rule,
+                            productId: kit4.rules.product_id,
+                            productParentId: kit4.rules.product_parent_id,
+                            quantity: kit4.rules.quantity,
+                            trayId: kit4.rules.tray_id,
                         }
                     }
                     setKitValues({
                         kit2: startKit2,
                         kit4: startKit4
                     })
+                    console.log(startKit4)
                 }
                 if(response.data.kitsFound == 1){
                     const kit2 = response.data.kit2
@@ -368,14 +368,14 @@ export default function editProduct(props){
                         ],
                         comments: kit2.comments,
                         rules: {
-                            discountType: kit2.rule.discount_type,
-                            discountValue: kit2.rule.discount_value,
-                            price: kit2.rule.price,
-                            priceRule: kit2.rule.price_rule,
-                            productId: kit2.rule.product_id,
-                            productParentId: kit2.rule.product_parent_id,
-                            quantity: kit2.rule.quantity,
-                            trayId: kit2.rule.tray_id,
+                            discountType: kit2.rules.discount_type,
+                            discountValue: kit2.rules.discount_value,
+                            price: kit2.rules.price,
+                            priceRule: kit2.rules.price_rule,
+                            productId: kit2.rules.product_id,
+                            productParentId: kit2.rules.product_parent_id,
+                            quantity: kit2.rules.quantity,
+                            trayId: kit2.rules.tray_id,
                         }
                     }
                     const startKits = {
@@ -385,9 +385,9 @@ export default function editProduct(props){
                     setKitValues(startKits)
                 }
             })
-            .catch(erro => console.log(erro))
+            .catch(erro => {console.log(erro)})
         }
-    }, [values.name])
+    }, [values.hubId])
     
     function setValue(chave, valor) {
         setValues({
@@ -445,10 +445,30 @@ export default function editProduct(props){
     }
 
     function handleChange(e){
+        const key = e.target.getAttribute('name')
+        const value = e.target.value
+
         setValue(
-            e.target.getAttribute('name'),
-            e.target.value
+            key,
+            value
         )
+
+        const kitsKey = ["name", "description"]
+
+        if(kitsKey.indexOf(key) > -1){
+            if(key == "name"){
+                const kit2Name = value.toUpperCase().replace("PNEU", "KIT 2 PNEUS")
+                const kit4Name = value.toUpperCase().replace("PNEU", "KIT 4 PNEUS")
+                var valuesToChange = kitValues
+                valuesToChange.kit2.name = kit2Name
+                valuesToChange.kit2.description = titleize(kit2Name)
+
+                valuesToChange.kit4.name = kit4Name
+                valuesToChange.kit4.name = kit4Name
+                valuesToChange.kit4.description = titleize(kit4Name)
+                setKitValues(valuesToChange)
+            }
+        }
     }
 
     function hasPromotionPrice(date){
@@ -473,7 +493,7 @@ export default function editProduct(props){
                     product_name: values.name,
                     product_title: values.name,
                     product_description: values.description,
-                    product_small_description: values.name,
+                    product_small_description: values.description,
                     price: values.price,
                     cost_price: values.cost,
                     profit: values.profit,
