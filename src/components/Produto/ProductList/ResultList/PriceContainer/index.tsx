@@ -22,7 +22,7 @@ export default function PriceContainer(props){
             return {
                 price: {
                     color: "var(--white-text)",
-                    fontWeight: 600,
+                    fontWeight: 400,
                     textDecoderation: "none",
                     textDecorationColor: "var(--white-text)"
                 },

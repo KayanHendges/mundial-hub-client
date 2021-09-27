@@ -15,12 +15,12 @@
 
 
         span {
+            font-family: Lexend, sans-serif;
+            font-weight: 600;
             padding: 0 .5rem;
             white-space: nowrap;
             transition: .1s;
-            &:hover {
-                cursor: pointer;
-            }
+            cursor: pointer;
             
         }
     }

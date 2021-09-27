@@ -15,16 +15,16 @@ export default function Kits(props){
             kitHeader="kit 2"
             values={props.values}
             setValues={props.setValues}
-            kitValues={props.kitValues.kit2}
-            setKitValues={props.kitValues}
+            kitValues={props.kitValues.kit2Values}
+            setKitValues={props.setKit2Values}
             onChange={props.onChange}
             />
             <KitWrapper
             kitHeader="kit 4"
             values={props.values}
             setValues={props.setValues}
-            kitValues={props.kitValues.kit4}
-            setKitValues={props.kitValues}
+            kitValues={props.kitValues.kit4Values}
+            setKitValues={props.setKit4Values}
             onChange={props.onChange}
             />
         </div>

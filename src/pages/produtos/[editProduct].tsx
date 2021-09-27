@@ -52,9 +52,8 @@ export default function editProduct(props){
         comments: "",
     }
 
-    const startKitValues = {
-        kit2: {
-            hubId: 0,
+    const startKit2 = {
+        hubId: 0,
             trayId: 0,
             ean: "",
             is_kit: 0,
@@ -99,62 +98,72 @@ export default function editProduct(props){
                 quantity: 0,
                 trayId: "",
             }
-        },
-        kit4: {
-            hubId: 0,
-            trayId: 0,
-            ean: "",
-            is_kit: 0,
-            ncm: "",
-            name: "",
-            description: "",
-            price: "0",
-            cost: "0",
-            profit: "",
-            promotionalPrice: "",
-            startPromotion: "",
-            endPromotion: "",
-            brand: "",
-            model: "",
-            weight: "",
-            length: "",
-            width: "",
-            height: "",
-            stock: "",
-            mainCategoryId: 1,
-            related_categories: [],
-            available: 0,
-            availability: "",
-            availabilityDays: 0,
-            reference: "",
-            images: [
-                {imageUrl: ""},
-                {imageUrl: ""},
-                {imageUrl: ""},
-                {imageUrl: ""},
-                {imageUrl: ""},
-                {imageUrl: ""}
-            ],
-            comments: "",
-            rules: {
-                discountType: "",
-                discountValue: "",
-                price: "",
-                priceRule: "",
-                productId: 0,
-                productParentId: 0,
-                quantity: 0,
-                trayId: "",
-            }
-        },
     }
 
+    const startKit4 = {
+        hubId: 0,
+        trayId: 0,
+        ean: "",
+        is_kit: 0,
+        ncm: "",
+        name: "",
+        description: "",
+        price: "0",
+        cost: "0",
+        profit: "",
+        promotionalPrice: "",
+        startPromotion: "",
+        endPromotion: "",
+        brand: "",
+        model: "",
+        weight: "",
+        length: "",
+        width: "",
+        height: "",
+        stock: "",
+        mainCategoryId: 1,
+        related_categories: [],
+        available: 0,
+        availability: "",
+        availabilityDays: 0,
+        reference: "",
+        images: [
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""}
+        ],
+        comments: "",
+        rules: {
+            discountType: "",
+            discountValue: "",
+            price: "",
+            priceRule: "",
+            productId: 0,
+            productParentId: 0,
+            quantity: 0,
+            trayId: "",
+        }
+    }
+        
+
     const [ values, setValues ] = useState(startValues)
-    const [ kitValues, setKitValues ] = useState(startKitValues)
+    const [ kit2Values, setKit2Values ] = useState(startKit2)
+    const [ kit4Values, setKit4Values ] = useState(startKit4)
     const [ categories, setCategories ] = useState([])
     const [ categoriesList, setCategoriesList ] = useState([])
 
     const [ headerTitle, setHeaderTitle ] = useState("")
+
+    function validateDate(date){
+        if(date == "0000-00-00"){
+            return ""
+        } else {
+            return format(parseISO(date), "yyyy-MM-dd")
+        }
+    }
 
     useEffect(() => {
         api.get(`produtos/${props.hubProductId}`)
@@ -177,8 +186,8 @@ export default function editProduct(props){
                 cost: parseFloat(productData.cost_price).toFixed(2).replace(".", ","),
                 profit: productData.profit.toString(),
                 promotionalPrice: parseFloat(productData.promotional_price).toFixed(2).replace(".", ","),
-                startPromotion: format(parseISO(productData.start_promotion), "yyyy-MM-dd"),
-                endPromotion: format(parseISO(productData.end_promotion), "yyyy-MM-dd"),
+                startPromotion: validateDate(productData.start_promotion),
+                endPromotion: validateDate(productData.end_promotion),
                 brand: productData.brand,
                 model: productData.model,
                 weight: productData.weight,
@@ -226,9 +235,9 @@ export default function editProduct(props){
 
             api.get(`/produtos.kits/${values.reference}`)
             .then(response => {
-                if(response.data.kitsFound == 2){
+                if(response.data.kit2.product_name != undefined){
                     const kit2 = response.data.kit2
-                    const startKit2 = {
+                    setKit2Values({
                         hubId: kit2.hub_id,
                         trayId: kit2.tray_id,
                         ean: kit2.ean,
@@ -240,8 +249,8 @@ export default function editProduct(props){
                         cost: parseFloat(kit2.cost_price).toFixed(2).replace(".", ","),
                         profit: kit2.profit.toString(),
                         promotionalPrice: parseFloat(kit2.promotional_price).toFixed(2).replace(".", ","),
-                        startPromotion: format(parseISO(kit2.start_promotion), "yyyy-MM-dd"),
-                        endPromotion: format(parseISO(kit2.end_promotion), "yyyy-MM-dd"),
+                        startPromotion: validateDate(kit2.start_promotion),
+                        endPromotion: validateDate(kit2.end_promotion),
                         brand: kit2.brand,
                         model: kit2.model,
                         weight: kit2.weight,
@@ -274,9 +283,11 @@ export default function editProduct(props){
                             quantity: kit2.rules.quantity,
                             trayId: kit2.rules.tray_id,
                         }
-                    }
+                    })
+                }
+                if(response.data.kit4.product_name != undefined){
                     const kit4 = response.data.kit4
-                    const startKit4 = {
+                    setKit4Values({
                         hubId: kit4.hub_id,
                         trayId: kit4.tray_id,
                         ean: kit4.ean,
@@ -288,8 +299,8 @@ export default function editProduct(props){
                         cost: parseFloat(kit4.cost_price).toFixed(2).replace(".", ","),
                         profit: kit4.profit.toString(),
                         promotionalPrice: parseFloat(kit4.promotional_price).toFixed(2).replace(".", ","),
-                        startPromotion: format(parseISO(kit4.start_promotion), "yyyy-MM-dd"),
-                        endPromotion: format(parseISO(kit4.end_promotion), "yyyy-MM-dd"),
+                        startPromotion: validateDate(kit4.start_promotion),
+                        endPromotion: validateDate(kit4.end_promotion),
                         brand: kit4.brand,
                         model: kit4.model,
                         weight: kit4.weight,
@@ -322,67 +333,7 @@ export default function editProduct(props){
                             quantity: kit4.rules.quantity,
                             trayId: kit4.rules.tray_id,
                         }
-                    }
-                    setKitValues({
-                        kit2: startKit2,
-                        kit4: startKit4
                     })
-                    console.log(startKit4)
-                }
-                if(response.data.kitsFound == 1){
-                    const kit2 = response.data.kit2
-                    const startKit2 = {
-                        hubId: kit2.hub_id,
-                        trayId: kit2.tray_id,
-                        ean: kit2.ean,
-                        is_kit: kit2.is_kit,
-                        ncm: kit2.ncm,
-                        name: kit2.product_name,
-                        description: kit2.product_description,
-                        price: parseFloat(kit2.price).toFixed(2).replace(".", ","),
-                        cost: parseFloat(kit2.cost_price).toFixed(2).replace(".", ","),
-                        profit: kit2.profit.toString(),
-                        promotionalPrice: parseFloat(kit2.promotional_price).toFixed(2).replace(".", ","),
-                        startPromotion: format(parseISO(kit2.start_promotion), "yyyy-MM-dd"),
-                        endPromotion: format(parseISO(kit2.end_promotion), "yyyy-MM-dd"),
-                        brand: kit2.brand,
-                        model: kit2.model,
-                        weight: kit2.weight,
-                        length: kit2.length,
-                        width: kit2.width,
-                        height: kit2.height,
-                        stock: kit2.stock_tray,
-                        mainCategoryId: kit2.main_category_id,
-                        related_categories: kit2.related_categories,
-                        available: kit2.available,
-                        availability: kit2.availability,
-                        availabilityDays: kit2.availability_days,
-                        reference: kit2.reference,
-                        images: [
-                            {imageUrl: kit2.picture_source_1},
-                            {imageUrl: kit2.picture_source_2},
-                            {imageUrl: kit2.picture_source_3},
-                            {imageUrl: kit2.picture_source_4},
-                            {imageUrl: kit2.picture_source_5},
-                            {imageUrl: kit2.picture_source_6}
-                        ],
-                        comments: kit2.comments,
-                        rules: {
-                            discountType: kit2.rules.discount_type,
-                            discountValue: kit2.rules.discount_value,
-                            price: kit2.rules.price,
-                            priceRule: kit2.rules.price_rule,
-                            productId: kit2.rules.product_id,
-                            productParentId: kit2.rules.product_parent_id,
-                            quantity: kit2.rules.quantity,
-                            trayId: kit2.rules.tray_id,
-                        }
-                    }
-                    const startKits = {
-                        kit2: startKit2,
-                        kit4: startKitValues.kit4
-                    }
-                    setKitValues(startKits)
                 }
             })
             .catch(erro => {console.log(erro)})
@@ -442,6 +393,28 @@ export default function editProduct(props){
                 related_categories: relatedCategories
             })
         }
+
+    
+        console.log("antes", values.related_categories)
+        const kit2categories = []
+        const kit4categories = []
+        values.related_categories.map(category => {
+            console.log(category)
+            kit2categories.push(category)
+            kit4categories.push(category)
+        })
+        kit2categories.push(480, 541)
+        kit4categories.push(480, 500)
+        setKit2Values({
+            ...kit2Values,
+            related_categories: kit2categories
+        })
+        setKit4Values({
+            ...kit4Values,
+            related_categories: kit4categories
+        })
+        console.log("normal", values.related_categories, "kit2", kit2Values.related_categories, "kit4", kit4Values.related_categories)
+
     }
 
     function handleChange(e){
@@ -459,14 +432,28 @@ export default function editProduct(props){
             if(key == "name"){
                 const kit2Name = value.toUpperCase().replace("PNEU", "KIT 2 PNEUS")
                 const kit4Name = value.toUpperCase().replace("PNEU", "KIT 4 PNEUS")
-                var valuesToChange = kitValues
-                valuesToChange.kit2.name = kit2Name
-                valuesToChange.kit2.description = titleize(kit2Name)
-
-                valuesToChange.kit4.name = kit4Name
-                valuesToChange.kit4.name = kit4Name
-                valuesToChange.kit4.description = titleize(kit4Name)
-                setKitValues(valuesToChange)
+                setKit2Values({
+                    ...kit2Values,
+                    name: kit2Name,
+                    description: titleize(kit2Name)
+                })
+                setKit4Values({
+                    ...kit4Values,
+                    name: kit4Name,
+                    description: titleize(kit4Name)
+                })
+            }
+            if(key == "description"){
+                const kit2Name = value.toUpperCase().replace("PNEU", "KIT 2 PNEUS")
+                const kit4Name = value.toUpperCase().replace("PNEU", "KIT 4 PNEUS")
+                setKit2Values({
+                    ...kit2Values,
+                    description: titleize(kit2Name)
+                })
+                setKit4Values({
+                    ...kit4Values,
+                    description: titleize(kit4Name)
+                })
             }
         }
     }
@@ -554,8 +541,9 @@ export default function editProduct(props){
             handleDescription={handleDescription}
             setValue={setValue}
             handleCategories={handleCategories}
-            kitValues={kitValues}
-            setKitValues={setKitValues}
+            kitValues={{kit2Values: kit2Values, kit4Values: kit4Values}}
+            setKit2Values={setKit2Values}
+            setKit4Values={setKit4Values}
             />
         </form>
     )
