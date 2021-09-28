@@ -393,28 +393,6 @@ export default function editProduct(props){
                 related_categories: relatedCategories
             })
         }
-
-    
-        console.log("antes", values.related_categories)
-        const kit2categories = []
-        const kit4categories = []
-        values.related_categories.map(category => {
-            console.log(category)
-            kit2categories.push(category)
-            kit4categories.push(category)
-        })
-        kit2categories.push(480, 541)
-        kit4categories.push(480, 500)
-        setKit2Values({
-            ...kit2Values,
-            related_categories: kit2categories
-        })
-        setKit4Values({
-            ...kit4Values,
-            related_categories: kit4categories
-        })
-        console.log("normal", values.related_categories, "kit2", kit2Values.related_categories, "kit4", kit4Values.related_categories)
-
     }
 
     function handleChange(e){
@@ -471,8 +449,8 @@ export default function editProduct(props){
 
         api.patch('/produtos', {
             params: {
-                hub_id: values.hubId,
-                values: {
+                reference: values.reference,
+                unitary: {
                     ean: values.ean,
                     tray_id: values.trayId,
                     is_kit: values.is_kit,
@@ -507,7 +485,37 @@ export default function editProduct(props){
                     picture_source_5: values.images[4].imageUrl,
                     picture_source_6: values.images[5].imageUrl,
                     comments: "",
-                }
+                },
+                kit2: {
+                    tray_id: kit2Values.trayId,
+                    is_kit: kit2Values.is_kit,
+                    product_name: kit2Values.name,
+                    product_title: kit2Values.name,
+                    product_description: kit2Values.description,
+                    product_small_description: kit2Values.description,
+                    reference: kit2Values.reference,
+                    picture_source_1: kit2Values.images[0].imageUrl,
+                    picture_source_2: kit2Values.images[1].imageUrl,
+                    picture_source_3: kit2Values.images[2].imageUrl,
+                    picture_source_4: kit2Values.images[3].imageUrl,
+                    picture_source_5: kit2Values.images[4].imageUrl,
+                    picture_source_6: kit2Values.images[5].imageUrl,
+                },
+                kit4: {
+                    tray_id: kit4Values.trayId,
+                    is_kit: kit4Values.is_kit,
+                    product_name: kit4Values.name,
+                    product_title: kit4Values.name,
+                    product_description: kit4Values.description,
+                    product_small_description: kit4Values.description,
+                    reference: kit4Values.reference,
+                    picture_source_1: kit4Values.images[0].imageUrl,
+                    picture_source_2: kit4Values.images[1].imageUrl,
+                    picture_source_3: kit4Values.images[2].imageUrl,
+                    picture_source_4: kit4Values.images[3].imageUrl,
+                    picture_source_5: kit4Values.images[4].imageUrl,
+                    picture_source_6: kit4Values.images[5].imageUrl,
+                }             
             }
             
         }).then(response => {

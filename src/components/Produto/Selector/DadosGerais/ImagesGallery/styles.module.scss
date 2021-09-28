@@ -1,0 +1,42 @@
+.wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    .imageTitle{
+        color: var(--complementar-text);
+        padding: .5rem 0 0 .4rem;
+        border-top: 1px solid var(--gray-line);
+        margin-top: .5rem;
+    }
+
+    .imageGallery {
+        display: flex;
+        gap: 1rem;
+        overflow-x: scroll;
+        padding-bottom: 0.5rem;
+        transition: .2s;
+
+        &::-webkit-scrollbar {
+            height: 0.5rem;               /* width of the entire scrollbar */
+        }
+          
+        &::-webkit-scrollbar-thumb {
+            transition: .2s;
+            display: none;
+            background-color: var(--light-blue-button);    /* color of the scroll thumb */
+            border-radius: 20px;       /* roundness of the scroll thumb */
+            cursor: pointer;
+            &:hover {
+                background-color: var(--blue-button);
+            }  
+        }
+
+        &:hover{
+            &::-webkit-scrollbar-thumb {
+                display: flex;
+            }
+        }
+    }
+}

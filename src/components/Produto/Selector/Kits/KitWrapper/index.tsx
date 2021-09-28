@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import DefaultInput from '../../../../Inputs/DefaultInput'
 import DefaultTextArea from '../../../../Inputs/DefaultTextArea'
+import ImageGallery from '../../DadosGerais/ImagesGallery'
 import PriceInput from './PriceInput'
 import SelectorInput from './SelectorInput'
 import styles from './styles.module.scss'
@@ -155,6 +156,10 @@ export default function KitWrapper(props){
                     required=""
                     value={props.kitValues.description}
                     onChange={props.onChange}
+                    />
+                    <ImageGallery
+                    values={props.kitValues}
+                    setValues={props.setKitValues}
                     />
                 </div>
             </div>
