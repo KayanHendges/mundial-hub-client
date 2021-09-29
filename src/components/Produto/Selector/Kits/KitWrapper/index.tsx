@@ -23,7 +23,8 @@ export default function KitWrapper(props){
                 ...props.kitValues,
                 rules: {
                     ...props.kitValues.rules,
-                    priceRule: 1
+                    priceRule: 1,
+                    discountValue: "0"
                 }
             })
         }
@@ -101,6 +102,14 @@ export default function KitWrapper(props){
         })
     }
 
+    function hasDisplay(){
+        if(props.kitValues.rules.priceRule == 1){
+            return "none"
+        } else {
+            return "flex"
+        }
+    }
+
     return(
         <div
             className={styles.kitWrapper}
@@ -128,6 +137,7 @@ export default function KitWrapper(props){
                     className={styles.inputContainer}
                     >
                         <SelectorInput
+                        display="flex"
                         width="13rem"
                         label="regra de preço"
                         value={priceRuleFunction(props.kitValues.rules.priceRule)}
@@ -135,6 +145,7 @@ export default function KitWrapper(props){
                         onChange={changePriceRule}
                         />
                         <SelectorInput
+                        display={hasDisplay()}
                         width="9rem"
                         label="desconto em"
                         value={discountTypeFunction(props.kitValues.rules.discountType)}
@@ -142,6 +153,7 @@ export default function KitWrapper(props){
                         onChange={changeDiscountType}
                         />
                         <PriceInput
+                        display={hasDisplay()}
                         width="8rem"
                         label="desconto"
                         value={props.kitValues.rules.discountValue.replace(".", ",")}

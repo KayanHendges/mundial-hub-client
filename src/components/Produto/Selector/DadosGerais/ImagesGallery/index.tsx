@@ -18,12 +18,10 @@ export default function ImageGallery(props){
     }, [props.values.hubId])
 
     useEffect(() => {
-        console.log("imageGallery", imageGallery)
         props.setValues({
             ...props.values,
             images: imageGallery
         })
-        console.log(props.values.images)
     }, [imageGallery])
 
     function setImage(chave, valor){

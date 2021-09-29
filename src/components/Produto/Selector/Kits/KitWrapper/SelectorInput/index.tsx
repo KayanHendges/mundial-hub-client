@@ -25,7 +25,10 @@ export default function SelectorInput(props){
     return(
         <div
         className={styles.wrapper}
-        style={{width: `${props.width}`}}
+        style={{
+            width: `${props.width}`,
+            display: `${props.display}`
+        }}
         onClick={() => showDropDown(!dropDown.show)}
         onMouseLeave={() => showDropDown(false)}
         >

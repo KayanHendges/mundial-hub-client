@@ -500,6 +500,16 @@ export default function editProduct(props){
                     picture_source_4: kit2Values.images[3].imageUrl,
                     picture_source_5: kit2Values.images[4].imageUrl,
                     picture_source_6: kit2Values.images[5].imageUrl,
+                    rules: {
+                        discount_type: kit2Values.rules.discountType,
+                        discount_value: kit2Values.rules.discountValue,
+                        price: 0,
+                        price_rule: kit2Values.rules.priceRule,
+                        product_id: kit2Values.rules.productId,
+                        product_parent_id: kit2Values.rules.productParentId,
+                        quantity: kit2Values.rules.quantity,
+                        tray_id: kit2Values.rules.trayId,
+                    }
                 },
                 kit4: {
                     tray_id: kit4Values.trayId,
@@ -515,6 +525,16 @@ export default function editProduct(props){
                     picture_source_4: kit4Values.images[3].imageUrl,
                     picture_source_5: kit4Values.images[4].imageUrl,
                     picture_source_6: kit4Values.images[5].imageUrl,
+                    rules: {
+                        discount_type: kit4Values.rules.discountType,
+                        discount_value: kit4Values.rules.discountValue,
+                        price: 0,
+                        price_rule: kit4Values.rules.priceRule,
+                        product_id: kit4Values.rules.productId,
+                        product_parent_id: kit4Values.rules.productParentId,
+                        quantity: kit4Values.rules.quantity,
+                        tray_id: kit4Values.rules.trayId,
+                    }
                 }             
             }
             

@@ -65,6 +65,7 @@ export default function PriceInput(props){
         className={styles.wrapper}
         style={{
             width: `${props.width}`,
+            display: `${props.display}`
         }}>  
             <label>
                 {props.label}
