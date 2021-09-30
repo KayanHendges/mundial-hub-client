@@ -20,7 +20,7 @@ export default function DefaultInput(props){
                 onBlur={() => {if(props.leaveInput != undefined){
                     return props.leaveInput()
                 }}}
-                autoComplete="off"
+                autoComplete="new-password"
                 required
                 />
             </div>
@@ -44,7 +44,7 @@ export default function DefaultInput(props){
                 onBlur={() => {if(props.leaveInput != undefined){
                     return props.leaveInput()
                 }}}
-                autoComplete="off"
+                autoComplete="newPassword"
                 />
             </div>
         )

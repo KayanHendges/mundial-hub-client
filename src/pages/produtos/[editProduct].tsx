@@ -275,7 +275,7 @@ export default function editProduct(props){
                         comments: kit2.comments,
                         rules: {
                             discountType: kit2.rules.discount_type,
-                            discountValue: kit2.rules.discount_value,
+                            discountValue: kit2.rules.discount_value.toString(),
                             price: kit2.rules.price,
                             priceRule: kit2.rules.price_rule,
                             productId: kit2.rules.product_id,
@@ -325,7 +325,7 @@ export default function editProduct(props){
                         comments: kit4.comments,
                         rules: {
                             discountType: kit4.rules.discount_type,
-                            discountValue: kit4.rules.discount_value,
+                            discountValue: kit4.rules.discount_value.toString(),
                             price: kit4.rules.price,
                             priceRule: kit4.rules.price_rule,
                             productId: kit4.rules.product_id,
@@ -447,7 +447,7 @@ export default function editProduct(props){
     function submitProduct(e) {
         e.preventDefault();
 
-        api.patch('/produtos', {
+        api.post('/produtos', {
             params: {
                 reference: values.reference,
                 unitary: {
@@ -502,7 +502,7 @@ export default function editProduct(props){
                     picture_source_6: kit2Values.images[5].imageUrl,
                     rules: {
                         discount_type: kit2Values.rules.discountType,
-                        discount_value: kit2Values.rules.discountValue,
+                        discount_value: parseFloat(kit2Values.rules.discountValue.replace(",", ".")),
                         price: 0,
                         price_rule: kit2Values.rules.priceRule,
                         product_id: kit2Values.rules.productId,
@@ -527,7 +527,7 @@ export default function editProduct(props){
                     picture_source_6: kit4Values.images[5].imageUrl,
                     rules: {
                         discount_type: kit4Values.rules.discountType,
-                        discount_value: kit4Values.rules.discountValue,
+                        discount_value: parseFloat(kit4Values.rules.discountValue.replace(",", ".")),
                         price: 0,
                         price_rule: kit4Values.rules.priceRule,
                         product_id: kit4Values.rules.productId,

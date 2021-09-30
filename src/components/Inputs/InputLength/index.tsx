@@ -33,7 +33,7 @@ export default function InputLength(props){
                 onBlur={() => {if(props.leaveInput != undefined){
                     return props.leaveInput()
                 }}}
-                autoComplete="off"
+                autoComplete="new-password"
                 required
                 />
                 <span>
@@ -60,7 +60,7 @@ export default function InputLength(props){
                 onBlur={() => {if(props.leaveInput != undefined){
                     return props.leaveInput()
                 }}}
-                autoComplete="off"
+                autoComplete="new-password"
                 />
             </div>
         )
