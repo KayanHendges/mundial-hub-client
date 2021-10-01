@@ -51,7 +51,7 @@ export default function produtos(props){
     
     const startKit2 = {
             ean: "",
-            is_kit: 0,
+            is_kit: 1,
             ncm: "",
             name: "",
             description: "",
@@ -96,7 +96,7 @@ export default function produtos(props){
 
     const startKit4 = {
         ean: "",
-        is_kit: 0,
+        is_kit: 1,
         ncm: "",
         name: "",
         description: "",
