@@ -447,7 +447,7 @@ export default function editProduct(props){
     function submitProduct(e) {
         e.preventDefault();
 
-        api.post('/produtos', {
+        api.patch('/produtos', {
             params: {
                 reference: values.reference,
                 unitary: {

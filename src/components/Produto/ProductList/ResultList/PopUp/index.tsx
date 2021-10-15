@@ -22,8 +22,8 @@ export default function PopUp(props){
         }
     }
 
-    function deleteProduct(trayId){
-        api.delete(`produtos?trayId=${trayId}`)
+    function deleteProduct(reference){
+        api.delete(`produtos?reference=${reference}`)
         .then(response => {
             router.reload()
             alert('produto excluído com sucesso')
@@ -63,7 +63,7 @@ export default function PopUp(props){
                 </Link>
                 <span
                 className={styles.delete}
-                onClick={() => deleteProduct(props.trayId)}
+                onClick={() => deleteProduct(props.reference)}
                 >
                     excluir
                 </span>

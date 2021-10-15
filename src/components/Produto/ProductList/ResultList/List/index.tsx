@@ -68,7 +68,7 @@ export default function List(props){
                         >
                             <PopUp 
                             hubId={produto.hubId}
-                            trayId={produto.trayId}
+                            reference={produto.reference}
                             />
                         </td>
                     </tr>
