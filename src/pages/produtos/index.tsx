@@ -12,7 +12,7 @@ export default function produtos(props){
 
     const [ search, setSearch ] = useState({
         searchInput: "",
-        onChangeSearch: "",
+        onChangeSearch: 0,
         perPage: 20,
         page: 1,
         showKits: 0,
@@ -47,10 +47,19 @@ export default function produtos(props){
         })
         setSearch({
             ...search,
-            onChangeSearch: search.searchInput,
+            onChangeSearch: (search.onChangeSearch+1),
             page: 1,
-            perPage: pages.perPage
+            perPage: pages.perPage,
+            showKits: booleanToNumber(search.showKits)
         })
+    }
+
+    function booleanToNumber(boolean){
+        if(boolean){
+            return 1
+        } else {
+            return 0
+        }
     }
     
     return (
@@ -68,6 +77,7 @@ export default function produtos(props){
                 textButton="incluir produto"
                 />
                 <SearchForm
+                setValue={setValue}
                 search={search}
                 setSearch={setSearch}
                 onChange={handleChange}

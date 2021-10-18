@@ -28,7 +28,10 @@ export default function CheckBox(props){
     return (
         <div
         className={styles.wrapper}
-        onClick={() => handleCheck(!style.active)}
+        onClick={() => {
+            handleCheck(!style.active)
+            props.setValue(props.stateKey, !props.value)
+        }}
         style={{border: `${style.border}`}}
         >
             <span

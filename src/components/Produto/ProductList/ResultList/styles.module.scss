@@ -3,26 +3,25 @@
     flex-direction: column;
     width: 100%;
 
-    table{
+    .header{
         width: 100%;
-        text-align: start;
-        justify-content: start;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid var(--gray-line);
+        height: 2rem;
 
-        th, td{
-            padding: .75rem .5rem;
-            border-bottom: 1px solid var(--gray-line);
-        }
-
-        td{
-            color: var(--white-text);
-            text-align: center;
+        .headerCell{
+            height: 100%;
+            display: flex;
+            justify-content: center;
             align-items: center;
         }
     }
 
-    .resultsTr,
-    .resultsTd{
-        padding: none;
-        border: none;
+    .resultContainer{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
     }
 }

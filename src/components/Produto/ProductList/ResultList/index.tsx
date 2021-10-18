@@ -16,7 +16,8 @@ export default function ResultList(props){
               params: {
                   search: props.search.searchInput,
                   page: props.pages.page,
-                  perPage: props.pages.perPage
+                  perPage: props.pages.perPage,
+                  showKits: props.search.showKits
               }
           })
           .then((response) => {
@@ -56,6 +57,7 @@ export default function ResultList(props){
                   promotionalPrice: produto.promotional_price.toFixed(2).replace(".", ","),
                   startPromotion: promotion.startPromotion,
                   endPromotion: promotion.endPromotion,
+                  kits: produto.kits
               }
             })
             setProdutos(resultados)
@@ -75,33 +77,56 @@ export default function ResultList(props){
     return(
         <div
         className={styles.wrapper}
-        >   
-            {resultado}
-            <table
-            className={styles.productTable}
-            cellSpacing={0}
+        >
+            <div
+            className={styles.header}
             >
-                <thead
-                className={styles.headerList}
+                <div
+                className={styles.headerCell}
+                style={{ width: '10%' }}
                 >
-                    <tr>
-                        <th>referencia</th>
-                        <th style={{width: "4rem", padding: ".75rem 0rem"}}></th>
-                        <th
-                        style={{textAlign: "start"}}
-                        >
-                            nome
-                        </th>
-                        <th>estoque</th>
-                        <th>preço</th>
-                        <th></th>
-                    </tr>    
-                </thead>
+                    referencia
+                </div>
+                <div
+                className={styles.headerCell}
+                style={{ width: '7%' }}
+                >
+                    {/* imagem */}
+                </div>
+                <div
+                className={styles.headerCell}
+                style={{ width: '63%', justifyContent: 'flex-start', paddingLeft: '1rem' }}
+                >
+                    descrição
+                </div>
+                <div
+                className={styles.headerCell}
+                style={{ width: '10%' }}
+                >
+                    estoque
+                </div>
+                <div
+                className={styles.headerCell}
+                style={{ width: '15%' }}
+                >
+                    preço
+                </div>
+                <div
+                className={styles.headerCell}
+                style={{ width: '5%' }}
+                >
+                    {/* buttons */}
+                </div>
+            </div>
+            <div
+            className={styles.resultContainer}
+            >
                 <List
                 resultados={produtos}
+                search={props.search}
                 >
                 </List>
-            </table>
+            </div>
         </div>
     )
 }

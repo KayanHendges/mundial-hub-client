@@ -28,10 +28,14 @@ export default function SearchForm(props){
             >
                 <CheckBox 
                 label="mostrar kits"
+                setValue={props.setValue}
+                stateKey="showKits"
+                value={props.search.showKits}
                 />
                 <button
                 className={styles.submitButton}
                 type="button"
+                onClick={() => props.sendSearch()}
                 >
                     filtrar
                 </button>
