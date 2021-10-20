@@ -10,6 +10,8 @@ export default function ResultList(props){
     const [ produtos, setProdutos ] = useState([])
 
     useEffect(() => {
+        console.log('pesquisou')
+        setProdutos([])
         setResultado(<div>carregando...</div>)
         api
           .get("produtos", {
@@ -21,14 +23,14 @@ export default function ResultList(props){
               }
           })
           .then((response) => {
-            console.log(response.data)
-
+            console.log('encontrou')
             props.setPages({
                 perPage: response.data.limite_pagina,
                 pages: response.data.numero_paginas,
                 page: response.data.pagina,
                 resultsLength: response.data.numero_produtos
             })
+            console.log('depois')
             const resultados = response.data.produtos.map(produto => {
                 function isPromotion(){
                     if(produto.promotional_price > 0 ){
@@ -124,6 +126,7 @@ export default function ResultList(props){
                 <List
                 resultados={produtos}
                 search={props.search}
+                onChangeSearch={props.search.onChangeSearch}
                 >
                 </List>
             </div>
