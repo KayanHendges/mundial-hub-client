@@ -6,7 +6,6 @@ import styles from './styles.module.scss'
 
 export default function PopUp(props){
 
-    console.log(props)
 
     const [ popUp, setPopUp ] = useState({
         display: "none"

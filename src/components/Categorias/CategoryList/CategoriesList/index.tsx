@@ -70,7 +70,6 @@ export default function CategoriesList(props){
             className={styles.listContainer}
             >
                 {props.categories.map(category => {
-                    console.log(category)
                     if(category.children != null){
                         return(
                             <div
