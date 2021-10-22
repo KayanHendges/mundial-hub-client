@@ -24,11 +24,7 @@ export default function PopUp(props){
     }
 
     function deleteProduct(hubCategoryId){
-        api.delete('categorias/', {
-            params: {
-                hub_id: hubCategoryId
-            }
-        })
+        api.delete(`categorias/${hubCategoryId}`)
         .then(() => {
             router.reload()
             alert('produto excluído com sucesso')
@@ -64,6 +60,13 @@ export default function PopUp(props){
                     className={styles.container}
                     >
                         incluir subcategoria
+                    </span>
+                </Link>
+                <Link href={`/categorias/${props.hubCategoryId}`}>
+                    <span
+                    className={styles.container}
+                    >
+                        editar
                     </span>
                 </Link>
                 <span

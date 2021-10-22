@@ -4,7 +4,10 @@ import BlueButton from '../../Buttons/BlueButton'
 
 export default function Header(props) {
     return (
-        <div className={styles.header}>
+        <div 
+        className={styles.header}
+        style={{ maxWidth: `${props.maxWidth}` }}
+        >
             <div className={styles.toolsBar}>
                 <BackButton href={props.href} />
                 <BlueButton text={props.textButton} submitButton={props.submitButton}/>

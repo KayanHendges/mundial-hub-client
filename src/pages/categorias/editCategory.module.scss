@@ -10,7 +10,8 @@
         max-width: 50rem;
         display: flex;
         flex-direction: column;
-
+        border-top: 1px solid var(--gray-line);
+        padding-top: .8rem;
         gap: .5rem;
 
         .switch {

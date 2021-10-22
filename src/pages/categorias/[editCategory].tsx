@@ -9,30 +9,33 @@ import DefaultTextArea from '../../components/Inputs/DefaultTextArea';
 import SlugInput from '../../components/Inputs/SlugInput';
 
 import stringToSlug from '../../services/stringToSlug';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import router from 'next/router';
 
 export default function addSubcategory(props){
 
+    const [ display, setDisplay ] = useState('none')
+    const [ title, setTitle ] = useState('carregando...')
+
     const startValues = {
-        hub_category_id: props.category.hub_category_id,
-        tray_category_id: props.category.category_name,
-        category_name: props.category.category_name,
-        category_description: props.category.category_description,
-        category_slug: props.category.category_slug,
-        order_list: props.category.order_list,
-        category_title: props.category.category_title,
-        category_small_desc: props.category.category_small_description,
-        has_acceptance_term: props.category.has_acceptance_term,
-        acceptance_term: props.category.acceptance_term,
-        category_meta_key: props.category.category_meta_key,
-        category_meta_desc: props.category.category_meta_desc,
-        property: props.category.property,
-        http_image: props.category.http_image,
-        https_image: props.category.https_image,
-        http_link: props.category.http_link,
-        https_link: props.category.https_link,
-        parent_id: props.category.category_parent_id
+        hub_category_id: 0,
+        tray_category_id: 0,
+        category_name: '',
+        category_description: '',
+        category_slug: '',
+        order_list: 0,
+        category_title: '',
+        category_small_desc: '',
+        has_acceptance_term: 0,
+        acceptance_term: '',
+        category_meta_key: '',
+        category_meta_desc: '',
+        property: '',
+        http_image: '',
+        https_image: '',
+        http_link: '',
+        https_link: '',
+        parent_id: '',
     }
 
     const [ values, setValues ] = useState(startValues)
@@ -79,9 +82,41 @@ export default function addSubcategory(props){
             }
     }
 
+    useEffect(() => {
+        api.get(`categorias/${props.hubCategoryId}`)
+        .then(response => {
+            const category = response.data
+
+            setValues({
+                hub_category_id: category.hub_category_id,
+                tray_category_id: category.tray_category_id,
+                category_name: category.category_name,
+                category_description: category.category_description,
+                category_slug: category.category_slug,
+                order_list: category.order_list,
+                category_title: category.category_title,
+                category_small_desc: category.category_small_description,
+                has_acceptance_term: category.has_acceptance_term,
+                acceptance_term: category.acceptance_term,
+                category_meta_key: category.category_meta_key,
+                category_meta_desc: category.category_meta_desc,
+                property: category.property,
+                http_image: category.http_image,
+                https_image: category.https_image,
+                http_link: category.http_link,
+                https_link: category.https_link,
+                parent_id: category.category_parent_id
+            })
+
+            setDisplay('flex')
+            setTitle(category.category_name)
+        })
+    }, [])
+
     function submitCategory(e) {
         e.preventDefault();
         
+        console.log(values.tray_category_id)
 
         api.patch(`/categorias/${values.hub_category_id}`, {
             hub_category_id: values.hub_category_id,
@@ -102,28 +137,32 @@ export default function addSubcategory(props){
             http_link: values.http_link,
             https_link: values.https_link,
             category_parent_id: values.parent_id
-        }).then(() => {
-          alert('Categoria salva com sucesso')
+        }).then(response => {
+          alert(response.data.message)
   
           router.push('/categorias')
         }).catch((error) => {
-          alert(error)
+          alert()
           console.log(error)
         })
       }
-
+    
     return (
         <form onSubmit={submitCategory} className={styles.wrapper}>
             <Head>
-                <title>Cateogira {values.category_name}</title>
+                <title>Categoria {values.category_name}</title>
             </Head>
             <Header
             textButton={"salvar categoria"}
-            strong={startValues.category_name}
+            strong={title}
             title={"Todas as informações da categoria"}
             href="/categorias"
+            maxWidth='50rem'
             />
-            <div className={styles.formContainer}>
+            <div
+            className={styles.formContainer}
+            style={{ display: `${display}` }}
+            >
                 <DefaultInput // Nome
                 label="Nome da Categoria"
                 name="category_name"
@@ -214,11 +253,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
 
     const id  = ctx.params.editCategory
-    const { data } = await api.get(`categorias/${id}`) 
 
     return {
         props: {
-            category: data
+            hubCategoryId: id 
         },
     }
 }

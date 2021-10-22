@@ -558,6 +558,7 @@ export default function editProduct(props){
             strong={headerTitle}
             title="Edite as informações do produto"
             href="/produtos"
+            maxWidth='100rem'
             />
             <Selector
             values={values}
