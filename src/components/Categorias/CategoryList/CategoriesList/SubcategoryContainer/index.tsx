@@ -90,14 +90,14 @@ export default function SubcategoryContainer(props){
                                 <span
                                 onClick={() => handleDisplay(children.hub_category_id)}
                                 >
-                                    {children.order_list} - {children.category_name}
+                                    {children.hub_category_id} - {children.category_name}
                                 </span>
                             </div>
                             <div
                             className={styles.buttons}
                             >
                                 <PopUp 
-                                hubCategoryId={category.hub_category_id}
+                                hubCategoryId={children.hub_category_id}
                                 />
                             </div>
                         </div>
@@ -123,7 +123,7 @@ export default function SubcategoryContainer(props){
                             className={styles.leftContentNC}
                             >
                                 <span>
-                                    {children.order_list} - {children.category_name}
+                                    {children.hub_category_id} - {children.category_name}
                                 </span> 
                             </div>
                             <div

@@ -62,6 +62,8 @@ export default function CategoriesList(props){
         setDisplay(displayList)
     }
 
+    console.log(props.categories)
+
     return (
         <div
         className={styles.wrapper}

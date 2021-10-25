@@ -20,7 +20,8 @@ export default function novaCategorias(props){
         category_description: "",
         category_title: "",
         category_slug:"",
-        order_list: props.lastCategory+1,
+        tray_category_parent_id: 0,
+        order_list: 100000,
         has_acceptance_term: 0,
         acceptance_term: "",
         category_meta_key:"",
@@ -87,6 +88,7 @@ export default function novaCategorias(props){
             acceptance_term: values.acceptance_term,
             category_meta_key: values.category_meta_key,
             category_meta_desc: values.category_meta_desc,
+            tray_category_parent_id: values.tray_category_parent_id,
             property: values.property,
         }).then(() => {
           alert('Categoria salva com sucesso')
@@ -191,24 +193,13 @@ export default function novaCategorias(props){
     )
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
 
-    const { data } = await api.get('/categorias/arvore') 
-
-    const index = data.length -1
-    const indexLength = () => {
-        if(index == -1 ){
-            return 0
-        } else {
-            return data[index].order_list
-        }
-    }
-
-    const lastCategory = indexLength()
+    const parentId  = ctx.params.slug
 
     return {
         props: {
-            // lastCategory: lastCategory
+            parentId: parentId,
         },
     }
 }

@@ -8,7 +8,7 @@ import DefaultTextArea from '../../../components/Inputs/DefaultTextArea';
 import SlugInput from '../../../components/Inputs/SlugInput';
 
 import stringToSlug from '../../../services/stringToSlug';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import router from "next/router";
 import Head from "next/head";
 
@@ -20,13 +20,14 @@ export default function slug(props){
         category_description: "",
         category_title: "",
         category_slug:"",
-        order_list: props.orderList,
+        tray_category_parent_id: 0,
+        order_list: 100000,
         has_acceptance_term: 0,
         acceptance_term: "",
         category_meta_key:"",
         category_meta_desc:"",
         property: "",
-        parent_id: props.parentId
+        parent_slug: ''
     }
 
     const [ values, setValues ] = useState(startValues)
@@ -35,6 +36,21 @@ export default function slug(props){
         display: "none",
         color: "#E01D10",
     })
+
+    const [ display, setDisplay ] = useState('none')
+
+    useEffect(() => {
+        api.get(`categorias/${props.parentId}`)
+        .then(response => {
+            console.log(response)
+            setValues({
+                ...values,
+                tray_category_parent_id: response.data.tray_category_id,
+                parent_slug: response.data.category_slug
+            })
+            setDisplay('flex')
+        })
+    }, [])
 
     function setValue(chave, valor) {
         setValues({
@@ -82,18 +98,19 @@ export default function slug(props){
             category_small_description: values.category_small_desc,
             category_description: values.category_description,
             category_title: values.category_title,
-            category_slug: `${props.parentSlug}/${values.category_slug}`,
+            category_slug: `${values.parent_slug}/${values.category_slug}`,
             order_list: values.order_list,
             has_acceptance_term: values.has_acceptance_term,
             acceptance_term: values.acceptance_term,
             category_meta_key: values.category_meta_key,
             category_meta_desc: values.category_meta_desc,
             property: values.property,
-            category_parent_id: values.parent_id
-        }).then(() => {
+            tray_category_parent_id: values.tray_category_parent_id
+        }).then(response => {
             router.push('/categorias')
-            alert('Categoria salva com sucesso')
-        }).catch((error) => {
+            alert(response.data.message)
+        }).catch(error => {
+            console.log(error)
           alert(error)
         })
       }
@@ -109,7 +126,10 @@ export default function slug(props){
             title={"Insira as informações da nova subcategoria"}
             href="/categorias"
             />
-            <div className={styles.formContainer}>
+            <div
+            className={styles.formContainer}
+            style={{ display: `${display}`}}
+            >
                 <DefaultInput // Nome
                 label="Nome da Categoria"
                 name="category_name"
@@ -143,7 +163,7 @@ export default function slug(props){
                 />
                 <SlugInput
                 label="url"
-                url={`${props.parentSlug}/`}
+                url={`${values.parent_slug}/`}
                 name="category_slug"
                 value={values.category_slug}
                 onChange={handleChange}
@@ -202,36 +222,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
 
     const parentId  = ctx.params.slug
-    const { data } = await api.get(`categorias/`) 
-
-    function findParentSlug(){
-        let slug = ""
-        data.map(category => {
-            if(category.hub_category_id == parentId){
-                slug = category.category_slug
-            }
-        })
-        return slug
-    }
-
-    function findOrder(){
-        let order = 0
-        data.map(category => {
-            if(category.category_parent_id == parentId){
-                order = category.order_list
-            }
-        })
-        return (order + 1)
-    }
-
-    const parentSlug = findParentSlug()
-    const orderList = findOrder()
 
     return {
         props: {
             parentId: parentId,
-            parentSlug: parentSlug,
-            orderList: orderList
         },
     }
 }

@@ -25,9 +25,9 @@ export default function PopUp(props){
 
     function deleteProduct(hubCategoryId){
         api.delete(`categorias/${hubCategoryId}`)
-        .then(() => {
+        .then(response => {
+            alert(response.data.message)
             router.reload()
-            alert('produto excluído com sucesso')
         })
         .catch(erro => {
             alert(erro)
