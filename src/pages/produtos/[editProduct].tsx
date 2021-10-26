@@ -56,7 +56,7 @@ export default function editProduct(props){
         hubId: 0,
             trayId: 0,
             ean: "",
-            is_kit: 0,
+            is_kit: 1,
             ncm: "",
             name: "",
             description: "",
@@ -104,7 +104,7 @@ export default function editProduct(props){
         hubId: 0,
         trayId: 0,
         ean: "",
-        is_kit: 0,
+        is_kit: 1,
         ncm: "",
         name: "",
         description: "",
@@ -156,6 +156,11 @@ export default function editProduct(props){
     const [ categoriesList, setCategoriesList ] = useState([])
 
     const [ headerTitle, setHeaderTitle ] = useState("")
+
+    const [ createKit, setCreateKit ] = useState({
+        kit2: false,
+        kit4: false,
+    })
 
     function validateDate(date){
         if(date == "0000-00-00"){
@@ -235,6 +240,38 @@ export default function editProduct(props){
 
             api.get(`/produtos.kits/${values.reference}`)
             .then(response => {
+                if(response.data.kitsFound == 0){
+                    setCreateKit({
+                        kit2: true,
+                        kit4: true
+                    })
+                    setKit2Values({
+                        ...kit2Values,
+                        rules: {
+                            ...kit2Values.rules,
+                            discountType: "%",
+                            discountValue: "2,50",
+                            priceRule: "2",
+                            productId: values.trayId,
+                            productParentId: 0,
+                            quantity: 2,
+                            trayId: "0",
+                        }
+                    })
+                    setKit4Values({
+                        ...kit4Values,
+                        rules: {
+                            ...kit4Values.rules,
+                            discountType: "%",
+                            discountValue: "5",
+                            priceRule: "2",
+                            productId: values.trayId,
+                            productParentId: 0,
+                            quantity: 4,
+                            trayId: "0",
+                        }
+                    })
+                }
                 if(response.data.kit2.product_name != undefined){
                     const kit2 = response.data.kit2
                     setKit2Values({
@@ -573,6 +610,8 @@ export default function editProduct(props){
             kitValues={{kit2Values: kit2Values, kit4Values: kit4Values}}
             setKit2Values={setKit2Values}
             setKit4Values={setKit4Values}
+            createKit={createKit}
+            setCreateKit={setCreateKit}
             />
         </form>
     )

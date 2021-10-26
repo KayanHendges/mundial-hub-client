@@ -17,6 +17,8 @@ export default function Kits(props){
             setValues={props.setValues}
             kitValues={props.kitValues.kit2Values}
             setKitValues={props.setKit2Values}
+            createKit={props.createKit.kit2}
+            setCreateKit={props.setCreateKit}
             onChange={props.onChange}
             />
             <KitWrapper
@@ -25,6 +27,8 @@ export default function Kits(props){
             setValues={props.setValues}
             kitValues={props.kitValues.kit4Values}
             setKitValues={props.setKit4Values}
+            createKit={props.createKit.kit4}
+            setCreateKit={props.setCreateKit}
             onChange={props.onChange}
             />
         </div>
