@@ -195,11 +195,9 @@ export default function novaCategorias(props){
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
 
-    const parentId  = ctx.params.slug
 
     return {
         props: {
-            parentId: parentId,
         },
     }
 }
