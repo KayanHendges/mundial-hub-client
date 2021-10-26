@@ -145,6 +145,9 @@ export default function produtos(props){
     const [ categories, setCategories ] = useState([])
     const [ categoriesList, setCategoriesList ] = useState([])
 
+    const [ textButton, setTextButton ] = useState('salvar produto')
+    const [ submit, setSubmit ] = useState(false)
+
     useEffect(() => {
         api.get('categorias/arvore')
         .then(response => {
@@ -267,103 +270,113 @@ export default function produtos(props){
     function submitProduct(e) {
         e.preventDefault();
 
-        api.post('/produtos', {
-            params: {
-                reference: values.reference,
-                unitary: {
-                    ean: values.ean,
-                    is_kit: values.is_kit,
-                    ncm: values.ncm,
-                    product_name: values.name,
-                    product_title: values.name,
-                    product_description: values.description,
-                    product_small_description: values.description,
-                    price: values.price,
-                    cost_price: values.cost,
-                    profit: values.profit,
-                    promotional_price: values.promotionalPrice,
-                    start_promotion: hasPromotionPrice(values.startPromotion),
-                    end_promotion: hasPromotionPrice(values.endPromotion),
-                    brand: values.brand,
-                    model: values.model,
-                    weight: parseInt(values.weight),
-                    length: parseInt(values.length),
-                    width: parseInt(values.width),
-                    height: parseInt(values.height),
-                    stock_tray: parseInt(values.stock),
-                    main_category_id: values.mainCategoryId,
-                    tray_related_categories: values.related_categories,
-                    available: values.available,
-                    availability: values.availability,
-                    availability_days: values.availabilityDays,
+        if(!submit){
+            setSubmit(true)
+            console.log('salvando')
+            setTextButton('salvando...')
+    
+            api.post('/produtos', {
+                params: {
                     reference: values.reference,
-                    picture_source_1: values.images[0].imageUrl,
-                    picture_source_2: values.images[1].imageUrl,
-                    picture_source_3: values.images[2].imageUrl,
-                    picture_source_4: values.images[3].imageUrl,
-                    picture_source_5: values.images[4].imageUrl,
-                    picture_source_6: values.images[5].imageUrl,
-                    comments: "",
-                    creation_date: addHours(new Date(), -3)
-                },
-                kit2: {
-                    is_kit: kit2Values.is_kit,
-                    product_name: kit2Values.name,
-                    product_title: kit2Values.name,
-                    product_description: kit2Values.description,
-                    product_small_description: kit2Values.description,
-                    reference: kit2Values.reference,
-                    picture_source_1: kit2Values.images[0].imageUrl,
-                    picture_source_2: kit2Values.images[1].imageUrl,
-                    picture_source_3: kit2Values.images[2].imageUrl,
-                    picture_source_4: kit2Values.images[3].imageUrl,
-                    picture_source_5: kit2Values.images[4].imageUrl,
-                    picture_source_6: kit2Values.images[5].imageUrl,
-                    rules: {
-                        discount_type: kit2Values.rules.discountType,
-                        discount_value: parseFloat(kit2Values.rules.discountValue.replace(",", ".")),
-                        price: 0,
-                        price_rule: kit2Values.rules.priceRule,
-                        product_id: kit2Values.rules.productId,
-                        product_parent_id: kit2Values.rules.productParentId,
-                        quantity: kit2Values.rules.quantity,
+                    unitary: {
+                        ean: values.ean,
+                        is_kit: values.is_kit,
+                        ncm: values.ncm,
+                        product_name: values.name,
+                        product_title: values.name,
+                        product_description: values.description,
+                        product_small_description: values.description,
+                        price: values.price,
+                        cost_price: values.cost,
+                        profit: values.profit,
+                        promotional_price: values.promotionalPrice,
+                        start_promotion: hasPromotionPrice(values.startPromotion),
+                        end_promotion: hasPromotionPrice(values.endPromotion),
+                        brand: values.brand,
+                        model: values.model,
+                        weight: parseInt(values.weight),
+                        length: parseInt(values.length),
+                        width: parseInt(values.width),
+                        height: parseInt(values.height),
+                        stock_tray: parseInt(values.stock),
+                        main_category_id: values.mainCategoryId,
+                        tray_related_categories: values.related_categories,
+                        available: values.available,
+                        availability: values.availability,
+                        availability_days: values.availabilityDays,
+                        reference: values.reference,
+                        picture_source_1: values.images[0].imageUrl,
+                        picture_source_2: values.images[1].imageUrl,
+                        picture_source_3: values.images[2].imageUrl,
+                        picture_source_4: values.images[3].imageUrl,
+                        picture_source_5: values.images[4].imageUrl,
+                        picture_source_6: values.images[5].imageUrl,
+                        comments: "",
+                        creation_date: addHours(new Date(), -3)
                     },
-                    creation_date: addHours(new Date(), -3)
-                },
-                kit4: {
-                    is_kit: kit4Values.is_kit,
-                    product_name: kit4Values.name,
-                    product_title: kit4Values.name,
-                    product_description: kit4Values.description,
-                    product_small_description: kit4Values.description,
-                    reference: kit4Values.reference,
-                    picture_source_1: kit4Values.images[0].imageUrl,
-                    picture_source_2: kit4Values.images[1].imageUrl,
-                    picture_source_3: kit4Values.images[2].imageUrl,
-                    picture_source_4: kit4Values.images[3].imageUrl,
-                    picture_source_5: kit4Values.images[4].imageUrl,
-                    picture_source_6: kit4Values.images[5].imageUrl,
-                    rules: {
-                        discount_type: kit4Values.rules.discountType,
-                        discount_value: parseFloat(kit4Values.rules.discountValue.replace(",", ".")),
-                        price: 0,
-                        price_rule: kit4Values.rules.priceRule,
-                        product_id: kit4Values.rules.productId,
-                        product_parent_id: kit4Values.rules.productParentId,
-                        quantity: kit4Values.rules.quantity,
+                    kit2: {
+                        is_kit: kit2Values.is_kit,
+                        product_name: kit2Values.name,
+                        product_title: kit2Values.name,
+                        product_description: kit2Values.description,
+                        product_small_description: kit2Values.description,
+                        reference: kit2Values.reference,
+                        picture_source_1: kit2Values.images[0].imageUrl,
+                        picture_source_2: kit2Values.images[1].imageUrl,
+                        picture_source_3: kit2Values.images[2].imageUrl,
+                        picture_source_4: kit2Values.images[3].imageUrl,
+                        picture_source_5: kit2Values.images[4].imageUrl,
+                        picture_source_6: kit2Values.images[5].imageUrl,
+                        rules: {
+                            discount_type: kit2Values.rules.discountType,
+                            discount_value: parseFloat(kit2Values.rules.discountValue.replace(",", ".")),
+                            price: 0,
+                            price_rule: kit2Values.rules.priceRule,
+                            product_id: kit2Values.rules.productId,
+                            product_parent_id: kit2Values.rules.productParentId,
+                            quantity: kit2Values.rules.quantity,
+                        },
+                        creation_date: addHours(new Date(), -3)
                     },
-                    creation_date: addHours(new Date(), -3)
-                }             
-            }
-            
-        }).then(response => {
-            if(response.data.code == 200){
-                router.push('/produtos')
-            }
-        }).catch((error) => {
-          alert(error)
-          console.log(error)
-        })
+                    kit4: {
+                        is_kit: kit4Values.is_kit,
+                        product_name: kit4Values.name,
+                        product_title: kit4Values.name,
+                        product_description: kit4Values.description,
+                        product_small_description: kit4Values.description,
+                        reference: kit4Values.reference,
+                        picture_source_1: kit4Values.images[0].imageUrl,
+                        picture_source_2: kit4Values.images[1].imageUrl,
+                        picture_source_3: kit4Values.images[2].imageUrl,
+                        picture_source_4: kit4Values.images[3].imageUrl,
+                        picture_source_5: kit4Values.images[4].imageUrl,
+                        picture_source_6: kit4Values.images[5].imageUrl,
+                        rules: {
+                            discount_type: kit4Values.rules.discountType,
+                            discount_value: parseFloat(kit4Values.rules.discountValue.replace(",", ".")),
+                            price: 0,
+                            price_rule: kit4Values.rules.priceRule,
+                            product_id: kit4Values.rules.productId,
+                            product_parent_id: kit4Values.rules.productParentId,
+                            quantity: kit4Values.rules.quantity,
+                        },
+                        creation_date: addHours(new Date(), -3)
+                    }             
+                }
+                
+            }).then(response => {
+                if(response.data.code == 201){
+                    setTextButton('salvo com sucesso')
+                    router.push('/produtos')
+                }
+              alert(response.data.message)
+            }).catch((error) => {
+                setTextButton('erro ao salvar')
+                alert(error)
+                console.log(error)
+            })
+        }
+
     }
 
     return (
@@ -372,7 +385,7 @@ export default function produtos(props){
                 <title>Cadastro Produto</title>
             </Head>
             <Header 
-            textButton="salvar produto"
+            textButton={textButton}
             strong="Novo produto"
             title="Insira as informações do produto que deseja cadastrar"
             href="/produtos"
