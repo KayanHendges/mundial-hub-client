@@ -156,7 +156,10 @@ export default function editProduct(props){
     const [ categoriesList, setCategoriesList ] = useState([])
 
     const [ headerTitle, setHeaderTitle ] = useState("")
+    const [ textButton, setTextButton ] = useState('salvar produto')
+    const [ submit, setSubmit ] = useState(false)
 
+    const [ requestKits, setRequestKits ] = useState(false)
     const [ createKit, setCreateKit ] = useState({
         kit2: false,
         kit4: false,
@@ -171,6 +174,7 @@ export default function editProduct(props){
     }
 
     useEffect(() => {
+        console.log('procurando unitário')
         api.get(`produtos/${props.hubProductId}`)
         .then(response => {
             const productData = response.data
@@ -220,26 +224,37 @@ export default function editProduct(props){
             setHeaderTitle(productData.product_name)
             
             setValues(startValues)
-
+            
         })
     }, [])
 
     useEffect(() => {
+        console.log('gatilho')
         if(values.name.length > 0){
+
+            console.log('entrou os dados')
+
             api.get('categorias/arvore')
             .then(response => {
                 setCategories(response.data)
             })
             .catch(erro => console.log(erro))
+            
+            console.log('categorias arvore')
 
             api.get('categorias')
             .then(response => {
                 setCategoriesList(response.data)
             })
             .catch(erro => console.log(erro))
-
+            
+            console.log('categorias')
+            
             api.get(`/produtos.kits/${values.reference}`)
             .then(response => {
+
+                console.log('achou os kits', response.data.kitsFound)
+
                 if(response.data.kitsFound == 0){
                     setCreateKit({
                         kit2: true,
@@ -372,6 +387,7 @@ export default function editProduct(props){
                         }
                     })
                 }
+                setRequestKits(true)
             })
             .catch(erro => {console.log(erro)})
         }
@@ -484,105 +500,117 @@ export default function editProduct(props){
     function submitProduct(e) {
         e.preventDefault();
 
-        api.patch('/produtos', {
-            params: {
-                reference: values.reference,
-                unitary: {
-                    ean: values.ean,
-                    tray_id: values.trayId,
-                    is_kit: values.is_kit,
-                    ncm: values.ncm,
-                    product_name: values.name,
-                    product_title: values.name,
-                    product_description: values.description,
-                    product_small_description: values.description,
-                    price: values.price,
-                    cost_price: values.cost,
-                    profit: values.profit,
-                    promotional_price: values.promotionalPrice,
-                    start_promotion: hasPromotionPrice(values.startPromotion),
-                    end_promotion: hasPromotionPrice(values.endPromotion),
-                    brand: values.brand,
-                    model: values.model,
-                    weight: parseInt(values.weight),
-                    length: parseInt(values.length),
-                    width: parseInt(values.width),
-                    height: parseInt(values.height),
-                    stock_tray: parseInt(values.stock),
-                    main_category_id: values.mainCategoryId,
-                    tray_related_categories: values.related_categories,
-                    available: values.available,
-                    availability: values.availability,
-                    availability_days: values.availabilityDays,
+        setTextButton('salvando...')
+
+        if(requestKits && !submit){
+            setSubmit(true)
+            api.patch('/produtos', {
+                params: {
                     reference: values.reference,
-                    picture_source_1: values.images[0].imageUrl,
-                    picture_source_2: values.images[1].imageUrl,
-                    picture_source_3: values.images[2].imageUrl,
-                    picture_source_4: values.images[3].imageUrl,
-                    picture_source_5: values.images[4].imageUrl,
-                    picture_source_6: values.images[5].imageUrl,
-                    comments: "",
-                },
-                kit2: {
-                    tray_id: kit2Values.trayId,
-                    is_kit: kit2Values.is_kit,
-                    product_name: kit2Values.name,
-                    product_title: kit2Values.name,
-                    product_description: kit2Values.description,
-                    product_small_description: kit2Values.description,
-                    reference: kit2Values.reference,
-                    picture_source_1: kit2Values.images[0].imageUrl,
-                    picture_source_2: kit2Values.images[1].imageUrl,
-                    picture_source_3: kit2Values.images[2].imageUrl,
-                    picture_source_4: kit2Values.images[3].imageUrl,
-                    picture_source_5: kit2Values.images[4].imageUrl,
-                    picture_source_6: kit2Values.images[5].imageUrl,
-                    rules: {
-                        discount_type: kit2Values.rules.discountType,
-                        discount_value: parseFloat(kit2Values.rules.discountValue.replace(",", ".")),
-                        price: 0,
-                        price_rule: kit2Values.rules.priceRule,
-                        product_id: kit2Values.rules.productId,
-                        product_parent_id: kit2Values.rules.productParentId,
-                        quantity: kit2Values.rules.quantity,
-                        tray_id: kit2Values.rules.trayId,
-                    }
-                },
-                kit4: {
-                    tray_id: kit4Values.trayId,
-                    is_kit: kit4Values.is_kit,
-                    product_name: kit4Values.name,
-                    product_title: kit4Values.name,
-                    product_description: kit4Values.description,
-                    product_small_description: kit4Values.description,
-                    reference: kit4Values.reference,
-                    picture_source_1: kit4Values.images[0].imageUrl,
-                    picture_source_2: kit4Values.images[1].imageUrl,
-                    picture_source_3: kit4Values.images[2].imageUrl,
-                    picture_source_4: kit4Values.images[3].imageUrl,
-                    picture_source_5: kit4Values.images[4].imageUrl,
-                    picture_source_6: kit4Values.images[5].imageUrl,
-                    rules: {
-                        discount_type: kit4Values.rules.discountType,
-                        discount_value: parseFloat(kit4Values.rules.discountValue.replace(",", ".")),
-                        price: 0,
-                        price_rule: kit4Values.rules.priceRule,
-                        product_id: kit4Values.rules.productId,
-                        product_parent_id: kit4Values.rules.productParentId,
-                        quantity: kit4Values.rules.quantity,
-                        tray_id: kit4Values.rules.trayId,
-                    }
-                }             
-            }
-            
-        }).then(response => {
-            if(response.data.code == 200){
-                router.push('/produtos')
-            }
-        }).catch((error) => {
-          alert(error)
-          console.log(error)
-        })
+                    unitary: {
+                        ean: values.ean,
+                        tray_id: values.trayId,
+                        is_kit: values.is_kit,
+                        ncm: values.ncm,
+                        product_name: values.name,
+                        product_title: values.name,
+                        product_description: values.description,
+                        product_small_description: values.description,
+                        price: values.price,
+                        cost_price: values.cost,
+                        profit: values.profit,
+                        promotional_price: values.promotionalPrice,
+                        start_promotion: hasPromotionPrice(values.startPromotion),
+                        end_promotion: hasPromotionPrice(values.endPromotion),
+                        brand: values.brand,
+                        model: values.model,
+                        weight: parseInt(values.weight),
+                        length: parseInt(values.length),
+                        width: parseInt(values.width),
+                        height: parseInt(values.height),
+                        stock_tray: parseInt(values.stock),
+                        main_category_id: values.mainCategoryId,
+                        tray_related_categories: values.related_categories,
+                        available: values.available,
+                        availability: values.availability,
+                        availability_days: values.availabilityDays,
+                        reference: values.reference,
+                        picture_source_1: values.images[0].imageUrl,
+                        picture_source_2: values.images[1].imageUrl,
+                        picture_source_3: values.images[2].imageUrl,
+                        picture_source_4: values.images[3].imageUrl,
+                        picture_source_5: values.images[4].imageUrl,
+                        picture_source_6: values.images[5].imageUrl,
+                        comments: "",
+                    },
+                    kit2: {
+                        tray_id: kit2Values.trayId,
+                        is_kit: kit2Values.is_kit,
+                        product_name: kit2Values.name,
+                        product_title: kit2Values.name,
+                        product_description: kit2Values.description,
+                        product_small_description: kit2Values.description,
+                        reference: kit2Values.reference,
+                        picture_source_1: kit2Values.images[0].imageUrl,
+                        picture_source_2: kit2Values.images[1].imageUrl,
+                        picture_source_3: kit2Values.images[2].imageUrl,
+                        picture_source_4: kit2Values.images[3].imageUrl,
+                        picture_source_5: kit2Values.images[4].imageUrl,
+                        picture_source_6: kit2Values.images[5].imageUrl,
+                        rules: {
+                            discount_type: kit2Values.rules.discountType,
+                            discount_value: parseFloat(kit2Values.rules.discountValue.replace(",", ".")),
+                            price: 0,
+                            price_rule: kit2Values.rules.priceRule,
+                            product_id: kit2Values.rules.productId,
+                            product_parent_id: kit2Values.rules.productParentId,
+                            quantity: kit2Values.rules.quantity,
+                            tray_id: kit2Values.rules.trayId,
+                        }
+                    },
+                    kit4: {
+                        tray_id: kit4Values.trayId,
+                        is_kit: kit4Values.is_kit,
+                        product_name: kit4Values.name,
+                        product_title: kit4Values.name,
+                        product_description: kit4Values.description,
+                        product_small_description: kit4Values.description,
+                        reference: kit4Values.reference,
+                        picture_source_1: kit4Values.images[0].imageUrl,
+                        picture_source_2: kit4Values.images[1].imageUrl,
+                        picture_source_3: kit4Values.images[2].imageUrl,
+                        picture_source_4: kit4Values.images[3].imageUrl,
+                        picture_source_5: kit4Values.images[4].imageUrl,
+                        picture_source_6: kit4Values.images[5].imageUrl,
+                        rules: {
+                            discount_type: kit4Values.rules.discountType,
+                            discount_value: parseFloat(kit4Values.rules.discountValue.replace(",", ".")),
+                            price: 0,
+                            price_rule: kit4Values.rules.priceRule,
+                            product_id: kit4Values.rules.productId,
+                            product_parent_id: kit4Values.rules.productParentId,
+                            quantity: kit4Values.rules.quantity,
+                            tray_id: kit4Values.rules.trayId,
+                        }
+                    }             
+                }
+                
+            }).then(response => {
+                console.log(response)
+                if(response.data.code == 200){
+                    setTextButton('salvo com sucesso')
+                    router.push('/produtos')
+                }
+            }).catch((error) => {
+                setSubmit(false)
+              alert(error)
+              console.log(error)
+            })
+        } else {
+            alert('os kits ainda não foram carregados, aguarde uns segundos')
+            setTextButton('salvar produto')
+        }
+
     }
 
     return (
@@ -591,7 +619,7 @@ export default function editProduct(props){
                 <title>Editar | {values.reference}</title>
             </Head>
             <Header 
-            textButton="salvar produto"
+            textButton={textButton}
             strong={headerTitle}
             title="Edite as informações do produto"
             href="/produtos"
@@ -610,6 +638,7 @@ export default function editProduct(props){
             kitValues={{kit2Values: kit2Values, kit4Values: kit4Values}}
             setKit2Values={setKit2Values}
             setKit4Values={setKit4Values}
+            requestKits={requestKits}
             createKit={createKit}
             setCreateKit={setCreateKit}
             />
