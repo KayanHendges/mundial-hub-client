@@ -7,6 +7,7 @@ import SearchForm from '../../components/Produto/ProductList/SearchForm';
 import ResultList from '../../components/Produto/ProductList/ResultList';
 import Footer from '../../components/Produto/ProductList/Footer';
 import Head from 'next/head';
+import { parseCookies } from 'nookies';
 
 export default function produtos(props){
 
@@ -101,7 +102,20 @@ export default function produtos(props){
     )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
+
+    const { ['mundialhub.token']: token } = parseCookies(ctx)
+
+    if(!token){
+        return {
+            redirect: {
+            destination: '/login',
+            permanent: false
+            }
+        }
+    }
+
+
     return {
         props: {}
     }
