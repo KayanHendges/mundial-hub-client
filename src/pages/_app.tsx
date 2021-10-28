@@ -4,30 +4,18 @@ import styles from '../styles/app.module.scss';
 import Header from '../components/Header/index';
 import SideBar from '../components/SideBar';
 import { AuthContext, AuthProvider } from '../contexts/AuthContext';
-import { parseCookies } from 'nookies';
 
 function MyApp({ Component, pageProps }) {
-
-  const { 'mundialhub.token': token } = parseCookies()
-
-  if(!token){
-    return(
+    return (
       <AuthProvider >
-        <Component {...pageProps} />
+        <div className={styles.wrapper}>
+          <Header />
+          <main>
+            <SideBar />
+            <Component {...pageProps} />
+          </main>
+        </div>
       </AuthProvider>
-    )
-  }
-
-  return (
-    <AuthProvider >
-      <div className={styles.wrapper}>
-        <Header />
-        <main>
-          <SideBar />
-          <Component {...pageProps} />
-        </main>
-      </div>
-    </AuthProvider>
     )
   }
   

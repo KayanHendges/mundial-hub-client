@@ -5,11 +5,21 @@ import styles from './styles.module.scss';
 
 export default function Header() {
 
-    const { user } = useContext(AuthContext)
+    const { user, isAuthenticated } = useContext(AuthContext)
     
+
+    function display(boolean){
+        if(boolean){
+            return 'flex'
+        } else {
+            return 'none'
+        }
+    }
+
     return (
         <div
         className={styles.header}
+        style={{ display: `${display(isAuthenticated)}` }}
         >
             <Link href="/">
                 <a>
