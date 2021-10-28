@@ -1,0 +1,49 @@
+.wrapper{
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--gray-3);
+
+    .loginContainer{
+        width: 25rem;
+        height: 15rem;
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        gap: 1rem;
+        border-radius: .4rem;
+        border: 1px solid var(--gray-1);
+        background-color: var(--gray-2);
+
+        .titleLogin{
+
+            color: var(--white-text);
+        }
+
+        .inputContainer{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: .2rem;
+
+            label{
+                color: var(--white-text);
+            }
+
+            input{
+                color: black;
+            }
+        }
+
+        .submitButton{
+            color: black;
+        }
+    }
+}

@@ -3,9 +3,23 @@ import '../styles/global.scss';
 import styles from '../styles/app.module.scss';
 import Header from '../components/Header/index';
 import SideBar from '../components/SideBar';
+import { AuthContext, AuthProvider } from '../contexts/AuthContext';
+import { parseCookies } from 'nookies';
 
 function MyApp({ Component, pageProps }) {
-    return (
+
+  const { 'mundialhub.token': token } = parseCookies()
+
+  if(!token){
+    return(
+      <AuthProvider >
+        <Component {...pageProps} />
+      </AuthProvider>
+    )
+  }
+
+  return (
+    <AuthProvider >
       <div className={styles.wrapper}>
         <Header />
         <main>
@@ -13,6 +27,7 @@ function MyApp({ Component, pageProps }) {
           <Component {...pageProps} />
         </main>
       </div>
+    </AuthProvider>
     )
   }
   

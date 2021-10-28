@@ -1,12 +1,15 @@
 import Link from 'next/link';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles.module.scss';
 
 
 
 export default function SideBar (){
-
     return (
-        <div className={styles.sideBar}>
+        <div
+        className={styles.sideBar}
+        >
             <div className={styles.itemContainer} onChange={this}>
                 <div className={styles.iconBox}>
                     <a>
