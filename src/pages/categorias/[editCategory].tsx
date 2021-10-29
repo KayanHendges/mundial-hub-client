@@ -247,7 +247,7 @@ export default function addSubcategory(props){
 
 export const getServerSideProps = async (ctx) => {
     
-    const id = ctx.params.id
+    const id = ctx.params.editCategory
 
     const { ['mundialhub.token']: token } = parseCookies(ctx)
   
