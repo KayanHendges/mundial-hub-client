@@ -1,8 +1,9 @@
 import { createContext, useEffect, useState } from 'react'
-import { setCookie, parseCookies } from 'nookies'
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import { api } from '../services/api'
 import Router from 'next/router'
 import { redirect } from 'next/dist/next-server/server/api-utils'
+import router from 'next/router'
 
 type User = {
     name: string;
@@ -23,12 +24,15 @@ export const AuthContext = createContext({} as AuthContextType)
 
 export function AuthProvider ({ children }) {
 
+    console.log('AuthContext')
+
     const [ user, setUser ] = useState<User | null>(null)
 
     const [ isAuthenticated, setIsAuthenticated ] = useState(!!user);
 
     useEffect(() => {
         const { 'mundialhub.token': token } = parseCookies()
+        console.log('useEffect')
 
         if(token) {
             api.get('/users.auth', {
@@ -41,36 +45,38 @@ export function AuthProvider ({ children }) {
             }).catch(error => {
                 if(error.response.data.code == 401) {
                     console.log(error.response.data.message)
+                    destroyCookie(undefined, 'mundialhub.token')
+                    router.reload
                 }
             })
         }
     }, [])
 
     async function signIn ({ user, password }: SignInData) {
-        var token = ''
-        var userResponse = {
-            name: ''
-        }
 
-        await api.get('users.login', {
+        const { token, user: userResponse } = await api.get('users.login', {
             params: {
                 user: user, 
                 password: password
             }
         }).then(response => {
-            token = response.data.token,
-            userResponse.name = response.data.user.name
+            return response.data
+        }).catch(error => {
+            alert(error.response.data.message)
         })
 
-        setCookie(undefined, 'mundialhub.token', token, {
-            maxAge: 60 * 60 * 1, // 1 hour
-        })
+        if(token.length > 0){
+            setCookie(undefined, 'mundialhub.token', token, {
+                maxAge: 60 * 60 * 1, // 1 hour
+            })
+    
+            setUser(userResponse)
+    
+            Router.push('/')
+        } else {
+            Router.reload()
+        }
 
-        api.defaults.headers['Authorization'] = `Bearer ${token}`
-
-        setUser(userResponse)
-
-        Router.push('/')
     }
 
     return (

@@ -11,6 +11,7 @@ import SlugInput from '../../components/Inputs/SlugInput';
 import stringToSlug from '../../services/stringToSlug';
 import { useState, useEffect } from 'react';
 import router from 'next/router';
+import { parseCookies } from "nookies";
 
 export default function addSubcategory(props){
 
@@ -243,16 +244,21 @@ export default function addSubcategory(props){
         </form>
     )
 }
-export const getStaticPaths: GetStaticPaths = async () => {
-    return {
-        paths: [],
-        fallback: 'blocking'
+
+export const getServerSideProps = async (ctx) => {
+    
+    const id = ctx.params.id
+
+    const { ['mundialhub.token']: token } = parseCookies(ctx)
+  
+    if(!token){
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false
+        }
+      }
     }
-}
-
-export const getStaticProps: GetStaticProps = async (ctx) => {
-
-    const id  = ctx.params.editCategory
 
     return {
         props: {

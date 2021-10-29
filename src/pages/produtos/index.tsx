@@ -102,7 +102,7 @@ export default function produtos(props){
     )
 }
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getServerSideProps = async (ctx) => {
 
     const { ['mundialhub.token']: token } = parseCookies(ctx)
     console.log('token', token)

@@ -11,6 +11,7 @@ import stringToSlug from '../../../services/stringToSlug';
 import { useState } from 'react';
 import router from 'next/router';
 import Head from 'next/head';
+import { parseCookies } from 'nookies';
 
 export default function novaCategorias(props){
 
@@ -193,11 +194,19 @@ export default function novaCategorias(props){
     )
 }
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
-
-
-    return {
-        props: {
-        },
+export const getServerSideProps = async (ctx) => {
+    const { ['mundialhub.token']: token } = parseCookies(ctx)
+  
+    if(!token){
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false
+        }
+      }
     }
-}
+  
+    return {
+      props: {}
+    }
+  }

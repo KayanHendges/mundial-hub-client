@@ -9,6 +9,7 @@ import router from 'next/router';
 import { addHours, format } from 'date-fns';
 import SelectorNewProduct from '../../../components/Produto/SelectorNewProduct';
 import Head from 'next/head';
+import { parseCookies } from 'nookies';
 
 
 export default function produtos(props){
@@ -408,7 +409,18 @@ export default function produtos(props){
     )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps = async (ctx) => {
+
+    const { ['mundialhub.token']: token } = parseCookies(ctx)
+
+    if(!token){
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false
+            }
+        }
+    }
 
     return {
         props: {

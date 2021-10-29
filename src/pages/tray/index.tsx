@@ -1,5 +1,7 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { parseCookies } from "nookies"
+import styles from './styles.module.scss'
 
 export default function tray(){
 
@@ -9,7 +11,9 @@ export default function tray(){
     const url = `https://${parameter}/auth.php?response_type=code&consumer_key=de64a56c6cb078828acc0d62ad9ab08c16a89440edddc28dd26ab9788ebdd10d&callback=https://www.mundialhub.com.br/oAuth2Tray`
 
     return(
-        <div>
+        <div
+        className={styles.wrapper}
+        >
             <h1>
                 Mundial Hub
             </h1>
@@ -25,9 +29,7 @@ export default function tray(){
     )
 }
 
-export async function getServerSideProps({ req }) {
-
-    console.log(req.query)
+export async function getServerSideProps() {
 
     return {
         props: {}

@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next"
+import { parseCookies } from 'nookies';
 import styles from './editProduct.module.scss'
 import Header from '../../components/Produto/Header';
 import Selector from '../../components/Produto/Selector';
@@ -646,14 +647,19 @@ export default function editProduct(props){
     )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    return {
-        paths: [],
-        fallback: 'blocking'
-    }
-}
+export const getServerSideProps = async (ctx) => {
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+    const { ['mundialhub.token']: token } = parseCookies(ctx)
+    console.log('token', token)
+
+    if(!token){
+        return {
+            redirect: {
+            destination: '/login',
+            permanent: false
+            }
+        }
+    }
 
     const id = ctx.params.editProduct
      

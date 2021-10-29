@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { parseCookies } from 'nookies';
+import { api } from '../services/api';
 import styles from './home.module.scss';
 
 export default function Home() {

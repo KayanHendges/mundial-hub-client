@@ -11,6 +11,7 @@ import stringToSlug from '../../../services/stringToSlug';
 import { useEffect, useState } from 'react';
 import router from "next/router";
 import Head from "next/head";
+import { parseCookies } from "nookies";
 
 export default function slug(props){
 
@@ -212,16 +213,21 @@ export default function slug(props){
     )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    return {
-        paths: [],
-        fallback: 'blocking'
-    }
-}
-
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getServerSideProps = async (ctx) => {
 
     const parentId  = ctx.params.slug
+
+    const { ['mundialhub.token']: token } = parseCookies(ctx)
+  
+    if(!token){
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false
+        }
+      }
+    }
+
 
     return {
         props: {

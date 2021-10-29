@@ -9,21 +9,14 @@ export default function Login(){
     const { register, handleSubmit } = useForm()
     const { signIn } = useContext(AuthContext)
 
-    async function handleSignIn(data){
-        await signIn(data)
+    async function handleSignIn(){
+        await signIn(credentials)
     }
 
     const [ credentials, setCredentials ] = useState({
         user: '',
         password: '',
     })
-
-    function setValue(chave, valor) {
-        setCredentials({
-          ...credentials,
-          [chave]: valor,
-        })
-    }
 
     function handleChange(e){
         setCredentials({
