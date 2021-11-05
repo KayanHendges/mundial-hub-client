@@ -10,6 +10,14 @@ export default function KitContainer(props){
         }
     }
 
+    function has90Image(kit){
+        if(kit.picture_source_1_90 != null && kit.picture_source_1_90.length > 0){
+            return kit.picture_source_1_90
+        } else {
+            return kit.picture_source_1
+        }
+    }
+
     if(props.kits.length > 0){
         return (
             <div
@@ -25,11 +33,13 @@ export default function KitContainer(props){
                             <div
                             className={styles.imgContainer}
                             >
-                                <img
-                                src={kit.picture_source_1_90}
-                                alt="kit imagem"
+                                <div
                                 className={styles.kitImg}
-                                />
+                                style={{
+                                    backgroundImage: `url("${has90Image(kit)}")`
+                                }}
+                                >
+                                </div>
                             </div>
                             <div
                             className={styles.kitInfo}

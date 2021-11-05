@@ -149,16 +149,16 @@ export default function ProductContainer(props){
                 className={styles.bodyCell}
                 style={{width: "7%" }}
                 >
-                    <img 
-                    src={`${props.produto.imageUrl}`}
-                    alt="imagem" 
+                    <div
                     style={{
                         width: "3.5rem",
                         height: "3.5rem",
                         borderRadius: ".4rem",
-                        whiteSpace: "nowrap"
+                        whiteSpace: "nowrap",
+                        backgroundImage: `url("${props.produto.imageUrl}")`
                     }}
-                    />
+                    >
+                    </div>
                 </div>
                 <div
                 className={styles.bodyCell}
