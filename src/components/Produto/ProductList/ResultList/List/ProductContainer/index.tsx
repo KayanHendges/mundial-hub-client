@@ -155,7 +155,8 @@ export default function ProductContainer(props){
                         height: "3.5rem",
                         borderRadius: ".4rem",
                         whiteSpace: "nowrap",
-                        backgroundImage: `url("${props.produto.imageUrl}")`
+                        backgroundImage: `url("${props.produto.thumbnail.length > 0 ? props.produto.thumbnail : props.produto.imageUrl}")`,
+                        backgroundSize: 'cover',
                     }}
                     >
                     </div>

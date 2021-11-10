@@ -17,6 +17,9 @@ export default function produtos(props){
         perPage: 20,
         page: 1,
         showKits: 0,
+        orderBy: '',
+        order: '',
+        store: 668385,
     })
 
     const [ pages, setPages ] = useState({

@@ -1,6 +1,7 @@
 import styles from './styles.module.scss'
 import InputSearch from './InputSearch'
 import CheckBox from './CheckBox'
+import SelectBox from './SelectBox'
 
 export default function SearchForm(props){
 
@@ -31,6 +32,18 @@ export default function SearchForm(props){
                 setValue={props.setValue}
                 stateKey="showKits"
                 value={props.search.showKits}
+                />
+                <SelectBox
+                setSearch={props.setSearch}
+                search={props.search}
+                option1={{
+                    label: 'mundial',
+                    value: 668385
+                }}
+                option2={{
+                    label: 'sc pneus',
+                    value: 1049898
+                }}
                 />
                 <button
                 className={styles.submitButton}

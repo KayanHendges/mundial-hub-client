@@ -10,16 +10,18 @@ export default function ResultList(props){
     const [ produtos, setProdutos ] = useState([])
 
     useEffect(() => {
-        console.log('pesquisou')
         setProdutos([])
         setResultado(<div>carregando...</div>)
         api
-          .get("produtos", {
+          .get("/client.productList", {
               params: {
                   search: props.search.searchInput,
                   page: props.pages.page,
                   perPage: props.pages.perPage,
-                  showKits: props.search.showKits
+                  showKits: props.search.showKits,
+                  store: props.search.store,
+                  orderBy: props.search.orderBy,
+                  order: props.search.order,
               }
           })
           .then((response) => {
@@ -33,7 +35,7 @@ export default function ResultList(props){
             console.log('depois')
             const resultados = response.data.produtos.map(produto => {
                 function isPromotion(){
-                    if(produto.promotional_price > 0 ){
+                    if(produto.tray_promotional_price > 0 ){
                           return {
                               startPromotion: format(parseISO(produto.start_promotion), "dd/MM/yyyy"),
                               endPromotion: format(parseISO(produto.end_promotion), "dd/MM/yyyy")
@@ -50,18 +52,21 @@ export default function ResultList(props){
 
                 return {
                   hubId: produto.hub_id,
-                  trayId: produto.tray_id,
+                  trayId: produto.tray_product_id,
                   reference: produto.reference,
                   name: produto.product_name,
-                  imageUrl: produto.picture_source_1_90,
-                  stockTray: produto.stock_tray,
-                  price: produto.price.toFixed(2).replace(".", ","),
-                  promotionalPrice: produto.promotional_price.toFixed(2).replace(".", ","),
+                  imageUrl: produto.picture_source_1,
+                  thumbnail: produto.picture_source_1_90,
+                  stockTray: produto.tray_stock,
+                  price: produto.tray_price.toFixed(2).replace(".", ","),
+                  promotionalPrice: produto.tray_promotional_price.toFixed(2).replace(".", ","),
                   startPromotion: promotion.startPromotion,
                   endPromotion: promotion.endPromotion,
-                  kits: produto.kits
+                  kits: props.search.showKits == 1 ? produto.kits : []
+                //   kits: produto.kits
               }
             })
+            console.log(resultados)
             setProdutos(resultados)
             setResultado(<></>)
             
@@ -69,6 +74,7 @@ export default function ResultList(props){
           .catch((err) => {
             console.log(err)
             setResultado(<div>não foi possível se comunictar com o banco de dados</div>);
+            setProdutos([])
           });
       }, [props.search.onChangeSearch, props.search.page, props.search.perPage]);
 

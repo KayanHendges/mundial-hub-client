@@ -3,10 +3,10 @@ import styles from './styles.module.scss'
 export default function KitContainer(props){
 
     function hasPromotion(kit){
-        if(kit.promotional_price){
-            return kit.promotional_price
+        if(kit.tray_promotional_price){
+            return kit.tray_promotional_price
         } else {
-            kit.price
+            kit.tray_price
         }
     }
 
@@ -55,7 +55,7 @@ export default function KitContainer(props){
                                 className={styles.priceContainer}
                                 >
                                     <span>
-                                        estoque: {kit.stock_tray}
+                                        estoque: {kit.tray_stock}
                                     </span>
                                     <span>
                                         preço: {hasPromotion(kit)}
