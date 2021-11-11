@@ -1,7 +1,9 @@
 .wrapper{
     display: flex;
+    width: 9rem;
     height: 1.5rem;
     background-color: var(--gray-2);
+    border: 1px solid var(--gray-line);
     align-items: center;
     gap: 1rem;
     justify-content: center;
@@ -19,17 +21,22 @@
         z-index: 2;
         position: absolute;
         height: 1.5rem;
+        width: 4.5rem;
         background-color: var(--gray-3);
         border-radius: 4rem;
         border: 1px solid var(--complementar-text);
         font-size: .8rem;
         color: var(--complementar-text);
+        white-space: nowrap;
 
         transition: .2s;
     }
 
     .placeholder{
         color: var(--complementar-text);
+        width: 4.5rem;
+        align-items: center;
+        text-align: center;
         font-size: .8rem;
         font-weight: 400;
 

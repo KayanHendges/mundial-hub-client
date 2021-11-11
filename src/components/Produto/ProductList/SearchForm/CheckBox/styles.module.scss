@@ -6,13 +6,16 @@
     justify-content: center;
     cursor: pointer;
     padding: 0 .5rem;
-
     border-radius: 4rem;
+
+    transition: .2s;
 
     .label{
         color: var(--complementar-text);
         font-size: .8rem;
         font-weight: 400;
+
+        transition: .2s;
 
         -webkit-user-select: none;  
         -moz-user-select: none;     

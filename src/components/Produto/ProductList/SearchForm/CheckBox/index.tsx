@@ -5,7 +5,7 @@ export default function CheckBox(props){
 
     const [ style, setStyle ] = useState({
         active: false,
-        border: "1px solid var(--gray-2)",
+        border: "1px solid var(--gray-line)",
         textColor: "var(--complementar-text)"
     })
 
@@ -19,7 +19,7 @@ export default function CheckBox(props){
         } else {
             setStyle({
                 active: false,
-                border: "1px solid var(--gray-2)",
+                border: "1px solid var(--gray-line)",
                 textColor: "var(--complementar-text)"
             })
         }

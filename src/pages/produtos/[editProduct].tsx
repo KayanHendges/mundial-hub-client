@@ -13,32 +13,43 @@ import { parseISO } from "date-fns";
 import Head from "next/head";
 
 
+
 export default function editProduct(props){
     
     const startValues = {
         hubId: 0,
-        trayId: 0,
         ean: "",
-        is_kit: 0,
         ncm: "",
         name: "",
         description: "",
-        price: "0",
-        cost: "0",
-        profit: "",
-        promotionalPrice: "",
-        startPromotion: "",
-        endPromotion: "",
+        pricing: {
+            mundial: {
+                tray_id: 0,
+                cost: "0",
+                price: "0",
+                promotionalPrice: "",
+                startPromotion: "",
+                endPromotion: "",
+                stock: ""
+            },
+            scpneus: {
+                tray_id: 0,
+                cost: "0",
+                price: "0",
+                promotionalPrice: "",
+                startPromotion: "",
+                endPromotion: "",
+                stock: ""
+            }
+        },
         brand: "",
         model: "",
         weight: "",
         length: "",
         width: "",
         height: "",
-        stock: "",
         mainCategoryId: 1,
         related_categories: [],
-        available: 0,
         availability: "",
         availabilityDays: 0,
         reference: "",
@@ -55,79 +66,8 @@ export default function editProduct(props){
 
     const startKit2 = {
         hubId: 0,
-            trayId: 0,
-            ean: "",
-            is_kit: 1,
-            ncm: "",
-            name: "",
-            description: "",
-            price: "0",
-            cost: "0",
-            profit: "",
-            promotionalPrice: "",
-            startPromotion: "",
-            endPromotion: "",
-            brand: "",
-            model: "",
-            weight: "",
-            length: "",
-            width: "",
-            height: "",
-            stock: "",
-            mainCategoryId: 1,
-            related_categories: [],
-            available: 0,
-            availability: "",
-            availabilityDays: 0,
-            reference: "",
-            images: [
-                {imageUrl: ""},
-                {imageUrl: ""},
-                {imageUrl: ""},
-                {imageUrl: ""},
-                {imageUrl: ""},
-                {imageUrl: ""}
-            ],
-            comments: "",
-            rules: {
-                discountType: "",
-                discountValue: "",
-                price: "",
-                priceRule: "",
-                productId: 0,
-                productParentId: 0,
-                quantity: 0,
-                trayId: "",
-            }
-    }
-
-    const startKit4 = {
-        hubId: 0,
-        trayId: 0,
-        ean: "",
-        is_kit: 1,
-        ncm: "",
         name: "",
         description: "",
-        price: "0",
-        cost: "0",
-        profit: "",
-        promotionalPrice: "",
-        startPromotion: "",
-        endPromotion: "",
-        brand: "",
-        model: "",
-        weight: "",
-        length: "",
-        width: "",
-        height: "",
-        stock: "",
-        mainCategoryId: 1,
-        related_categories: [],
-        available: 0,
-        availability: "",
-        availabilityDays: 0,
-        reference: "",
         images: [
             {imageUrl: ""},
             {imageUrl: ""},
@@ -136,16 +76,29 @@ export default function editProduct(props){
             {imageUrl: ""},
             {imageUrl: ""}
         ],
-        comments: "",
         rules: {
             discountType: "",
             discountValue: "",
-            price: "",
             priceRule: "",
-            productId: 0,
-            productParentId: 0,
-            quantity: 0,
-            trayId: "",
+        }
+    }
+
+    const startKit4 = {
+        hubId: 0,
+        name: "",
+        description: "",
+        images: [
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""},
+            {imageUrl: ""}
+        ],
+        rules: {
+            discountType: "",
+            discountValue: "",
+            priceRule: "",
         }
     }
         
@@ -178,54 +131,16 @@ export default function editProduct(props){
         console.log('procurando unitário')
         api.get(`produtos/${props.hubProductId}`)
         .then(response => {
-            const productData = response.data
-            Object.keys(productData).map(function(key, index) {
-                if(productData[key] == null){
-                    productData[key] = ""
-                }
-            })
-            const startValues = {
-                hubId: productData.hub_id,
-                trayId: productData.tray_id,
-                ean: productData.ean,
-                is_kit: productData.is_kit,
-                ncm: productData.ncm,
-                name: productData.product_name,
-                description: productData.product_description,
-                price: parseFloat(productData.price).toFixed(2).replace(".", ","),
-                cost: parseFloat(productData.cost_price).toFixed(2).replace(".", ","),
-                profit: productData.profit.toString(),
-                promotionalPrice: parseFloat(productData.promotional_price).toFixed(2).replace(".", ","),
-                startPromotion: validateDate(productData.start_promotion),
-                endPromotion: validateDate(productData.end_promotion),
-                brand: productData.brand,
-                model: productData.model,
-                weight: productData.weight,
-                length: productData.length,
-                width: productData.width,
-                height: productData.height,
-                stock: productData.stock_tray,
-                mainCategoryId: productData.main_category_id,
-                related_categories: productData.related_categories,
-                available: productData.available,
-                availability: productData.availability,
-                availabilityDays: productData.availability_days,
-                reference: productData.reference,
-                images: [
-                    {imageUrl: productData.picture_source_1},
-                    {imageUrl: productData.picture_source_2},
-                    {imageUrl: productData.picture_source_3},
-                    {imageUrl: productData.picture_source_4},
-                    {imageUrl: productData.picture_source_5},
-                    {imageUrl: productData.picture_source_6}
-                ],
-                comments: productData.comments,
-            }
+            if(response.data.code == 200){
+                const product = response.data.product
 
-            setHeaderTitle(productData.product_name)
-            
-            setValues(startValues)
-            
+                setValues(product)
+                setHeaderTitle(product.name)
+            }
+        })
+        .catch(err => {
+            console.log(err.respose.data.message)
+            alert(err.respose.data.message)
         })
     }, [])
 

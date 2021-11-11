@@ -6,10 +6,10 @@ export default function SelectBox(props){
     const [ position, setPosition ] = useState({
         select: false,
         leftStyle: {
-            left: '0'
+            left: '0%'
         },
         rightStyle: {
-            right: '0'
+            left: '50%'
         }
     })
 
