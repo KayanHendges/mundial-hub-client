@@ -82,6 +82,30 @@ export default function KitWrapper(props){
         border: '1px solid var(--complementar-text)'
     })
 
+    const [ fill, setFill ] = useState({
+        borderColor: "1px solid var(--complementar-text)",
+        color: "var(--complementar-text)",
+        display: props.createKit ? "flex" : "none"
+    })
+
+    function handleFill(){
+        setFill({
+            borderColor: "1px solid #207567",
+            color: "var(--white-text)",
+            display: "flex"
+        })
+
+        props.fillKits()
+
+        setTimeout(() => {
+            setFill({
+                borderColor: "1px solid var(--complementar-text)",
+                color: "var(--complementar-text)",
+                display: "none"
+            })
+        }, 1000)
+    }
+
     function displayCreateKit(createKit){
         if(createKit){
             return 'flex'
@@ -236,7 +260,7 @@ export default function KitWrapper(props){
                 onClick={() => handleKitContainer(!optionStyle.show)}
                 >
                     <span>
-                        {props.kitHeader}
+                        {props.kitHeader} {props.createKit ? '- ainda não foi criado' : ''}
                     </span>
                     <div
                     className={styles.createKit}
@@ -260,6 +284,22 @@ export default function KitWrapper(props){
                     height: `${optionStyle.height}`
                 }}
                 >
+                    <div
+                    className={styles.fillButton}
+                    onClick={() => handleFill()}
+                    style={{
+                        border: `${fill.borderColor}`,
+                        display: `${fill.display}`
+                    }}
+                    >
+                        <span
+                        style={{
+                            color: `${fill.color}`  
+                        }}
+                        >
+                            preencher
+                        </span>
+                    </div>
                     <DefaultInput
                     label="nome do kit"
                     width="100%"
@@ -289,7 +329,7 @@ export default function KitWrapper(props){
                         display={hasDisplay()}
                         width="8rem"
                         label="desconto"
-                        value={props.kitValues.rules.discountValue.replace(".", ",")}
+                        value={props.kitValues.rules.discountValue}
                         onChange={handleDiscount}
                         />
                     </div>

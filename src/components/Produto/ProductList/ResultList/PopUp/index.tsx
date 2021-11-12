@@ -54,7 +54,7 @@ export default function PopUp(props){
                 display: `${popUp.display}`,
             }}
             >
-                <Link href={`/produtos/${props.hubId}`}>
+                <Link href={`/produtos/${props.reference}`}>
                     <span
                     className={styles.container}
                     >

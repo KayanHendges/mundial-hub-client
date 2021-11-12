@@ -57,6 +57,24 @@
         padding: .5rem 1rem 1rem;
         z-index: 1;
 
+        .fillButton{
+            margin-top: 0.5rem;
+            height: 2rem;
+            width: 7rem;
+            border-radius: .4rem;
+            cursor: pointer;
+            background-color: var(--gray-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .2s;
+    
+            span{
+                transition: .2s;
+                font-weight: 400;
+            }
+        }
+
         .inputContainer{
             display: flex;
             justify-content: flex-start;

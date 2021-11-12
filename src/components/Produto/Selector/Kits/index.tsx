@@ -5,7 +5,7 @@ import DefaultInput from '../../../Inputs/DefaultInput'
 import KitWrapper from './KitWrapper'
 
 export default function Kits(props){
-
+    
     if(props.requestKits){
         return(
             <div 
@@ -21,6 +21,7 @@ export default function Kits(props){
                 createKit={props.createKit.kit2}
                 setCreateKit={props.setCreateKit}
                 onChange={props.onChange}
+                fillKits={props.fillKits}
                 />
                 <KitWrapper
                 kitHeader="kit 4"
@@ -31,6 +32,7 @@ export default function Kits(props){
                 createKit={props.createKit.kit4}
                 setCreateKit={props.setCreateKit}
                 onChange={props.onChange}
+                fillKits={props.fillKits}
                 />
             </div>
         )

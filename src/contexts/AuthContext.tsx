@@ -24,15 +24,12 @@ export const AuthContext = createContext({} as AuthContextType)
 
 export function AuthProvider ({ children }) {
 
-    console.log('AuthContext')
-
     const [ user, setUser ] = useState<User | null>(null)
 
     const [ isAuthenticated, setIsAuthenticated ] = useState(!!user);
 
     useEffect(() => {
         const { 'mundialhub.token': token } = parseCookies()
-        console.log('useEffect')
 
         if(token) {
             api.get('/users.auth', {
