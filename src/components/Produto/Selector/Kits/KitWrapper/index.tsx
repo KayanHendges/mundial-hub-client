@@ -73,7 +73,8 @@ export default function KitWrapper(props){
     const [ optionStyle, setOptionStyle ] = useState({
         show: false,
         display: "none",
-        height: "0rem"
+        height: "0rem",
+        padding: "0 1rem 0"
     })
 
     const [ createKit, setCreateKit ] = useState({
@@ -222,13 +223,15 @@ export default function KitWrapper(props){
             setOptionStyle({
                 show: true,
                 display: "flex",
-                height: "auto"
+                height: "34rem",
+                padding: ".5rem 1rem 1rem"
             })
         } else {
             setOptionStyle({
                 show: false,
                 display: "none",
-                height: "0rem"
+                height: "0rem",
+                padding: "0 1rem 0"
             })
         }
     }
@@ -280,8 +283,9 @@ export default function KitWrapper(props){
                 <div
                 className={styles.kitContainer}
                 style={{
-                    display: `${optionStyle.display}`,
-                    height: `${optionStyle.height}`
+                    // display: `${optionStyle.display}`,
+                    height: `${optionStyle.height}`,
+                    padding: `${optionStyle.padding}`
                 }}
                 >
                     <div

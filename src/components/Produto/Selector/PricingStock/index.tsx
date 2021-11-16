@@ -1,12 +1,10 @@
 import styles from './styles.module.scss'
 
-import DefaultNumberInput from '../../../Inputs/DefaultNumberInput'
+import StoreContainer from './StoreContainer'
 import UnitInput from '../../../Inputs/UnitInput'
-import DateInput from './DateInput'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AvailableInput from './AvailableInput'
-import { format } from 'date-fns'
-import DefaultPriceInput from '../../../Inputs/DefaultPriceInput'
+import StoreContainerMundial from './StoreContainerMundial'
 
 export default function PricingStock(props){
     const [ checkBox, setCheckBox ] = useState({
@@ -31,95 +29,141 @@ export default function PricingStock(props){
         }
     }
 
-    function handlePromotionDate(){
-        if(props.values.promotionalPrice.length == 0){
-            props.setValues({...props.values, startPromotion: "", endPromotion: ""})
-        }
-        if(props.values.promotionalPrice.length > 0 && props.values.startPromotion.length == 0){
-            const date = format(new Date(), "yyyy-MM-dd")
-            props.setValues({...props.values, startPromotion: date})
+    const [ autoPrice, setAutoPrice ] = useState({
+        active: true,
+        label: 'automático',
+        priceRule: 'desconto',
+        value: `${100 - ((parseFloat(props.values.pricing.scpneus.promotionalPrice)/100)*parseFloat(props.values.pricing.mundial.promotionalPrice))}`,
+        position: '0%',
+    })
+
+    function handlePricing(e){
+
+        const key = e.target.getAttribute('name')
+        const value = e.target.value
+
+        props.setValues({...props.values, pricing: {
+             mundial: {
+                ...props.values.pricing.mundial, [key]: value
+            },
+            scpneus: {
+                ...props.values.pricing.scpneus, [key]: value
+            }
+        }})
+    }
+
+    function handlePricingMundial(e){
+
+        const key = e.target.getAttribute('name')
+        const value = e.target.value
+
+        if(autoPrice.active && key != 'promotionalPrice'){
+            props.setValues({...props.values, pricing: {
+                mundial: {
+                    ...props.values.pricing.mundial, [key]: value
+                },
+                scpneus: {
+                    ...props.values.pricing.scpneus, [key]: value
+                }
+            }})
+        } else {
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing,
+                mundial: {
+                    ...props.values.pricing.mundial, [key]: value
+                }
+            }})
         }
     }
 
+    function handlePricingSCpneus(e){
+
+        const key = e.target.getAttribute('name')
+        const value = e.target.value
+
+        props.setValues({...props.values, pricing: {
+            ...props.values.pricing,
+            scpneus: {
+                ...props.values.pricing.scpneus, [key]: value
+            }
+        }})
+    }
+
     function setZeroStock(){
-        const stock = props.values.stock.toString()
-        if(props.values.stock.length == 0){
-            props.setValues({...props.values, stock: "0"})
+        const stock = props.values.pricing.mundial.stock.toString()
+        if(props.values.pricing.mundial.stock.length == 0){
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing,
+                 mundial: {
+                    ...props.values.pricing.mundial, stock: "0"
+                }
+            }})
         }
     }
+
+    useEffect(() => {
+
+        const promotionalPriceMundial = parseFloat(props.values.pricing.mundial.promotionalPrice.replace(',', '.'))
+        const promotionalPriceScPneus = parseFloat(props.values.pricing.scpneus.promotionalPrice.replace(',', '.'))
+
+        if(promotionalPriceScPneus < promotionalPriceMundial){
+            console.log(promotionalPriceScPneus*100)
+            setAutoPrice({
+                ...autoPrice,
+                priceRule: 'desconto',
+                value: (100 - ((promotionalPriceScPneus*100)/promotionalPriceMundial)).toFixed(2).replace('.', ','),
+            })
+        }
+        if(promotionalPriceScPneus > promotionalPriceMundial){
+            setAutoPrice({
+                ...autoPrice,
+                priceRule: 'acrécimo',
+                value: (((promotionalPriceScPneus*100)/promotionalPriceMundial) - 100).toFixed(2).replace('.', ','),
+            })
+        }
+        if(promotionalPriceScPneus == promotionalPriceMundial){
+            setAutoPrice({
+                ...autoPrice,
+                priceRule: 'igual',
+                value: '0',
+            })
+        }
+
+    }, [props.values.pricing.mundial.promotionalPrice, props.values.pricing.scpneus.promotionalPrice])
 
     return(
         <div
         className={styles.wrapper}
         style={{display:`${props.display.display}`}}
         >
-            <div className={styles.inputContainer}>
-                <DefaultPriceInput
-                width="100%"
-                label="custo"
-                name="cost"
-                placeholder=""
-                required=""
-                value={props.values.cost}
-                onChange={props.onChange}
-                />
-                <UnitInput
-                width="100%"
-                label="lucro"
-                name="profit"
-                unit="%"
-                placeholder=""
-                value={props.values.profit}
-                onChange={props.onChange}
-                onlyNumber={props.onlyNumber}
-                />
-                <DefaultPriceInput
-                width="100%"
-                label="preço de venda"
-                name="price"
-                placeholder=""
-                required="required"
-                value={props.values.price}
-                onChange={props.onChange}
-                />
-            </div>
-            <div className={styles.inputContainer}>
-                <DefaultPriceInput
-                width="100%"
-                label="preço promocional"
-                name="promotionalPrice"
-                placeholder=""
-                required=""
-                value={props.values.promotionalPrice}
-                onChange={props.onChange}
-                onlyNumber={props.onlyNumber}
-                leaveInput={handlePromotionDate}
-                />
-                <DateInput 
-                width="100%"
-                visibility={props.values.promotionalPrice}
-                label="inicio da promoção"
-                name="startPromotion"
-                value={props.values.startPromotion}
-                onChange={props.onChange}
-                />
-                <DateInput 
-                width="100%"
-                visibility={props.values.promotionalPrice}
-                label="fim da promoção"
-                name="endPromotion"
-                value={props.values.endPromotion}
-                onChange={props.onChange}
-                />
-            </div>
+            <StoreContainerMundial 
+            storeName='Mundial'
+            pricingValues={props.values.pricing.mundial}
+            autoPrice={autoPrice}
+            setAutoPrice={setAutoPrice}
+            values={props.values}
+            setValues={props.setValues}
+            onChange={handlePricingMundial}
+            onlyNumber={props.onlyNumber}
+            />
+            <StoreContainer 
+            storeName='SC Pneus'
+            pricingValues={props.values.pricing.scpneus}
+            autoPrice={autoPrice}
+            setAutoPrice={setAutoPrice}
+            values={props.values}
+            setValues={props.setValues}
+            onChange={handlePricingSCpneus}
+            onlyNumber={props.onlyNumber}
+            />
             <div className={styles.inputContainer}>
                 <UnitInput
                 width="10rem"
                 label="estoque"
                 name="stock"
                 unit="un"
-                value={props.values.stock}
-                onChange={props.onChange}
+                value={props.values.pricing.mundial.stock}
+                onChange={handlePricing}
                 onlyNumber={props.onlyNumber}
                 leaveInput={setZeroStock}
                 />

@@ -138,14 +138,14 @@ export default function Selector(props){
             display={{display: `${whatDisplay(1)}`}}
             handleCategories={props.handleCategories}
             />
-            {/* <PricingStock 
+            <PricingStock 
             display={{display: `${whatDisplay(2)}`}}
             values={props.values}
             setValues={props.setValues}
             setValue={props.setValue}
             onChange={props.onChange}
             onlyNumber={props.onlyNumber}
-            /> */}
+            />
             <DadosComplementares
             display={{display: `${whatDisplay(3)}`}}
             values={props.values}

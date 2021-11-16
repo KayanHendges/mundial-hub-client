@@ -77,7 +77,7 @@ export default function DefaultPriceInput(props){
                 <input
                 type={props.type}
                 name={props.name}
-                value={props.value}
+                value={props.value.toString().replace('.', ',')}
                 onChange={(e) => {props.onChange(priceFormat(e))}}
                 placeholder={props.placeholder}
                 onBlur={() => {if(props.leaveInput != undefined){

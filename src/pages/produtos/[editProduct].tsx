@@ -26,6 +26,7 @@ export default function editProduct(props){
             mundial: {
                 tray_id: 0,
                 cost: "0",
+                profit: "",
                 price: "0",
                 promotionalPrice: "",
                 startPromotion: "",
@@ -35,6 +36,7 @@ export default function editProduct(props){
             scpneus: {
                 tray_id: 0,
                 cost: "0",
+                profit: "",
                 price: "0",
                 promotionalPrice: "",
                 startPromotion: "",
@@ -125,13 +127,61 @@ export default function editProduct(props){
             if(response.data.code == 200){
                 const product = response.data.product
 
-                setValues(product)
+                setValues({
+                    hubId: product.hubId,
+                    ean: product.ean,
+                    ncm: product.ncm,
+                    name: product.name,
+                    description: product.description,
+                    pricing: {
+                        mundial: {
+                            tray_id: product.pricing.mundial.tray_id,
+                            cost: product.pricing.mundial.cost.toFixed(2).replace('.', ','),
+                            profit: product.pricing.mundial.profit,
+                            price: product.pricing.mundial.price.toFixed(2).replace('.', ','),
+                            promotionalPrice: product.pricing.mundial.promotionalPrice.toFixed(2).replace('.', ','),
+                            startPromotion: format(parseISO(product.pricing.mundial.startPromotion), 'yyyy-MM-dd'),
+                            endPromotion: format(parseISO(product.pricing.mundial.endPromotion), 'yyyy-MM-dd'),
+                            stock: product.pricing.mundial.stock
+                        },
+                        scpneus: {
+                            tray_id: product.pricing.scpneus.tray_id,
+                            cost: product.pricing.scpneus.cost.toFixed(2).replace('.', ','),
+                            profit: product.pricing.scpneus.profit,
+                            price: product.pricing.scpneus.price.toFixed(2).replace('.', ','),
+                            promotionalPrice: product.pricing.scpneus.promotionalPrice.toFixed(2).replace('.', ','),
+                            startPromotion: format(parseISO(product.pricing.scpneus.startPromotion), 'yyyy-MM-dd'),
+                            endPromotion: format(parseISO(product.pricing.scpneus.endPromotion), 'yyyy-MM-dd'),
+                            stock: product.pricing.scpneus.stock
+                        }
+                    },
+                    brand: product.brand,
+                    model: product.model,
+                    weight: product.weight.toString(),
+                    length: product.length.toString(),
+                    width: product.width.toString(),
+                    height: product.height.toString(),
+                    mainCategoryId: product.mainCategoryId,
+                    related_categories: product.related_categories,
+                    availability: product.availability,
+                    availabilityDays: product.availabilityDays,
+                    reference: product.reference,
+                    images: [
+                        {imageUrl: product.images[0].imageUrl},
+                        {imageUrl: product.images[1].imageUrl},
+                        {imageUrl: product.images[2].imageUrl},
+                        {imageUrl: product.images[3].imageUrl},
+                        {imageUrl: product.images[4].imageUrl},
+                        {imageUrl: product.images[5].imageUrl}
+                    ],
+                    comments: product.comments,
+                })
                 setHeaderTitle(product.name)
             }
         })
         .catch(err => {
-            console.log(err.respose.data.message)
-            alert(err.respose.data.message)
+            console.log(err.response.data.message)
+            alert(err.response.data.message)
         })
     }, [])
 
