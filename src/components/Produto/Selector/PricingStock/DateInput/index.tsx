@@ -3,8 +3,9 @@ import { CSSProperties } from 'react'
 
 export default function DateInput(props){
 
+
     function showInput(displayValue){
-        if(displayValue.length > 0){
+        if(displayValue.length > 0 && displayValue != '0,00'){
             return 'visible'
         } else {
             return 'hidden'
@@ -16,7 +17,7 @@ export default function DateInput(props){
         visibility: `${showInput(props.visibility)}`
     } as const
 
-    if(props.visibility.length > 0){
+    if(props.visibility.length > 0 && props.visibility != '0,00'){
         return(
             <div
                 className={styles.wrapper}

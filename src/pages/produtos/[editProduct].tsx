@@ -68,6 +68,7 @@ export default function editProduct(props){
 
     const startKit2 = {
         hubId: 0,
+        trayId: 0,
         name: "",
         description: "",
         images: [
@@ -87,6 +88,7 @@ export default function editProduct(props){
 
     const startKit4 = {
         hubId: 0,
+        trayId: 0,
         name: "",
         description: "",
         images: [
@@ -140,8 +142,8 @@ export default function editProduct(props){
                             profit: product.pricing.mundial.profit,
                             price: product.pricing.mundial.price.toFixed(2).replace('.', ','),
                             promotionalPrice: product.pricing.mundial.promotionalPrice.toFixed(2).replace('.', ','),
-                            startPromotion: format(parseISO(product.pricing.mundial.startPromotion), 'yyyy-MM-dd'),
-                            endPromotion: format(parseISO(product.pricing.mundial.endPromotion), 'yyyy-MM-dd'),
+                            startPromotion: product.pricing.mundial.startPromotion.length > 0 ? format(parseISO(product.pricing.mundial.startPromotion), 'yyyy-MM-dd') : '',
+                            endPromotion: product.pricing.mundial.endPromotion.length > 0 ? format(parseISO(product.pricing.mundial.endPromotion), 'yyyy-MM-dd') : '',
                             stock: product.pricing.mundial.stock
                         },
                         scpneus: {
@@ -150,8 +152,8 @@ export default function editProduct(props){
                             profit: product.pricing.scpneus.profit,
                             price: product.pricing.scpneus.price.toFixed(2).replace('.', ','),
                             promotionalPrice: product.pricing.scpneus.promotionalPrice.toFixed(2).replace('.', ','),
-                            startPromotion: format(parseISO(product.pricing.scpneus.startPromotion), 'yyyy-MM-dd'),
-                            endPromotion: format(parseISO(product.pricing.scpneus.endPromotion), 'yyyy-MM-dd'),
+                            startPromotion: product.pricing.scpneus.startPromotion.length > 0 ? format(parseISO(product.pricing.scpneus.startPromotion), 'yyyy-MM-dd') : '',
+                            endPromotion: product.pricing.scpneus.endPromotion.length > 0 ? format(parseISO(product.pricing.scpneus.endPromotion), 'yyyy-MM-dd') : '',
                             stock: product.pricing.scpneus.stock
                         }
                     },
@@ -180,8 +182,9 @@ export default function editProduct(props){
             }
         })
         .catch(err => {
-            console.log(err.response.data.message)
-            alert(err.response.data.message)
+            console.log(err)
+            // console.log(err.response.data.message)
+            // alert(err.response.data.message)
         })
     }, [])
 
@@ -346,93 +349,93 @@ export default function editProduct(props){
 
         if(requestKits && !submit){
             setSubmit(true)
-            api.patch('/produtos', {
+            api.patch(`/client.productPage.edit/${values.reference}`, {
                 params: {
-                    reference: values.reference,
                     unitary: {
+                        hubId: values.hubId,
                         ean: values.ean,
-                        tray_id: values.trayId,
-                        is_kit: values.is_kit,
                         ncm: values.ncm,
-                        product_name: values.name,
-                        product_title: values.name,
-                        product_description: values.description,
-                        product_small_description: values.description,
-                        price: values.price,
-                        cost_price: values.cost,
-                        profit: values.profit,
-                        promotional_price: values.promotionalPrice,
-                        start_promotion: hasPromotionPrice(values.startPromotion),
-                        end_promotion: hasPromotionPrice(values.endPromotion),
+                        name: values.name,
+                        description: values.description,
+                        pricing: {
+                            mundial: {
+                                tray_id: values.pricing.mundial.tray_id,
+                                cost: values.pricing.mundial.cost,
+                                profit: values.pricing.mundial.profit,
+                                price: values.pricing.mundial.price,
+                                promotionalPrice: values.pricing.mundial.promotionalPrice,
+                                startPromotion: values.pricing.mundial.startPromotion,
+                                endPromotion: values.pricing.mundial.endPromotion,
+                                stock: values.pricing.mundial.stock
+                            },
+                            scpneus: {
+                                tray_id: values.pricing.scpneus.tray_id,
+                                cost: values.pricing.scpneus.cost,
+                                profit: values.pricing.scpneus.profit,
+                                price: values.pricing.scpneus.price,
+                                promotionalPrice: values.pricing.scpneus.promotionalPrice,
+                                startPromotion: values.pricing.scpneus.startPromotion,
+                                endPromotion: values.pricing.scpneus.endPromotion,
+                                stock: values.pricing.scpneus.stock
+                            }
+                        },
                         brand: values.brand,
                         model: values.model,
-                        weight: parseInt(values.weight),
-                        length: parseInt(values.length),
-                        width: parseInt(values.width),
-                        height: parseInt(values.height),
-                        stock_tray: parseInt(values.stock),
-                        main_category_id: values.mainCategoryId,
-                        tray_related_categories: values.related_categories,
-                        available: values.available,
+                        weight: values.weight,
+                        length: values.length,
+                        width: values.width,
+                        height: values.height,
+                        mainCategoryId: values.mainCategoryId,
+                        related_categories: values.related_categories,
                         availability: values.availability,
-                        availability_days: values.availabilityDays,
+                        availabilityDays: values.availabilityDays,
                         reference: values.reference,
-                        picture_source_1: values.images[0].imageUrl,
-                        picture_source_2: values.images[1].imageUrl,
-                        picture_source_3: values.images[2].imageUrl,
-                        picture_source_4: values.images[3].imageUrl,
-                        picture_source_5: values.images[4].imageUrl,
-                        picture_source_6: values.images[5].imageUrl,
-                        comments: "",
+                        images: [
+                            {imageUrl: values.images[0].imageUrl},
+                            {imageUrl: values.images[1].imageUrl},
+                            {imageUrl: values.images[2].imageUrl},
+                            {imageUrl: values.images[3].imageUrl},
+                            {imageUrl: values.images[4].imageUrl},
+                            {imageUrl: values.images[5].imageUrl}
+                        ],
+                        comments: values.comments,
                     },
                     kit2: {
-                        tray_id: kit2Values.trayId,
-                        is_kit: kit2Values.is_kit,
-                        product_name: kit2Values.name,
-                        product_title: kit2Values.name,
-                        product_description: kit2Values.description,
-                        product_small_description: kit2Values.description,
-                        reference: kit2Values.reference,
-                        picture_source_1: kit2Values.images[0].imageUrl,
-                        picture_source_2: kit2Values.images[1].imageUrl,
-                        picture_source_3: kit2Values.images[2].imageUrl,
-                        picture_source_4: kit2Values.images[3].imageUrl,
-                        picture_source_5: kit2Values.images[4].imageUrl,
-                        picture_source_6: kit2Values.images[5].imageUrl,
+                        hubId: kit2Values.hubId,
+                        trayId: kit2Values.trayId,
+                        name: kit2Values.name,
+                        description: kit2Values.description,
+                        images: [
+                            {imageUrl: kit2Values.images[0].imageUrl},
+                            {imageUrl: kit2Values.images[1].imageUrl},
+                            {imageUrl: kit2Values.images[2].imageUrl},
+                            {imageUrl: kit2Values.images[3].imageUrl},
+                            {imageUrl: kit2Values.images[4].imageUrl},
+                            {imageUrl: kit2Values.images[5].imageUrl}
+                        ],
                         rules: {
-                            discount_type: kit2Values.rules.discountType,
-                            discount_value: parseFloat(kit2Values.rules.discountValue.replace(",", ".")),
-                            price: 0,
-                            price_rule: kit2Values.rules.priceRule,
-                            product_id: kit2Values.rules.productId,
-                            product_parent_id: kit2Values.rules.productParentId,
-                            quantity: kit2Values.rules.quantity,
-                            tray_id: kit2Values.rules.trayId,
+                            discountType: kit2Values.rules.discountType,
+                            discountValue: kit2Values.rules.discountValue,
+                            priceRule: kit2Values.rules.priceRule,
                         }
                     },
                     kit4: {
-                        tray_id: kit4Values.trayId,
-                        is_kit: kit4Values.is_kit,
-                        product_name: kit4Values.name,
-                        product_title: kit4Values.name,
-                        product_description: kit4Values.description,
-                        product_small_description: kit4Values.description,
-                        reference: kit4Values.reference,
-                        picture_source_1: kit4Values.images[0].imageUrl,
-                        picture_source_2: kit4Values.images[1].imageUrl,
-                        picture_source_3: kit4Values.images[2].imageUrl,
-                        picture_source_4: kit4Values.images[3].imageUrl,
-                        picture_source_5: kit4Values.images[4].imageUrl,
-                        picture_source_6: kit4Values.images[5].imageUrl,
+                        hubId: kit4Values.hubId,
+                        trayId: kit4Values.trayId,
+                        name: kit4Values.name,
+                        description: kit4Values.description,
+                        images: [
+                            {imageUrl: kit4Values.images[0].imageUrl},
+                            {imageUrl: kit4Values.images[1].imageUrl},
+                            {imageUrl: kit4Values.images[2].imageUrl},
+                            {imageUrl: kit4Values.images[3].imageUrl},
+                            {imageUrl: kit4Values.images[4].imageUrl},
+                            {imageUrl: kit4Values.images[5].imageUrl}
+                        ],
                         rules: {
-                            discount_type: kit4Values.rules.discountType,
-                            discount_value: parseFloat(kit4Values.rules.discountValue.replace(",", ".")),
-                            price: 0,
-                            price_rule: kit4Values.rules.priceRule,
-                            product_id: kit4Values.rules.productId,
-                            product_parent_id: kit4Values.rules.productParentId,
-                            quantity: kit4Values.rules.quantity,
-                            tray_id: kit4Values.rules.trayId,
+                            discountType: kit4Values.rules.discountType,
+                            discountValue: kit4Values.rules.discountValue,
+                            priceRule: kit4Values.rules.priceRule,
                         }
                     }             
                 }

@@ -7,8 +7,6 @@ import AddMainCategory from './AddMainCategory'
 
 export default function RelatedCategories(props){
     
-    // console.log(props.values.related_categories)
-
     const [ display, setDisplay ] = useState([])
 
     useEffect(() => {
@@ -70,27 +68,37 @@ export default function RelatedCategories(props){
     }
 
     function childrenListId(id){
+        console.log(id)
         let list = []
         let childrenList = []
+        const hubList = []
 
         function myChildrens(parentId){
             props.categoriesList.map(category => {
-                if(category.category_parent_id == parentId){
-                    list.push(category.hub_category_id)
-                    if(category.children != null){
-                        myChildrens(category.hub_category_id)
-                    }
+                if(category.tray_category_parent_id == parentId){
+                    list.push(category.tray_category_id)
+                    myChildrens(category.tray_category_id)
                 }
             })
         }
 
         myChildrens(id)
 
-        list.map(number => {
+        list.map(trayId => {
+            props.categoriesList.map(category => {
+                if(category.tray_category_id == trayId){
+                    hubList.push(category.hub_category_id)
+                }
+            })
+        })
+
+        hubList.map(number => {
             if(props.values.related_categories.indexOf(number) > -1){
                 childrenList.push(number)
             }
         })
+
+        console.log(list, hubList, childrenList)
 
         return childrenList
     }
@@ -146,7 +154,7 @@ export default function RelatedCategories(props){
                                             />
                                             <button
                                             type="button"
-                                            onClick={() => props.handleCategories(category.hub_category_id, childrenListId(category.hub_category_id), false)}
+                                            onClick={() => props.handleCategories(category.hub_category_id, childrenListId(category.tray_category_id), false)}
                                             className={styles.removeButton}
                                             >
                                                 remover

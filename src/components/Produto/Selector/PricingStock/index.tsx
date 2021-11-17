@@ -107,7 +107,6 @@ export default function PricingStock(props){
         const promotionalPriceScPneus = parseFloat(props.values.pricing.scpneus.promotionalPrice.replace(',', '.'))
 
         if(promotionalPriceScPneus < promotionalPriceMundial){
-            console.log(promotionalPriceScPneus*100)
             setAutoPrice({
                 ...autoPrice,
                 priceRule: 'desconto',

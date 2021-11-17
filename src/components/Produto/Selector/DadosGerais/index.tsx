@@ -50,7 +50,7 @@ export default function DadosGerais(props){
                 name=""
                 placeholder=""
                 required=""
-                value={props.values.trayId}
+                value={props.values.pricing.mundial.tray_id}
                 onChange={props.onChange}
                 />
                 <DefaultInput
