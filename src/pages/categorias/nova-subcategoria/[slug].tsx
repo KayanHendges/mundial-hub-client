@@ -94,19 +94,19 @@ export default function slug(props){
         e.preventDefault();
         
 
-        api.post('/categorias', {
-            category_name: values.category_name,
-            category_small_description: values.category_small_desc,
-            category_description: values.category_description,
-            category_title: values.category_title,
-            category_slug: `${values.parent_slug}/${values.category_slug}`,
-            order_list: values.order_list,
-            has_acceptance_term: values.has_acceptance_term,
-            acceptance_term: values.acceptance_term,
-            category_meta_key: values.category_meta_key,
-            category_meta_desc: values.category_meta_desc,
-            property: values.property,
-            tray_category_parent_id: values.tray_category_parent_id
+        api.post(`/client.categoryPage/${props.parentId}`, {
+            category: {
+                category_name: values.category_name,
+                category_small_desc: values.category_small_desc,
+                category_description: values.category_description,
+                category_title: values.category_title,
+                category_slug: values.category_slug,
+                order_list: values.order_list,
+                has_acceptance_term: values.has_acceptance_term,
+                acceptance_term: values.acceptance_term,
+                category_meta_key: values.category_meta_key,
+                category_meta_desc: values.category_meta_desc,
+            }
         }).then(response => {
             router.push('/categorias')
             alert(response.data.message)

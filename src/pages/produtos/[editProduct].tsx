@@ -334,14 +334,6 @@ export default function editProduct(props){
         })
     }
 
-    function hasPromotionPrice(date){
-        if(values.promotionalPrice == ""){
-            return ""
-        } else {
-            return date
-        }
-    }
-
     function submitProduct(e) {
         e.preventDefault();
 

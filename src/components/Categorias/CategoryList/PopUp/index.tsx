@@ -24,13 +24,13 @@ export default function PopUp(props){
     }
 
     function deleteProduct(hubCategoryId){
-        api.delete(`categorias/${hubCategoryId}`)
+        api.delete(`/client.categoryPage/${hubCategoryId}`)
         .then(response => {
             alert(response.data.message)
             router.reload()
         })
         .catch(erro => {
-            alert(erro)
+            alert(erro.response.data.message)
             console.log(erro)
         })
     }

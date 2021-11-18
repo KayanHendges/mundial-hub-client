@@ -21,22 +21,16 @@ export default function addSubcategory(props){
     const startValues = {
         hub_category_id: 0,
         tray_category_id: 0,
+        tray_scpneus_category_id: 0,
         category_name: '',
         category_description: '',
         category_slug: '',
-        order_list: 0,
         category_title: '',
         category_small_desc: '',
         has_acceptance_term: 0,
         acceptance_term: '',
         category_meta_key: '',
         category_meta_desc: '',
-        property: '',
-        http_image: '',
-        https_image: '',
-        http_link: '',
-        https_link: '',
-        parent_id: '',
     }
 
     const [ values, setValues ] = useState(startValues)
@@ -84,60 +78,27 @@ export default function addSubcategory(props){
     }
 
     useEffect(() => {
-        api.get(`categorias/${props.hubCategoryId}`)
+        api.get(`/client.categoryPage/${props.hubCategoryId}`)
         .then(response => {
-            const category = response.data
+            if (response.data.code == 200) {
+                const category = response.data.category
+                setValues(category)
 
-            setValues({
-                hub_category_id: category.hub_category_id,
-                tray_category_id: category.tray_category_id,
-                category_name: category.category_name,
-                category_description: category.category_description,
-                category_slug: category.category_slug,
-                order_list: category.order_list,
-                category_title: category.category_title,
-                category_small_desc: category.category_small_description,
-                has_acceptance_term: category.has_acceptance_term,
-                acceptance_term: category.acceptance_term,
-                category_meta_key: category.category_meta_key,
-                category_meta_desc: category.category_meta_desc,
-                property: category.property,
-                http_image: category.http_image,
-                https_image: category.https_image,
-                http_link: category.http_link,
-                https_link: category.https_link,
-                parent_id: category.category_parent_id
-            })
-
-            setDisplay('flex')
-            setTitle(category.category_name)
+                setDisplay('flex')
+                setTitle(category.category_name)
+            } else {
+                console.log(response.data)
+            }
         })
+        .catch(erro => console.log(erro.response.data.message))
     }, [])
+
 
     function submitCategory(e) {
         e.preventDefault();
-        
-        console.log(values.tray_category_id)
 
-        api.patch(`/categorias/${values.hub_category_id}`, {
-            hub_category_id: values.hub_category_id,
-            tray_category_id: values.tray_category_id,
-            category_name: values.category_name,
-            category_description: values.category_description,
-            category_slug: values.category_slug,
-            order_list: values.order_list,
-            category_title: values.category_title,
-            category_small_description: values.category_small_desc,
-            has_acceptance_term: values.has_acceptance_term,
-            acceptance_term: values.acceptance_term,
-            category_meta_key: values.category_meta_key,
-            category_meta_desc: values.category_meta_desc,
-            property: values.property,
-            http_image: values.http_image,
-            https_image: values.https_image,
-            http_link: values.http_link,
-            https_link: values.https_link,
-            category_parent_id: values.parent_id
+        api.patch(`/client.categoryPage/${values.hub_category_id}`, {
+            category: values
         }).then(response => {
           alert(response.data.message)
   
