@@ -57,6 +57,12 @@ export default function StoreContainerMundial (props) {
         }
     }
 
+    function setZeroValue(value){
+        if(value.length == 0){
+            
+        }
+    }
+
     return (
         <div
         className={styles.wrapper}
