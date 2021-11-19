@@ -101,10 +101,54 @@ export default function PricingStock(props){
         }
     }
 
-    useEffect(() => {
+    function leavePromotionInput(){
+        console.log('leaveInput')
+        console.log(props.values.pricing.mundial.promotionalPrice)
+        
+        const promotionalPriceMundial = props.values.pricing.mundial.promotionalPrice.length == 0 ? 0 : parseFloat(props.values.pricing.mundial.promotionalPrice.replace(',', '.'))
 
-        const promotionalPriceMundial = parseFloat(props.values.pricing.mundial.promotionalPrice.replace(',', '.'))
-        const promotionalPriceScPneus = parseFloat(props.values.pricing.scpneus.promotionalPrice.replace(',', '.'))
+        if(promotionalPriceMundial == 0 && autoPrice){
+            setAutoPrice({
+                ...autoPrice,
+                priceRule: 'igual',
+                value: '0',
+            })
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing,
+                mundial: {
+                    ...props.values.pricing.mundial, 
+                    startPromotion: '',
+                    endPromotion: '',
+                    promotionalPrice: '0,00'
+                },
+                scpneus: {
+                    ...props.values.pricing.scpneus,
+                    promotionalPrice: '0,00',
+                    startPromotion: '',
+                    endPromotion: '',
+                }
+            }})
+        }
+        if(promotionalPriceMundial > 0 && autoPrice){           
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing,
+                scpneus: {
+                    ...props.values.pricing.scpneus,
+                    promotionalPrice: autoPrice.priceRule == 'igual' ? props.values.pricing.mundial.promotionalPrice :
+                    autoPrice.priceRule == 'acrécimo' ? (promotionalPriceMundial * ((parseFloat(autoPrice.value)/100) + 1)).toFixed(2) :
+                    (promotionalPriceMundial * (1 - (parseFloat(autoPrice.value)/100))).toFixed(2),
+                    startPromotion: props.values.pricing.mundial.startPromotion,
+                    endPromotion: props.values.pricing.mundial.endPromotion,
+                }
+            }})
+        }
+    }
+
+    useEffect(() => {
+        console.log('useEffct')
+
+        const promotionalPriceMundial = props.values.pricing.mundial.promotionalPrice.length == 0 ? 0 : parseFloat(props.values.pricing.mundial.promotionalPrice.replace(',', '.'))
+        const promotionalPriceScPneus = props.values.pricing.scpneus.promotionalPrice.length == 0 ? 0 : parseFloat(props.values.pricing.scpneus.promotionalPrice.replace(',', '.'))
 
         if(promotionalPriceScPneus < promotionalPriceMundial){
             setAutoPrice({
@@ -128,7 +172,7 @@ export default function PricingStock(props){
             })
         }
 
-    }, [props.values.pricing.mundial.promotionalPrice, props.values.pricing.scpneus.promotionalPrice])
+    }, [props.values.hubId, props.values.pricing.scpneus.promotionalPrice])
 
     return(
         <div
@@ -144,6 +188,7 @@ export default function PricingStock(props){
             setValues={props.setValues}
             onChange={handlePricingMundial}
             onlyNumber={props.onlyNumber}
+            leavePromotionInput={leavePromotionInput}
             />
             <StoreContainer 
             storeName='SC Pneus'

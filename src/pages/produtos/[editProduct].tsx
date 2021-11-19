@@ -438,9 +438,9 @@ export default function editProduct(props){
                     setTextButton('salvo com sucesso')
                     router.push('/produtos')
                 }
-            }).catch((error) => {
+            }).catch(error => {
                 setSubmit(false)
-              alert(error)
+              alert(error.response.data.message)
               console.log(error)
             })
         } else {

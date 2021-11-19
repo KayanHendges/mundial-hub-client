@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import DefaultPriceInput from '../../../../Inputs/DefaultPriceInput'
 import UnitInput from '../../../../Inputs/UnitInput'
 import PriceInput from '../../Kits/KitWrapper/PriceInput'
@@ -10,50 +10,15 @@ import styles from './styles.module.scss'
 export default function StoreContainer (props) {
 
     function handlePromotionDate(){
-        if(props.storeName == 'Mundial'){
-            
-            if(props.pricingValues.promotionalPrice.length == 0){
-                props.setValues({...props.values, pricing: {
-                    ...props.values.pricing, mundial: {
-                        ...props.values.pricing.mundial, 
-                        startPromotion: '',
-                        endPromotion: ''
-                    }
-                }})
-            }
-            if(props.pricingValues.promotionalPrice.length > 0 && props.pricingValues.startPromotion.length == 0){
-                const date = format(new Date(), "yyyy-MM-dd")
-                props.setValues({...props.values, pricing: {
-                    ...props.values.pricing, mundial: {
-                        ...props.values.pricing.mundial, 
-                        startPromotion: date,
-                    }
-                }})
-            }
-
-        }
-
-        if (props.storeName == 'SC Pneus') {
-
-            if(props.pricingValues.promotionalPrice.length == 0){
-                props.setValues({...props.values, pricing: {
-                    ...props.values.pricing, scpneus: {
-                        ...props.values.pricing.scpneus, 
-                        startPromotion: '',
-                        endPromotion: ''
-                    }
-                }})
-            }
-            if(props.pricingValues.promotionalPrice.length > 0 && props.pricingValues.startPromotion.length == 0){
-                const date = format(new Date(), "yyyy-MM-dd")
-                props.setValues({...props.values, pricing: {
-                    ...props.values.pricing, scpneus: {
-                        ...props.values.pricing.scpneus, 
-                        startPromotion: date,
-                    }
-                }})
-            }
-
+        if(props.pricingValues.promotionalPrice.length == 0){
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, scpneus: {
+                    ...props.values.pricing.scpneus, 
+                    startPromotion: '',
+                    endPromotion: '',
+                    promotionalPrice: '0,00'
+                }
+            }})
         }
     }
 
@@ -120,6 +85,44 @@ export default function StoreContainer (props) {
         }})
         handlePromotionDate()
     }
+
+    function setZeroCost(){
+        if(props.values.pricing.scpneus.cost.length == 0){
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, scpneus: {
+                    ...props.values.pricing.scpneus, 
+                    cost: '0,00',
+                }
+            }})
+        }
+    }
+
+    function setZeroProfit(){
+        if(props.values.pricing.scpneus.profit.length == 0){
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, scpneus: {
+                    ...props.values.pricing.scpneus, 
+                    profit: '0',
+                }
+            }})
+        }
+    }
+    
+    useEffect(() => {
+        if((props.pricingValues.cost.length > 0 && props.pricingValues.cost.length != '0,00') &&
+        props.pricingValues.profit.length > 0 && props.pricingValues.cost.length != '0'
+        ){
+            const cost = parseFloat(props.pricingValues.cost.replace(',', '.'))
+            const profit = parseFloat(props.pricingValues.profit.replace(',', '.'))
+
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, scpneus: {
+                    ...props.values.pricing.scpneus, 
+                    price: cost*((profit/100) + 1),
+                }
+            }})
+        }
+    }, [props.pricingValues.cost, props.pricingValues.profit])
 
     return (
         <div
@@ -201,6 +204,7 @@ export default function StoreContainer (props) {
                     required=""
                     value={props.pricingValues.cost}
                     onChange={props.onChange}
+                    leaveInput={setZeroCost}
                     />
                     <UnitInput
                     width="100%"
@@ -211,6 +215,7 @@ export default function StoreContainer (props) {
                     value={props.pricingValues.profit}
                     onChange={props.onChange}
                     onlyNumber={props.onlyNumber}
+                    leaveInput={setZeroProfit}
                     />
                     <DefaultPriceInput
                     width="100%"

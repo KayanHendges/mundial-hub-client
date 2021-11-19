@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import DefaultPriceInput from '../../../../Inputs/DefaultPriceInput'
 import UnitInput from '../../../../Inputs/UnitInput'
 import PriceInput from '../../Kits/KitWrapper/PriceInput'
@@ -10,58 +10,93 @@ import styles from './styles.module.scss'
 export default function StoreContainerMundial (props) {
 
     function handlePromotionDate(){
-        if(props.storeName == 'Mundial'){
-            
-            if(props.pricingValues.promotionalPrice.length == 0){
-                props.setValues({...props.values, pricing: {
-                    ...props.values.pricing, mundial: {
-                        ...props.values.pricing.mundial, 
-                        startPromotion: '',
-                        endPromotion: ''
-                    }
-                }})
-            }
-            if(props.pricingValues.promotionalPrice.length > 0 && props.pricingValues.startPromotion.length == 0){
-                const date = format(new Date(), "yyyy-MM-dd")
-                props.setValues({...props.values, pricing: {
-                    ...props.values.pricing, mundial: {
-                        ...props.values.pricing.mundial, 
-                        startPromotion: date,
-                    }
-                }})
-            }
 
+        if(props.pricingValues.promotionalPrice.length == 0){
+            console.log('zerar datas')
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, mundial: {
+                    ...props.values.pricing.mundial, 
+                    startPromotion: '',
+                    endPromotion: '',
+                    promotionalPrice: '0,00'
+                }
+            }})
+        }
+        if(props.pricingValues.promotionalPrice.length > 0 && props.pricingValues.startPromotion.length == 0){
+            const date = format(new Date(), "yyyy-MM-dd")
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, mundial: {
+                    ...props.values.pricing.mundial, 
+                    startPromotion: date,
+                }
+            }})
         }
 
-        if (props.storeName == 'SC Pneus') {
+        props.leavePromotionInput()
+    
+    }
 
-            if(props.pricingValues.promotionalPrice.length == 0){
-                props.setValues({...props.values, pricing: {
-                    ...props.values.pricing, scpneus: {
-                        ...props.values.pricing.scpneus, 
-                        startPromotion: '',
-                        endPromotion: ''
-                    }
-                }})
-            }
-            if(props.pricingValues.promotionalPrice.length > 0 && props.pricingValues.startPromotion.length == 0){
-                const date = format(new Date(), "yyyy-MM-dd")
-                props.setValues({...props.values, pricing: {
-                    ...props.values.pricing, scpneus: {
-                        ...props.values.pricing.scpneus, 
-                        startPromotion: date,
-                    }
-                }})
-            }
-
+    function setZeroCost(){
+        if(props.values.pricing.mundial.cost.length == 0 && props.autoPrice.active){
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, mundial: {
+                    ...props.values.pricing.mundial, 
+                    cost: '0,00',
+                },
+                scpneus: {
+                    ...props.values.pricing.scpneus, 
+                    cost: '0,00',
+                }
+            }})
+        }
+        if(props.values.pricing.mundial.cost.length == 0 && !props.autoPrice.active){
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, mundial: {
+                    ...props.values.pricing.mundial, 
+                    cost: '0,00',
+                },
+            }})
         }
     }
 
-    function setZeroValue(value){
-        if(value.length == 0){
-            
+    function setZeroProfit(){
+        if(props.values.pricing.mundial.profit.length == 0 && props.autoPrice.active){
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, mundial: {
+                    ...props.values.pricing.mundial, 
+                    profit: '0',
+                },
+                scpneus: {
+                    ...props.values.pricing.scpneus, 
+                    profit: '0',
+                }
+            }})
+        }
+        if(props.values.pricing.mundial.profit.length == 0 && !props.autoPrice.active){
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, mundial: {
+                    ...props.values.pricing.mundial, 
+                    profit: '0',
+                },
+            }})
         }
     }
+
+    useEffect(() => {
+        if((props.pricingValues.cost.length > 0 && props.pricingValues.cost.length != '0,00') &&
+        props.pricingValues.profit.length > 0 && props.pricingValues.cost.length != '0'
+        ){
+            const cost = parseFloat(props.pricingValues.cost.replace(',', '.'))
+            const profit = parseFloat(props.pricingValues.profit.replace(',', '.'))
+
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, mundial: {
+                    ...props.values.pricing.mundial, 
+                    price: (cost*((profit/100) + 1)).toFixed(2),
+                }
+            }})
+        }
+    }, [props.pricingValues.cost, props.pricingValues.profit])
 
     return (
         <div
@@ -91,6 +126,7 @@ export default function StoreContainerMundial (props) {
                     required=""
                     value={props.pricingValues.cost}
                     onChange={props.onChange}
+                    leaveInput={setZeroCost}
                     />
                     <UnitInput
                     width="100%"
@@ -101,6 +137,7 @@ export default function StoreContainerMundial (props) {
                     value={props.pricingValues.profit}
                     onChange={props.onChange}
                     onlyNumber={props.onlyNumber}
+                    leaveInput={setZeroProfit}
                     />
                     <DefaultPriceInput
                     width="100%"
