@@ -7,6 +7,9 @@ import AvailableInput from './AvailableInput'
 import StoreContainerMundial from './StoreContainerMundial'
 
 export default function PricingStock(props){
+
+    const [ calcProfit, setCalcProfit ] = useState(false)
+
     const [ checkBox, setCheckBox ] = useState({
         available: "disponível",
         check: true,
@@ -73,6 +76,10 @@ export default function PricingStock(props){
                     ...props.values.pricing.mundial, [key]: value
                 }
             }})
+        }
+
+        if(key == 'cost' || key == 'profit'){
+            setCalcProfit(!calcProfit)
         }
     }
 
@@ -173,6 +180,22 @@ export default function PricingStock(props){
         }
 
     }, [props.values.hubId, props.values.pricing.scpneus.promotionalPrice])
+
+    useEffect(() => {
+        if((props.values.pricing.mundial.cost.length > 0 && props.values.pricing.mundial.cost.length != '0,00') &&
+        props.values.pricing.mundial.profit.length > 0 && props.values.pricing.mundial.cost.length != '0'
+        ){
+            const cost = parseFloat(props.values.pricing.mundial.cost.replace(',', '.'))
+            const profit = parseFloat(props.values.pricing.mundial.profit.replace(',', '.'))
+
+            props.setValues({...props.values, pricing: {
+                ...props.values.pricing, mundial: {
+                    ...props.values.pricing.mundial, 
+                    price: (cost*((profit/100) + 1)).toFixed(2),
+                }
+            }})
+        }
+    }, [calcProfit])
 
     return(
         <div

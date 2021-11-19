@@ -82,22 +82,6 @@ export default function StoreContainerMundial (props) {
         }
     }
 
-    useEffect(() => {
-        if((props.pricingValues.cost.length > 0 && props.pricingValues.cost.length != '0,00') &&
-        props.pricingValues.profit.length > 0 && props.pricingValues.cost.length != '0'
-        ){
-            const cost = parseFloat(props.pricingValues.cost.replace(',', '.'))
-            const profit = parseFloat(props.pricingValues.profit.replace(',', '.'))
-
-            props.setValues({...props.values, pricing: {
-                ...props.values.pricing, mundial: {
-                    ...props.values.pricing.mundial, 
-                    price: (cost*((profit/100) + 1)).toFixed(2),
-                }
-            }})
-        }
-    }, [props.pricingValues.cost, props.pricingValues.profit])
-
     return (
         <div
         className={styles.wrapper}
