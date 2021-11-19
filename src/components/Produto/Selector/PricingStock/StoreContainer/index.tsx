@@ -118,7 +118,7 @@ export default function StoreContainer (props) {
             props.setValues({...props.values, pricing: {
                 ...props.values.pricing, scpneus: {
                     ...props.values.pricing.scpneus, 
-                    price: cost*((profit/100) + 1),
+                    price: (cost*((profit/100) + 1)).toFixed(2),
                 }
             }})
         }

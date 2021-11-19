@@ -152,8 +152,6 @@ export default function PricingStock(props){
     }
 
     useEffect(() => {
-        console.log('useEffct')
-
         const promotionalPriceMundial = props.values.pricing.mundial.promotionalPrice.length == 0 ? 0 : parseFloat(props.values.pricing.mundial.promotionalPrice.replace(',', '.'))
         const promotionalPriceScPneus = props.values.pricing.scpneus.promotionalPrice.length == 0 ? 0 : parseFloat(props.values.pricing.scpneus.promotionalPrice.replace(',', '.'))
 
@@ -185,17 +183,35 @@ export default function PricingStock(props){
         if((props.values.pricing.mundial.cost.length > 0 && props.values.pricing.mundial.cost.length != '0,00') &&
         props.values.pricing.mundial.profit.length > 0 && props.values.pricing.mundial.cost.length != '0'
         ){
+
             const cost = parseFloat(props.values.pricing.mundial.cost.replace(',', '.'))
             const profit = parseFloat(props.values.pricing.mundial.profit.replace(',', '.'))
 
-            props.setValues({...props.values, pricing: {
-                ...props.values.pricing, mundial: {
-                    ...props.values.pricing.mundial, 
-                    price: (cost*((profit/100) + 1)).toFixed(2),
-                }
-            }})
+            if(autoPrice.active){
+                props.setValues({...props.values, pricing: {
+                    ...props.values.pricing, mundial: {
+                        ...props.values.pricing.mundial, 
+                        price: (cost*((profit/100) + 1)).toFixed(2),
+                    }, scpneus: {
+                        ...props.values.pricing.scpneus, 
+                        price: (cost*((profit/100) + 1)).toFixed(2),
+                    }
+                }})
+            } else {
+                props.setValues({...props.values, pricing: {
+                    ...props.values.pricing, mundial: {
+                        ...props.values.pricing.mundial, 
+                        price: (cost*((profit/100) + 1)).toFixed(2),
+                    }
+                }})
+            }
+
         }
     }, [calcProfit])
+
+    useEffect(() => {
+
+    }, [props.values.pricing.mundial.price])
 
     return(
         <div

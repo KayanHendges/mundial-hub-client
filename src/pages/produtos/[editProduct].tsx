@@ -139,7 +139,7 @@ export default function editProduct(props){
                         mundial: {
                             tray_id: product.pricing.mundial.tray_id,
                             cost: product.pricing.mundial.cost.toFixed(2).replace('.', ','),
-                            profit: product.pricing.mundial.profit,
+                            profit: product.pricing.mundial.profit.toString(),
                             price: product.pricing.mundial.price.toFixed(2).replace('.', ','),
                             promotionalPrice: product.pricing.mundial.promotionalPrice.toFixed(2).replace('.', ','),
                             startPromotion: product.pricing.mundial.startPromotion.length > 0 ? format(parseISO(product.pricing.mundial.startPromotion), 'yyyy-MM-dd') : '',
@@ -149,7 +149,7 @@ export default function editProduct(props){
                         scpneus: {
                             tray_id: product.pricing.scpneus.tray_id,
                             cost: product.pricing.scpneus.cost.toFixed(2).replace('.', ','),
-                            profit: product.pricing.scpneus.profit,
+                            profit: product.pricing.scpneus.profit.toString(),
                             price: product.pricing.scpneus.price.toFixed(2).replace('.', ','),
                             promotionalPrice: product.pricing.scpneus.promotionalPrice.toFixed(2).replace('.', ','),
                             startPromotion: product.pricing.scpneus.startPromotion.length > 0 ? format(parseISO(product.pricing.scpneus.startPromotion), 'yyyy-MM-dd') : '',
