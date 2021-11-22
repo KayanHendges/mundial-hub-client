@@ -22,7 +22,7 @@
         padding: 0 .8rem;
         border-radius: .4rem;
         cursor: pointer;
-        z-index: 2;
+        z-index: 3;
         
         .selectedSpan{
             color: var(--complementar-text);
@@ -52,6 +52,7 @@
         border-radius: .4rem;
         padding-top: 1rem;
         top: 2.4rem;
+        z-index: 2;
 
         .optionContainer{
             width: 100%;

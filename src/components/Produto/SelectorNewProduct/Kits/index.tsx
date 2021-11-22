@@ -5,8 +5,8 @@ import DefaultInput from '../../../Inputs/DefaultInput'
 import KitWrapper from './KitWrapper'
 
 export default function Kits(props){
-
-    return(
+    
+    return (
         <div 
         className={styles.wrapper} 
         style={{display:`${props.display.display}`}}
@@ -17,7 +17,10 @@ export default function Kits(props){
             setValues={props.setValues}
             kitValues={props.kitValues.kit2Values}
             setKitValues={props.setKit2Values}
+            createKit={props.createKit.kit2}
+            setCreateKit={props.setCreateKit}
             onChange={props.onChange}
+            fillKits={props.fillKits}
             />
             <KitWrapper
             kitHeader="kit 4"
@@ -25,8 +28,12 @@ export default function Kits(props){
             setValues={props.setValues}
             kitValues={props.kitValues.kit4Values}
             setKitValues={props.setKit4Values}
+            createKit={props.createKit.kit4}
+            setCreateKit={props.setCreateKit}
             onChange={props.onChange}
+            fillKits={props.fillKits}
             />
         </div>
     )
+
 }

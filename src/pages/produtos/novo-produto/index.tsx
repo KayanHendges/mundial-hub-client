@@ -18,7 +18,7 @@ export default function editProduct(props){
     const startValues = {
         hubId: 0,
         ean: "",
-        ncm: "",
+        ncm: "4011.10.00",
         name: "",
         description: "",
         pricing: {
@@ -51,7 +51,7 @@ export default function editProduct(props){
         height: "",
         mainCategoryId: 1,
         related_categories: [],
-        availability: "",
+        availability: "imediata",
         availabilityDays: 0,
         reference: "",
         images: [
@@ -79,9 +79,9 @@ export default function editProduct(props){
             {imageUrl: ""}
         ],
         rules: {
-            discountType: "",
-            discountValue: "",
-            priceRule: "",
+            discountType: '%',
+            discountValue: '2,5',
+            priceRule: 2,
         }
     }
 
@@ -99,9 +99,9 @@ export default function editProduct(props){
             {imageUrl: ""}
         ],
         rules: {
-            discountType: "",
-            discountValue: "",
-            priceRule: "",
+            discountType: '%',
+            discountValue: '5',
+            priceRule: 2,
         }
     }
         
@@ -113,6 +113,11 @@ export default function editProduct(props){
 
     const [ textButton, setTextButton ] = useState('salvar produto')
     const [ submit, setSubmit ] = useState(false)
+
+    const [ createKit, setCreateKit ] = useState({
+        kit2: false,
+        kit4: false,
+    })
 
     useEffect(() => {
         api.get('/client.categoriesProductPage')
@@ -247,7 +252,7 @@ export default function editProduct(props){
 
         if(!submit){
             setSubmit(true)
-            api.post(`/client.productPage.edit/${values.reference}`, {
+            api.post(`/client.productPage.create/`, {
                 params: {
                     unitary: {
                         hubId: values.hubId,
@@ -359,11 +364,11 @@ export default function editProduct(props){
     return (
         <form onSubmit={submitProduct} className={styles.wrapper}>
             <Head>
-                <title>Editar | {values.reference}</title>
+                <title>Cadastro</title>
             </Head>
             <Header 
             textButton={textButton}
-            strong={headerTitle}
+            strong='Cadastrar novo produto'
             title="Edite as informações do produto"
             href="/produtos"
             maxWidth='100rem'
@@ -381,7 +386,6 @@ export default function editProduct(props){
             kitValues={{kit2Values: kit2Values, kit4Values: kit4Values}}
             setKit2Values={setKit2Values}
             setKit4Values={setKit4Values}
-            requestKits={requestKits}
             createKit={createKit}
             setCreateKit={setCreateKit}
             fillKits={fillKits}
