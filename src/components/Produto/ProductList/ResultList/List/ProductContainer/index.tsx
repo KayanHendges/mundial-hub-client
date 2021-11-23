@@ -198,6 +198,8 @@ export default function ProductContainer(props){
                     <PopUp 
                     hubId={props.produto.hubId}
                     reference={props.produto.reference}
+                    search={props.search}
+                    setSearch={props.setSearch}
                     />
                 </div>
             </div>

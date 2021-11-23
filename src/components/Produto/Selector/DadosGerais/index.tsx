@@ -123,6 +123,8 @@ export default function DadosGerais(props){
             <ImageGallery
             values={props.values}
             setValues={props.setValues}
+            updateImages={props.updateImages}
+            setUpdateImages={props.setUpdateImages}
             />
         </div>
     )

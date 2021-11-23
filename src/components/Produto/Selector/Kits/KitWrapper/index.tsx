@@ -1,3 +1,4 @@
+import router from 'next/router'
 import { useState } from 'react'
 import { api } from '../../../../../services/api'
 import DefaultInput from '../../../../Inputs/DefaultInput'
@@ -126,69 +127,77 @@ export default function KitWrapper(props){
     function requestCreateKit(){
         console.log(createKit.requestSent)
         if(!createKit.requestSent){
-            api.post('/produtos.kit', {
+            api.post('/client.productPage.createKit/', {
                 params: {
                     unitary: {
+                        hubId: props.values.hubId,
                         ean: props.values.ean,
-                        tray_id: props.values.trayId,
-                        is_kit: props.values.is_kit,
                         ncm: props.values.ncm,
-                        product_name: props.values.name,
-                        product_title: props.values.name,
-                        product_description: props.values.description,
-                        product_small_description: props.values.description,
-                        price: props.values.price,
-                        cost_price: props.values.cost,
-                        profit: props.values.profit,
-                        promotional_price: props.values.promotionalPrice,
-                        start_promotion: hasPromotionPrice(props.values.startPromotion),
-                        end_promotion: hasPromotionPrice(props.values.endPromotion),
+                        name: props.values.name,
+                        description: props.values.description,
+                        pricing: {
+                            mundial: {
+                                tray_id: props.values.pricing.mundial.tray_id,
+                                cost: props.values.pricing.mundial.cost,
+                                profit: props.values.pricing.mundial.profit,
+                                price: props.values.pricing.mundial.price,
+                                promotionalPrice: props.values.pricing.mundial.promotionalPrice,
+                                startPromotion: props.values.pricing.mundial.startPromotion,
+                                endPromotion: props.values.pricing.mundial.endPromotion,
+                                stock: props.values.pricing.mundial.stock
+                            },
+                            scpneus: {
+                                tray_id: props.values.pricing.scpneus.tray_id,
+                                cost: props.values.pricing.scpneus.cost,
+                                profit: props.values.pricing.scpneus.profit,
+                                price: props.values.pricing.scpneus.price,
+                                promotionalPrice: props.values.pricing.scpneus.promotionalPrice,
+                                startPromotion: props.values.pricing.scpneus.startPromotion,
+                                endPromotion: props.values.pricing.scpneus.endPromotion,
+                                stock: props.values.pricing.scpneus.stock
+                            }
+                        },
                         brand: props.values.brand,
                         model: props.values.model,
-                        weight: parseInt(props.values.weight),
-                        length: parseInt(props.values.length),
-                        width: parseInt(props.values.width),
-                        height: parseInt(props.values.height),
-                        stock_tray: parseInt(props.values.stock),
-                        main_category_id: props.values.mainCategoryId,
-                        tray_related_categories: props.values.related_categories,
-                        available: props.values.available,
+                        weight: props.values.weight,
+                        length: props.values.length,
+                        width: props.values.width,
+                        height: props.values.height,
+                        mainCategoryId: props.values.mainCategoryId,
+                        related_categories: props.values.related_categories,
                         availability: props.values.availability,
-                        availability_days: props.values.availabilityDays,
+                        availabilityDays: props.values.availabilityDays,
                         reference: props.values.reference,
-                        picture_source_1: props.values.images[0].imageUrl,
-                        picture_source_2: props.values.images[1].imageUrl,
-                        picture_source_3: props.values.images[2].imageUrl,
-                        picture_source_4: props.values.images[3].imageUrl,
-                        picture_source_5: props.values.images[4].imageUrl,
-                        picture_source_6: props.values.images[5].imageUrl,
-                        comments: "",
+                        images: [
+                            {imageUrl: props.values.images[0].imageUrl},
+                            {imageUrl: props.values.images[1].imageUrl},
+                            {imageUrl: props.values.images[2].imageUrl},
+                            {imageUrl: props.values.images[3].imageUrl},
+                            {imageUrl: props.values.images[4].imageUrl},
+                            {imageUrl: props.values.images[5].imageUrl}
+                        ],
+                        comments: props.values.comments,
                     },
                     kit: {
-                        tray_id: props.kitValues.trayId,
-                        is_kit: props.kitValues.is_kit,
-                        product_name: props.kitValues.name,
-                        product_title: props.kitValues.name,
-                        product_description: props.kitValues.description,
-                        product_small_description: props.kitValues.description,
-                        reference: props.kitValues.reference,
-                        picture_source_1: props.kitValues.images[0].imageUrl,
-                        picture_source_2: props.kitValues.images[1].imageUrl,
-                        picture_source_3: props.kitValues.images[2].imageUrl,
-                        picture_source_4: props.kitValues.images[3].imageUrl,
-                        picture_source_5: props.kitValues.images[4].imageUrl,
-                        picture_source_6: props.kitValues.images[5].imageUrl,
+                        hubId: props.kitValues.hubId,
+                        trayId: props.kitValues.trayId,
+                        name: props.kitValues.name,
+                        description: props.kitValues.description,
+                        images: [
+                            {imageUrl: props.kitValues.images[0].imageUrl},
+                            {imageUrl: props.kitValues.images[1].imageUrl},
+                            {imageUrl: props.kitValues.images[2].imageUrl},
+                            {imageUrl: props.kitValues.images[3].imageUrl},
+                            {imageUrl: props.kitValues.images[4].imageUrl},
+                            {imageUrl: props.kitValues.images[5].imageUrl}
+                        ],
                         rules: {
-                            discount_type: props.kitValues.rules.discountType,
-                            discount_value: parseFloat(props.kitValues.rules.discountValue.replace(",", ".")),
-                            price: 0,
-                            price_rule: props.kitValues.rules.priceRule,
-                            product_id: props.kitValues.rules.productId,
-                            product_parent_id: props.kitValues.rules.productParentId,
-                            quantity: props.kitValues.rules.quantity,
-                            tray_id: props.kitValues.rules.trayId,
+                            discountType: props.kitValues.rules.discountType,
+                            discountValue: props.kitValues.rules.discountValue,
+                            priceRule: props.kitValues.rules.priceRule,
                         }
-                    }
+                    },
+                    quantity: props.quantity
                 },
             }).then(response => {
                 if(response.data.code == 201){
@@ -197,7 +206,8 @@ export default function KitWrapper(props){
                         span: 'kit criado',
                         border: '1px solid #207567',
                         requestSent: true
-                    })
+                    }),
+                    props.setReload(props.reload+1)
                 } else {
                     setCreateKit({
                         ...createKit,
@@ -349,6 +359,8 @@ export default function KitWrapper(props){
                     <ImageGallery
                     values={props.kitValues}
                     setValues={props.setKitValues}
+                    updateImages={props.updateImages}
+                    setUpdateImages={props.setUpdateImages}
                     />
                 </div>
             </div>

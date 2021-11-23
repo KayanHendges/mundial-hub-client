@@ -1,4 +1,5 @@
 import { format, parseISO } from 'date-fns'
+import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { api } from '../../../../services/api'
 import List from './List'
@@ -12,6 +13,7 @@ export default function ResultList(props){
     useEffect(() => {
         setProdutos([])
         setResultado(<div>carregando...</div>)
+        router.push(`/produtos${props.search.searchInput.length > 0 ? '?search=' : ''}${props.search.searchInput}`)
         api
           .get("/client.productList", {
               params: {
@@ -132,6 +134,7 @@ export default function ResultList(props){
                 <List
                 resultados={produtos}
                 search={props.search}
+                setSearch={props.setSearch}
                 onChangeSearch={props.search.onChangeSearch}
                 >
                 </List>

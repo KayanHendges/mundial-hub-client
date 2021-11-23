@@ -25,6 +25,7 @@ export default function ImageGallery(props){
     }, [imageGallery])
 
     function setImage(chave, valor){
+        props.setUpdateImages(true)
         let updatedImages = []
         
         imageGallery.map((image, index) => {
@@ -59,6 +60,7 @@ export default function ImageGallery(props){
     }
 
     function changeOrder(direction, index){
+        props.setUpdateImages(true)
         let updatedImages = []
         if(direction == "forward"){
             imageGallery.map((image, i) => {

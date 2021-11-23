@@ -117,11 +117,14 @@ export default function editProduct(props){
     const [ textButton, setTextButton ] = useState('salvar produto')
     const [ submit, setSubmit ] = useState(false)
 
+    const [ updateImages, setUpdateImages ] = useState(false)
+
     const [ requestKits, setRequestKits ] = useState(false)
     const [ createKit, setCreateKit ] = useState({
         kit2: false,
         kit4: false,
     })
+    const [ reload, setReload ] = useState(0)
 
     useEffect(() => {
         api.get(`/client.productPage/${props.hubProductId}`)
@@ -210,6 +213,7 @@ export default function editProduct(props){
                     setKit2Values(response.data.kit2)
                     setKit4Values(response.data.kit4)
                     setCreateKit({
+                        ...createKit,
                         kit2: response.data.kit2.hubId == 0 ? true : false,
                         kit4: response.data.kit4.hubId == 0 ? true : false,
                     })
@@ -222,6 +226,30 @@ export default function editProduct(props){
             .catch(erro => alert(erro.response.data.message))
         }
     }, [values.hubId])
+
+    useEffect(() => {
+        console.log('reload')
+        if(reload > 0){
+            console.log('passou')
+            api.get(`/client.productPage.kits/${values.reference}`)
+                .then(response => {
+                    if(response.data.code == 200){
+                        setKit2Values(response.data.kit2)
+                        setKit4Values(response.data.kit4)
+                        setCreateKit({
+                            ...createKit,
+                            kit2: response.data.kit2.hubId == 0 ? true : false,
+                            kit4: response.data.kit4.hubId == 0 ? true : false,
+                        })
+                        setRequestKits(true)
+    
+                    } else {
+                        console.log(response.data)
+                    }
+                })
+                .catch(erro => alert(erro.response.data.message))
+        }
+    }, [reload])
     
     function setValue(chave, valor) {
         setValues({
@@ -429,14 +457,16 @@ export default function editProduct(props){
                             discountValue: kit4Values.rules.discountValue,
                             priceRule: kit4Values.rules.priceRule,
                         }
-                    }             
+                    },
+                    updateImages: updateImages             
                 }
                 
             }).then(response => {
                 console.log(response)
                 if(response.data.code == 200){
                     setTextButton('salvo com sucesso')
-                    router.push('/produtos')
+                    // router.push(`/produtos?search=${values.reference}`)
+                    router.back()
                 }
             }).catch(error => {
                 setSubmit(false)
@@ -459,7 +489,7 @@ export default function editProduct(props){
             textButton={textButton}
             strong={headerTitle}
             title="Edite as informações do produto"
-            href="/produtos"
+            href={`/produtos?search=${values.reference}`}
             maxWidth='100rem'
             />
             <Selector
@@ -479,6 +509,10 @@ export default function editProduct(props){
             createKit={createKit}
             setCreateKit={setCreateKit}
             fillKits={fillKits}
+            reload={reload}
+            setReload={setReload}
+            updateImages={updateImages}
+            setUpdateImages={setUpdateImages}
             />
         </form>
     )

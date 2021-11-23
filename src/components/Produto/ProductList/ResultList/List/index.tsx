@@ -14,6 +14,7 @@ export default function List(props){
                     <ProductContainer
                     key={index}
                     search={props.search}
+                    setSearch={props.setSearch}
                     onChangeSearch={props.onChangeSearch}
                     produto={produto}
                     />

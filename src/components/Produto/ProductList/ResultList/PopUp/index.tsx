@@ -6,6 +6,8 @@ import styles from './styles.module.scss'
 
 export default function PopUp(props){
 
+    const [ updateImagesSpan, setUpdateImagesSpan ] = useState('atualizar imagens')
+
     const [ popUp, setPopUp ] = useState({
         display: "none"
     })
@@ -20,6 +22,23 @@ export default function PopUp(props){
                 display: "none"
             })
         }
+    }
+
+    function updateImages(reference){
+        setUpdateImagesSpan('atualizando...')
+        api.post(`/client.productList.updateImages/${reference}`)
+        .then(response => {
+            if(response.data.code == 200){
+                setUpdateImagesSpan('atualizado')
+                router.reload()
+            } else {
+                console.log(response.data)
+            }
+        })
+        .catch(erro => {
+            alert(erro.response.data.message)
+            console.log(erro)
+        })
     }
 
     function deleteProduct(reference){
@@ -61,6 +80,12 @@ export default function PopUp(props){
                         editar
                     </span>
                 </Link>
+                <span
+                className={styles.container}
+                onClick={() => updateImages(props.reference)}
+                >
+                    {updateImagesSpan}
+                </span>
                 <span
                 className={styles.delete}
                 onClick={() => deleteProduct(props.reference)}

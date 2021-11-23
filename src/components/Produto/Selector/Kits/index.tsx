@@ -22,6 +22,11 @@ export default function Kits(props){
                 setCreateKit={props.setCreateKit}
                 onChange={props.onChange}
                 fillKits={props.fillKits}
+                quantity={2}
+                reload={props.reload}
+                setReload={props.setReload}
+                updateImages={props.updateImages}
+                setUpdateImages={props.setUpdateImages}
                 />
                 <KitWrapper
                 kitHeader="kit 4"
@@ -33,12 +38,19 @@ export default function Kits(props){
                 setCreateKit={props.setCreateKit}
                 onChange={props.onChange}
                 fillKits={props.fillKits}
+                quantity={4}
+                reload={props.reload}
+                setReload={props.setReload}        
+                updateImages={props.updateImages}
+                setUpdateImages={props.setUpdateImages}
                 />
             </div>
         )
     } else {
         return(
-            <span>
+            <span
+            style={{display:`${props.display.display}`}}
+            >
                 carregando kits...
             </span>
         )

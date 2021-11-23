@@ -26,9 +26,9 @@ export default function InputSearch(props){
             onKeyDown={(e) => {
                 enterKey(e)
             }}
-            onBlur={() => {if(props.leaveInput != undefined){
-                return props.leaveInput()
-            }}}
+            // onBlur={() => {if(props.leaveInput != undefined){
+            //     return props.leaveInput()
+            // }}}
             />
         </div>
     )

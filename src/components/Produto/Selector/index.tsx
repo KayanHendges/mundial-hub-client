@@ -129,6 +129,8 @@ export default function Selector(props){
             onlyNumber={props.onlyNumber}
             handleDescription={props.handleDescription}
             setValue={props.setValue}
+            updateImages={props.updateImages}
+            setUpdateImages={props.setUpdateImages}
             />
             <Categorias
             values={props.values}
@@ -165,6 +167,10 @@ export default function Selector(props){
             setCreateKit={props.setCreateKit}
             onChange={props.onChange}
             fillKits={props.fillKits}
+            reload={props.reload}
+            setReload={props.setReload}
+            updateImages={props.updateImages}
+            setUpdateImages={props.setUpdateImages}
             />            
         </div>
     )

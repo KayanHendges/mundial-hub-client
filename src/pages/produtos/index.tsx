@@ -12,7 +12,7 @@ import { parseCookies } from 'nookies';
 export default function produtos(props){
 
     const [ search, setSearch ] = useState({
-        searchInput: "",
+        searchInput: `${props.query}`,
         onChangeSearch: 0,
         perPage: 20,
         page: 1,
@@ -93,6 +93,7 @@ export default function produtos(props){
                 pages={pages}
                 setPages={setPages}
                 search={search}
+                setSearch={setSearch}
                 />
             </div>
             <Footer 
@@ -108,7 +109,6 @@ export default function produtos(props){
 export const getServerSideProps = async (ctx) => {
 
     const { ['mundialhub.token']: token } = parseCookies(ctx)
-    console.log('token', token)
 
     if(!token){
         return {
@@ -119,8 +119,11 @@ export const getServerSideProps = async (ctx) => {
         }
     }
 
+    const query = ctx.query.search ?  ctx.query.search : ''
 
     return {
-        props: {}
+        props: {
+            query: query
+        }
     }
 }
