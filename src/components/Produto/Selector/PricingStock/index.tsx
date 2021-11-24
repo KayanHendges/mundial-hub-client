@@ -108,13 +108,10 @@ export default function PricingStock(props){
         }
     }
 
-    function leavePromotionInput(){
-        console.log('leaveInput')
-        console.log(props.values.pricing.mundial.promotionalPrice)
-        
+    function leavePromotionInput(){        
         const promotionalPriceMundial = props.values.pricing.mundial.promotionalPrice.length == 0 ? 0 : parseFloat(props.values.pricing.mundial.promotionalPrice.replace(',', '.'))
 
-        if(promotionalPriceMundial == 0 && autoPrice){
+        if(promotionalPriceMundial == 0 && autoPrice.active){
             setAutoPrice({
                 ...autoPrice,
                 priceRule: 'igual',
@@ -136,7 +133,7 @@ export default function PricingStock(props){
                 }
             }})
         }
-        if(promotionalPriceMundial > 0 && autoPrice){           
+        if(promotionalPriceMundial > 0 && autoPrice.active){           
             props.setValues({...props.values, pricing: {
                 ...props.values.pricing,
                 scpneus: {

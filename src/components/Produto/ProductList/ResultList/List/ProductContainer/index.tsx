@@ -86,7 +86,6 @@ export default function ProductContainer(props){
 
     function requestKits(reference){
         if(props.search.showKits != true){
-            console.log('e fiz uma request')
             setShowKits({...showKits, rotate: '-90deg'})
             api.get(`/client.productList.kits/${reference}`)
             .then(response => {
@@ -165,7 +164,10 @@ export default function ProductContainer(props){
                 className={styles.bodyCell}
                 style={{ width: '63%', justifyContent: 'flex-start', paddingLeft: '1rem' }}
                 >
-                    {props.produto.name}
+                        {props.produto.name}
+                    <span className='material-icons'>
+                    open_in_new
+                    </span>
                 </div>
                 <div
                 className={styles.bodyCell}

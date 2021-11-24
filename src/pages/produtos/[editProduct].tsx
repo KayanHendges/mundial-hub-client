@@ -131,6 +131,7 @@ export default function editProduct(props){
         .then(response => {
             if(response.data.code == 200){
                 const product = response.data.product
+                console.log(product)
 
                 setValues({
                     hubId: product.hubId,

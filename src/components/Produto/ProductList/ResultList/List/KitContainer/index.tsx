@@ -3,10 +3,10 @@ import styles from './styles.module.scss'
 export default function KitContainer(props){
 
     function hasPromotion(kit){
-        if(kit.tray_promotional_price){
+        if(kit.tray_promotional_price > 0){
             return kit.tray_promotional_price
         } else {
-            kit.tray_price
+            return kit.tray_price
         }
     }
 
