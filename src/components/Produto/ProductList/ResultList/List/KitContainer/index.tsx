@@ -18,6 +18,15 @@ export default function KitContainer(props){
         }
     }
 
+    function linkStore(trayId){
+        if(props.search.store == 668385){
+            return `https://www.mundialpneumaticos.com.br/loja/produto.php?IdProd=${trayId}`
+        }
+        if(props.search.store == 1049898){
+            return `https://www.scpneus.com.br/loja/produto.php?IdProd=${trayId}`
+        }
+    }
+
     if(props.kits.length > 0){
         return (
             <div
@@ -50,6 +59,17 @@ export default function KitContainer(props){
                                     <p>
                                         {kit.product_name}
                                     </p>
+                                    <a
+                                    href={`${linkStore(kit.tray_product_id)}`}
+                                    target="_blank"
+                                    >
+                                        <span 
+                                        className='material-icons'
+                                        id={styles.icon}
+                                        >
+                                            open_in_new
+                                        </span>
+                                    </a>
                                 </div>
                                 <div
                                 className={styles.priceContainer}

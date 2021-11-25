@@ -1,4 +1,5 @@
 import styles from './styles.module.scss'
+import Link from 'next/link';
 import KitContainer from '../KitContainer'
 import PriceContainer from '../../PriceContainer'
 import PopUp from '../../PopUp'
@@ -131,6 +132,15 @@ export default function ProductContainer(props){
         }
     }
 
+    function linkStore(trayId){
+        if(props.search.store == 668385){
+            return `https://www.mundialpneumaticos.com.br/loja/produto.php?IdProd=${trayId}`
+        }
+        if(props.search.store == 1049898){
+            return `https://www.scpneus.com.br/loja/produto.php?IdProd=${trayId}`
+        }
+    }
+
     return (
         <div
         className={styles.productContainer}
@@ -164,10 +174,22 @@ export default function ProductContainer(props){
                 className={styles.bodyCell}
                 style={{ width: '63%', justifyContent: 'flex-start', paddingLeft: '1rem' }}
                 >
+                    <p
+                    className={styles.productName}
+                    >
                         {props.produto.name}
-                    <span className='material-icons'>
-                    open_in_new
-                    </span>
+                    </p>
+                    <a
+                    href={`${linkStore(props.produto.trayId)}`}
+                    target="_blank"
+                    >
+                        <span 
+                        className='material-icons'
+                        id={styles.icon}
+                        >
+                            open_in_new
+                        </span>
+                    </a>
                 </div>
                 <div
                 className={styles.bodyCell}
@@ -208,6 +230,7 @@ export default function ProductContainer(props){
             <KitContainer
             display={showKits.display}
             kits={whichKits(props.produto.kits)}
+            search={props.search}
             />
         </div>
     )

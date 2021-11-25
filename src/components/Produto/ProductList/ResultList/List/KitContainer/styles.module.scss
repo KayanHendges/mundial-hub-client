@@ -42,6 +42,7 @@
 
             .kitName {
                 max-width: 20rem;
+                display: flex;
 
                 p {
                     font-size: .8rem;
@@ -50,7 +51,18 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     color: var(--complementar-text);
-                }                    
+                }      
+                
+                #icon{
+                    color: var(--light-blue-button);
+                    font-size: 1rem;
+                    margin-left: .2rem;
+                    cursor: pointer;
+    
+                    &:hover {
+                        color: var(--blue-button);
+                    }
+                }
             }
 
             .priceContainer{
