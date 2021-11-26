@@ -17,7 +17,13 @@ export default function Header() {
                 </a>
             </Link>
             <p>Hub</p>
-            <span>/{user?.name}</span>
+            <div
+            className={styles.userContainer}
+            >
+                <span>
+                    /{user?.name}
+                </span>
+            </div>
         </div>
     )
 }
