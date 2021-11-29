@@ -1,11 +1,106 @@
 import Link from 'next/link';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { api } from '../../services/api';
 import styles from './styles.module.scss';
 
 export default function Header() {
 
     const { user } = useContext(AuthContext)
+    const [ trayRequests, setTrayRequests ] = useState({
+        label: ``,
+        request: false
+    })
+
+    const [ dropDownStyle, setDropDownStyle ] = useState({
+        active: false,
+        height: '0rem',
+        borderRight: 'none',
+        borderLeft: 'none',
+        borderBottom: 'none',
+    })
+
+    const [ userContainerStyle, setUserContainerStyle ] = useState({
+        borderTop: 'none',
+        borderRight: 'none',
+        borderLeft: 'none',
+        borderRadius: '.4rem',
+        backgroundColor: 'var(--gray-4)',
+        transitionDelay: '.4s'
+    })
+
+    function handleDropDown(boolean){
+        if(boolean){
+            setDropDownStyle({
+                ...dropDownStyle,
+                active: true,
+                height: '15rem',
+                borderRight: '1px solid var(--white-text)',
+                borderLeft: '1px solid var(--white-text)',
+                borderBottom: '1px solid var(--white-text)',
+            })
+            setUserContainerStyle({
+                borderTop: '1px solid var(--white-text)',
+                borderRight: '1px solid var(--white-text)',
+                borderLeft: '1px solid var(--white-text)',
+                borderRadius: '.4rem .4rem 0 0',
+                backgroundColor: 'var(--gray-5)',
+                transitionDelay: '0s'
+            })
+        } else {
+            setDropDownStyle({
+                ...dropDownStyle,
+                active: false,
+                height: '0rem',
+                borderRight: 'none',
+                borderLeft: 'none',
+                borderBottom: 'none',
+            })
+            setUserContainerStyle({
+                borderTop: 'none',
+                borderRight: 'none',
+                borderLeft: 'none',
+                borderRadius: '.4rem',
+                backgroundColor: 'var(--gray-4)',
+                transitionDelay: '.4s'
+            })
+        }
+    }
+
+    function handleUserContainer(boolean){
+        if(boolean && !dropDownStyle.active){
+            setUserContainerStyle({
+                ...userContainerStyle,
+                backgroundColor: 'var(--gray-5)',
+                transitionDelay: '0s'
+            })
+        }
+        if(!boolean && !dropDownStyle.active){
+            setUserContainerStyle({
+                ...userContainerStyle,
+                backgroundColor: 'var(--gray-4)',
+                transitionDelay: '0s'
+            })
+        }
+        
+    }
+
+    function requestCount(){
+        if(!trayRequests.request){
+            api.get('/users.trayRequests')
+            .then(response => {
+                if(response.data.code == 200){
+                    setTrayRequests({
+                        label: `${response.data.requests} requisições`,
+                        request: true
+                    })
+                } else {
+                    console.log(response.data)
+                }
+            })
+        }
+
+    }
 
     return (
         <div
@@ -20,9 +115,28 @@ export default function Header() {
             <div
             className={styles.userContainer}
             >
-                <span>
+                <span
+                className={styles.userName}
+                style={userContainerStyle}
+                onClick={() => handleDropDown(!dropDownStyle.active)}
+                onMouseEnter={() => {
+                    handleUserContainer(true)
+                    requestCount()
+                }}
+                onMouseLeave={() => handleUserContainer(false)}
+                >
                     /{user?.name}
                 </span>
+                <div
+                className={styles.dropDown}
+                style={dropDownStyle}
+                >
+                    <span
+                    className={styles.spanRequests}
+                    >
+                        {trayRequests.label}
+                    </span>
+                </div>
             </div>
         </div>
     )

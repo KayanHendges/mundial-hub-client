@@ -14,20 +14,48 @@
 
     .userContainer {
         display: flex;
+        width: 15rem;
         height: 100%;
         align-items: center;
         justify-content: center;
-        background-color: var(--gray-4);
         margin-left: auto;
-        padding: 0 1rem;
         cursor: pointer;
+        border-radius: .4rem;
 
-        span {
-            color: var(--gray-50);
+        position: relative;
+        transition-property: all;
+        transition-duration: .4s;
+        transition-timing-function: cubic-bezier(0.32, 0.02, 0, 1.01);
+        .dropDown {
+            width: 15rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            overflow: hidden;
+            z-index: 10;
+            top: 100%;
+            position: absolute;
+            background-color: var(--gray-5);
+            border-radius: 0 0 .4rem .4rem;
+
+            transition-property: all;
+            transition-duration: .4s;
+            transition-timing-function: cubic-bezier(0.32, 0.02, 0, 1.01);
+
+            .spanRequests {
+                color: var(--white-text);
+            }
         }
 
-        &:hover {
-            background-color: var(--gray-5);
+        .userName {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            color: var(--gray-50);
+            width: 100%;
+            height: 100%;
         }
     }
 
@@ -51,8 +79,4 @@
         color: var(--gray-50);
     }
 
-    span {
-        color: var(--gray-50);
-        margin-left: auto;
-    }
 }
