@@ -24,6 +24,9 @@ export default function SideBar (){
                 <Link href={"/produtos"}>
                     <p>Produtos</p>
                 </Link>
+                <Link href={"/fornecedores"}>
+                    <p>Fornecedores</p>
+                </Link>
                 <Link href={"/categorias"}>
                     <p>Categorias</p>
                 </Link>

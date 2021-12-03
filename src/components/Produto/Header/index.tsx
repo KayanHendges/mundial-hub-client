@@ -2,6 +2,12 @@ import styles from './styles.module.scss'
 import BackButton from '../../Buttons/BackButton/Index'
 import BlueButton from '../../Buttons/BlueButton'
 
+type HeaderProps = {
+    maxWidth: string;
+    href: string;
+    textButton: string;
+}
+
 export default function Header(props) {
     return (
         <div 
