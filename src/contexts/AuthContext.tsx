@@ -51,7 +51,7 @@ export function AuthProvider ({ children }) {
 
     async function signIn ({ user, password }: SignInData) {
 
-        const { token, user: userResponse } = await api.get('users.login', {
+        const { token, user: userResponse } = await api.get('/users.login', {
             params: {
                 user: user, 
                 password: password
@@ -64,7 +64,7 @@ export function AuthProvider ({ children }) {
 
         if(token.length > 0){
             setCookie(undefined, 'mundialhub.token', token, {
-                maxAge: 60 * 60 * 1, // 1 hour
+                maxAge: 60 * 60 * 4, // 1 hour
             })
     
             setUser(userResponse)
