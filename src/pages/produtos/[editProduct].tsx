@@ -127,7 +127,7 @@ export default function editProduct(props){
     const [ reload, setReload ] = useState(0)
 
     useEffect(() => {
-        api.get(`/client.productPage/${props.hubProductId}`)
+        api.get(`/products/page/${props.hubProductId}`)
         .then(response => {
             if(response.data.code == 200){
                 const product = response.data.product
@@ -195,7 +195,7 @@ export default function editProduct(props){
     useEffect(() => {
         if(values.name.length > 0){
 
-            api.get('/client.categoriesProductPage')
+            api.get('/products/page/categories/list')
             .then(response => {
                 if(response.data.code == 200){
                     setCategoriesList(response.data.categoriesList)
@@ -208,7 +208,7 @@ export default function editProduct(props){
                 alert(error.response.data.message)
             })
 
-            api.get(`/client.productPage.kits/${values.reference}`)
+            api.get(`/products/page/kits/${values.reference}`)
             .then(response => {
                 if(response.data.code == 200){
                     setKit2Values(response.data.kit2)
@@ -229,10 +229,8 @@ export default function editProduct(props){
     }, [values.hubId])
 
     useEffect(() => {
-        console.log('reload')
         if(reload > 0){
-            console.log('passou')
-            api.get(`/client.productPage.kits/${values.reference}`)
+            api.get(`/products/page/kits/${values.reference}`)
                 .then(response => {
                     if(response.data.code == 200){
                         setKit2Values(response.data.kit2)
@@ -370,7 +368,7 @@ export default function editProduct(props){
 
         if(requestKits && !submit){
             setSubmit(true)
-            api.patch(`/client.productPage.edit/${values.reference}`, {
+            api.patch(`/products/${values.reference}`, {
                 params: {
                     unitary: {
                         hubId: values.hubId,

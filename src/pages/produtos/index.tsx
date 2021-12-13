@@ -26,7 +26,7 @@ export default function produtos(props){
         perPage: 20,
         pages: 1,
         page: 1,
-        resultLength: 0
+        resultLength: "0"
     })
 
     function setValue(chave, valor) {

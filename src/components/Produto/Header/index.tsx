@@ -6,9 +6,11 @@ type HeaderProps = {
     maxWidth: string;
     href: string;
     textButton: string;
+    strong: string;
+    title: string;
 }
 
-export default function Header(props) {
+export default function Header(props: HeaderProps) {
     return (
         <div 
         className={styles.header}
@@ -16,7 +18,7 @@ export default function Header(props) {
         >
             <div className={styles.toolsBar}>
                 <BackButton href={props.href} />
-                <BlueButton text={props.textButton} submitButton={props.submitButton}/>
+                <BlueButton text={props.textButton}/>
             </div>
             <div className={styles.title}>
                 <strong>

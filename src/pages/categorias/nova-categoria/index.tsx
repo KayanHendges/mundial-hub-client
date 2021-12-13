@@ -78,7 +78,7 @@ export default function novaCategorias(props){
         e.preventDefault();
         
 
-        api.post('/client.categoryPage', {
+        api.post('/categories/', {
             category: {
                 category_name: values.category_name,
                 category_small_desc: values.category_small_desc,
@@ -113,6 +113,7 @@ export default function novaCategorias(props){
                 <title>Cadastrar Categoria</title>
             </Head>
             <Header
+            maxWidth='100%'
             textButton={"salvar categoria"}
             strong={"Nova Categoria"}
             title={"Insira as informações da nova categoria"}

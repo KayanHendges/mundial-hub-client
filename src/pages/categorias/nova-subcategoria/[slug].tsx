@@ -41,7 +41,7 @@ export default function slug(props){
     const [ display, setDisplay ] = useState('none')
 
     useEffect(() => {
-        api.get(`categorias/${props.parentId}`)
+        api.get(`/categories/${props.parentId}`)
         .then(response => {
             console.log(response)
             setValues({
@@ -94,7 +94,7 @@ export default function slug(props){
         e.preventDefault();
         
 
-        api.post(`/client.categoryPage/${props.parentId}`, {
+        api.post(`/categories/subcategory/${props.parentId}`, {
             category: {
                 category_name: values.category_name,
                 category_small_desc: values.category_small_desc,
@@ -122,6 +122,7 @@ export default function slug(props){
                 <title>Incluir Subcategoria</title>
             </Head>
             <Header
+            maxWidth="100%"
             textButton={"salvar categoria"}
             strong={"Nova Subategoria"}
             title={"Insira as informações da nova subcategoria"}

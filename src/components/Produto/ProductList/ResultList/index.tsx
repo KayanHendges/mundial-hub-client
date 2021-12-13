@@ -15,7 +15,7 @@ export default function ResultList(props){
         setResultado(<div>carregando...</div>)
         router.push(`/produtos${props.search.searchInput.length > 0 ? '?search=' : ''}${props.search.searchInput}`)
         api
-          .get("/client.productList", {
+          .get("/products/list", {
               params: {
                   search: props.search.searchInput,
                   page: props.pages.page,
@@ -70,7 +70,7 @@ export default function ResultList(props){
             
           })
           .catch((err) => {
-            console.log(err)
+            console.log(err.response.data)
             setResultado(<div>não foi possível se comunictar com o banco de dados</div>);
             setProdutos([])
           });

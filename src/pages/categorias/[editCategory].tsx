@@ -97,7 +97,7 @@ export default function addSubcategory(props){
     function submitCategory(e) {
         e.preventDefault();
 
-        api.patch(`/client.categoryPage/${values.hub_category_id}`, {
+        api.patch(`/categories/${values.hub_category_id}`, {
             category: values
         }).then(response => {
           alert(response.data.message)

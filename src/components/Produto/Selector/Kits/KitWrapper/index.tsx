@@ -127,7 +127,7 @@ export default function KitWrapper(props){
     function requestCreateKit(){
         console.log(createKit.requestSent)
         if(!createKit.requestSent){
-            api.post('/client.productPage.createKit/', {
+            api.post('/products/page/kit', {
                 params: {
                     unitary: {
                         hubId: props.values.hubId,

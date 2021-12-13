@@ -30,33 +30,43 @@ export function AuthProvider ({ children }) {
 
     useEffect(() => {
         const { 'mundialhub.token': token } = parseCookies()
+        const { 'mundialhub.name': name } = parseCookies()
 
-        if(token) {
-            api.get('/users.auth', {
-                params: {
-                    token: token
-                }
-            }).then(response => {
-                setUser(response.data.user)
+        console.log(token, name)
+
+        if(token && name) {
+            api.get(`/auth/check-token?name=${name}&token=${token}`)
+            .then(response => {
+                console.log(response)
+                setUser(response.data.userResponse)
                 setIsAuthenticated(true)
             }).catch(error => {
+                console.log(error)
                 if(error.response.data.code == 401) {
                     console.log(error.response.data.message)
                     destroyCookie(undefined, 'mundialhub.token')
-                    router.reload
+                    router.push('/login')
                 }
             })
+        } else {
+            destroyCookie(undefined, 'mundialhub.token')
+            router.push('/login')
         }
     }, [])
 
     async function signIn ({ user, password }: SignInData) {
 
-        const { token, user: userResponse } = await api.get('/users.login', {
-            params: {
-                user: user, 
-                password: password
+        const { token, userResponse } = await api({
+            method: 'post',
+            url: '/auth/login',
+            data: {
+                credentials: {
+                    user: user,
+                    password: password
+                }
             }
-        }).then(response => {
+        })
+        .then(response => {
             return response.data
         }).catch(error => {
             alert(error.response.data.message)
@@ -64,7 +74,10 @@ export function AuthProvider ({ children }) {
 
         if(token.length > 0){
             setCookie(undefined, 'mundialhub.token', token, {
-                maxAge: 60 * 60 * 4, // 1 hour
+                maxAge: 60 * 60 * 4, // 4 hour
+            })
+            setCookie(undefined, 'mundialhub.name', userResponse.name, {
+                maxAge: 60 * 60 * 4, // 4 hour
             })
     
             setUser(userResponse)

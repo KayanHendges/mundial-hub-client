@@ -78,11 +78,8 @@ export default function DadosGerais(props){
             }
 
             if((fill.auth) && props.values.name.length > 0){
-                api.get('produtos.marca_modelo', {
-                    params: {
-                        productName: props.values.name
-                    }
-                }).then(response => {
+                api.get(`/products/model-suggestion?productName=${props.values.name}`)
+                .then(response => {
                     setWasSuggestion(true)
                     props.setValues({
                         ...props.values,
@@ -108,7 +105,7 @@ export default function DadosGerais(props){
 
     function getReference(){
         if(props.values.reference == ""){
-            api.get('produtos.referencia')
+            api.get('products/reference')
             .then(response => {
                 props.setValues({...props.values, reference: response.data})
             })

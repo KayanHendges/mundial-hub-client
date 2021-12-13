@@ -87,7 +87,7 @@ export default function Header() {
 
     function requestCount(){
         if(!trayRequests.request){
-            api.get('/users.trayRequests')
+            api.get('/users/tray-requests')
             .then(response => {
                 if(response.data.code == 200){
                     setTrayRequests({

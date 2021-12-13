@@ -30,7 +30,7 @@ export default function editProduct(props){
                 promotionalPrice: "",
                 startPromotion: "",
                 endPromotion: "",
-                stock: ""
+                stock: "0"
             },
             scpneus: {
                 tray_id: 0,
@@ -40,7 +40,7 @@ export default function editProduct(props){
                 promotionalPrice: "",
                 startPromotion: "",
                 endPromotion: "",
-                stock: ""
+                stock: "0"
             }
         },
         brand: "",
@@ -120,7 +120,7 @@ export default function editProduct(props){
     })
 
     useEffect(() => {
-        api.get('/client.categoriesProductPage')
+        api.get('/products/page/categories/list')
         .then(response => {
             if(response.data.code == 200){
                 setCategoriesList(response.data.categoriesList)
@@ -252,7 +252,7 @@ export default function editProduct(props){
 
         if(!submit){
             setSubmit(true)
-            api.post(`/client.productPage.create/`, {
+            api.post(`/products/page`, {
                 params: {
                     unitary: {
                         hubId: values.hubId,

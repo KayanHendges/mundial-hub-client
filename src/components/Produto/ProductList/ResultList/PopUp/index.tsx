@@ -26,7 +26,7 @@ export default function PopUp(props){
 
     function updateImages(reference){
         setUpdateImagesSpan('atualizando...')
-        api.post(`/client.productList.updateImages/${reference}`)
+        api.post(`/products/update-images/${reference}`)
         .then(response => {
             if(response.data.code == 200){
                 setUpdateImagesSpan('atualizado')
@@ -42,7 +42,7 @@ export default function PopUp(props){
     }
 
     function deleteProduct(reference){
-        api.delete(`produtos?reference=${reference}`)
+        api.delete(`/products/${reference}`)
         .then(response => {
             router.reload()
             alert('produto excluído com sucesso')

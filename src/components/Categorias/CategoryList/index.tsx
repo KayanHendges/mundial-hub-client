@@ -13,7 +13,7 @@ export default function CategoryList(props){
     }, [])
 
     async function getCategories(){
-        await api.get('categorias/arvore')
+        await api.get('/categories/list/all')
         .then(response => {
             setResultado(<CategoriesList categories={response.data}/>)
         })

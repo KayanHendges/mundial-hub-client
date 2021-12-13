@@ -88,7 +88,7 @@ export default function ProductContainer(props){
     function requestKits(reference){
         if(props.search.showKits != true){
             setShowKits({...showKits, rotate: '-90deg'})
-            api.get(`/client.productList.kits/${reference}`)
+            api.get(`/products/list/kits/${reference}`)
             .then(response => {
                 if(response.data.kits.length > 0){
                     setKits(response.data.kits)

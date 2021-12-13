@@ -3,6 +3,7 @@ import PerPageSelector from './PerPageSelector'
 import styles from './styles.module.scss'
 
 export default function Footer(props){
+
     return(
         <div
         className={styles.wrapper}
@@ -10,7 +11,7 @@ export default function Footer(props){
             <span
             className={styles.results}
             >
-                {`foram encontrados ${props.pages.resultsLength} produtos`}
+                {`foram encontrados ${props.pages.resultsLength == undefined ? "0" : props.pages.resultsLength} produtos`}
             </span>
             <div
             className={styles.inputs}
