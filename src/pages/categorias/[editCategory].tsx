@@ -78,7 +78,7 @@ export default function addSubcategory(props){
     }
 
     useEffect(() => {
-        api.get(`/client.categoryPage/${props.hubCategoryId}`)
+        api.get(`/categories/${props.hubCategoryId}`)
         .then(response => {
             if (response.data.code == 200) {
                 const category = response.data.category
@@ -97,7 +97,7 @@ export default function addSubcategory(props){
     function submitCategory(e) {
         e.preventDefault();
 
-        api.patch(`/categories/${values.hub_category_id}`, {
+        api.patch(`/categories/`, {
             category: values
         }).then(response => {
           alert(response.data.message)

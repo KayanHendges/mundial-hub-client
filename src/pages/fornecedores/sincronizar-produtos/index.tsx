@@ -4,6 +4,7 @@ import {api} from '../../../services/api'
 
 import Header from '../../../components/Fornecedores/SincronizarProdutos/Header'
 import Container from '../../../components/Fornecedores/SincronizarProdutos/Container'
+import { useState } from 'react'
 
 type Provider = {
     provider_id: number;
@@ -15,6 +16,9 @@ type Props = {
 }
 
 export default function SincronizarProdutos(props: Props){
+
+    const [ providerState, setProviderState ] = useState<number>(0)
+
     return (
         <div
         className={styles.wrapper}
@@ -25,8 +29,11 @@ export default function SincronizarProdutos(props: Props){
             strong="Fornecedores"
             title="Sincronizar produtos"
             providersList={props.providersList}
+            providerState={{providerState, setProviderState}}
             />
-            <Container />
+            <Container 
+            providerId={providerState}
+            />
         </div>
     )
 }

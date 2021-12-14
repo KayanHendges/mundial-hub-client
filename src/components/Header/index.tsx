@@ -125,7 +125,21 @@ export default function Header() {
                 }}
                 onMouseLeave={() => handleUserContainer(false)}
                 >
-                    /{user?.name}
+                    <span 
+                    id={styles.icon}
+                    className="material-icons"
+                    style={{ display: `${user?.name ? 'none' : 'flex'}`}}
+                    >
+                        person
+                    </span>
+                    {user?.name}
+                    <span 
+                    id={styles.icon}
+                    className="material-icons-round"
+                    style={{ display: `${user?.name ? 'flex' : 'none'}`}}
+                    >
+                        expand_more
+                    </span>
                 </span>
                 <div
                 className={styles.dropDown}
