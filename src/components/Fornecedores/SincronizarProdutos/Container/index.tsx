@@ -13,17 +13,37 @@ type ProviderProduct = {
     providerName: string;
 }
 
+type MatchProducts = {
+    providerReference: number;
+    hubId: number;
+}
+
 export default function Container(props: ContainerProps){
 
     const [ providerProducts, setProviderProducts ] = useState<ProviderProduct[]>([])
     const [ productsCount, setProductsCount ] = useState<number>(0)
     const [ loading, setLoading ] = useState(false)
 
+    const [ matchProducts, setMatchProducts ] = useState<MatchProducts>({
+        providerReference: 0,
+        hubId: 0
+    })
+
+    useEffect(() => {
+        console.log(matchProducts.providerReference, matchProducts.hubId)
+    }, [matchProducts])
+
     useEffect(() => {
         if(props.providerId > 0){
+
             setLoading(true)
             setProviderProducts([])
             setProductsCount(0)
+            setMatchProducts({
+                providerReference: 0,
+                hubId: 0
+            })
+
             api.get(`/providers/link/${props.providerId}`)
             .then(response => {
                 if(response.data.code == 200){
@@ -53,9 +73,7 @@ export default function Container(props: ContainerProps){
                 Escolha um fornecedor
             </div>
         )
-    }
-    
-    else {
+    } else {
         return (
             <div
             className={styles.wrapper}
@@ -72,8 +90,10 @@ export default function Container(props: ContainerProps){
                     providerProductsList={providerProducts}
                     productsCount={{productsCount, setProductsCount}}
                     loading={loading}
+                    matchProducts={{matchProducts, setMatchProducts}}
                     />
                     <ProductsList
+                    matchProducts={{matchProducts, setMatchProducts}}
                     />
                 </div>
             </div>

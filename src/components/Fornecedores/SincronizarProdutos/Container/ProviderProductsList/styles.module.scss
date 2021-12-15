@@ -30,6 +30,8 @@
             justify-content: flex-start;
             align-items: center;
             cursor: pointer;
+            color: var(--complementar-text);
+            transition: .2s;
 
             .providerReference {
                 color: var(--complementar-text);
@@ -38,7 +40,6 @@
             }
 
             .providerName {
-                color: var(--complementar-text);
                 font-size: .8rem;
                 max-width: 25rem;
                 white-space: nowrap;

@@ -14,6 +14,7 @@
         height: 2rem;
         display: flex;
         position: relative;
+        margin-bottom: .3rem;
 
         .search {
             width: 100%;
@@ -58,9 +59,9 @@
             justify-content: flex-start;
             align-items: center;
             cursor: pointer;
+            transition: .2s;
 
             .productName {
-                color: var(--complementar-text);
                 font-size: .8rem;
                 max-width: 25rem;
                 white-space: nowrap;
