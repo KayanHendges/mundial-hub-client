@@ -4,13 +4,49 @@
     display: flex;
     flex-direction: column;
     border: 1px solid var(--gray-line);
+    background-color: var(--gray-2);
     border-top: none;
     margin-bottom: 1rem;
+
+    .header {
+        width: 100%;
+        height: 2.5rem;
+        padding: 0 .5rem;
+        margin-top: .5rem;
+        display: flex;
+        position: relative;
+        margin-bottom: .3rem;
+
+        .search {
+            width: 100%;
+            height: 100%;
+            outline: none;
+            border-radius: 4rem;
+            border: 1px solid var(--complementar-text);
+            background-color: var(--gray-3);
+            padding: 0 1.8rem 0 1rem;
+            color: var(--complementar-text);
+
+            &::placeholder{
+                color: var(--complementar-text);
+            }
+        }
+
+        #searchIcon {
+            position: absolute;
+            font-size: 1.2rem;
+            top: 22%;
+            
+            transition-property: all;
+            transition-duration: 0.4s;
+            transition-timing-function: cubic-bezier(0.03, 0.23, 0.25, 1);
+            transition-delay: 0s;
+        }
+    }
 
     .list {
         height: 100%;
         width: 100%;
-        background-color: var(--gray-2);
         padding: 0 .5rem;
         overflow-y: scroll;
 
@@ -65,10 +101,87 @@
 
     .footer {
         width: 100%;
-        height: 3rem;
-        display: flex;
-        align-items: center;
+        height: 5.4rem;
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr;
+        padding: .5rem 0;
+        background-color: var(--gray-3);
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
         border-top: 1px solid var(--gray-line);
+        gap: .3rem;
+
+        .productsCount {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--complementar-text);
+        }
+
+        .buttonsRow {
+            width: 100%;
+            display: flex;
+            padding: 0 .5rem;
+            align-items: center;
+            gap: .5rem;
+
+            .buttonIgnore {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                color: var(--complementar-text);
+                border-radius: 4rem;
+                padding: 0rem .6rem;
+                border: 1px solid var(--complementar-text);
+                cursor: pointer;
+                transition: .2s;
+
+                &:hover {
+                    border: 1px solid rgb(255, 31, 31);
+                    background-color: rgb(255, 31, 31);
+                    color: var(--white-text);
+                }
+            }
+
+            .buttonCreate {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                color: var(--complementar-text);
+                border-radius: 4rem;
+                padding: 0rem .6rem;
+                border: 1px solid var(--complementar-text);
+                cursor: pointer;
+                transition: .2s;
+
+                &:hover {
+                    border: 1px solid var(--white-text);
+                    background-color: var(--gray-5);
+                    color: var(--white-text);
+                }
+            }
+
+            .buttonLink {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                margin-left: auto;
+                color: var(--complementar-text);
+                border-radius: 4rem;
+                padding: 0rem .6rem;
+                border: 1px solid var(--complementar-text);
+                cursor: pointer;
+                transition: .2s;
+
+                &:hover {
+                    border: 1px solid var(--blue-button);
+                    background-color: var(--blue-button);
+                    color: var(--white-text);
+                }
+            }
+        }
     }
 }

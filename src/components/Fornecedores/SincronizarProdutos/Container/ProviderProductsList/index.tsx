@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { api } from '../../../../../services/api'
 import styles from './styles.module.scss'
 
 type ProviderProduct = {
@@ -21,11 +22,25 @@ type MatchProductsState = {
     setMatchProducts(matchProducts: MatchProducts): void;
 }
 
+type RequestState = {
+    request: boolean;
+    setRequest(boolean: boolean): void;
+}
+
+type SearchState = {
+    search: string;
+    setSearch(search: string): void;
+}
+
 type ListProps = {
     providerProductsList: ProviderProduct[];
     productsCount: ProductsCount;
     loading: boolean;
     matchProducts: MatchProductsState;
+    param: string;
+    request: RequestState;
+    search: SearchState;
+    getProviderProducts(): void;
 }
 
 type ProductStyle = {
@@ -35,7 +50,18 @@ type ProductStyle = {
     borderRadius: string,
 }
 
+type SearchIcon = {
+    color: string;
+    left: string;
+}
+
 export default function ProviderProductsList(props: ListProps){
+
+    const [ searchIcon, setSearchIcon ] = useState<SearchIcon>({
+        color: 'var(--complementar-text)',
+        left: '3.5%'
+    })
+    const [ placeholder, setPlaceholder ] = useState<string>('   pesquise o produto a ser vinculado')
 
     const [ productsStyle, setProductsStyle ] = useState<ProductStyle[]>([])
 
@@ -161,10 +187,70 @@ export default function ProviderProductsList(props: ListProps){
         }
     }
 
+    function sendFunction(handleFunction: string): void{
+        api.post(`/providers/link-products`, {
+            ids: props.matchProducts.matchProducts,
+            handleFunction: handleFunction
+        }).then(response => {
+            if(response.data.code == 200){
+                console.log(response.data.message)
+                props.request.setRequest(!props.request.request)
+            }
+        }).catch(erro => {
+            console.log(erro.response.data)
+            alert(erro.response.data.message)
+        })
+    }
+
+    function handleSearchStyle(boolean: boolean): void{
+        if(boolean){
+            setSearchIcon({
+                color: 'var(--gray-line)',
+                left: '93%'
+            })
+            setPlaceholder('')
+        } else {
+            if(props.search.search.length < 1){
+                setSearchIcon({
+                    color: 'var(--complementar-text)',
+                    left: '3.5%'
+                })
+                setPlaceholder('   pesquise o produto a ser vinculado')
+            }
+        }
+    }
+
     return (
         <div
         className={styles.wrapper}
         >
+            <div
+            className={styles.header}
+            >
+                <input 
+                className={styles.search}
+                type="text"
+                onFocus={() => handleSearchStyle(true)}
+                onBlur={() => {
+                    handleSearchStyle(false)
+                }}
+                placeholder={placeholder}
+                value={props.search.search}
+                onChange={(e) => props.search.setSearch(e.target.value)}
+                onKeyPress={(e) => {
+                    if(e.key == 'Enter'){
+                        props.getProviderProducts()
+                    }
+                }}
+                />
+                <span
+                className="material-icons"
+                id={styles.searchIcon}
+                style={searchIcon}
+                >
+                    search
+                </span>
+            </div>
             <div
             className={styles.list}
             onMouseLeave={() => hoverContainerStyle(false, 0)}
@@ -182,10 +268,19 @@ export default function ProviderProductsList(props: ListProps){
                         key={index}
                         style={productsStyle[index]}
                         onMouseEnter={() => hoverContainerStyle(true, index)}
-                        onClick={() => props.matchProducts.setMatchProducts({
-                            providerReference: product.providerReference,
-                            hubId: props.matchProducts.matchProducts.hubId
-                        })}
+                        onClick={() => {
+                            if(product.providerReference == props.matchProducts.matchProducts.providerReference){
+                                props.matchProducts.setMatchProducts({
+                                    providerReference: 0,
+                                    hubId: props.matchProducts.matchProducts.hubId
+                                })
+                            } else {
+                                props.matchProducts.setMatchProducts({
+                                    providerReference: product.providerReference,
+                                    hubId: props.matchProducts.matchProducts.hubId
+                                })
+                            }
+                        }}
                         >
                             {/* <span
                             className={styles.providerReference}
@@ -204,9 +299,49 @@ export default function ProviderProductsList(props: ListProps){
             <div
             className={styles.footer}
             >
-                {`${props.productsCount.productsCount > 0 ? props.productsCount.productsCount: 'nenhum'} 
-                ${props.productsCount.productsCount > 1 ? 'itens' : 'item'} 
-                não ${props.productsCount.productsCount > 1 ? 'vinculados' : 'vinculado'}`}
+                <span
+                className={styles.productsCount}
+                >
+                    {`${props.productsCount.productsCount > 0 ? props.productsCount.productsCount: 'nenhum'} 
+                    ${props.productsCount.productsCount > 1 ? 'itens' : 'item'} 
+                    não ${props.productsCount.productsCount > 1 ? 'vinculados' : 'vinculado'}`}
+                </span>
+                <div
+                className={styles.buttonsRow}
+                >
+                    <span
+                    className={styles.buttonIgnore}
+                    style={{ display: `${
+                        props.matchProducts.matchProducts.providerReference > 0 ?
+                        'flex' : 'none'
+                    }`}}
+                    onClick={() => sendFunction('ignore')}
+                    >
+                        ignorar
+                    </span>
+                    <span
+                    className={styles.buttonCreate}
+                    style={{ display: `${
+                        props.matchProducts.matchProducts.providerReference > 0
+                        && props.param == 'link' ?
+                        'flex' : 'none'
+                    }`}}
+                    onClick={() => sendFunction('needCreate')}
+                    >
+                        não cadastrado
+                    </span>
+                    <span
+                    className={styles.buttonLink}
+                    style={{ display: `${
+                        props.matchProducts.matchProducts.providerReference > 0 
+                        && props.matchProducts.matchProducts.hubId > 0?
+                        'flex' : 'none'
+                    }`}}
+                    onClick={() => sendFunction('link')}
+                    >
+                        vincular
+                    </span>
+                </div>
             </div>
         </div>
     )

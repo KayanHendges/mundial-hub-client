@@ -169,6 +169,10 @@ export default function ProductsList(props: ProductListProps){
 
     async function getProducts(){
         setProducts([])
+        props.matchProducts.setMatchProducts({
+            providerReference: props.matchProducts.matchProducts.providerReference,
+            hubId: 0
+        })
         api.get(`/providers/link-products/?query=${search}`)
         .then(response => {
             if(response.data.code == 200){
@@ -214,11 +218,15 @@ export default function ProductsList(props: ProductListProps){
                 onFocus={() => handleSearchStyle(true)}
                 onBlur={() => {
                     handleSearchStyle(false)
-                    getProducts()
                 }}
                 placeholder={placeholder}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyPress={(e) => {
+                    if(e.key == 'Enter'){
+                        getProducts()
+                    }
+                }}
                 />
                 <span
                 className="material-icons"
@@ -239,10 +247,19 @@ export default function ProductsList(props: ProductListProps){
                         key={product.hubId}
                         style={productsStyle[index]}
                         onMouseEnter={() => hoverContainerStyle(true, index)}
-                        onClick={() => props.matchProducts.setMatchProducts({
-                            providerReference: props.matchProducts.matchProducts.providerReference,
-                            hubId: product.hubId
-                        })}
+                        onClick={() => {
+                            if(product.hubId == props.matchProducts.matchProducts.hubId){
+                                props.matchProducts.setMatchProducts({
+                                    providerReference: props.matchProducts.matchProducts.providerReference,
+                                    hubId: 0
+                                })
+                            } else {
+                                props.matchProducts.setMatchProducts({
+                                    providerReference: props.matchProducts.matchProducts.providerReference,
+                                    hubId: product.hubId
+                                })
+                            }
+                        }}
                         >
                             <div
                             className={styles.productName}

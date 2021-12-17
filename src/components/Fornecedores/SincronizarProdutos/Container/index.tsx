@@ -20,18 +20,18 @@ type MatchProducts = {
 
 export default function Container(props: ContainerProps){
 
+    const [ param, setParam ] = useState<string>('link')
+
     const [ providerProducts, setProviderProducts ] = useState<ProviderProduct[]>([])
     const [ productsCount, setProductsCount ] = useState<number>(0)
     const [ loading, setLoading ] = useState(false)
+    const [ request, setRequest ] = useState<boolean>(false)
+    const [ search, setSearch ] = useState<string>('')
 
     const [ matchProducts, setMatchProducts ] = useState<MatchProducts>({
         providerReference: 0,
         hubId: 0
     })
-
-    useEffect(() => {
-        console.log(matchProducts.providerReference, matchProducts.hubId)
-    }, [matchProducts])
 
     useEffect(() => {
         if(props.providerId > 0){
@@ -44,7 +44,7 @@ export default function Container(props: ContainerProps){
                 hubId: 0
             })
 
-            api.get(`/providers/link/${props.providerId}`)
+            api.get(`/providers/link/${props.providerId}?param=${param}&search=${search}`)
             .then(response => {
                 if(response.data.code == 200){
                     const products: ProviderProduct[] = response.data.products
@@ -63,7 +63,30 @@ export default function Container(props: ContainerProps){
                 setLoading(false)
             })
         }
-    }, [props.providerId])
+    }, [props.providerId, param, request])
+
+    async function getProviderProducts(){
+        setProviderProducts([])
+        setProductsCount(0)
+        setMatchProducts({
+            providerReference: 0,
+            hubId: matchProducts.hubId
+        })
+        api.get(`/providers/link/${props.providerId}?param=${param}&search=${search}`)
+        .then(response => {
+            if(response.data.code == 200){
+                setProviderProducts(response.data.products)
+                setProductsCount(response.data.count)
+            } else {
+                setProviderProducts([])
+                setProductsCount(0)
+            }
+        })
+        .catch(erro => {
+            console.log(erro.response.data.message)
+            setProviderProducts([])
+        })
+    }
 
     if(props.providerId == 0){
         return (
@@ -81,7 +104,20 @@ export default function Container(props: ContainerProps){
                 <div
                 className={styles.header}
                 >
-                    vincule os produtos
+                    <span
+                    className='material-icons'
+                    id={styles.renewIcon}
+                    onClick={() => {
+                        if(param == 'link'){
+                            setParam('create')
+                        } else {
+                            setParam('link')
+                        }
+                    }}
+                    >
+                        autorenew
+                    </span>
+                    {`${param == 'link' ? 'vincular produtos' : 'produtos não cadastrados'}`}
                 </div>
                 <div
                 className={styles.container}
@@ -91,6 +127,10 @@ export default function Container(props: ContainerProps){
                     productsCount={{productsCount, setProductsCount}}
                     loading={loading}
                     matchProducts={{matchProducts, setMatchProducts}}
+                    param={param}
+                    request={{request, setRequest}}
+                    search={{search, setSearch}}
+                    getProviderProducts={getProviderProducts}
                     />
                     <ProductsList
                     matchProducts={{matchProducts, setMatchProducts}}
