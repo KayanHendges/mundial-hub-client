@@ -119,7 +119,7 @@ export default function Produtos(props: Props){
                     |
                 </span>
                 <span
-                style={{ display: `${lastUpdate == '0000-00-00 00:00:00' && loading ? 'none' : 'flex'}` }}
+                style={{ display: `${lastUpdate == '0000-00-00 00:00:00' || loading ? 'none' : 'flex'}` }}
                 >
                     {`ultima atualização há ${lastUpdateCalc(lastUpdate)}`}
                 </span>
