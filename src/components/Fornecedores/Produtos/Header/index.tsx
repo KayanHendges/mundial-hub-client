@@ -39,6 +39,11 @@ type CountProducts = {
     setCountProducts(countProducts: number): void;
 }
 
+type LastUpdate = {
+    lastUpdate: string;
+    setLastUpdate(lastUpdate: string): void;
+}
+
 type Loading = {
     loading: boolean;
     setLoading(loading: boolean): void;
@@ -54,6 +59,7 @@ type HeaderProps = {
     search: Search;
     products: ProductsState;
     countProducts: CountProducts;
+    lastUpdate: LastUpdate
     loading: Loading;
 }
 
@@ -192,18 +198,21 @@ export default function Header(props: HeaderProps) {
         props.loading.setLoading(true)
         props.products.setProducts([])
         props.countProducts.setCountProducts(0)
+        props.lastUpdate.setLastUpdate('0000-00-00 00:00:00')
 
         api.get(`/providers/products/${props.providerState.providerState}?search=${search}`)
         .then(response => {
             props.loading.setLoading(false)
             props.products.setProducts(response.data.products)
             props.countProducts.setCountProducts(response.data.count)
+            props.lastUpdate.setLastUpdate(response.data.lastUpdate)
         })
         .catch(erro => {
             console.log(erro.response.data.message)
             props.loading.setLoading(false)
             props.products.setProducts([])
             props.countProducts.setCountProducts(0)
+            props.lastUpdate.setLastUpdate('0000-00-00 00:00:00')
         })
     }
 

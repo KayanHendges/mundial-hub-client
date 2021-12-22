@@ -25,11 +25,12 @@
     }
 
     .containerList {
-        padding-top: .5rem;
         width: 100%;
         display: flex;
         flex-direction: column;
         gap: .5rem;
+        padding-bottom: 4rem;
+        padding-top: .5rem;
 
         .noResults{
 
@@ -80,5 +81,4 @@
             }
         }
     }
-
 }
