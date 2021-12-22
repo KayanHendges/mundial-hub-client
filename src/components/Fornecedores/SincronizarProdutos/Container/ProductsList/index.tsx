@@ -41,9 +41,14 @@ export default function ProductsList(props: ProductListProps){
     })
     const [ placeholder, setPlaceholder ] = useState<string>('   pesquise o produto a ser vinculado')
     const [ search, setSearch ] = useState<string>('')
-    const [ products, setProducts ] = useState<Product[]>([])
 
+    const [ products, setProducts ] = useState<Product[]>([])
     const [ productsStyle, setProductsStyle ] = useState<ProductStyle[]>([])
+
+    const [ loading, setLoading ] = useState<boolean>(false)
+    const [ placeholderList, setPlaceholderList ] = useState<any[]>([])
+    const [ noResultsDisplay, setNoResultsDisplay ] = useState<string>('none')
+
 
     const productStyle: ProductStyle = {
         backgroundColor: 'var(--gray-2)',
@@ -58,6 +63,14 @@ export default function ProductsList(props: ProductListProps){
         })
         setProductsStyle(list)
     }, [products])
+
+    useEffect(() => {
+        if(placeholderList.length == 0){
+            for (let index = 0; index < 10; index++) {
+                placeholderList.push(index)
+            }
+        }
+    }, [])
 
     useEffect(() => {
         const list = products.map((product, i) => {
@@ -84,6 +97,15 @@ export default function ProductsList(props: ProductListProps){
         })
         setProductsStyle(list)
     }, [props.matchProducts.matchProducts])
+
+    useEffect(() => {
+        if(!loading && products.length == 0 && search.length > 0){
+            setNoResultsDisplay('flex')
+        } else {
+            setNoResultsDisplay('none')
+        }
+    }, [products])
+
 
     function hoverContainerStyle(enter: boolean, index): void{
         if(enter){
@@ -169,6 +191,7 @@ export default function ProductsList(props: ProductListProps){
 
     async function getProducts(){
         setProducts([])
+        setLoading(true)
         props.matchProducts.setMatchProducts({
             providerReference: props.matchProducts.matchProducts.providerReference,
             hubId: 0
@@ -176,13 +199,16 @@ export default function ProductsList(props: ProductListProps){
         api.get(`/providers/link-products/?query=${search}`)
         .then(response => {
             if(response.data.code == 200){
+                setLoading(false)
                 setProducts(response.data.products)
             } else {
+                setLoading(false)
                 setProducts([])
             }
         })
         .catch(erro => {
             console.log(erro.response.data.message)
+            setLoading(false)
             setProducts([])
         })
     }
@@ -269,6 +295,30 @@ export default function ProductsList(props: ProductListProps){
                         </div>
                     )
                 })}
+                {placeholderList.map(index => {
+                    if(loading){
+                        return (
+                            <div
+                            key={index}
+                            className={styles.placeholder}
+                            >
+                            </div>
+                        )
+                    }
+                })}
+                <div
+                className={styles.noResults}
+                style={{ display: `${noResultsDisplay}` }}
+                >
+                    <img 
+                    src="/warehouse.png"
+                    alt="sem resultados"
+                    className={styles.warehouseIcon}
+                    />
+                    <span>
+                        nenhum produto encontrado
+                    </span>
+                </div> 
             </div>
         </div>
     )

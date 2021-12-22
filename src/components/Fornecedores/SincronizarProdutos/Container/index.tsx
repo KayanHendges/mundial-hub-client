@@ -50,11 +50,12 @@ export default function Container(props: ContainerProps){
                     const products: ProviderProduct[] = response.data.products
                     setProviderProducts(products)
                     setProductsCount(response.data.count)
+                    setLoading(false)
                 } else {
                     setProviderProducts([])
                     setProductsCount(0)
+                    setLoading(false)
                 }
-                setLoading(false)
             })
             .catch(erro => {
                 console.log(erro.response.data.message)
@@ -66,6 +67,7 @@ export default function Container(props: ContainerProps){
     }, [props.providerId, param, request])
 
     async function getProviderProducts(){
+        setLoading(true)
         setProviderProducts([])
         setProductsCount(0)
         setMatchProducts({
@@ -77,14 +79,17 @@ export default function Container(props: ContainerProps){
             if(response.data.code == 200){
                 setProviderProducts(response.data.products)
                 setProductsCount(response.data.count)
+                setLoading(false)
             } else {
                 setProviderProducts([])
                 setProductsCount(0)
+                setLoading(false)
             }
         })
         .catch(erro => {
             console.log(erro.response.data.message)
             setProviderProducts([])
+            setLoading(false)
         })
     }
 

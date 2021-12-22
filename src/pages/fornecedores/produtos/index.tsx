@@ -3,7 +3,19 @@ import styles from './styles.module.scss'
 import {api} from '../../../services/api'
 
 import Header from '../../../components/Fornecedores/Produtos/Header'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Container from '../../../components/Fornecedores/Produtos/Container'
+import router from 'next/router'
+
+type Products = {
+    providerReference: number,
+    reference: string,
+    productName: string,
+    stock: number;
+    cost: number,
+    additionalCost: string,
+    totalCost: number;
+}
 
 type Provider = {
     provider_id: number;
@@ -12,11 +24,16 @@ type Provider = {
 
 type Props = {
     providersList: Provider[];
+    providerId: number;
 }
 
 export default function Produtos(props: Props){
 
-    const [ providerState, setProviderState ] = useState<number>(0)
+    const [ providerState, setProviderState ] = useState<number>(props.providerId)
+    const [ search, setSearch ] = useState<string>('')
+    const [ products, setProducts ] = useState<Products[]>([])
+    const [ countProducts, setCountProducts ] = useState<number>(0)
+    const [ loading, setLoading ] = useState<boolean>(false)
 
     return (
         <div
@@ -29,6 +46,16 @@ export default function Produtos(props: Props){
             title="Sincronizar produtos"
             providersList={props.providersList}
             providerState={{providerState, setProviderState}}
+            search={{ search, setSearch }}
+            products={{ products, setProducts }}
+            countProducts={{ countProducts, setCountProducts }}
+            loading={{ loading, setLoading }}
+            />
+            <Container 
+            providerId={providerState}
+            products={{ products, setProducts }}
+            countProducts={{ countProducts, setCountProducts }}
+            loading={{ loading, setLoading }}
             />
         </div>
     )
@@ -51,10 +78,12 @@ export const getServerSideProps = async (ctx) => {
 
     const { ['mundialhub.token']: token } = parseCookies(ctx)
 
+    const providerId = ctx.query.provider_id
+
     if(!token){
         return {
             redirect: {
-            destination: '/login',
+            destination: `/login`,
             permanent: false
             }
         }
@@ -62,7 +91,8 @@ export const getServerSideProps = async (ctx) => {
 
     return {
         props: {
-            providersList: providersList
+            providersList: providersList,
+            providerId: providerId != undefined ? providerId : 2
         }
     }
 }

@@ -65,6 +65,9 @@ export default function ProviderProductsList(props: ListProps){
 
     const [ productsStyle, setProductsStyle ] = useState<ProductStyle[]>([])
 
+    const [ placeholderList, setPlaceholderList ] = useState<any[]>([])
+    const [ noResultsDisplay, setNoResultsDisplay ] = useState<string>('none')
+
     const productStyle: ProductStyle = {
         backgroundColor: 'var(--gray-2)',
         color: 'var(--complementar-text)',
@@ -104,6 +107,22 @@ export default function ProviderProductsList(props: ListProps){
         })
         setProductsStyle(list)
     }, [props.matchProducts.matchProducts])
+
+    useEffect(() => {
+        if(placeholderList.length == 0){
+            for (let index = 0; index < 10; index++) {
+                placeholderList.push(index)
+            }
+        }
+    }, [])
+    
+    useEffect(() => {
+        if(!props.loading && props.providerProductsList.length == 0){
+            setNoResultsDisplay('flex')
+        } else {
+            setNoResultsDisplay('none')
+        }
+    }, [props.loading])
 
     function hoverContainerStyle(enter: boolean, index): void{
         if(enter){
@@ -255,12 +274,6 @@ export default function ProviderProductsList(props: ListProps){
             className={styles.list}
             onMouseLeave={() => hoverContainerStyle(false, 0)}
             >
-                <span
-                className={styles.loadingList}
-                style={{ display: `${props.loading ? 'flex' : 'none'}` }}
-                >
-                    carregando produtos
-                </span>
                 {props.providerProductsList.map((product, index) => {
                     return (
                         <div
@@ -282,11 +295,6 @@ export default function ProviderProductsList(props: ListProps){
                             }
                         }}
                         >
-                            {/* <span
-                            className={styles.providerReference}
-                            >
-                                {product.providerReference}
-                            </span> */}
                             <div
                             className={styles.providerName}
                             >
@@ -295,6 +303,30 @@ export default function ProviderProductsList(props: ListProps){
                         </div>
                     )
                 })}
+                {placeholderList.map(index => {
+                    if(props.loading){
+                        return (
+                            <div
+                            key={index}
+                            className={styles.placeholder}
+                            >
+                            </div>
+                        )
+                    }
+                })}
+                <div
+                className={styles.noResults}
+                style={{ display: `${noResultsDisplay}` }}
+                >
+                    <img 
+                    src="/warehouse.png"
+                    alt="sem resultados"
+                    className={styles.warehouseIcon}
+                    />
+                    <span>
+                        nenhum produto encontrado
+                    </span>
+                </div> 
             </div>
             <div
             className={styles.footer}
