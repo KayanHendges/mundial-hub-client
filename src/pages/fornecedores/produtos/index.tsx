@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import Container from '../../../components/Fornecedores/Produtos/Container'
 import router from 'next/router'
 import { format, parseISO, differenceInSeconds} from 'date-fns'
+import Head from 'next/head'
 
 type Products = {
     providerReference: number,
@@ -83,6 +84,9 @@ export default function Produtos(props: Props){
         <div
         className={styles.wrapper}
         >
+            <Head>
+                <title>Fornecedores | Produtos</title>
+            </Head>
             <Header 
             maxWidth="100%"
             href="/"

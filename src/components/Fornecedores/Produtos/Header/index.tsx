@@ -253,68 +253,68 @@ export default function Header(props: HeaderProps) {
                             </div>
                         )
                     })}
-                    <div
-                    className={styles.search}
-                    >
-                        <input 
-                        className={styles.searchInput}
-                        type="text"
-                        onFocus={() => handleSearchStyle(true)}
-                        onBlur={() => {
-                            handleSearchStyle(false)
-                        }}
-                        placeholder={placeholder}
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        onKeyPress={(e) => {
-                            if(e.key == 'Enter'){
-                                getProducts()
-                            }
-                        }}
-                        />
-                        <span
-                        className="material-icons"
-                        id={styles.searchIcon}
-                        style={searchIcon}
-                        onMouseEnter={() => {
-                            if(search.length > 0){
-                                setSearchIcon({
-                                    color: 'var(--complementar-text)',
-                                    left: '93%',
-                                    cursor: 'pointer'
-                                })
-                            }
-                        }}
-                        onMouseLeave={() => {
-                            if(search.length > 0){
-                                setSearchIcon({
-                                    color: 'var(--gray-line)',
-                                    left: '93%',
-                                    cursor: 'pointer'
-                                })
-                            }
-                        }}
-                        onClick={() => getProducts()}
-                        >
-                            search
-                        </span>
-                        <span
-                        className={styles.cleanSearch}
-                        style={cleanSearch}
-                        onClick={() => {
-                            setSearch('')
+                </div>
+                <div
+                className={styles.search}
+                >
+                    <input 
+                    className={styles.searchInput}
+                    type="text"
+                    onFocus={() => handleSearchStyle(true)}
+                    onBlur={() => {
+                        handleSearchStyle(false)
+                    }}
+                    placeholder={placeholder}
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    onKeyPress={(e) => {
+                        if(e.key == 'Enter'){
+                            getProducts()
+                        }
+                    }}
+                    />
+                    <span
+                    className="material-icons"
+                    id={styles.searchIcon}
+                    style={searchIcon}
+                    onMouseEnter={() => {
+                        if(search.length > 0){
                             setSearchIcon({
                                 color: 'var(--complementar-text)',
-                                left: '1.4%',
-                                cursor: 'text'
+                                left: '93%',
+                                cursor: 'pointer'
                             })
-                            setPlaceholder('   pesquise pelo nome ou referencia')
-                            setCleanSearch({display: 'none'})                            
-                        }}
-                        >
-                            x
-                        </span>
-                    </div>
+                        }
+                    }}
+                    onMouseLeave={() => {
+                        if(search.length > 0){
+                            setSearchIcon({
+                                color: 'var(--gray-line)',
+                                left: '93%',
+                                cursor: 'pointer'
+                            })
+                        }
+                    }}
+                    onClick={() => getProducts()}
+                    >
+                        search
+                    </span>
+                    <span
+                    className={styles.cleanSearch}
+                    style={cleanSearch}
+                    onClick={() => {
+                        setSearch('')
+                        setSearchIcon({
+                            color: 'var(--complementar-text)',
+                            left: '1.4%',
+                            cursor: 'text'
+                        })
+                        setPlaceholder('   pesquise pelo nome ou referencia')
+                        setCleanSearch({display: 'none'})                            
+                    }}
+                    >
+                        x
+                    </span>
                 </div>
             </div>
         </div>

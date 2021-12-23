@@ -38,8 +38,9 @@
 
     .providersRow {
         display: flex;
+        justify-content: space-between;
         width: 100%;
-        height: 2rem;
+        // height: 2rem;
         margin-bottom: .5rem;
         gap: .5rem;
         max-width: 80rem;
@@ -63,11 +64,11 @@
 
             .providerContainer{
                 display: flex;
-                height: 2rem;
+                height: 100%;
                 border-radius: 4rem;
                 align-items: center;
                 justify-content: center;
-                padding: 0 1rem;
+                padding: .5rem 1rem;
                 cursor: pointer;
                 white-space: nowrap;
     
@@ -82,7 +83,7 @@
             display: flex;
             position: relative;
             margin-bottom: .3rem;
-            margin-left: auto;
+            // margin-left: auto;
     
             .searchInput {
                 width: 100%;
@@ -129,5 +130,16 @@
             }
         }
 
+    }
+}
+
+@media (max-width: 900px){
+    .providersRow {
+
+        flex-direction: column;
+
+        .search {
+            margin: 0;
+        }
     }
 }

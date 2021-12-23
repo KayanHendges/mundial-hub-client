@@ -1,6 +1,7 @@
 import { parseCookies } from 'nookies'
 import styles from './styles.module.scss'
 import {api} from '../../../services/api'
+import Head from 'next/head'
 
 import Header from '../../../components/Fornecedores/SincronizarProdutos/Header'
 import Container from '../../../components/Fornecedores/SincronizarProdutos/Container'
@@ -23,6 +24,9 @@ export default function SincronizarProdutos(props: Props){
         <div
         className={styles.wrapper}
         >
+            <Head>
+                <title>Fornecedores | Sincronizar produtos</title>
+            </Head>
             <Header 
             maxWidth="100%"
             href="/"
