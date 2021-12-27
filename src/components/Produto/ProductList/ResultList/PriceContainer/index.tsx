@@ -39,37 +39,37 @@ export default function PriceContainer(props){
     const priceStyles = setStyles(props.promotionalPrice)
 
 
-        return(
+    return(
+        <div
+        className={styles.wrapper}
+        >
             <div
-            className={styles.wrapper}
+            className={styles.priceRow}
             >
-                <div
-                className={styles.priceRow}
+                <span
+                className={styles.price}
+                style={priceStyles.price}
                 >
-                    <span
-                    className={styles.price}
-                    style={priceStyles.price}
-                    >
-                        {props.price}
-                    </span>
-                    <span
-                    className={styles.promotionalPrice}
-                    style={priceStyles.promotionPrice}
-                    >
-                        {props.promotionalPrice}
-                    </span>
-                </div>
-                <div
-                className={styles.dateRow}
+                    {props.price}
+                </span>
+                <span
+                className={styles.promotionalPrice}
+                style={priceStyles.promotionPrice}
                 >
-                    <span
-                    className={styles.date}
-                    style={priceStyles.date}
-                    >
-                        {`${props.startPromotion} até ${props.endPromotion}`}
-                    </span>
-                </div>
+                    {props.promotionalPrice}
+                </span>
             </div>
-        )
+            <div
+            className={styles.dateRow}
+            >
+                <span
+                className={styles.date}
+                style={priceStyles.date}
+                >
+                    {`${props.startPromotion} até ${props.endPromotion}`}
+                </span>
+            </div>
+        </div>
+    )
     
 }

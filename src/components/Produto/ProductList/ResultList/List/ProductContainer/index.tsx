@@ -150,13 +150,11 @@ export default function ProductContainer(props){
             >
                 <div
                 className={styles.bodyCell}
-                style={{ width: '10%' }}
                 >
                     {props.produto.reference}
                 </div>
                 <div
                 className={styles.bodyCell}
-                style={{width: "7%" }}
                 >
                     <div
                     style={{
@@ -171,35 +169,31 @@ export default function ProductContainer(props){
                     </div>
                 </div>
                 <div
-                className={styles.bodyCell}
-                style={{ width: '63%', justifyContent: 'flex-start', paddingLeft: '1rem' }}
+                className={styles.productName}
                 >
-                    <p
-                    className={styles.productName}
-                    >
+                    <span>
                         {props.produto.name}
-                    </p>
-                    <a
-                    href={`${linkStore(props.produto.trayId)}`}
-                    target="_blank"
-                    >
                         <span 
                         className='material-icons'
                         id={styles.icon}
                         >
-                            open_in_new
+                            <a
+                            href={`${linkStore(props.produto.trayId)}`}
+                            target="_blank"
+                            >
+                                open_in_new
+                            </a>
                         </span>
-                    </a>
+                    </span>
+                    
                 </div>
                 <div
                 className={styles.bodyCell}
-                style={{ width: '10%' }}
                 >
                     {props.produto.stockTray}
                 </div>
                 <div
                 className={styles.bodyCell}
-                style={{ width: '15%' }}
                 >
                     <PriceContainer 
                     price={props.produto.price}
@@ -210,7 +204,7 @@ export default function ProductContainer(props){
                 </div>
                 <div
                 className={styles.bodyCell}
-                style={{ width: '5%', position: 'relative', overflow: 'visible', gap: '.3rem' }}
+                style={{position: 'relative', overflow: 'visible', gap: '.3rem' }}
                 >
                     <div
                     className={styles.showKits}

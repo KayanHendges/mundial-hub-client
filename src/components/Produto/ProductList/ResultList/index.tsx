@@ -62,7 +62,6 @@ export default function ResultList(props){
                   startPromotion: promotion.startPromotion,
                   endPromotion: promotion.endPromotion,
                   kits: props.search.showKits == 1 ? produto.kits : []
-                //   kits: produto.kits
               }
             })
             setProdutos(resultados)
@@ -89,37 +88,32 @@ export default function ResultList(props){
             >
                 <div
                 className={styles.headerCell}
-                style={{ width: '10%' }}
                 >
-                    referencia
+                    código
                 </div>
                 <div
                 className={styles.headerCell}
-                style={{ width: '7%' }}
                 >
                     {/* imagem */}
                 </div>
                 <div
                 className={styles.headerCell}
-                style={{ width: '63%', justifyContent: 'flex-start', paddingLeft: '1rem' }}
+                style={{justifyContent: 'flex-start', paddingLeft: '1rem' }}
                 >
                     descrição
                 </div>
                 <div
                 className={styles.headerCell}
-                style={{ width: '10%' }}
                 >
                     estoque
                 </div>
                 <div
                 className={styles.headerCell}
-                style={{ width: '15%' }}
                 >
                     preço
                 </div>
                 <div
                 className={styles.headerCell}
-                style={{ width: '5%' }}
                 >
                     {/* buttons */}
                 </div>

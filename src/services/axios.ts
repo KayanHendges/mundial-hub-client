@@ -5,8 +5,8 @@ export function getAPIClient(ctx?: any) {
   const { 'mundialhub.token': token } = parseCookies(ctx)
 
   const api = axios.create({
-    // baseURL: 'http://localhost:3001'
-    baseURL: 'https://api.mundialhub.com.br'
+    baseURL: 'http://localhost:3001'
+    // baseURL: 'https://api.mundialhub.com.br'
   })
 
   if (token) {

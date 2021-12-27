@@ -139,9 +139,6 @@ export default function Header(props: HeaderProps) {
     }
 
     function mouseStyle(boolean: boolean, index: number, id: number): void{
-        if(!boolean){
-            console.log('saiu')
-        }
         if(props.providerState.providerState == id){
             return
         } else {

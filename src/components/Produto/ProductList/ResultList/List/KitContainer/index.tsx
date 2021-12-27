@@ -1,6 +1,27 @@
+import { useEffect, useState } from 'react'
 import styles from './styles.module.scss'
 
 export default function KitContainer(props){
+
+    const [ containerStyles, setContainerStyles ] = useState({
+        height: '0rem',
+        borderTop: 'none',
+    })
+
+    useEffect(() => {
+        if(props.display == 'flex'){
+            setContainerStyles({
+                height: '4rem',
+                borderTop: '1px solid var(--gray-line)',
+            })
+        }
+        if(props.display == 'none'){
+            setContainerStyles({
+                height: '0rem',
+                borderTop: 'none',
+            })
+        }
+    }, [props.display])
 
     function hasPromotion(kit){
         if(kit.tray_promotional_price > 0){
@@ -31,7 +52,7 @@ export default function KitContainer(props){
         return (
             <div
             className={styles.wrapper}
-            style={{ display: `${props.display}` }}
+            style={containerStyles}
             >
                 {props.kits.map((kit, index) => {
                     return (
