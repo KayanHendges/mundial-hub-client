@@ -5,8 +5,83 @@ import PriceContainer from '../../PriceContainer'
 import PopUp from '../../PopUp'
 import { useEffect, useState } from 'react'
 import { api } from '../../../../../../services/api'
+import router from 'next/router';
+
+type ProductContainerStyle = {
+    border: string;
+    WebkitBoxShadow: string;
+    boxShadow: string;
+}
+
+type UnitaryRowStyle = {
+    height: string;
+}
+
+type OptionsStyle = {
+    height: string;
+    borderTop: string;
+}
+
+type EditButton = {
+    backgroundColor: string;
+    color: string;
+}
+
+type ContainerStyle = {
+    active: boolean;
+    productContainer: ProductContainerStyle;
+    unitaryRow: UnitaryRowStyle;
+    options: OptionsStyle;
+}
 
 export default function ProductContainer(props){
+
+    const selectedStyle = {
+        active: true,
+        productContainer: {
+            border: '1px solid var(--white-text)',
+            WebkitBoxShadow: '0px 0px 12px -4px rgba(250,250,250,0.31)',
+            boxShadow: '0px 0px 12px -4px rgba(250,250,250,0.31)'
+        },
+        unitaryRow: {
+            height: '5rem'
+        },
+        options: {
+            height: '2.5rem',
+            borderTop: '1px solid var(--complementar-text)',
+        }
+    }
+
+    const notSelectedStyle = {
+        active: false,
+        productContainer: {
+            border: '1px solid transparent',
+            WebkitBoxShadow: 'none',
+            boxShadow: 'none'
+        },
+        unitaryRow: {
+            height: '5rem'
+        },
+        options: {
+            height: '0rem',
+            borderTop: 'none',
+        }
+    }
+    
+    const onEnterEditButton = {
+        backgroundColor: 'var(--gray-5)',
+        color: 'var(--white-text)'
+    }
+    const onLeaveEditButton = {
+        backgroundColor: 'var(--gray-4)',
+        color: 'var(--complementar-text)'
+    }
+
+    const [ containerStyle, setContainerStyle ] = useState<ContainerStyle>(notSelectedStyle)
+    const [ editStyles, setEditStyles ] = useState<EditButton>(onLeaveEditButton)
+    const [ updateStyles, setUpdateStyles ] = useState<EditButton>(onLeaveEditButton)
+
+    const [ updateImagesSpan, setUpdateImagesSpan ] = useState<string>('atualizar imagens')
 
     const [ showKits, setShowKits ] = useState({
         individual: true,
@@ -19,6 +94,19 @@ export default function ProductContainer(props){
 
     const [ kits, setKits ] = useState([])
 
+    useEffect(() => {
+        if(props.indexState.selectedIndex != props.index){
+            setContainerStyle(notSelectedStyle)
+        } 
+        if(props.indexState.selectedIndex == props.indexState.index){
+            setContainerStyle(selectedStyle)
+        }
+    }, [props.indexState.selectedIndex])
+
+    useEffect(() => {
+        showKitsParams(props.search.showKits)
+    }, [props.onChangeSearch])
+
     function whichKits(seachKits){
         if(seachKits.length > 0){
             return seachKits
@@ -27,9 +115,22 @@ export default function ProductContainer(props){
         }
     }
 
-    useEffect(() => {
-        showKitsParams(props.search.showKits)
-    }, [props.onChangeSearch])
+    function updateImages(reference){
+        setUpdateImagesSpan('atualizando...')
+        api.post(`/products/update-images/${reference}`)
+        .then(response => {
+            if(response.data.code == 200){
+                setUpdateImagesSpan('atualizado')
+                router.reload()
+            } else {
+                console.log(response.data)
+            }
+        })
+        .catch(erro => {
+            alert(erro.response.data.message)
+            console.log(erro)
+        })
+    }
 
     function showKitsParams(showKits){
         if(showKits == true){
@@ -144,9 +245,19 @@ export default function ProductContainer(props){
     return (
         <div
         className={styles.productContainer}
+        style={containerStyle.productContainer}
         >
             <div
             className={styles.unitaryRow}
+            style={containerStyle.unitaryRow}
+            onClick={() => {
+                if(containerStyle.active){
+                    props.indexState.setSelectedIndex(-1)
+                }
+                if(!containerStyle.active){
+                    props.indexState.setSelectedIndex(props.indexState.index)
+                }
+            }}
             >
                 <div
                 className={styles.bodyCell}
@@ -202,30 +313,36 @@ export default function ProductContainer(props){
                     endPromotion={props.produto.endPromotion}
                     />
                 </div>
-                <div
-                className={styles.bodyCell}
-                style={{position: 'relative', overflow: 'visible', gap: '.3rem' }}
-                >
-                    <div
-                    className={styles.showKits}
-                    onClick={() => dropKits(!showKits.show, props.produto.reference)}
-                    style={{ border: `${showKits.border}`, transform: `rotate(${showKits.rotate})` }}
-                    >
-                        {'<'}
-                    </div>
-                    <PopUp 
-                    hubId={props.produto.hubId}
-                    reference={props.produto.reference}
-                    search={props.search}
-                    setSearch={props.setSearch}
-                    />
-                </div>
             </div>
             <KitContainer
             display={showKits.display}
             kits={whichKits(props.produto.kits)}
             search={props.search}
             />
+            <div
+            className={styles.options}
+            style={containerStyle.options}
+            >
+                <Link href={`/produtos/${props.produto.reference}`}>
+                    <span
+                    className={styles.optionsButton}
+                    style={editStyles}
+                    onMouseOver={() => setEditStyles(onEnterEditButton)}
+                    onMouseLeave={() => setEditStyles(onLeaveEditButton)}
+                    >
+                        editar
+                    </span>
+                </Link>
+                <span
+                className={styles.optionsButton}
+                style={updateStyles}
+                onMouseOver={() => setUpdateStyles(onEnterEditButton)}
+                onMouseLeave={() => setUpdateStyles(onLeaveEditButton)}
+                onClick={() => updateImages(props.produto.reference)}
+                >
+                    {updateImagesSpan}
+                </span>
+            </div>
         </div>
     )
 }

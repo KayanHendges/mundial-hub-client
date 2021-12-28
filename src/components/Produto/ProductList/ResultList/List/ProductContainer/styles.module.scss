@@ -7,14 +7,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border: 1px solid transparent;
+    transition: .2s;
 
     .unitaryRow{
         width: 100%;
         display: grid;
-        grid-template-columns: 1fr 1fr 10fr 1fr 2fr 1fr;
+        grid-template-columns: 1fr 1fr 10fr 1fr 2fr;
         justify-content: center;
         align-items: center;
         height: 5rem;
+        transition: .2s;
+        cursor: pointer;
 
         .bodyCell{
             display: flex;
@@ -53,7 +57,7 @@
             span {
                 text-overflow: ellipsis;
                 overflow: hidden;
-                color: var(--complementar-text);
+                color: var(--white-text);
                 line-height: .9rem;
             }
 
@@ -70,6 +74,26 @@
                 }
 
             }
+        }
+    }
+
+    .options {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 .5rem;
+        align-items: center;
+        overflow: hidden;
+        transition: .2s;
+        gap: .5rem;
+
+        .optionsButton {
+            padding: .3rem 1rem;
+            border-radius: .4rem;
+            align-items: center;
+            text-align: center;
+            transition: .2s;
+            cursor: pointer;
         }
     }
 }

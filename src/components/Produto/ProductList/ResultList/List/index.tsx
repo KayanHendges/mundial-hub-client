@@ -5,6 +5,8 @@ import ProductContainer from './ProductContainer'
 
 export default function List(props){
 
+    const [ selectedIndex, setSelectedIndex ] = useState<number>(-1)
+
     return (
         <div
         className={styles.wrapper}
@@ -17,6 +19,7 @@ export default function List(props){
                     setSearch={props.setSearch}
                     onChangeSearch={props.onChangeSearch}
                     produto={produto}
+                    indexState={{ index, selectedIndex, setSelectedIndex }}
                     />
                 )
             })}
