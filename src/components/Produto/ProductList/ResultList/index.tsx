@@ -7,12 +7,13 @@ import styles from './styles.module.scss'
 
 export default function ResultList(props){
 
-    const [ resultado, setResultado ] = useState(<div>sem resultados</div>)
+    const [ loading, setLoading ] = useState<boolean>(false)
     const [ produtos, setProdutos ] = useState([])
+    const [ placeholderList, setPlaceholderList ] = useState<number[]>([])
 
     useEffect(() => {
         setProdutos([])
-        setResultado(<div>carregando...</div>)
+        setLoading(true)
         router.push(`/produtos${props.search.searchInput.length > 0 ? '?search=' : ''}${props.search.searchInput}`)
         api
           .get("/products/list", {
@@ -27,6 +28,7 @@ export default function ResultList(props){
               }
           })
           .then((response) => {
+            setLoading(false)
             props.setPages({
                 perPage: response.data.limite_pagina,
                 pages: response.data.numero_paginas,
@@ -65,19 +67,20 @@ export default function ResultList(props){
               }
             })
             setProdutos(resultados)
-            setResultado(<></>)
             
           })
           .catch((err) => {
+            setLoading(false)
             console.log(err.response.data)
-            setResultado(<div>não foi possível se comunictar com o banco de dados</div>);
             setProdutos([])
           });
-      }, [props.search.onChangeSearch, props.search.page, props.search.perPage]);
+    }, [props.search.onChangeSearch, props.search.page, props.search.perPage]);
 
-      useEffect(() => {
-          
-      })
+    useEffect(() => {
+        for (let index = 0; index < 20; index++) {
+            placeholderList.push(index)
+        }
+    }, [])
 
     return(
         <div
@@ -126,8 +129,17 @@ export default function ResultList(props){
                 search={props.search}
                 setSearch={props.setSearch}
                 onChangeSearch={props.search.onChangeSearch}
-                >
-                </List>
+                />
+                {placeholderList.map((placeholder, index) => {
+                    return (
+                        <div
+                        key={index}
+                        className={styles.placeholder}
+                        style={{ display: `${loading ? 'flex' : 'none' }` }}
+                        >
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )

@@ -10,6 +10,7 @@ export default function List(props){
     return (
         <div
         className={styles.wrapper}
+        style={{ display: `${props.resultados.length > 0 ? 'flex' : 'none'}` }}
         >
             {props.resultados.map((produto, index) => {
                 return (

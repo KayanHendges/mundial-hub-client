@@ -36,6 +36,21 @@ type ContainerStyle = {
 
 export default function ProductContainer(props){
 
+    const hoverSelectedStyle = {
+        active: false,
+        productContainer: {
+            border: '1px solid var(--complementar-text)',
+            WebkitBoxShadow: '0px 0px 12px -4px rgba(250,250,250,0.31)',
+            boxShadow: '0px 0px 12px -4px rgba(250,250,250,0.31)'
+        },
+        unitaryRow: {
+            height: '5rem'
+        },
+        options: {
+            height: '0rem',
+            borderTop: 'none',
+        }
+    }
     const selectedStyle = {
         active: true,
         productContainer: {
@@ -47,11 +62,10 @@ export default function ProductContainer(props){
             height: '5rem'
         },
         options: {
-            height: '2.5rem',
-            borderTop: '1px solid var(--complementar-text)',
+            height: '3rem',
+            borderTop: '1px solid var(--gray-line)',
         }
     }
-
     const notSelectedStyle = {
         active: false,
         productContainer: {
@@ -77,8 +91,19 @@ export default function ProductContainer(props){
         color: 'var(--complementar-text)'
     }
 
+    const onEnterDeleteButton = {
+        backgroundColor: '#9306063b',
+        color: '#E01D10'
+    }
+    const onLeaveDeleteButton = {
+        backgroundColor: 'var(--gray-4)',
+        color: 'var(--complementar-text)'
+    }
+
     const [ containerStyle, setContainerStyle ] = useState<ContainerStyle>(notSelectedStyle)
     const [ editStyles, setEditStyles ] = useState<EditButton>(onLeaveEditButton)
+    const [ deleteStyles, setDeleteStyles ] = useState<EditButton>(onLeaveDeleteButton)
+    const [ showKitsStyles, setShowKitsStyles ] = useState<EditButton>(onLeaveDeleteButton)
     const [ updateStyles, setUpdateStyles ] = useState<EditButton>(onLeaveEditButton)
 
     const [ updateImagesSpan, setUpdateImagesSpan ] = useState<string>('atualizar imagens')
@@ -246,6 +271,16 @@ export default function ProductContainer(props){
         <div
         className={styles.productContainer}
         style={containerStyle.productContainer}
+        onMouseEnter={() => {
+            if(!containerStyle.active){
+                setContainerStyle(hoverSelectedStyle)
+            }
+        }}
+        onMouseLeave={() => {
+            if(!containerStyle.active){
+                setContainerStyle(notSelectedStyle)
+            }
+        }}
         >
             <div
             className={styles.unitaryRow}
@@ -323,6 +358,15 @@ export default function ProductContainer(props){
             className={styles.options}
             style={containerStyle.options}
             >
+                <span
+                className={styles.showKitsButton}
+                style={showKitsStyles}
+                onMouseOver={() => setShowKitsStyles(onEnterEditButton)}
+                onMouseLeave={() => setShowKitsStyles(onLeaveDeleteButton)}
+                onClick={() => dropKits(!showKits.show, props.produto.reference)}
+                >
+                    {`${!showKits.show ? 'mostrar kits' : 'ocultar kits' }`}
+                </span>
                 <Link href={`/produtos/${props.produto.reference}`}>
                     <span
                     className={styles.optionsButton}
@@ -341,6 +385,14 @@ export default function ProductContainer(props){
                 onClick={() => updateImages(props.produto.reference)}
                 >
                     {updateImagesSpan}
+                </span>
+                <span
+                className={styles.optionsButton}
+                style={deleteStyles}
+                onMouseOver={() => setDeleteStyles(onEnterDeleteButton)}
+                onMouseLeave={() => setDeleteStyles(onLeaveDeleteButton)}
+                >
+                    excluir
                 </span>
             </div>
         </div>
