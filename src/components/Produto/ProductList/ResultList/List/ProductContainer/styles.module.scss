@@ -106,4 +106,74 @@
             cursor: pointer;
         }
     }
+
+    .deleteBox {
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        background-color: rgba(0, 0, 0, 0.377);
+
+        .box {
+            width: 30rem;
+            height: 10rem;
+            border-radius: .4rem;
+            background-color: var(--gray-3);
+            border: 1px solid var(--white-text);
+            -webkit-box-shadow: 0px 0px 12px 0px rgba(250, 250, 250, 0.445);
+            box-shadow: 0px 0px 12px 0px rgba(250, 250, 250, 0.445);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            gap: 2rem;
+
+            .boxTitle {
+                color:  var(--white-text);
+                font-size: 1rem;
+            }
+
+            .buttonsRow {
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+                margin-left: auto;
+
+                .decline {
+                    border: 1px solid var(--complementar-text);
+                    outline: none;
+                    background-color: var(--gray-3);
+                    border-radius: .4rem;
+                    padding: .2rem .6rem;
+                    transition: .3s;
+
+                    &:hover {
+                        background-color: var(--gray-5);
+                        color: var(--white-text);
+                    }
+                }
+
+                .accept {
+                    border: 1px solid var(--complementar-text);
+                    outline: none;
+                    background-color: var(--gray-3);
+                    border-radius: .4rem;
+                    padding: .2rem .6rem;
+                    transition: .3s;
+
+                    &:hover {
+                        background-color: #c42e2e;
+                        color: var(--white-text);
+                        border: 1px solid transparent;
+                    }
+                }
+            }
+        }
+    }
 }

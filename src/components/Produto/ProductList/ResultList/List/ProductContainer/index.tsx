@@ -6,6 +6,7 @@ import PopUp from '../../PopUp'
 import { useEffect, useState } from 'react'
 import { api } from '../../../../../../services/api'
 import router from 'next/router';
+import ImageZoom from './ImageZoom';
 
 type ProductContainerStyle = {
     border: string;
@@ -105,7 +106,8 @@ export default function ProductContainer(props){
     const [ deleteStyles, setDeleteStyles ] = useState<EditButton>(onLeaveDeleteButton)
     const [ showKitsStyles, setShowKitsStyles ] = useState<EditButton>(onLeaveDeleteButton)
     const [ updateStyles, setUpdateStyles ] = useState<EditButton>(onLeaveEditButton)
-
+    const [ imageZoomDisplay, setImageZoomDisplay ] = useState('none')
+    const [ deleteBoxDisplay, setDeleteBoxDisplay ] = useState('none')
     const [ updateImagesSpan, setUpdateImagesSpan ] = useState<string>('atualizar imagens')
 
     const [ showKits, setShowKits ] = useState({
@@ -310,7 +312,9 @@ export default function ProductContainer(props){
                         whiteSpace: "nowrap",
                         backgroundImage: `url("${props.produto.thumbnail.length > 0 ? props.produto.thumbnail : props.produto.imageUrl}")`,
                         backgroundSize: 'cover',
+                        cursor: 'pointer'
                     }}
+                    onClick={() => setImageZoomDisplay('flex')}
                     >
                     </div>
                 </div>
@@ -391,9 +395,46 @@ export default function ProductContainer(props){
                 style={deleteStyles}
                 onMouseOver={() => setDeleteStyles(onEnterDeleteButton)}
                 onMouseLeave={() => setDeleteStyles(onLeaveDeleteButton)}
+                onClick={() => setDeleteBoxDisplay('flex')}
                 >
                     excluir
                 </span>
+            </div>
+            <ImageZoom 
+            imageUrl={props.produto.imageUrl}
+            display={imageZoomDisplay}
+            setDisplay={setImageZoomDisplay}
+            />
+            <div
+            className={styles.deleteBox}
+            style={{ display: `${deleteBoxDisplay}` }}
+            >
+                <div
+                className={styles.box}
+                >
+                    <span
+                    className={styles.boxTitle}
+                    >
+                        {`Você tem certeza que deseja excluir o produto ${props.produto.reference}?`}
+                    </span>
+                    <div
+                    className={styles.buttonsRow}
+                    >
+                        <button
+                        type='button'
+                        className={styles.decline}
+                        onClick={() => setDeleteBoxDisplay('none')}
+                        >
+                            cancelar
+                        </button>
+                        <button
+                        type='button'
+                        className={styles.accept}
+                        >
+                            excluir
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     )

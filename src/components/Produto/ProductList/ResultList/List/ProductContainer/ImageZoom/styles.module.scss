@@ -1,0 +1,41 @@
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.377);
+
+    .imageBox {
+        height: 25rem;
+        width: 25rem;
+        border-radius: .4rem;
+        background-size: cover;
+        position: relative;
+
+        .close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            height: 1.6rem;
+            width: 1.6rem;
+            top: .4rem;
+            left: .4rem;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.116);
+            color: var(--complementar-text);
+            transition: .2s;
+            cursor: pointer;
+
+            &:hover {
+                color: rgb(54, 54, 54);
+                background-color: rgba(0, 0, 0, 0.322);
+            }
+        }
+    }
+}

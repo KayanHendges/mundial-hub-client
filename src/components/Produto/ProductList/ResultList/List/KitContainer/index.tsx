@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import ImageZoom from '../ProductContainer/ImageZoom'
 import styles from './styles.module.scss'
 
 export default function KitContainer(props){
@@ -7,6 +8,9 @@ export default function KitContainer(props){
         height: '0rem',
         borderTop: 'none',
     })
+
+    const [ imageZoomDisplay, setImageZoomDisplay ] = useState('none')
+    const [ indexImage, setIndexImage ] = useState(0)
 
     useEffect(() => {
         if(props.display == 'flex'){
@@ -68,6 +72,10 @@ export default function KitContainer(props){
                                 style={{
                                     backgroundImage: `url("${has90Image(kit)}")`
                                 }}
+                                onClick={() => {
+                                    setIndexImage(index)
+                                    setImageZoomDisplay('flex')
+                                }}
                                 >
                                 </div>
                             </div>
@@ -103,6 +111,11 @@ export default function KitContainer(props){
                                     </span>
                                 </div>
                             </div>
+                            <ImageZoom 
+                            imageUrl={props.kits[indexImage].picture_source_1}
+                            display={imageZoomDisplay}
+                            setDisplay={setImageZoomDisplay}
+                            />
                         </div>
                     )
                 })}
