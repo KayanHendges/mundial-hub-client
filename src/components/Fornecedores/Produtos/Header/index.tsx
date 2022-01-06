@@ -197,7 +197,7 @@ export default function Header(props: HeaderProps) {
         props.countProducts.setCountProducts(0)
         props.lastUpdate.setLastUpdate('0000-00-00 00:00:00')
 
-        api.get(`/providers/products/${props.providerState.providerState}?search=${search}`)
+        api.get(`/providers/products/list/${props.providerState.providerState}?search=${search}`)
         .then(response => {
             props.loading.setLoading(false)
             props.products.setProducts(response.data.products)

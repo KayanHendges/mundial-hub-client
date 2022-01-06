@@ -2,7 +2,6 @@ import styles from './styles.module.scss'
 import Link from 'next/link';
 import KitContainer from '../KitContainer'
 import PriceContainer from '../../PriceContainer'
-import PopUp from '../../PopUp'
 import { useEffect, useState } from 'react'
 import { api } from '../../../../../../services/api'
 import router from 'next/router';
@@ -33,6 +32,11 @@ type ContainerStyle = {
     productContainer: ProductContainerStyle;
     unitaryRow: UnitaryRowStyle;
     options: OptionsStyle;
+}
+
+type DeleteProduct = {
+    request: boolean;
+    buttonSpan: string;
 }
 
 export default function ProductContainer(props){
@@ -107,6 +111,10 @@ export default function ProductContainer(props){
     const [ showKitsStyles, setShowKitsStyles ] = useState<EditButton>(onLeaveDeleteButton)
     const [ updateStyles, setUpdateStyles ] = useState<EditButton>(onLeaveEditButton)
     const [ imageZoomDisplay, setImageZoomDisplay ] = useState('none')
+    const [ deleteProduct, setDeleteProduct ] = useState<DeleteProduct>({
+        request: false,
+        buttonSpan: 'excluir'
+    })
     const [ deleteBoxDisplay, setDeleteBoxDisplay ] = useState('none')
     const [ updateImagesSpan, setUpdateImagesSpan ] = useState<string>('atualizar imagens')
 
@@ -267,6 +275,44 @@ export default function ProductContainer(props){
         if(props.search.store == 1049898){
             return `https://www.scpneus.com.br/loja/produto.php?IdProd=${trayId}`
         }
+    }
+
+    function deleteProductDatabase(reference){
+
+        if(!deleteProduct.request){
+            setDeleteProduct({
+                request: true,
+                buttonSpan: 'excluíndo'
+            })
+    
+            api.delete(`/products/${reference}`)
+            .then(response => {
+                if(response.data.code == 200){
+                    setDeleteProduct({
+                        request: true,
+                        buttonSpan: 'excluído com sucesso'
+                    })
+
+                    setTimeout(() => {
+                        setDeleteBoxDisplay('none')
+                        router.reload()
+                    }, 500)
+                }
+            })
+            .catch(erro => {
+                console.log(erro.response.data)
+                alert(erro.response.data.message)
+                setDeleteProduct({
+                    request: false,
+                    buttonSpan: 'erro ao excluir'
+                })
+                setTimeout(() => {
+                    setDeleteBoxDisplay('none')
+                    router.reload()
+                }, 500)
+            })
+        }
+
     }
 
     return (
@@ -430,8 +476,9 @@ export default function ProductContainer(props){
                         <button
                         type='button'
                         className={styles.accept}
+                        onClick={() => deleteProductDatabase(props.produto.reference)}
                         >
-                            excluir
+                            {deleteProduct.buttonSpan}
                         </button>
                     </div>
                 </div>

@@ -7,6 +7,15 @@ type ImageZoomProps = {
 }
 
 export default function ImageZoom(props: ImageZoomProps){
+
+    if(props.display == 'flex'){
+        document.addEventListener('keydown', (event) => {
+            if(event.key == 'Escape'){
+                props.setDisplay('none')
+            }
+        })
+    }
+
     return (
         <div
         className={styles.wrapper}
