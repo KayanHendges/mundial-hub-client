@@ -86,8 +86,10 @@ export default function Container(props: ContainerProps){
             >
                 {props.products.products.map(product => {
                     return (
-                        <ProductContainer 
+                        <ProductContainer
+                        key={product.reference}
                         product={product}
+                        providerId={props.providerId}
                         />
                     )
                 })}
