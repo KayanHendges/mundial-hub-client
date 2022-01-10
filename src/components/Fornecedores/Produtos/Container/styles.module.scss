@@ -20,6 +20,12 @@
             text-align: center;
             overflow: hidden;
             color: var(--complementar-text);
+
+            #arrow {
+                display: flex;
+                color: var(--white-text);
+                font-size: 1.2rem;
+            }
         }
 
     }

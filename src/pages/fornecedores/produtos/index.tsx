@@ -27,11 +27,16 @@ type Provider = {
 type Props = {
     providersList: Provider[];
     providerId: number;
+    orderBy: {
+        collum: string;
+        order: string;
+    }
 }
 
 export default function Produtos(props: Props){
 
     const [ providerState, setProviderState ] = useState<number>(props.providerId)
+    const [ param, setParam ] = useState(props.orderBy)
     const [ search, setSearch ] = useState<string>('')
     const [ products, setProducts ] = useState<Products[]>([])
     const [ countProducts, setCountProducts ] = useState<number>(0)
@@ -97,6 +102,7 @@ export default function Produtos(props: Props){
             providersList={props.providersList}
             providerState={{providerState, setProviderState}}
             search={{ search, setSearch }}
+            param={{ param, setParam }}
             products={{ products, setProducts }}
             countProducts={{ countProducts, setCountProducts }}
             lastUpdate={{ lastUpdate, setLastUpdate }}
@@ -106,6 +112,7 @@ export default function Produtos(props: Props){
             providerId={providerState}
             products={{ products, setProducts }}
             countProducts={{ countProducts, setCountProducts }}
+            param={{ param, setParam }}
             loading={{ loading, setLoading }}
             />
             <div
@@ -157,6 +164,8 @@ export const getServerSideProps = async (ctx) => {
     const { ['mundialhub.token']: token } = parseCookies(ctx)
 
     const providerId = ctx.query.provider_id
+    const collum = ctx.query.collum
+    const order = ctx.query.order
 
     if(!token){
         return {
@@ -170,7 +179,11 @@ export const getServerSideProps = async (ctx) => {
     return {
         props: {
             providersList: providersList,
-            providerId: providerId != undefined ? providerId : 2
+            providerId: providerId != undefined ? providerId : 2,
+            orderBy: {
+                collum: collum != undefined ? collum : '',
+                order: order != undefined ? (collum != undefined ? order : '') : ''
+            }
         }
     }
 }

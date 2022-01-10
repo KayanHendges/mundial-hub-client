@@ -34,6 +34,17 @@ type Search = {
     setSearch(search: string): void;
 }
 
+type Param = {
+    param: {
+        collum: string;
+        order: string;
+    }
+    setParam(param: {
+        collum: string;
+        order: string
+    }): void;
+}
+
 type CountProducts = {
     countProducts: number;
     setCountProducts(countProducts: number): void;
@@ -57,10 +68,12 @@ type HeaderProps = {
     providersList: Provider[];
     providerState: ProviderState;
     search: Search;
+    param: Param;
     products: ProductsState;
     countProducts: CountProducts;
     lastUpdate: LastUpdate
     loading: Loading;
+    
 }
 
 type SearchIcon = {
@@ -197,7 +210,7 @@ export default function Header(props: HeaderProps) {
         props.countProducts.setCountProducts(0)
         props.lastUpdate.setLastUpdate('0000-00-00 00:00:00')
 
-        api.get(`/providers/products/list/${props.providerState.providerState}?search=${search}`)
+        api.get(`/providers/products/list/${props.providerState.providerState}?search=${search}&collum=${props.param.param.collum}&order=${props.param.param.order}`)
         .then(response => {
             props.loading.setLoading(false)
             props.products.setProducts(response.data.products)
