@@ -39,6 +39,36 @@ export default function ProductContainer(props: ContainerProps){
         borderTop: 'none'
     }
 
+    const enterEditStock = {
+        backgroundColor: 'var(--gray-1)',
+        border: '1px solid transparent',
+        cursor: 'text',
+    }
+
+    const leaveEditStock = {
+        backgroundColor: 'transparent',
+        border: '1px solid transparent',
+        cursor: 'pointer'
+    }
+
+    const loadingEditStock = {
+        backgroundColor: 'transparent',
+        border: '1px solid var(--white-text)',
+        cursor: 'pointer'
+    }
+
+    const successEditStock = {
+        backgroundColor: 'transparent',
+        border: '1px solid #007e26',
+        cursor: 'pointer'
+    }
+
+    const errorEditStock = {
+        backgroundColor: 'transparent',
+        border: '1px solid #d00404',
+        cursor: 'pointer'
+    }
+
     const [ productDetails, setProductDetails ] = useState<ProductDetails>({
         request: false,
         providerReference: 0,
@@ -48,10 +78,9 @@ export default function ProductContainer(props: ContainerProps){
 
     const [ detailContainer, setDetailContainer ] = useState(closeDetailsStyle)
     
-    const [ editStockStyles, setEditStockStyles ] = useState({
-        display: 'none'
-    })
+    const [ editStockStyles, setEditStockStyles ] = useState(leaveEditStock)
     const [ editStockValue, setEditStockValue ] = useState(props.product.stock)
+    const [ stockChange, setStockChange ] = useState(props.product.stock)
 
     const [ loading, setLoading ] = useState(false)
 
@@ -72,16 +101,23 @@ export default function ProductContainer(props: ContainerProps){
         })
     }
 
-    function editStock(){
-        api.post(`/providers/products/edit?providerId=${props.providerId}&productId=${props.product.providerReference}&field=product_stock&value=${editStockValue}`)
-        .then(response => {
-            if(response.data.code != 200){
+    async function editStock(): Promise<void>{
+        return new Promise((resolve, reject) => {
+
+            api.post(`/providers/products/edit?providerId=${props.providerId}&productId=${props.product.providerReference}&field=product_stock&value=${editStockValue}`)
+            .then(response => {
+                if(response.data.code != 200){
+                    setEditStockValue(props.product.stock)
+                    reject()
+                } else {
+                    resolve()
+                }
+            })
+            .catch(erro => {
+                console.log(erro.response.data.message)
                 setEditStockValue(props.product.stock)
-            }
-        })
-        .catch(erro => {
-            console.log(erro.response.data.message)
-            setEditStockValue(props.product.stock)
+                reject()
+            })
         })
     }
 
@@ -139,12 +175,10 @@ export default function ProductContainer(props: ContainerProps){
                 </span>
                 <span
                 onDoubleClick={() => {
-                        setEditStockStyles({
-                            display: 'flex'
-                        })
+                        console.log('double click')
+                        setEditStockStyles(enterEditStock)
                 }}
                 >
-                    {`${editStockStyles.display == 'flex' ? '' : editStockValue}`}
                     <input 
                     className={styles.editStock}
                     style={editStockStyles}
@@ -153,13 +187,19 @@ export default function ProductContainer(props: ContainerProps){
                     onChange={(e) => {
                         setEditStockValue(onlyNumberText(e.target.value))
                     }}
-                    onBlur={() => {
-                        setEditStockStyles({
-                            display: 'none'
-                        })
-                        editStock()
-                        
+                    onBlur={async() => {
+                        if(editStockValue != stockChange){
+                            setEditStockStyles(loadingEditStock)
+                            await editStock()
+                            .then(response => setEditStockStyles(successEditStock))
+                            .catch(error => setEditStockStyles(errorEditStock))
+                            setTimeout(() => {
+                                setEditStockStyles(leaveEditStock)
+                            }, 500)
+                        }
                     }}
+                    onFocus={() => setStockChange(editStockValue)}
+                    readOnly={editStockStyles.backgroundColor == 'transparent' ? true : false }
                     />
                 </span>
                 <span>
