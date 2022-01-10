@@ -27,17 +27,48 @@ type Loading = {
     setLoading(loading: boolean): void;
 }
 
+type Param = {
+    param: {
+        collum: string;
+        order: string;
+    }
+    setParam(param: {
+        collum: string;
+        order: string
+    }): void;
+}
+
 type ContainerProps = {
     providerId: number;
     products: ProductsState;
     countProducts: CountProducts;
     loading: Loading;
+    param: Param
 }
 
 export default function Container(props: ContainerProps){
+
+    const arrowStyles = [
+        {
+            order: 'asc',
+            display: 'none',
+            rotate: '0deg'
+        },
+        {
+            order: 'asc',
+            display: 'flex',
+            rotate: '0deg'
+        },
+        {
+            order: 'desc',
+            display: 'flex',
+            rotate: '180deg'
+        },
+    ]
     
     const [ placeholderList, setPlaceholderList ] = useState<any[]>([])
     const [ noResultsDisplay, setNoResultsDisplay ] = useState<string>('none')
+    const [ orderByStockIndex, setOrderByStockIndex ] = useState(0)   
 
     useEffect(() => {
         for (let index = 0; index < 10; index++) {
@@ -70,6 +101,13 @@ export default function Container(props: ContainerProps){
                 </span>
                 <span>
                     estoque
+                    <span 
+                    className="material-icons-round"
+                    id={styles.arrow}
+                    style={{ display: `${arrowStyles[orderByStockIndex]}` }}
+                    >
+                    expand_more
+                    </span>
                 </span>
                 <span>
                     custo fornecedor
