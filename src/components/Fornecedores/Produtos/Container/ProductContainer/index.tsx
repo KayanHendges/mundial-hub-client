@@ -158,6 +158,7 @@ export default function ProductContainer(props: ContainerProps){
                             display: 'none'
                         })
                         editStock()
+                        
                     }}
                     />
                 </span>

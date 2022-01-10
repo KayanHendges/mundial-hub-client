@@ -78,6 +78,8 @@ export default function Produtos(props: Props){
             return `${minute} ${minute > 1 ? 'minutos' : 'minuto'}`
         }
 
+        return `${seconds} ${seconds > 1 ? 'segundos' : 'segundo'}`
+
     }
 
     return (
