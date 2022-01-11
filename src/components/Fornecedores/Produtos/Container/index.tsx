@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 import ProductContainer from './ProductContainer'
 import styles from './styles.module.scss'
 
@@ -50,24 +50,25 @@ export default function Container(props: ContainerProps){
 
     const arrowStyles = [
         {
-            order: 'asc',
-            display: 'none',
-            rotate: '0deg'
+            order: '',
+            visibility: 'hidden',
+            transform: 'rotate(-90deg)'
         },
         {
             order: 'asc',
-            display: 'flex',
-            rotate: '0deg'
+            visibility: 'visible',
+            transform: 'rotate(0deg)'
         },
         {
             order: 'desc',
-            display: 'flex',
-            rotate: '180deg'
+            visibility: 'visible',
+            transform: 'rotate(-180deg)'
         },
-    ]
+    ] as const;
     
     const [ placeholderList, setPlaceholderList ] = useState<any[]>([])
     const [ noResultsDisplay, setNoResultsDisplay ] = useState<string>('none')
+    const [ collum, setCollum ] = useState<string>('')
     const [ orderByStockIndex, setOrderByStockIndex ] = useState(0)   
 
     useEffect(() => {
@@ -84,6 +85,13 @@ export default function Container(props: ContainerProps){
         }
     }, [props.loading])
 
+    useEffect(() => {
+        props.param.setParam({
+            collum: collum,
+            order: arrowStyles[orderByStockIndex].order
+        })
+    }, [orderByStockIndex, collum])
+
     return (
         <div
         className={styles.wrapper}
@@ -91,33 +99,152 @@ export default function Container(props: ContainerProps){
             <div
             className={styles.header}
             >
-                <span>
-                    referencia
-                </span>
-                <span
-                style={{ justifyContent: 'flex-start' }}
+                <div
+                className={styles.headerCollum}
                 >
-                    nome
-                </span>
-                <span>
-                    estoque
-                    <span 
-                    className="material-icons-round"
-                    id={styles.arrow}
-                    style={{ display: `${arrowStyles[orderByStockIndex]}` }}
+                    <span
+                    onClick={() => {
+                        if(collum == 'reference'){
+                            if(arrowStyles.length > orderByStockIndex+1){
+                                setOrderByStockIndex(orderByStockIndex+1)
+                                setCollum('reference')   
+                            } else {
+                                setOrderByStockIndex(0)
+                                setCollum('')
+                            }
+                        } else {
+                            setOrderByStockIndex(1)
+                            setCollum('reference')
+                        }
+                    }}
                     >
-                    expand_more
+                        referencia
+                        <span 
+                        className="material-icons-round"
+                        id={styles.arrow}
+                        style={{ 
+                            visibility: `${collum == 'reference' ? arrowStyles[orderByStockIndex].visibility : 'hidden' }`,
+                            transform: `${arrowStyles[orderByStockIndex].transform}`
+                        }}
+                        >
+                        expand_more
+                        </span>
                     </span>
-                </span>
-                <span>
-                    custo fornecedor
-                </span>
-                <span>
-                    custos adicionais
-                </span>
-                <span>
-                    custo final
-                </span>
+                </div>
+                <div
+                className={styles.headerCollum}
+                >
+                    <span
+                    style={{ 
+                        justifyContent: 'flex-start',
+                        margin: '0 auto 0 0'
+                    }}
+                    onClick={() => {
+                        if(collum == 'name'){
+                            if(arrowStyles.length > orderByStockIndex+1){
+                                setOrderByStockIndex(orderByStockIndex+1)
+                                setCollum('name')   
+                            } else {
+                                setOrderByStockIndex(0)
+                                setCollum('')
+                            }
+                        } else {
+                            setOrderByStockIndex(1)
+                            setCollum('name')
+                        }
+                    }}
+                    >
+                        nome
+                        <span 
+                        className="material-icons-round"
+                        id={styles.arrow}
+                        style={{ 
+                            visibility: `${collum == 'name' ? arrowStyles[orderByStockIndex].visibility : 'hidden' }`,
+                            transform: `${arrowStyles[orderByStockIndex].transform}`
+                        }}
+                        >
+                        expand_more
+                        </span>
+                    </span>
+                </div>
+                <div
+                className={styles.headerCollum}
+                >
+                    <span
+                    onClick={() => {
+                        if(collum == 'stock'){
+                            if(arrowStyles.length > orderByStockIndex+1){
+                                setOrderByStockIndex(orderByStockIndex+1)
+                                setCollum('stock')   
+                            } else {
+                                setOrderByStockIndex(0)
+                                setCollum('')
+                            }
+                        } else {
+                            setOrderByStockIndex(1)
+                            setCollum('stock')
+                        }
+                    }}
+                    >
+                        estoque
+                        <span 
+                        className="material-icons-round"
+                        id={styles.arrow}
+                        style={{ 
+                            visibility: `${collum == 'stock' ? arrowStyles[orderByStockIndex].visibility : 'hidden' }`,
+                            transform: `${arrowStyles[orderByStockIndex].transform}`
+                        }}
+                        >
+                        expand_more
+                        </span>
+                    </span>
+                </div>
+                <div
+                className={styles.headerCollum}
+                >
+                    <span
+                    onClick={() => {
+                        if(collum == 'provider_cost'){
+                            if(arrowStyles.length > orderByStockIndex+1){
+                                setOrderByStockIndex(orderByStockIndex+1)
+                                setCollum('provider_cost')   
+                            } else {
+                                setOrderByStockIndex(0)
+                                setCollum('')
+                            }
+                        } else {
+                            setOrderByStockIndex(1)
+                            setCollum('provider_cost')
+                        }
+                    }}
+                    >
+                        custo fornecedor
+                        <span 
+                        className="material-icons-round"
+                        id={styles.arrow}
+                        style={{ 
+                            visibility: `${collum == 'provider_cost' ? arrowStyles[orderByStockIndex].visibility : 'hidden' }`,
+                            transform: `${arrowStyles[orderByStockIndex].transform}`
+                        }}
+                        >
+                        expand_more
+                        </span>
+                    </span>
+                </div>
+                <div
+                className={styles.headerCollum}
+                >
+                    <span>
+                        custos adicionais
+                    </span>
+                </div>
+                <div
+                className={styles.headerCollum}
+                >
+                    <span>
+                        custo final
+                    </span>
+                </div>
             </div>
             <div
             className={styles.containerList}

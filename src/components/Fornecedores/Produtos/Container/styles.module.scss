@@ -13,20 +13,57 @@
         gap: .5rem;
         border-bottom: 1px solid var(--gray-line);
 
-        span {
+        .headerCollum {
             display: flex;
+            height: 100%;
             justify-content: center;
             align-items: center;
             text-align: center;
             overflow: hidden;
-            color: var(--complementar-text);
-
-            #arrow {
+            
+            span {
+                width: min-content;
+                height: 100%;
                 display: flex;
-                color: var(--white-text);
-                font-size: 1.2rem;
+                align-items: center;
+                color: var(--complementar-text);
+                padding: .1rem .5rem;
+                border-radius: .4rem;
+                padding: 0rem .6rem;
+                position: relative;
+                cursor: pointer;
+                transition: .2s;
+    
+                -webkit-user-select: none;  
+                -moz-user-select: none;     
+                -ms-user-select: none;      
+                user-select: none;
+    
+                &:hover {
+                    color: var(--white-text);
+                    background-color: var(--gray-2);
+
+                }
+                #arrow {
+                    display: flex;
+                    color: var(--white-text);
+                    font-size: 1.2rem;
+                    position: absolute;
+                    right: -.6rem;
+                    padding: 0;
+                    margin-left: -.6rem;
+                    transition: .2s;
+    
+                    -webkit-user-select: none;  
+                    -moz-user-select: none;     
+                    -ms-user-select: none;      
+                    user-select: none;
+                }
             }
+
+
         }
+
 
     }
 

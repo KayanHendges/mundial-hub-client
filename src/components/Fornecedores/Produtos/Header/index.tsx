@@ -99,7 +99,6 @@ export default function Header(props: HeaderProps) {
         cursor: 'text'
     })
     const [ placeholder, setPlaceholder ] = useState<string>('   pesquise pelo nome ou referencia')
-    const [ search, setSearch ] = useState<string>('')
     const [ cleanSearch, setCleanSearch ] = useState<CleanSearch>({
         display: 'flex',
     })
@@ -127,7 +126,7 @@ export default function Header(props: HeaderProps) {
 
     useEffect(() => {
         getProducts()
-    }, [props.providerState.providerState])
+    }, [props.providerState.providerState, props.param.param])
 
     function handleSearchStyle(boolean: boolean): void{
         if(boolean){
@@ -139,7 +138,7 @@ export default function Header(props: HeaderProps) {
             setCleanSearch({ display: 'flex' })
             setPlaceholder('')
         } else {
-            if(search.length < 1){
+            if(props.search.search.length < 1){
                 setSearchIcon({
                     color: 'var(--complementar-text)',
                     left: '1.4%',
@@ -184,8 +183,6 @@ export default function Header(props: HeaderProps) {
     }
 
     function selectStyle(index: number, id: number): void{
-        router.push(`/fornecedores/produtos?provider_id=${id}`)
-
         const list = providerStyle.map((obj, i) => {
             if(i == index){
                 return {
@@ -210,7 +207,7 @@ export default function Header(props: HeaderProps) {
         props.countProducts.setCountProducts(0)
         props.lastUpdate.setLastUpdate('0000-00-00 00:00:00')
 
-        api.get(`/providers/products/list/${props.providerState.providerState}?search=${search}&collum=${props.param.param.collum}&order=${props.param.param.order}`)
+        api.get(`/providers/products/list/${props.providerState.providerState}?search=${props.search.search}&collum=${props.param.param.collum}&order=${props.param.param.order}`)
         .then(response => {
             props.loading.setLoading(false)
             props.products.setProducts(response.data.products)
@@ -275,8 +272,8 @@ export default function Header(props: HeaderProps) {
                         handleSearchStyle(false)
                     }}
                     placeholder={placeholder}
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    value={props.search.search}
+                    onChange={(e) => props.search.setSearch(e.target.value)}
                     onKeyPress={(e) => {
                         if(e.key == 'Enter'){
                             getProducts()
@@ -288,7 +285,7 @@ export default function Header(props: HeaderProps) {
                     id={styles.searchIcon}
                     style={searchIcon}
                     onMouseEnter={() => {
-                        if(search.length > 0){
+                        if(props.search.search.length > 0){
                             setSearchIcon({
                                 color: 'var(--complementar-text)',
                                 left: '93%',
@@ -297,7 +294,7 @@ export default function Header(props: HeaderProps) {
                         }
                     }}
                     onMouseLeave={() => {
-                        if(search.length > 0){
+                        if(props.search.search.length > 0){
                             setSearchIcon({
                                 color: 'var(--gray-line)',
                                 left: '93%',
@@ -313,7 +310,7 @@ export default function Header(props: HeaderProps) {
                     className={styles.cleanSearch}
                     style={cleanSearch}
                     onClick={() => {
-                        setSearch('')
+                        props.search.setSearch('')
                         setSearchIcon({
                             color: 'var(--complementar-text)',
                             left: '1.4%',

@@ -27,21 +27,26 @@ type Provider = {
 type Props = {
     providersList: Provider[];
     providerId: number;
-    orderBy: {
-        collum: string;
-        order: string;
-    }
+    search: string;
 }
 
 export default function Produtos(props: Props){
 
     const [ providerState, setProviderState ] = useState<number>(props.providerId)
-    const [ param, setParam ] = useState(props.orderBy)
-    const [ search, setSearch ] = useState<string>('')
+    const [ param, setParam ] = useState({
+        collum: '',
+        order: ''
+    })
+    const [ search, setSearch ] = useState<string>(props.search)
     const [ products, setProducts ] = useState<Products[]>([])
     const [ countProducts, setCountProducts ] = useState<number>(0)
     const [ lastUpdate, setLastUpdate ] = useState<string>('0000-00-00 00:00:00')
     const [ loading, setLoading ] = useState<boolean>(false)
+
+    useEffect(() => {
+        console.log(search)
+        router.push(`/fornecedores/produtos?provider_id=${providerState}${search.length > 0 ? '&search=' : ''}${search.length > 0 ? search : ''}`)
+    }, [providerState, search])
 
     function lastUpdateCalc(stringDate: string): string{
         if(stringDate == '0000-00-00 00:00:00'){
@@ -164,8 +169,7 @@ export const getServerSideProps = async (ctx) => {
     const { ['mundialhub.token']: token } = parseCookies(ctx)
 
     const providerId = ctx.query.provider_id
-    const collum = ctx.query.collum
-    const order = ctx.query.order
+    const search = ctx.query.search
 
     if(!token){
         return {
@@ -180,10 +184,7 @@ export const getServerSideProps = async (ctx) => {
         props: {
             providersList: providersList,
             providerId: providerId != undefined ? providerId : 2,
-            orderBy: {
-                collum: collum != undefined ? collum : '',
-                order: order != undefined ? (collum != undefined ? order : '') : ''
-            }
+            search: search != undefined ? search : ''
         }
     }
 }
