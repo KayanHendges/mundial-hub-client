@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { api } from '../../../../../../services/api'
 import router from 'next/router';
 import ImageZoom from './ImageZoom';
+import StockContainer from './StockContainer';
 
 type ProductContainerStyle = {
     border: string;
@@ -111,6 +112,7 @@ export default function ProductContainer(props){
     const [ showKitsStyles, setShowKitsStyles ] = useState<EditButton>(onLeaveDeleteButton)
     const [ updateStyles, setUpdateStyles ] = useState<EditButton>(onLeaveEditButton)
     const [ imageZoomDisplay, setImageZoomDisplay ] = useState('none')
+    const [ stockRender, setStockRender ] = useState<boolean>(false)
     const [ deleteProduct, setDeleteProduct ] = useState<DeleteProduct>({
         request: false,
         buttonSpan: 'excluir'
@@ -385,6 +387,7 @@ export default function ProductContainer(props){
                 </div>
                 <div
                 className={styles.bodyCell}
+                onClick={() => setStockRender(true)}
                 >
                     {props.produto.stockTray}
                 </div>
@@ -450,6 +453,13 @@ export default function ProductContainer(props){
             imageUrl={props.produto.imageUrl}
             display={imageZoomDisplay}
             setDisplay={setImageZoomDisplay}
+            />
+            <StockContainer
+            hubId={props.produto.hubId}
+            reference={props.produto.reference}
+            productName={props.produto.name}
+            render={stockRender}
+            setRender={setStockRender}
             />
             <div
             className={styles.deleteBox}
