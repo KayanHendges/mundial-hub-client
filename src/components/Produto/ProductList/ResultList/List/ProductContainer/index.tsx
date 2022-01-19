@@ -379,7 +379,7 @@ export default function ProductContainer(props){
                             href={`${linkStore(props.produto.trayId)}`}
                             target="_blank"
                             >
-                                open_in_new
+                                {`${props.produto.trayId == 0 ? '' : 'open_in_new'}`}
                             </a>
                         </span>
                     </span>

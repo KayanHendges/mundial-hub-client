@@ -15,7 +15,7 @@ export default function KitContainer(props){
     useEffect(() => {
         if(props.display == 'flex'){
             setContainerStyles({
-                height: '4rem',
+                height: `${props.kits.length * 4}rem`,
                 borderTop: '1px solid var(--gray-line)',
             })
         }
@@ -96,7 +96,7 @@ export default function KitContainer(props){
                                         className='material-icons'
                                         id={styles.icon}
                                         >
-                                            open_in_new
+                                            {`${kit.tray_product_id == 0 ? '' : 'open_in_new'}`}
                                         </span>
                                     </a>
                                 </div>

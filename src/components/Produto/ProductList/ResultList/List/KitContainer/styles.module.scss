@@ -1,5 +1,6 @@
 .wrapper{
     width: 100%;
+    max-height: 4rem;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -84,5 +85,34 @@
 
     .kitContainer + .kitContainer {
         border-left: 1px solid var(--gray-line);
+    }
+}
+
+
+@media (max-width: 820px){
+
+    .wrapper {
+        flex-direction: column;
+        max-height: none;
+        align-items: flex-start;
+
+        .kitContainer {
+            max-width: 100%;
+            width: 100%;
+
+            .kitInfo {
+                
+                .kitName {
+                    width: 100%;
+                    max-width: 100%;
+                }
+
+            }
+        }
+
+        .kitContainer + .kitContainer {
+            border-left: none;
+            border-top: 1px solid var(--gray-line);
+        }
     }
 }
