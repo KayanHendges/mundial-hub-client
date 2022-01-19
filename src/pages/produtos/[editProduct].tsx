@@ -105,11 +105,15 @@ export default function editProduct(props){
             priceRule: "",
         }
     }
-        
 
     const [ values, setValues ] = useState(startValues)
     const [ kit2Values, setKit2Values ] = useState(startKit2)
     const [ kit4Values, setKit4Values ] = useState(startKit4)
+    const [ handleTray, setHandleTray ] = useState({
+        function: 'edit',
+        initialStock: 0,
+        trayId: false
+    })
     const [ categories, setCategories ] = useState([])
     const [ categoriesList, setCategoriesList ] = useState([])
 
@@ -131,8 +135,6 @@ export default function editProduct(props){
         .then(response => {
             if(response.data.code == 200){
                 const product = response.data.product
-                console.log(product)
-
                 setValues({
                     hubId: product.hubId,
                     ean: product.ean,
@@ -181,6 +183,11 @@ export default function editProduct(props){
                         {imageUrl: product.images[5].imageUrl}
                     ],
                     comments: product.comments,
+                })
+                setHandleTray({ 
+                    function: `${parseInt(product.pricing.mundial.tray_id) > 0 ? 'edit' : 'create'}`,
+                    initialStock: product.pricing.mundial.stock,
+                    trayId: parseInt(product.pricing.mundial.tray_id) > 0 ? true : false
                 })
                 setHeaderTitle(product.name)
             }
@@ -365,6 +372,7 @@ export default function editProduct(props){
         e.preventDefault();
 
         setTextButton('salvando...')
+        console.log(handleTray.function)
 
         if(requestKits && !submit){
             setSubmit(true)
@@ -457,6 +465,7 @@ export default function editProduct(props){
                             priceRule: kit4Values.rules.priceRule,
                         }
                     },
+                    handleTray: handleTray.function,
                     updateImages: updateImages             
                 }
                 
@@ -493,6 +502,7 @@ export default function editProduct(props){
             />
             <Selector
             values={values}
+            handleTray={{ handleTray, setHandleTray }}
             setValues={setValues}
             categories={categories}
             categoriesList={categoriesList}

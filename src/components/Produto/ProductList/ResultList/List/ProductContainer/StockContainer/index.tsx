@@ -126,7 +126,7 @@ export default function StockContainer(props: StockContainerProps){
                                             {provider.stock}
                                         </span>
                                         <span>
-                                            {provider.totalCost}
+                                            {`R$${provider.totalCost.toFixed(2).replace('.', ',')}`}
                                         </span>
                                     </div>
                                 )

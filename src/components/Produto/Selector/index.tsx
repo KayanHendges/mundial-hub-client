@@ -147,6 +147,7 @@ export default function Selector(props){
             setValue={props.setValue}
             onChange={props.onChange}
             onlyNumber={props.onlyNumber}
+            handleTray={props.handleTray}
             />
             <DadosComplementares
             display={{display: `${whatDisplay(3)}`}}

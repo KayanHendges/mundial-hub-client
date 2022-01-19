@@ -5,6 +5,7 @@ import UnitInput from '../../../Inputs/UnitInput'
 import { useEffect, useState } from 'react'
 import AvailableInput from './AvailableInput'
 import StoreContainerMundial from './StoreContainerMundial'
+import HandleTray from './HandleTray'
 
 export default function PricingStock(props){
 
@@ -246,6 +247,11 @@ export default function PricingStock(props){
                 onChange={handlePricing}
                 onlyNumber={props.onlyNumber}
                 leaveInput={setZeroStock}
+                />
+                <HandleTray
+                stock={props.values.pricing.mundial.stock}
+                handleTray={props.handleTray.handleTray}
+                setHandleTray={props.handleTray.setHandleTray}
                 />
             </div>
             <div

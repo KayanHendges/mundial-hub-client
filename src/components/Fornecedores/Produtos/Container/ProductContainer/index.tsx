@@ -203,13 +203,13 @@ export default function ProductContainer(props: ContainerProps){
                     />
                 </span>
                 <span>
-                    {`R$${(props.product.cost.toString()).replace('.', ',')}`}
+                    {`R$${(props.product.cost.toFixed(2)).replace('.', ',')}`}
                 </span>
                 <span>
                     {props.product.additionalCost}
                 </span>
                 <span>
-                    {`R$${(props.product.totalCost.toString()).replace('.', ',')}`}
+                    {`R$${(props.product.totalCost.toFixed(2)).replace('.', ',')}`}
                 </span>
             </div>
             <div
