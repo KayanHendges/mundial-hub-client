@@ -3,6 +3,9 @@ import BackButton from '../../../Buttons/BackButton/Index'
 import { useEffect, useState } from 'react'
 import { api } from '../../../../services/api'
 import router from 'next/router'
+import BlueButton from '../../../Buttons/BlueButton'
+import Link from 'next/link'
+import LinkBlueButton from '../../../Buttons/LinkBlueButton'
 
 type Provider = {
     provider_id: number;
@@ -230,6 +233,10 @@ export default function Header(props: HeaderProps) {
         >
             <div className={styles.toolsBar}>
                 <BackButton href={props.href} />
+                <LinkBlueButton 
+                href='/fornecedores/sincronizar-produtos'
+                text='sincronizar produtos'
+                />
             </div>
             <div className={styles.title}>
                 <strong>

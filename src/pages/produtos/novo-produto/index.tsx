@@ -11,6 +11,7 @@ import SelectorNewProduct from '../../../components/Produto/SelectorNewProduct';
 import Head from 'next/head';
 import { parseCookies } from 'nookies';
 import parseISO from 'date-fns/parseISO';
+import { IProductCreate } from '../../../types/api/Products';
 
 
 export default function editProduct(props){
@@ -250,99 +251,135 @@ export default function editProduct(props){
 
         setTextButton('salvando...')
 
+        const apiObject: IProductCreate = {
+            unitary: {
+                details: {
+                    ean: values.ean,
+                    ncm: values.ncm,
+                    product_name: values.name,
+                    description: values.description,
+                    brand: values.brand,
+                    model: values.model,
+                    weight: parseInt(values.weight),
+                    length: parseInt(values.length),
+                    width: parseInt(values.width),
+                    height: parseInt(values.height),
+                    main_category_id: values.mainCategoryId,
+                    related_categories: values.related_categories,
+                    available: 1,
+                    availability: values.availability,
+                    availabilityDays: values.availabilityDays,
+                    reference: values.reference,
+                    images: [
+                        {imageUrl: values.images[0].imageUrl},
+                        {imageUrl: values.images[1].imageUrl},
+                        {imageUrl: values.images[2].imageUrl},
+                        {imageUrl: values.images[3].imageUrl},
+                        {imageUrl: values.images[4].imageUrl},
+                        {imageUrl: values.images[5].imageUrl}
+                    ],
+                    comments: values.comments,
+                    warranty: '5 anos da data de fabricação',
+                },
+                pricing: {
+                    mundial: {
+                        cost: parseFloat(values.pricing.mundial.cost.replace(',', '.')),
+                        profit: parseFloat(values.pricing.mundial.profit.replace(',', '.')),
+                        price: parseFloat(values.pricing.mundial.price.replace(',', '.')),
+                        promotional_price: parseFloat(values.pricing.mundial.promotionalPrice.replace(',', '.')),
+                        start_promotion: values.pricing.mundial.startPromotion,
+                        end_promotion: values.pricing.mundial.endPromotion,
+                        stock: parseInt(values.pricing.mundial.stock)
+                    },
+                    scpneus: {
+                        cost: parseFloat(values.pricing.scpneus.cost.replace(',', '.')),
+                        profit: parseFloat(values.pricing.scpneus.profit.replace(',', '.')),
+                        price: parseFloat(values.pricing.scpneus.price.replace(',', '.')),
+                        promotional_price: parseFloat(values.pricing.scpneus.promotionalPrice.replace(',', '.')),
+                        start_promotion: values.pricing.scpneus.startPromotion,
+                        end_promotion: values.pricing.scpneus.endPromotion,
+                        stock: parseInt(values.pricing.scpneus.stock)
+                    }
+                },
+            },
+            kit2: {
+                details: {
+                    ean: values.ean,
+                    ncm: values.ncm,
+                    product_name: kit2Values.name,
+                    description: kit2Values.description,
+                    brand: values.brand,
+                    model: values.model,
+                    weight: parseInt(values.weight),
+                    length: parseInt(values.length),
+                    width: parseInt(values.width),
+                    height: parseInt(values.height),
+                    main_category_id: values.mainCategoryId,
+                    related_categories: values.related_categories,
+                    available: 1,
+                    availability: values.availability,
+                    availabilityDays: values.availabilityDays,
+                    reference: values.reference,
+                    images: [
+                        {imageUrl: kit2Values.images[0].imageUrl},
+                        {imageUrl: kit2Values.images[1].imageUrl},
+                        {imageUrl: kit2Values.images[2].imageUrl},
+                        {imageUrl: kit2Values.images[3].imageUrl},
+                        {imageUrl: kit2Values.images[4].imageUrl},
+                        {imageUrl: kit2Values.images[5].imageUrl}
+                    ],
+                    comments: values.comments,
+                    warranty: '5 anos da data de fabricação',
+                },
+                rules: {
+                    discount_type: kit2Values.rules.discountType,
+                    discount_value: parseFloat(kit2Values.rules.discountValue.replace(',', '.')),
+                    price_rule: kit2Values.rules.priceRule,
+                    quantity: 2
+                }
+            },
+            kit4: {
+                details: {
+                    ean: values.ean,
+                    ncm: values.ncm,
+                    product_name: kit4Values.name,
+                    description: kit4Values.description,
+                    brand: values.brand,
+                    model: values.model,
+                    weight: parseInt(values.weight),
+                    length: parseInt(values.length),
+                    width: parseInt(values.width),
+                    height: parseInt(values.height),
+                    main_category_id: values.mainCategoryId,
+                    related_categories: values.related_categories,
+                    available: 1,
+                    availability: values.availability,
+                    availabilityDays: values.availabilityDays,
+                    reference: values.reference,
+                    images: [
+                        {imageUrl: kit4Values.images[0].imageUrl},
+                        {imageUrl: kit4Values.images[1].imageUrl},
+                        {imageUrl: kit4Values.images[2].imageUrl},
+                        {imageUrl: kit4Values.images[3].imageUrl},
+                        {imageUrl: kit4Values.images[4].imageUrl},
+                        {imageUrl: kit4Values.images[5].imageUrl}
+                    ],
+                    comments: values.comments,
+                    warranty: '5 anos da data de fabricação',
+                },
+                rules: {
+                    discount_type: kit4Values.rules.discountType,
+                    discount_value: parseFloat(kit4Values.rules.discountValue.replace(',', '.')),
+                    price_rule: kit4Values.rules.priceRule,
+                    quantity: 4
+                }
+            }             
+        }
+
         if(!submit){
             setSubmit(true)
             api.post(`/products/page`, {
-                params: {
-                    unitary: {
-                        hubId: values.hubId,
-                        ean: values.ean,
-                        ncm: values.ncm,
-                        name: values.name,
-                        description: values.description,
-                        pricing: {
-                            mundial: {
-                                tray_id: values.pricing.mundial.tray_id,
-                                cost: values.pricing.mundial.cost,
-                                profit: values.pricing.mundial.profit,
-                                price: values.pricing.mundial.price,
-                                promotionalPrice: values.pricing.mundial.promotionalPrice,
-                                startPromotion: values.pricing.mundial.startPromotion,
-                                endPromotion: values.pricing.mundial.endPromotion,
-                                stock: values.pricing.mundial.stock
-                            },
-                            scpneus: {
-                                tray_id: values.pricing.scpneus.tray_id,
-                                cost: values.pricing.scpneus.cost,
-                                profit: values.pricing.scpneus.profit,
-                                price: values.pricing.scpneus.price,
-                                promotionalPrice: values.pricing.scpneus.promotionalPrice,
-                                startPromotion: values.pricing.scpneus.startPromotion,
-                                endPromotion: values.pricing.scpneus.endPromotion,
-                                stock: values.pricing.scpneus.stock
-                            }
-                        },
-                        brand: values.brand,
-                        model: values.model,
-                        weight: values.weight,
-                        length: values.length,
-                        width: values.width,
-                        height: values.height,
-                        mainCategoryId: values.mainCategoryId,
-                        related_categories: values.related_categories,
-                        availability: values.availability,
-                        availabilityDays: values.availabilityDays,
-                        reference: values.reference,
-                        images: [
-                            {imageUrl: values.images[0].imageUrl},
-                            {imageUrl: values.images[1].imageUrl},
-                            {imageUrl: values.images[2].imageUrl},
-                            {imageUrl: values.images[3].imageUrl},
-                            {imageUrl: values.images[4].imageUrl},
-                            {imageUrl: values.images[5].imageUrl}
-                        ],
-                        comments: values.comments,
-                    },
-                    kit2: {
-                        hubId: kit2Values.hubId,
-                        trayId: kit2Values.trayId,
-                        name: kit2Values.name,
-                        description: kit2Values.description,
-                        images: [
-                            {imageUrl: kit2Values.images[0].imageUrl},
-                            {imageUrl: kit2Values.images[1].imageUrl},
-                            {imageUrl: kit2Values.images[2].imageUrl},
-                            {imageUrl: kit2Values.images[3].imageUrl},
-                            {imageUrl: kit2Values.images[4].imageUrl},
-                            {imageUrl: kit2Values.images[5].imageUrl}
-                        ],
-                        rules: {
-                            discountType: kit2Values.rules.discountType,
-                            discountValue: kit2Values.rules.discountValue,
-                            priceRule: kit2Values.rules.priceRule,
-                        }
-                    },
-                    kit4: {
-                        hubId: kit4Values.hubId,
-                        trayId: kit4Values.trayId,
-                        name: kit4Values.name,
-                        description: kit4Values.description,
-                        images: [
-                            {imageUrl: kit4Values.images[0].imageUrl},
-                            {imageUrl: kit4Values.images[1].imageUrl},
-                            {imageUrl: kit4Values.images[2].imageUrl},
-                            {imageUrl: kit4Values.images[3].imageUrl},
-                            {imageUrl: kit4Values.images[4].imageUrl},
-                            {imageUrl: kit4Values.images[5].imageUrl}
-                        ],
-                        rules: {
-                            discountType: kit4Values.rules.discountType,
-                            discountValue: kit4Values.rules.discountValue,
-                            priceRule: kit4Values.rules.priceRule,
-                        }
-                    }             
-                }
-                
+                params: apiObject    
             }).then(response => {
                 console.log(response)
                 if(response.data.code == 200){
