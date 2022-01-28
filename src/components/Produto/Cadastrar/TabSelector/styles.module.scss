@@ -1,0 +1,56 @@
+.wrapper {
+    width: 100%;
+    border-bottom: 1px solid var(--gray-line);
+
+    .underline {
+        height: .2rem;
+        width: 20%;
+        position: absolute;
+        bottom: 0;
+        padding: 0 .5rem;
+        transition: left 0.2s cubic-bezier(0, 1.21, 0.99, 1) 0ms;
+        // animation: slide .2s infinite;
+        
+        .bar {
+            width: 100%;
+            height: 100%;
+            background-color: var(--white-text);
+        }
+    }
+
+    @keyframes slide {
+        from {
+            width: 20%;
+        }
+        50% {
+            width: 40%;
+        }
+        to {
+            width: 20%;
+        }
+    }
+
+    .options {
+        width: 100%;
+        max-width: 60rem;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        position: relative;
+
+        .option {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: .8rem;
+    
+            .title {
+                color: var(--complementar-text);
+                text-align: center;
+                cursor: pointer;
+                transition: .2s;
+            }
+        }
+
+    }
+
+}

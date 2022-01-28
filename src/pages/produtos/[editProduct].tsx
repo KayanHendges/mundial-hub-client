@@ -262,7 +262,7 @@ export default function editProduct(props){
           ...values,
           [chave]: valor,
         })
-      }
+    }
 
     function handleDescription(boolean){ // ativa/desativa a descrição automatica
         if(boolean == true){ // desativa
