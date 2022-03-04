@@ -1,0 +1,126 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0rem 0 1rem;
+        color: var(--white-text);
+    }
+
+    .container {
+        width: 100%;
+        min-height: 20rem;
+        max-height: 25rem;
+        display: flex;
+        border-top: 1px solid var(--gray-line);
+        border-bottom: 1px solid var(--gray-line);
+        border-radius: .4rem;
+
+        .containerList {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: .4rem .2rem ;
+            overflow-y: scroll;
+
+            .list {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: .2rem;
+
+                .categoryContainer {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: flex-start;
+                    border-radius: .4rem;
+                    background-color: var(--gray-2);
+                    padding: 0 .5rem;
+                    transition: .2s;
+
+                    .parentContainer {
+                        height: 2rem;
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 0 .9rem 0 .3rem ;
+                        transition: .2s;
+
+                        .categoryName {
+                            display: flex;
+                            align-items: center;
+                            justify-content: flex-start;
+                            color: var(--complementar-text);
+                            font-size: 1rem;
+                            transition: .2s;
+                            cursor: pointer;
+
+                            -webkit-user-select: none;  
+                            -moz-user-select: none;     
+                            -ms-user-select: none;      
+                            user-select: none;
+
+                            #arrow {
+                                color: var(--complementar-text);
+                                transition: .2s;
+                            }
+                        }
+                    }
+    
+                }
+                
+                .placeholder {
+                    height: 2rem;
+                    max-width: 100%;
+                    background-color: var(--gray-5);
+                    border-radius: .4rem;
+                    overflow: hidden;
+                    position: relative;
+                }
+            
+                .placeholder::before {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    left: -150px;
+                    top: 0;
+                    height: 100%;
+                    width: 350px;
+                    background: linear-gradient(to right, transparent 0%, var(--gray-6) 50%, transparent 100%);
+                    animation: load 1s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+                }
+            
+                @keyframes load {
+                    from {
+                        left: -150px;
+                    }
+                    to   {
+                        left: 100%;
+                    }
+                }
+            }
+
+        }
+
+        .containerList::-webkit-scrollbar {
+            width: .1rem;
+            background-color: var(--gray-3);               /* width of the entire scrollbar */
+        }
+          
+        .containerList::-webkit-scrollbar-thumb {
+            background-color: var(--gray-5);    /* color of the scroll thumb */
+            border-radius: 20px;       /* roundness of the scroll thumb */
+        
+            &:hover{
+                background-color: var(--gray-line);
+            }
+        }
+    }
+}

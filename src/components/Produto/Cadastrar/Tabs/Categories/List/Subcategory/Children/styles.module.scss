@@ -1,0 +1,30 @@
+.wrapper {
+    display: flex;
+    width: 100%;
+    
+    .childrenContainer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 2rem;
+        color: var(--complementar-text);
+        border-radius: .4rem;
+        border: 1px solid transparent;
+        margin-left: .5rem;
+        padding: 0 .4rem;
+        transition: .2s;
+        cursor: pointer;
+
+        &:hover{
+            border: 1px solid var(--complementar-text);
+        }
+    }
+
+}
+.wrapper + .wrapper {
+    .childrenContainer {
+        margin-bottom: .2rem;
+    }
+
+}

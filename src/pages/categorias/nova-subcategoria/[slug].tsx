@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from "next"
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next"
 import styles from './styles.module.scss'
 import { api } from '../../../services/api';
 
@@ -214,19 +214,20 @@ export default function slug(props){
     )
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const parentId  = ctx.params.slug
 
     const { ['mundialhub.token']: token } = parseCookies(ctx)
   
     if(!token){
-      return {
-        redirect: {
-          destination: '/login',
-          permanent: false
+        const { url } = ctx.req
+        return {
+            redirect: {
+            destination: `/login?redirect=${url}`,
+            permanent: false
+            }
         }
-      }
     }
 
 

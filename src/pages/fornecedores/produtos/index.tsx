@@ -8,6 +8,7 @@ import Container from '../../../components/Fornecedores/Produtos/Container'
 import router from 'next/router'
 import { format, parseISO, differenceInSeconds} from 'date-fns'
 import Head from 'next/head'
+import { GetServerSideProps } from 'next'
 
 type Products = {
     providerReference: number,
@@ -151,7 +152,7 @@ export default function Produtos(props: Props){
     )
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const providersList = await api.get('/providers/list')
     .then(response => {
@@ -172,9 +173,10 @@ export const getServerSideProps = async (ctx) => {
     const search = ctx.query.search
 
     if(!token){
+        const { url } = ctx.req
         return {
             redirect: {
-            destination: `/login`,
+            destination: `/login?redirect=${url}`,
             permanent: false
             }
         }

@@ -6,6 +6,7 @@ import Head from 'next/head'
 import Header from '../../../components/Fornecedores/SincronizarProdutos/Header'
 import Container from '../../../components/Fornecedores/SincronizarProdutos/Container'
 import { useState } from 'react'
+import { GetServerSideProps } from 'next'
 
 type Provider = {
     provider_id: number;
@@ -42,7 +43,7 @@ export default function SincronizarProdutos(props: Props){
     )
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const providersList = await api.get('/providers/list')
     .then(response => {
@@ -60,9 +61,10 @@ export const getServerSideProps = async (ctx) => {
     const { ['mundialhub.token']: token } = parseCookies(ctx)
 
     if(!token){
+        const { url } = ctx.req
         return {
             redirect: {
-            destination: '/login',
+            destination: `/login?redirect=${url}`,
             permanent: false
             }
         }

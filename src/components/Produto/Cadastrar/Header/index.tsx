@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+import { NewProductContext } from '../../../../contexts/NewProductContext'
 import BackButton from '../../../Buttons/BackButton/Index'
 import BlueButton from '../../../Buttons/BlueButton'
 import styles from './styles.module.scss'
@@ -12,6 +14,8 @@ type HeaderProps = {
 
 export default function Header(props: HeaderProps) {
     
+    const { submit, setSubmit } = useContext(NewProductContext)
+
     return (
         <div 
         className={styles.header}
@@ -19,15 +23,24 @@ export default function Header(props: HeaderProps) {
         >
             <div className={styles.toolsBar}>
                 <BackButton href={props.href} />
-                <BlueButton text={props.textButton}/>
-            </div>
-            <div className={styles.title}>
-                <strong>
-                    {props.strong}
-                </strong>
-                <span>
-                    {props.title}
-                </span>
+                <div className={styles.title}>
+                    <strong>
+                        {props.strong}
+                    </strong>
+                    <span>
+                        {props.title}
+                    </span>
+                </div>
+                <div
+                className={styles.submitButton}
+                onClick={() => {
+                    if(!submit){
+                        setSubmit(true)
+                    }
+                }}
+                >
+                    cadastrar
+                </div>
             </div>
         </div>
     )

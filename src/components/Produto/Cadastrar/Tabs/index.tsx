@@ -1,6 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import { NewProductContext } from '../../../../contexts/NewProductContext'
+import AdditionalData from './AdditionalData'
+import Categories from './Categories'
 import GeneralData from './GeneralData'
+import Kits from './Kits'
+import Pricing from './Pricing'
 import styles from './styles.module.scss'
 
 type TabStyle = {
@@ -14,15 +18,6 @@ export default function Tabs(){
     const selectedTabStyle: TabStyle = {
         left: '0%'
     }
-
-    // const previousTabStyle: TabStyle = {
-    //     left: '-100%'
-    // }
-
-    // const nextTabStyle: TabStyle = {
-    //     left: '100%'
-    // }
-
     const [ tabStyles, setTabStyles ] = useState<TabStyle[]>([])
 
     useEffect(() => {
@@ -60,8 +55,27 @@ export default function Tabs(){
         <div
         className={styles.wrapper}
         >
-            <GeneralData 
-            styles={tabStyles[0]}
+            <div
+            className={styles.carousel}
+            >
+                <GeneralData 
+                styles={tabStyles[0]}
+                />
+                <Categories
+                styles={tabStyles[1]}
+                />
+                <Pricing
+                styles={tabStyles[2]}
+                />
+                <AdditionalData
+                styles={tabStyles[3]}
+                />
+                <Kits
+                styles={tabStyles[4]}
+                />
+            </div>
+            <div
+            className={styles.curtain}
             />
         </div>
     )

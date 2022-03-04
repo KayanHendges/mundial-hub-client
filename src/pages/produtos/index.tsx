@@ -77,7 +77,7 @@ export default function produtos(props){
                     <title>Produtos</title>
                 </Head>
                 <HeaderProductList 
-                hrefButton="/produtos/novo-produto"
+                hrefButton="/produtos/cadastrar"
                 textButton="incluir produto"
                 />
                 <SearchForm
@@ -111,9 +111,10 @@ export const getServerSideProps = async (ctx) => {
     const { ['mundialhub.token']: token } = parseCookies(ctx)
 
     if(!token){
+        const { url } = ctx.req
         return {
             redirect: {
-            destination: '/login',
+            destination: `/login?redirect=${url}`,
             permanent: false
             }
         }

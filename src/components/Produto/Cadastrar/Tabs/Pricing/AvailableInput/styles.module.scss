@@ -1,0 +1,37 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .4rem .6rem;
+    border: 1px solid var(--complementar-text);
+    border-radius: 4rem;
+    gap: .2rem;
+    position: relative;
+
+    cursor: pointer;
+    transition: .2s;
+
+    .ball {
+        height: 1rem;
+        width: 1rem;
+        border-radius: 50%;
+        position: absolute;
+        top: calc(50% - .5rem);
+        left: .6rem;
+        transition: .2s;
+    }
+
+    .text {
+        color: var(--complementar-text);
+        padding-left: 1rem;
+    }
+
+    &:hover {
+
+        border: 1px solid var(--white-text);
+
+        .text {
+            color: var(--white-text);
+        }
+    }
+}

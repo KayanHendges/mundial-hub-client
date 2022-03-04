@@ -1,4 +1,5 @@
-export default function onlyNumber(evt) {
+
+export default function onlyNumber(evt): void{
     var theEvent = evt || window.event;
     var key = theEvent.keyCode || theEvent.which;
     key = String.fromCharCode( key );

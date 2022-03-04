@@ -2,6 +2,7 @@ import styles from './styles.module.scss'
 
 type InputProps = {
     width?: string;
+    height?: string;
     label: string;
     name: string;
     value: string;
@@ -12,22 +13,31 @@ type InputProps = {
     readOnly?: boolean;
     loading?: boolean;
     unity?: string;
+    border?: string;
 }
 
-export default function DefaultInputLabel(props: InputProps){
+export default function DefaultTextAreaInput(props: InputProps){
+
+    const inputStyle = {
+        border: props.border,
+        height: props.height? props.height : '6rem'
+    }
 
     if(props.loading){
         return (
             <div
             className={styles.wrapper}
-            style={{ width: `${props.width? props.width : '100%' }` }}
+            style={{width: `${props.width? props.width : '100%' }`}}
             >
                 <label>
                     {props.label}
                 </label>
                 <div
                 className={styles.placeholder}
-                style={{ width: `${props.width? props.width : '100%'}` }}
+                style={{ 
+                    width: `${props.width? props.width : '100%'}`,
+                    height: `${props.height? props.height : '6rem' }`
+                }}
                 />
             </div>
         )
@@ -35,13 +45,15 @@ export default function DefaultInputLabel(props: InputProps){
         return (
             <div
             className={styles.wrapper}
-            style={{ width: `${props.width? props.width : '100%' }` }}
+            style={{ 
+                width: `${props.width? props.width : '100%' }`,
+             }}
             >
                 <label>
                     {props.label}
                 </label>
-                <input
-                type="text"
+                <textarea
+                style={inputStyle}
                 name={props.name}
                 value={props.value}
                 onChange={props.onChange}
@@ -53,6 +65,12 @@ export default function DefaultInputLabel(props: InputProps){
                 required={props.required? props.required : false}
                 readOnly={props.readOnly? props.readOnly : false}
                 />
+                <div
+                className={styles.unity}
+                style={{ display: `${props.unity? 'flex' : 'none' }` }}
+                >
+                    {props.unity?.substring(0, 3)}
+                </div>
             </div>
         )
     }

@@ -275,7 +275,7 @@ export default function ProductContainer(props){
             return `https://www.mundialpneumaticos.com.br/loja/produto.php?IdProd=${trayId}`
         }
         if(props.search.store == 1049898){
-            return `https://www.scpneus.com.br/loja/produto.php?IdProd=${trayId}`
+            return `https://www.santacruzpneus.com.br/loja/produto.php?IdProd=${trayId}`
         }
     }
 

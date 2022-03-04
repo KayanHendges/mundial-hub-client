@@ -1,0 +1,36 @@
+.wrapper {
+    display: flex;
+    width: 100%;
+    
+    .childrenContainer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 2rem;
+        color: var(--complementar-text);
+        border-radius: .4rem;
+        border: 1px solid transparent;
+        gap: .5rem;
+        margin-left: .5rem;
+        margin-bottom: .2rem;
+        transition: .2s;
+        cursor: pointer;
+
+        .childrenName {
+            padding-left: .4rem;
+            margin-right: auto;
+        }
+
+        &:hover{
+            border: 1px solid var(--complementar-text);
+        }
+    }
+
+}
+.wrapper + .wrapper {
+    .childrenContainer {
+        margin-bottom: .2rem;
+    }
+
+}

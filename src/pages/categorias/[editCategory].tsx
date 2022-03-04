@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps } from "next"
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next"
 import styles from './editCategory.module.scss'
 import { api } from '../../services/api';
 import Head from 'next/head'
@@ -206,19 +206,20 @@ export default function addSubcategory(props){
     )
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
     
     const id = ctx.params.editCategory
 
     const { ['mundialhub.token']: token } = parseCookies(ctx)
   
     if(!token){
-      return {
-        redirect: {
-          destination: '/login',
-          permanent: false
+        const { url } = ctx.req
+        return {
+            redirect: {
+            destination: `/login?redirect=${url}`,
+            permanent: false
+            }
         }
-      }
     }
 
     return {

@@ -6,6 +6,9 @@ import { NewProductContext, NewProductProvider } from '../../../contexts/NewProd
 import { useContext, useEffect, useState } from 'react'
 import TabSelector from '../../../components/Produto/Cadastrar/TabSelector'
 import Tabs from '../../../components/Produto/Cadastrar/Tabs'
+import { GetServerSideProps } from 'next'
+import { AuthContext } from '../../../contexts/AuthContext'
+import OffersPopUp from '../../../components/Produto/Cadastrar/OffersPopUp'
 
 
 export default function Cadastrar(props){
@@ -27,21 +30,22 @@ export default function Cadastrar(props){
                 />
                 <TabSelector />
                 <Tabs />
+                <OffersPopUp />
             </div>
         </NewProductProvider>
     )
 
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const { ['mundialhub.token']: token } = parseCookies(ctx)
-    console.log('token', token)
-
+    
     if(!token){
+        const { url } = ctx.req
         return {
             redirect: {
-            destination: '/login',
+            destination: `/login?redirect=${url}`,
             permanent: false
             }
         }

@@ -5,11 +5,27 @@
     
     .toolsBar{
         width: 100%;
-        height: 2rem;
+        max-width: 60rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 0 1rem;
+        margin-bottom: 1rem;
 
+        .submitButton {
+            padding: .4rem 1rem;
+            color: var(--white-text);
+            background-color: var(--blue-button);
+            border: 2px solid transparent;
+            border-radius: 4rem;
+            transition: .2s;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--blue-button);
+                border: 2px solid var(--light-blue-button);
+            }
+        }
     }
 
     .title{
@@ -17,11 +33,10 @@
         height: 3.5rem;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: flex;
         justify-content: center;
-        margin: 1rem 0;
         font-size: 1.2rem;
-        padding-left: .5rem;
+        padding-left: 2rem;
 
         strong {
             color: white;

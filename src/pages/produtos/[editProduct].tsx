@@ -533,9 +533,10 @@ export const getServerSideProps = async (ctx) => {
     console.log('token', token)
 
     if(!token){
+        const { url } = ctx.req
         return {
             redirect: {
-            destination: '/login',
+            destination: `/login?redirect=${url}`,
             permanent: false
             }
         }

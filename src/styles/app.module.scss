@@ -6,13 +6,22 @@
     width: 100vw;
 
     main {
-      display: flex;
-      justify-content: center;
-      padding-left: 3rem;
-
       width: 100vw;
       height: calc(100vh - 4rem);
-
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
       background-color: var(--gray-3);
+
+      .container {
+        display: flex;
+        flex-grow: 1;
+        max-width: calc(100% - 3rem);
+        height: 100%;
+        position: relative;
+      }
+
+
     }
   }

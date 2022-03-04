@@ -1,12 +1,15 @@
 import Link from 'next/link';
-import router from 'next/router';
+import router, { useRouter } from 'next/router';
 import styles from './styles.module.scss'
 
 export default function BackButton(props){
+
+    const Router = useRouter()
+
     return(
-        // <Link href={props.href}>
+        <Link href={props.href}>
             <div className={styles.wrapper}
-            onClick={() => router.back()}
+            // onClick={() => Router.back}
             >
                 <div className={styles.circle}>
                     {"<"}
@@ -15,6 +18,6 @@ export default function BackButton(props){
                     voltar
                 </span>
             </div>
-        // </Link>
+        </Link>
     )
 }

@@ -107,7 +107,7 @@ export default function DadosGerais(props){
         if(props.values.reference == ""){
             api.get('products/reference')
             .then(response => {
-                props.setValues({...props.values, reference: response.data})
+                props.setValues({...props.values, reference: response.data.reference})
             })
             .catch(erro => {
                 console.log(erro)

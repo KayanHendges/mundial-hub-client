@@ -431,15 +431,16 @@ export default function editProduct(props){
     )
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const { ['mundialhub.token']: token } = parseCookies(ctx)
     console.log('token', token)
 
     if(!token){
+        const { url } = ctx.req
         return {
             redirect: {
-            destination: '/login',
+            destination: `/login?redirect=${url}`,
             permanent: false
             }
         }
