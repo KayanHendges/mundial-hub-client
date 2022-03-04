@@ -114,7 +114,7 @@ export const getServerSideProps = async (ctx) => {
         const { url } = ctx.req
         return {
             redirect: {
-            destination: `/login?redirect=${url}`,
+            destination: `/login?redirect=${encodeURIComponent(url)}`,
             permanent: false
             }
         }

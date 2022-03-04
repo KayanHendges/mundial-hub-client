@@ -14,14 +14,14 @@ export default function Login(props: {redirect?: string}){
     const { setAddAlert } = useContext(AlertContext)
 
     const [ buttonStyle, setButtonStyle ] = useState({
-        backgroundPosition: '99% 50%',
+        backgroundPosition: '248% 50%',
         transition: '.2s'
     })
 
     async function handleSignIn(){
         setTimeout(() => {
             setButtonStyle({
-                backgroundPosition: '99% 50%',
+                backgroundPosition: '248% 50%',
                 transition: '0s'
             })
         }, 0)
@@ -29,7 +29,7 @@ export default function Login(props: {redirect?: string}){
 
         setTimeout(() => {
             setButtonStyle({
-                backgroundPosition: '20% 50%',
+                backgroundPosition: '201% 50%',
                 transition: '.8s',
             })
         }, 0)
@@ -49,10 +49,16 @@ export default function Login(props: {redirect?: string}){
         .finally(() => {
             setTimeout(() => {
                 setButtonStyle({
-                    backgroundPosition: '0% 50%',
+                    backgroundPosition: '198% 50%',
                     transition: '.4s'
                 })
             }, 0)
+            setTimeout(() => {
+                setButtonStyle({
+                    backgroundPosition: '160% 50%',
+                    transition: '.2s'
+                })
+            }, 1000)
         })
     }
 
@@ -63,8 +69,8 @@ export default function Login(props: {redirect?: string}){
 
     function handleChange(e){
         setButtonStyle({
-            backgroundPosition: '99% 50%',
-            transition: '.2s'
+            backgroundPosition: '248% 50%',
+            transition: '0s'
         })
         setCredentials({
             ...credentials,

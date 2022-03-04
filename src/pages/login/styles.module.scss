@@ -44,8 +44,8 @@
 
         .submitButton{
             color: var(--complementar-text);
-            background-image: linear-gradient(to right, var(--gray-3) 0%, var(--gray-5) 50%, var(--gray-3) 50%, var(--gray-3) 100%);
-            background-size: 200%;
+            background-image: linear-gradient(to right, var(--gray-3) 0%, var(--gray-3) 33%, var(--gray-6) 66%, var(--gray-3) 66%, var(--gray-3) 100%);
+            background-size: 300%;
             background-position: 99% 50%;
             border-radius: .4rem;
             border: 1px solid var(--complementar-text);

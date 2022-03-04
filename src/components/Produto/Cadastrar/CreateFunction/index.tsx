@@ -31,6 +31,8 @@ type Props = {
     setTrayOffers(offer: Offer[]): void;
     creating: boolean;
     setCreating(creating: boolean): void;
+    created: boolean;
+    setCreated(created: boolean): void;
 }
 
 type UnitaryPostApi = {
@@ -87,6 +89,7 @@ type CreateHubResponse = {
     scpneusPricingId: number,
     kit2PricingId: number,
     kit4PricingId: number,
+    offerList: Offer[]
 }
 
 type CreateTrayResponse = {
@@ -94,6 +97,7 @@ type CreateTrayResponse = {
     scpneusTrayId: number,
     kit2MundialTrayId: number,
     kit4MundialTrayId: number,
+    offerList: Offer[]
 }
 
 export default function CreateFunction(props: Props){
@@ -125,11 +129,15 @@ export default function CreateFunction(props: Props){
                 })
             })
             .catch(erro => {
+                console.log(props.hubOffers, props.trayOffers)
                 setAddAlert({
                     alertType: 'error',
                     message: `erro em ${erro} anúncios`,
                     milliseconds: 3000
                 })
+            })
+            .finally(() => {
+                props.setCreated(true)
             })
 
         }
@@ -149,13 +157,14 @@ export default function CreateFunction(props: Props){
             const hubIds = await createHub()
             const trayIds = await createTray(hubIds)
 
-            props.hubOffers.map(offer => {
+            hubIds.offerList.map(offer => {
                 if(offer.create && offer.id <= 0){
+                    console.log(offer)
                     failsOffers.push(offer)
                 }
             })
 
-            props.trayOffers.map(offer => {
+            trayIds.offerList.map(offer => {
                 if(offer.create && offer.id <= 0){
                     failsOffers.push(offer)
                 }
@@ -456,6 +465,7 @@ export default function CreateFunction(props: Props){
                 scpneusPricingId: await pricingScpneusId,
                 kit2PricingId: await kit2PricingRulesId,
                 kit4PricingId: await kit4PricingRulesId,
+                offerList: hubOfferList
             })
         })
     }
@@ -689,7 +699,8 @@ export default function CreateFunction(props: Props){
                 mundialTrayId: await unitaryMundialTrayId,
                 scpneusTrayId: await unitaryScpneusTrayId,
                 kit2MundialTrayId: await kit2MundialTrayId,
-                kit4MundialTrayId: await kit4MundialTrayId
+                kit4MundialTrayId: await kit4MundialTrayId,
+                offerList: trayOfferList
             })
 
             async function sleep(ms: number): Promise<void>{

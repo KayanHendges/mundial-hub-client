@@ -184,6 +184,7 @@ export default function OffersPopUp(props: Props){
     ])
 
     const [ creating, setCreating ] = useState<boolean>(false)
+    const [ created, setCreated ] = useState<boolean>(false)
 
     useEffect(() => {
         if(submit){
@@ -201,6 +202,10 @@ export default function OffersPopUp(props: Props){
 
 
     function handleHubCreate(offer: Offer){
+        if(creating || created){
+            return
+        }
+
         const newList = hubOffers.map((offerMapped, index) => {
             if(offerMapped == offer && !offer.lock){
                 if(offerMapped.create){
@@ -215,6 +220,10 @@ export default function OffersPopUp(props: Props){
     }
 
     function handleTrayCreate(offer: Offer){
+        if(creating || created){
+            return
+        }
+
         const newList: Offer[] = [] 
         
         trayOffers.map(offerMapped => {
@@ -252,6 +261,9 @@ export default function OffersPopUp(props: Props){
         }
         if(offer.create){
             return 'radio_button_checked'
+        }
+        if(created || creating){
+            return ''
         }
         if(!offer.create){
             return 'radio_button_unchecked'
@@ -343,6 +355,8 @@ export default function OffersPopUp(props: Props){
                 setTrayOffers={setTrayOffers}
                 creating={creating}
                 setCreating={setCreating}
+                created={created}
+                setCreated={setCreated}
                 />
                 <span
                 className={styles.header}
