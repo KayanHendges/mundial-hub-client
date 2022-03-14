@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
+import PopUpVideo from '../PopUpVideo';
 import styles from './styles.module.scss';
 
 export default function Header() {
@@ -102,6 +103,8 @@ export default function Header() {
 
     }
 
+    const [ popUpVideo, setPopUpVideo ] = useState<boolean>(false)
+
     return (
         <div
         className={styles.header}
@@ -145,13 +148,42 @@ export default function Header() {
                 className={styles.dropDown}
                 style={dropDownStyle}
                 >
-                    <span
-                    className={styles.spanRequests}
+                    <div
+                    className={styles.itemContainer}
                     >
-                        {trayRequests.label}
-                    </span>
+                        <span 
+                        className="material-icons-round"
+                        id={styles.itemIcon}
+                        >
+                            sync_alt
+                        </span>
+                        <span
+                        className={styles.itemTitle}
+                        >
+                            {trayRequests.label}
+                        </span>
+                    </div>
+                    <div
+                    className={styles.itemContainer}
+                    onClick={() => setPopUpVideo(!popUpVideo)}
+                    >
+                        <span 
+                        className="material-icons-round"
+                        id={styles.itemIcon}
+                        >
+                            featured_video
+                        </span>
+                        <span
+                        className={styles.itemTitle}
+                        >
+                            {`janela de video`}
+                        </span>
+                    </div>
                 </div>
             </div>
+            <PopUpVideo 
+            active={popUpVideo}
+            />
         </div>
     )
 }

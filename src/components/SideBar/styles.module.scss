@@ -69,7 +69,6 @@
                 background-color: var(--gray-4);
                 transition: cubic-bezier(0.19, 1, 0.22, 1) .4s;
                 overflow: hidden;
-                cursor: pointer;
 
                 .subItemContainer {
                     height: 2rem;
@@ -79,6 +78,7 @@
                     align-items: center;
                     padding-left: 1rem;
                     transition: .2s;
+                    cursor: pointer;
                     
                     span {
                         color: var(--complementar-text);
@@ -97,106 +97,3 @@
         }
     }
 }
-
-// .sideBar {
-//     position: absolute;
-//     left: 0;
-//     height: calc(100vh - 4rem);
-//     width: auto;
-//     background-color: var(--gray-5);
-    
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: flex-start;
-//     z-index: 10;
-
-//     .itemContainer {
-//         height: 3rem;
-//         display: flex;
-//         text-align: start;
-//         justify-content: flex-start;
-//         width: auto;
-//         transition: 0.2s;
-//         cursor: pointer;
-
-//         &:hover,
-//         &:focus {
-//         background-color: var(--gray-900);
-    
-//         }
-    
-//         .iconBox {
-//             width: 3rem;
-//             height: 3rem;
-        
-//             display: flex;
-//             text-align: center;
-//             align-items: center;
-//             justify-content: center;
-                    
-//             a {
-//                 text-decoration: none;
-//                 outline: none;
-        
-//                 height: 3rem;
-//                 width: 3rem;
-        
-//                 padding: 0.5rem;
-        
-//                 display: flex;
-//                 text-align: center;
-//                 align-items: center;
-//                 justify-content: center;
-        
-//             }
-        
-//             img {
-//                 width: 1.5rem;
-//                 height: auto;
-//             }
-//         }
-        
-//         .itemTextContainer {
-//             position: relative;
-//             width: 10rem;
-//             height: 100%;
-//             left: -7rem;
-//             display: none;
-//             text-align: center;
-//             align-items: center;
-            
-//             span {
-//                 color: white;
-//             }
-//         }
-//     }
-    
-//     .subItemContainer {
-//         display: none;
-//         flex-direction: column;
-//         text-align: start;
-//         padding-left: 3rem;
-//         background-color: var(--gray-850);
-
-//         p {
-//             color: var(--gray-200);
-//             line-height: 2rem;
-//             cursor: pointer;
-            
-//             &:hover {
-//                 color: var(--gray-100);
-//             }
-//         }
-//     }
-
-//     &:hover {        
-//         .itemTextContainer {
-//             left: 0rem;
-//             display: flex;
-//         }
-
-//         .subItemContainer {
-//             display: flex;
-//         }
-//     }
-// }

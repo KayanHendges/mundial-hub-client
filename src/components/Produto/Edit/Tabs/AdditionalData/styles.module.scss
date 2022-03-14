@@ -1,0 +1,29 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: .5rem;
+    position: absolute;
+    transition: .3s cubic-bezier(0, 1.21, 0.99, 1) 0ms;
+
+    .title {
+        color: var(--complementar-text);
+        font-size: 1.2rem;
+        padding-left: .4rem;
+    }
+
+    .inputRow {
+        width: 100%;
+        display: flex;
+        gap: 1rem;
+        
+    }
+}
+
+
+@media (max-width: 600px) {
+    .inputRow {
+        flex-direction: column;
+    }
+ }

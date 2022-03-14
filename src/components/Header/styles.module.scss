@@ -7,6 +7,7 @@
     align-items: center;
 
     padding: 0.5rem 1rem;
+    position: relative;
 
     background-color: var(--gray-4);
 
@@ -26,6 +27,7 @@
         transition-property: all;
         transition-duration: .4s;
         transition-timing-function: cubic-bezier(0.32, 0.02, 0, 1.01);
+
         .dropDown {
             width: 15rem;
             display: flex;
@@ -43,8 +45,29 @@
             transition-duration: .4s;
             transition-timing-function: cubic-bezier(0.32, 0.02, 0, 1.01);
 
-            .spanRequests {
-                color: var(--white-text);
+            .itemContainer {
+                width: 100%;
+                padding: .3rem 1rem;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 1rem;
+                cursor: pointer;
+                transition: .2s;
+                
+                #itemIcon, .itemTitle {
+                    font-size: .9rem;
+                    color: var(--complementar-text);
+                    transition: .2s;
+                }
+
+                &:hover {
+                    background-color: var(--gray-4);
+
+                    #itemIcon, .itemTitle {
+                        color: var(--white-text);
+                    }
+                }
             }
         }
 

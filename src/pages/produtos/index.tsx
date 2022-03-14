@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import styles from './styles.module.scss'
 import { useEffect, useState } from 'react';
 
@@ -106,12 +106,12 @@ export default function produtos(props){
     )
 }
 
-export const getServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const { ['mundialhub.token']: token } = parseCookies(ctx)
 
     if(!token){
-        const { url } = ctx.req
+        const url = ctx.resolvedUrl
         return {
             redirect: {
             destination: `/login?redirect=${encodeURIComponent(url)}`,

@@ -1,0 +1,58 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: .5rem;
+    position: absolute;
+    transition: .3s cubic-bezier(0, 1.21, 0.99, 1) 0ms;
+
+    .fillButton {
+        width: min-content;
+        background-color: var(--gray-3);
+        color: var(--complementar-text);
+        padding: .2rem .6rem;
+        margin-top: .5rem;
+        border-radius: .4rem;
+        border: 1px solid var(--gray-line);
+        transition: .2s;
+        cursor: pointer;
+
+        &:hover {
+            border: 1px solid var(--white-text);
+            color: var(--white-text);
+        }
+    }
+
+    .autoDescription {
+        width: min-content;
+        background-color: var(--gray-3);
+        color: var(--complementar-text);
+        padding: .2rem .6rem;
+        margin-top: .5rem;
+        border-radius: .4rem;
+        border: 1px solid var(--gray-line);
+        transition: .2s;
+        white-space: nowrap;
+        cursor: pointer;
+
+        &:hover {
+            border: 1px solid var(--white-text);
+            color: var(--white-text);
+        }
+    }
+
+    .inputRow {
+        width: 100%;
+        display: flex;
+        gap: 1rem;
+        
+    }
+}
+
+
+@media (max-width: 600px) {
+    .inputRow {
+        flex-direction: column;
+    }
+ }
