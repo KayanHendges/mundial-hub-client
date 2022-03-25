@@ -6,6 +6,7 @@ type Props = {
     visibility?: 'visible' | 'hidden';
     width?: string;
     label?: string;
+    loading?: boolean;
     value: string | number;
     optionList: string[] | number[];
     arrowKeyControl?: boolean;
@@ -65,57 +66,78 @@ export default function DefaultSelectorInput(props: Props){
         }
     }
 
-    return(
-        <div
-        className={styles.wrapper}
-        style={{
-            width: `${props.width? props.width : '100%' }`,
-            display: `${props.display? props.display : 'flex' }`,
-            visibility: `${props.visibility? props.visibility : 'visible' }`
-        }}
-        onClick={() => showDropDown(!dropDown.show)}
-        onMouseLeave={() => showDropDown(false)}
-        >
+    if(props.loading){
+        return (
             <div
-            className={styles.label}
-            style={{ display: `${props.label? 'flex' : 'none' }` }}
-            >
-                {props.label}
-            </div>
-            <input
-            type='text'
-            value={props.value}
-            readOnly={true}
-            onKeyDown={(e) => handleArrowKey(e)}
-            />
-            <div
-            className={styles.options}
+            className={styles.wrapper}
             style={{
-                display: `${props.optionList.length > 0? dropDown.display : 'none'}`,
-                bottom: `-${((props.optionList.length-(hideSelectedOption? 1 : 0 ))*2.5)-.1}rem`,
+                width: `${props.width? props.width : '100%' }`,
+                display: `${props.display? props.display : 'flex' }`,
+                visibility: `${props.visibility? props.visibility : 'visible' }`
             }}
             >
-                {props.optionList.map((option, index) => {
-                    if(option == props.value && hideSelectedOption){
-                        return
-                    } else {
-                        return(
-                            <div
-                            className={styles.optionContainer}
-                            onClick={() => props.onChange(option)}
-                            key={index}
-                            >
-                                <span
-                                className={styles.optionSpan}
-                                >
-                                    {option}
-                                </span>
-                            </div>
-                        )
-                    }
-                })}
+                <label>
+                    {props.label}
+                </label>
+                <div
+                className={styles.placeholder}
+                style={{ width: `${props.width? props.width : '100%'}` }}
+                />
             </div>
-        </div>
+        )
+    } else {
+        return(
+            <div
+            className={styles.wrapper}
+            style={{
+                width: `${props.width? props.width : '100%' }`,
+                display: `${props.display? props.display : 'flex' }`,
+                visibility: `${props.visibility? props.visibility : 'visible' }`
+            }}
+            onClick={() => showDropDown(!dropDown.show)}
+            onMouseLeave={() => showDropDown(false)}
+            >
+                <div
+                className={styles.label}
+                style={{ display: `${props.label? 'flex' : 'none' }` }}
+                >
+                    {props.label}
+                </div>
+                <input
+                type='text'
+                value={props.value}
+                readOnly={true}
+                onKeyDown={(e) => handleArrowKey(e)}
+                />
+                <div
+                className={styles.options}
+                style={{
+                    display: `${props.optionList.length > 0? dropDown.display : 'none'}`,
+                    bottom: `-${((props.optionList.length-(hideSelectedOption? 1 : 0 ))*2.5)-.1}rem`,
+                }}
+                >
+                    {props.optionList.map((option, index) => {
+                        if(option == props.value && hideSelectedOption){
+                            return
+                        } else {
+                            return(
+                                <div
+                                className={styles.optionContainer}
+                                onClick={() => props.onChange(option)}
+                                key={index}
+                                >
+                                    <span
+                                    className={styles.optionSpan}
+                                    >
+                                        {option}
+                                    </span>
+                                </div>
+                            )
+                        }
+                    })}
+                </div>
+            </div>
+        )
+    }
 
-    )
 }

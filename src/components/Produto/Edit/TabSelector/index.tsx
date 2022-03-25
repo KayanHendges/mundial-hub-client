@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { ProductContext } from '../../../../contexts/ProductContext'
 import styles from './styles.module.scss'
@@ -6,7 +7,11 @@ type OptionStyle = {
     color: string
 }
 
-export default function TabSelector(props){
+type Props = {
+    tab: number
+}
+
+export default function TabSelector(props: Props){
 
     const { selectedTab, setSelectedTab } = useContext(ProductContext)
 
@@ -27,12 +32,15 @@ export default function TabSelector(props){
     const [ optionStyle, setOptionStyle ] = useState<OptionStyle[]>(startOptionStyles)
 
     const [ underlineStyle, setUnderlineStyle ] = useState({
-        left: `${selectedTab * 20}%`
+        left: `${props.tab * 20}%`
     }) 
 
     useEffect(() => {
+        const tab = props.tab
+        setSelectedTab(tab)
+
         for (let index = 0; index < 5; index++) {
-            if (index == selectedTab) {
+            if (index == tab) {
                 startOptionStyles.push(selectedOptionStyle)
             } else {
                 startOptionStyles.push(standartOptionStyle)
@@ -40,7 +48,7 @@ export default function TabSelector(props){
         }
         setOptionStyle(startOptionStyles)
         setUnderlineStyle({
-            left: `${selectedTab * 20}%`
+            left: `${tab * 20}%`
         })
     }, [])
 
@@ -62,7 +70,6 @@ export default function TabSelector(props){
         setOptionStyle(list)
 
     }, [selectedTab])
-    
 
     function handleTabStyles(hover: boolean, index: number){
         if(index != selectedTab) {

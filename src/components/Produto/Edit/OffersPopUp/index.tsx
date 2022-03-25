@@ -1,8 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
 import { AlertContext } from '../../../../contexts/AlertContext'
 import { NewProductContext } from '../../../../contexts/NewProductContext'
+import { ProductContext } from '../../../../contexts/ProductContext'
 import { api } from '../../../../services/api'
-import CreateFunction from '../CreateFunction'
+import SaveFunction from '../SaveFunction'
+import CreateFunction from '../SaveFunction'
+import OfferContainer from './OfferContainer'
 import styles from './styles.module.scss'
 
 type Props = {
@@ -22,57 +25,21 @@ type Styles = {
 type Offer = {
     name: string;
     store: string;
-    create: boolean;
+    function: string | null;
     lock: boolean;
-    id: number,
-    success: false,
-}
-
-type UnitaryPostApi = {
-    is_kit: number;
-    ean: string;
-    ncm: string;
-    product_name: string;
-    description: string;
-    brand: string;
-    model: string;
-    weight: number;
-    length: number;
-    width: number;
-    height: number;
-    main_category_id: number;
-    related_categories: number[];
-    available: number;
-    release_date?: Date;
-    availability: string;
-    availabilityDays: number;
-    reference: string;
-    images: {imageUrl: string}[]
-    warranty: string;
-    comments: string;
-}
-
-type PricingPostApi = {
-    tray_product_id: number;
-    cost: number,
-    profit: number,
-    price: number,
-    hub_id: number;
-    promotional_price: number,
-    start_promotion: Date | string,
-    end_promotion: Date | string,
-    stock: number,
-    main_category_id: number;
-    related_categories: number[];
+    id: number | null,
+    success: boolean | null,
 }
 
 export default function OffersPopUp(props: Props){
 
     const { 
+        unitaryDetails, kit2Details, kit4Details,
+        mundialPricing, scpneusPricing,
         submit, setSubmit,
         validate, errorsList,
         setSelectedTab
-    } = useContext(NewProductContext)
+    } = useContext(ProductContext)
 
     const { setAddAlert } = useContext(AlertContext)
 
@@ -109,82 +76,186 @@ export default function OffersPopUp(props: Props){
         }
     }
 
-    const gridList = '2rem 1fr 4rem'
-
     const [ popUpStyles, setPopUpStyles ] = useState<Styles>(closeStyle)
-
-    const [ hubOffers, setHubOffers ] = useState<Offer[]>([
-        {
-            name: 'unitário',
-            store: 'mundial',
-            create: true,
-            lock: true,
-            id: -1,
-            success: false,
-        },
-        {
-            name: 'unitário',
-            store: 'scpneus',
-            create: true,
-            lock: true,
-            id: -1,
-            success: false,
-        },
-        {
-            name: 'kit 2',
-            store: 'mundial',
-            create: true,
-            lock: false,
-            id: -1,
-            success: false,
-        },
-        {
-            name: 'kit 4',
-            store: 'mundial',
-            create: true,
-            lock: false,
-            id: -1,
-            success: false,
-        },
-    ])
-
-    const [ trayOffers, setTrayOffers ] = useState<Offer[]>([
-        {
-            name: 'unitário',
-            store: 'mundial',
-            create: true,
-            lock: false,
-            id: -1,
-            success: false,
-        },
-        {
-            name: 'unitário',
-            store: 'scpneus',
-            create: true,
-            lock: false,
-            id: -1,
-            success: false,
-        },
-        {
-            name: 'kit 2',
-            store: 'mundial',
-            create: true,
-            lock: false,
-            id: -1,
-            success: false,
-        },
-        {
-            name: 'kit 4',
-            store: 'mundial',
-            create: true,
-            lock: false,
-            id: -1,
-            success: false,
-        },
-    ])
 
     const [ creating, setCreating ] = useState<boolean>(false)
     const [ created, setCreated ] = useState<boolean>(false)
+
+    const [ offerUnitaryMundial, setOfferUnitaryMundial ] = useState<Offer>({
+        name: 'unitário',
+        store: 'mundial',
+        function: 'edit',
+        lock: true,
+        id: null,
+        success: null,
+    })
+
+    const [ offerUnitaryScpneus, setOfferUnitaryScpneus ] = useState<Offer>({
+        name: 'unitário',
+        store: 'scpneus',
+        function: 'edit',
+        lock: true,
+        id: null,
+        success: null,
+    })
+
+    const [ offerKit2Mundial, setOfferKit2Mundial ] = useState<Offer>({
+        name: 'kit2',
+        store: 'mundial',
+        function: null,
+        lock: false,
+        id: null,
+        success: null,
+    })
+
+    const [ offerKit4Mundial, setOfferKit4Mundial ] = useState<Offer>({
+        name: 'kit4',
+        store: 'mundial',
+        function: null,
+        lock: false,
+        id: null,
+        success: null,
+    })
+
+    const [ offerUnitaryMundialTray, setOfferUnitaryMundialTray ] = useState<Offer>({
+        name: 'unitário',
+        store: 'mundial',
+        function: null,
+        lock: false,
+        id: null,
+        success: null,
+    })
+
+    const [ offerUnitaryScpneusTray, setOfferUnitaryScpneusTray ] = useState<Offer>({
+        name: 'unitário',
+        store: 'scpneus',
+        function: null,
+        lock: false,
+        id: null,
+        success: null,
+    })
+
+    const [ offerKit2MundialTray, setOfferKit2MundialTray ] = useState<Offer>({
+        name: 'kit2',
+        store: 'mundial',
+        function: null,
+        lock: false,
+        id: null,
+        success: null,
+    })
+
+    const [ offerKit4MundialTray, setOfferKit4MundialTray ] = useState<Offer>({
+        name: 'kit4',
+        store: 'mundial',
+        function: null,
+        lock: false,
+        id: null,
+        success: null,
+    })
+
+    useEffect(() => {
+        if(unitaryDetails.hub_id != null){
+            setOfferUnitaryMundial({...offerUnitaryMundial, id: unitaryDetails.hub_id})
+            setOfferUnitaryScpneus({...offerUnitaryScpneus, id: unitaryDetails.hub_id})            
+        }
+
+    }, [unitaryDetails.hub_id])
+
+    useEffect(() => {
+        if(kit2Details.hub_id > 0){
+            setOfferKit2Mundial({
+                ...offerKit2Mundial,
+                function: 'edit',
+                id: kit2Details.hub_id,
+            })
+        }
+        if(kit2Details.hub_id == 0){
+            setOfferKit2Mundial({
+                ...offerKit2Mundial,
+                id: 0,
+            })
+        }
+    }, [kit2Details.hub_id])
+
+    useEffect(() => {
+        if(kit4Details.hub_id > 0){
+            setOfferKit4Mundial({
+                ...offerKit4Mundial,
+                function: 'edit',
+                id: kit4Details.hub_id,
+            })
+        }
+        if(kit4Details.hub_id == 0){
+            setOfferKit4Mundial({
+                ...offerKit4Mundial,
+                id: 0,
+            })
+        }
+    }, [kit4Details.hub_id])
+
+    useEffect(() => {
+        if(mundialPricing.tray_product_id > 0){
+            setOfferUnitaryMundialTray({
+                ...offerUnitaryMundialTray,
+                function: 'edit',
+                id: mundialPricing.tray_product_id,
+            })
+        }
+        if(mundialPricing.tray_product_id == 0){
+            setOfferUnitaryMundialTray({
+                ...offerUnitaryMundialTray,
+                id: 0,
+            })
+        }
+    }, [mundialPricing.tray_product_id])
+
+    useEffect(() => {
+        if(scpneusPricing.tray_product_id > 0){
+            setOfferUnitaryScpneusTray({
+                ...offerUnitaryScpneusTray,
+                function: 'edit',
+                id: scpneusPricing.tray_product_id,
+            })
+        }
+        if(scpneusPricing.tray_product_id == 0){
+            setOfferUnitaryScpneusTray({
+                ...offerUnitaryScpneusTray,
+                id: 0,
+            })
+        }
+    }, [scpneusPricing.tray_product_id])
+
+    useEffect(() => {
+        if(kit2Details.tray_product_id > 0){
+            setOfferKit2MundialTray({
+                ...offerKit2MundialTray,
+                function: 'edit',
+                id: kit2Details.tray_product_id,
+            })
+        }
+        if(kit2Details.tray_product_id == 0){
+            setOfferKit2MundialTray({
+                ...offerKit2MundialTray,
+                id: 0,
+            })
+        }
+    }, [kit2Details.tray_product_id])
+
+    useEffect(() => {
+        if(kit4Details.tray_product_id > 0){
+            setOfferKit4MundialTray({
+                ...offerKit4MundialTray,
+                function: 'edit',
+                id: kit4Details.tray_product_id,
+            })
+        }
+        if(kit4Details.tray_product_id == 0){
+            setOfferKit4MundialTray({
+                ...offerKit4MundialTray,
+                id: 0,
+            })
+        }
+    }, [kit4Details.tray_product_id])
 
     useEffect(() => {
         if(submit){
@@ -200,122 +271,8 @@ export default function OffersPopUp(props: Props){
     }, [submit])
  
 
-
-    function handleHubCreate(offer: Offer){
-        if(creating || created){
-            return
-        }
-
-        const newList = hubOffers.map((offerMapped, index) => {
-            if(offerMapped == offer && !offer.lock){
-                if(offerMapped.create){
-                    disableTrayOffer(offerMapped)
-                }
-                return {...offerMapped, create: !offerMapped.create}
-            } else {
-                return offerMapped
-            }
-        })
-        setHubOffers(newList)
-    }
-
-    function handleTrayCreate(offer: Offer){
-        if(creating || created){
-            return
-        }
-
-        const newList: Offer[] = [] 
-        
-        trayOffers.map(offerMapped => {
-            if(offerMapped == offer && !offer.lock){
-                hubOffers.map(hubOffer => {
-                    if(hubOffer.name == offerMapped.name && hubOffer.store == offerMapped.store){
-                        if(!hubOffer.create){
-                            newList.push({...offerMapped, create: false})
-                        } else {
-                            newList.push({...offerMapped, create: !offerMapped.create})
-                        }
-                    }
-                })
-            } else {
-                newList.push(offerMapped)
-            }
-        })
-        setTrayOffers(newList)
-    }
-
-    function disableTrayOffer(hubOffer: Offer){
-        const newList = trayOffers.map((trayOffer, index) => {
-            if(trayOffer.name == hubOffer.name && trayOffer.store == hubOffer.store){
-               return {...trayOffer, create: false}
-            } else {
-                return trayOffer
-            }
-        })
-        setTrayOffers(newList)
-    }
-
-    function checkBoxIcon(offer: Offer): string {
-        if(offer.lock){
-            return 'lock'
-        }
-        if(offer.create){
-            return 'radio_button_checked'
-        }
-        if(created || creating){
-            return ''
-        }
-        if(!offer.create){
-            return 'radio_button_unchecked'
-        }
-    }
-
-    function apiLoadingStyle(offer: Offer){
-        if(creating && offer.create){
-            if(!offer.create){
-                return ( <span></span> )
-            }
-            if(offer.id == 0){
-                return (
-                    <span className="material-icons-round"
-                    id={styles.successIcon}
-                    style={{ color: '#E83C3C' }}
-                    >
-                        highlight_off
-                    </span>
-                )
-            }
-
-            if(offer.id == -1){
-                return (
-                    <span
-                    className="material-icons-round"
-                    id={styles.loadingIcon}
-                    >
-                        autorenew
-                    </span>
-                )
-            }
-
-            if(offer.id > 0){
-                return (
-                    <span className="material-icons-round"
-                    id={styles.successIcon}
-                    style={{ color: '#00D848' }}
-                    >
-                        task_alt
-                    </span>
-                )
-            }
-
-
-        } else {
-            return <></>
-        }
-    }
-
     async function handleSubmit(){
-        const errors = validate(hubOffers)
+        const errors = validate([offerUnitaryMundial])
 
         if( errors.length > 0 ){
             setSubmit(false)
@@ -348,16 +305,6 @@ export default function OffersPopUp(props: Props){
             className={styles.container}
             style={popUpStyles.container}
             >
-                <CreateFunction 
-                hubOffers={hubOffers}
-                setHubOffers={setHubOffers}
-                trayOffers={trayOffers}
-                setTrayOffers={setTrayOffers}
-                creating={creating}
-                setCreating={setCreating}
-                created={created}
-                setCreated={setCreated}
-                />
                 <span
                 className={styles.header}
                 >
@@ -374,87 +321,51 @@ export default function OffersPopUp(props: Props){
                         >
                             hub
                         </div>
-                        {hubOffers.map( (offer, index) => {
-                            return (
-                                <div
-                                className={styles.offer}
-                                style={{
-                                    gridTemplateColumns: gridList,
-                                    backgroundColor: `${offer.create? 'var(--gray-4)' : 'var(--gray-3)' }`,
-                                    border: `${offer.create? '1px solid var(--gray-line)' : '1px solid transparent' }`
-                                }}
-                                key={index}
-                                onClick={() => handleHubCreate(offer)}
-                                >
-                                    <span
-                                    className={styles.offerCollum}
-                                    >
-                                        <span className="material-icons-round"
-                                        id={styles.unchecked}
-                                        >
-                                            {checkBoxIcon(offer)}
-                                        </span>
-                                    </span>
-                                    <span
-                                    className={styles.offerCollum}
-                                    style={{ 
-                                        justifyContent: 'flex-start',
-                                        paddingLeft: '.2rem'
-                                    }}
-                                    >
-                                        {`${offer.name} - ${offer.store}`}
-                                    </span>
-                                    <span
-                                    className={styles.offerCollum}
-                                    >
-                                        {apiLoadingStyle(offer)}
-                                    </span>
-                                </div>
-                            )
-                        })}
+                        <OfferContainer
+                        creating={creating} 
+                        offer={offerUnitaryMundial}
+                        setOffer={setOfferUnitaryMundial}
+                        />
+                        <OfferContainer
+                        creating={creating} 
+                        offer={offerUnitaryScpneus}
+                        setOffer={setOfferUnitaryScpneus}
+                        />
+                        <OfferContainer
+                        creating={creating} 
+                        offer={offerKit2Mundial}
+                        setOffer={setOfferKit2Mundial}
+                        />
+                        <OfferContainer
+                        creating={creating} 
+                        offer={offerKit4Mundial}
+                        setOffer={setOfferKit4Mundial}
+                        />
                         <div
                         className={styles.tab}
                         >
                             tray
                         </div>
-                        {trayOffers.map( (offer, index) => {
-                            return (
-                                <div
-                                className={styles.offer}
-                                style={{
-                                    gridTemplateColumns: gridList,
-                                    backgroundColor: `${offer.create? 'var(--gray-4)' : 'var(--gray-3)' }`,
-                                    border: `${offer.create? '1px solid var(--gray-line)' : '1px solid transparent' }`
-                                }}
-                                key={index}
-                                onClick={() => handleTrayCreate(offer)}
-                                >
-                                    <span
-                                    className={styles.offerCollum}
-                                    >
-                                        <span className="material-icons-round"
-                                        id={styles.unchecked}
-                                        >
-                                            {checkBoxIcon(offer)}
-                                        </span>
-                                    </span>
-                                    <span
-                                    className={styles.offerCollum}
-                                    style={{ 
-                                        justifyContent: 'flex-start',
-                                        paddingLeft: '.2rem'
-                                    }}
-                                    >
-                                        {`${offer.name} - ${offer.store}`}
-                                    </span>
-                                    <span
-                                    className={styles.offerCollum}
-                                    >
-                                        {apiLoadingStyle(offer)}
-                                    </span>
-                                </div>
-                            )
-                        })}
+                        <OfferContainer
+                        creating={creating} 
+                        offer={offerUnitaryMundialTray}
+                        setOffer={setOfferUnitaryMundialTray}
+                        />
+                        <OfferContainer
+                        creating={creating} 
+                        offer={offerUnitaryScpneusTray}
+                        setOffer={setOfferUnitaryScpneusTray}
+                        />
+                        <OfferContainer
+                        creating={creating} 
+                        offer={offerKit2MundialTray}
+                        setOffer={setOfferKit2MundialTray}
+                        />
+                        <OfferContainer
+                        creating={creating} 
+                        offer={offerKit4MundialTray}
+                        setOffer={setOfferKit4MundialTray}
+                        />
                     </div>
                 </div>
                 <div

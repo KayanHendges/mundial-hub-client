@@ -1,7 +1,7 @@
 import router from "next/router"
 import { useContext, useEffect, useState } from "react"
 import { AlertContext } from "../../../../contexts/AlertContext"
-import { NewProductContext } from "../../../../contexts/NewProductContext"
+import { ProductContext } from "../../../../contexts/ProductContext"
 import { api } from "../../../../services/api"
 
 type Styles = {
@@ -52,7 +52,7 @@ type UnitaryPostApi = {
     available: number;
     release_date?: Date;
     availability: string;
-    availabilityDays: number;
+    availability_days: number;
     reference: string;
     images: {imageUrl: string}[]
     warranty: string;
@@ -100,14 +100,14 @@ type CreateTrayResponse = {
     offerList: Offer[]
 }
 
-export default function CreateFunction(props: Props){
+export default function SaveFunction(props: Props){
 
     const { 
         unitaryDetails, mundialPricing,
         scpneusPricing,
         kit2Details, kit2Rules,
         kit4Details, kit4Rules,
-    } = useContext(NewProductContext)
+    } = useContext(ProductContext)
 
     const { setAddAlert } = useContext(AlertContext)
 
@@ -192,7 +192,7 @@ export default function CreateFunction(props: Props){
                 release_date: new Date(),
                 available: unitaryDetails.available,
                 availability: unitaryDetails.availability,
-                availabilityDays: unitaryDetails.availabilityDays,
+                availability_days: unitaryDetails.availability_days,
                 reference: unitaryDetails.reference,
                 images: unitaryDetails.images,
                 warranty: unitaryDetails.warranty,
@@ -216,7 +216,7 @@ export default function CreateFunction(props: Props){
                 release_date: new Date(),
                 available: unitaryDetails.available,
                 availability: unitaryDetails.availability,
-                availabilityDays: unitaryDetails.availabilityDays,
+                availability_days: unitaryDetails.availability_days,
                 reference: unitaryDetails.reference,
                 images: kit2Details.images,
                 warranty: unitaryDetails.warranty,
@@ -240,7 +240,7 @@ export default function CreateFunction(props: Props){
                 release_date: new Date(),
                 available: unitaryDetails.available,
                 availability: unitaryDetails.availability,
-                availabilityDays: unitaryDetails.availabilityDays,
+                availability_days: unitaryDetails.availability_days,
                 reference: unitaryDetails.reference,
                 images: kit4Details.images,
                 warranty: unitaryDetails.warranty,
@@ -484,7 +484,7 @@ export default function CreateFunction(props: Props){
                 release_date: new Date(),
                 available: unitaryDetails.available,
                 availability: unitaryDetails.availability,
-                availabilityDays: unitaryDetails.availabilityDays,
+                availability_days: unitaryDetails.availability_days,
                 reference: unitaryDetails.reference,
                 images: unitaryDetails.images,
                 warranty: unitaryDetails.warranty,
@@ -508,7 +508,7 @@ export default function CreateFunction(props: Props){
                 release_date: new Date(),
                 available: unitaryDetails.available,
                 availability: unitaryDetails.availability,
-                availabilityDays: unitaryDetails.availabilityDays,
+                availability_days: unitaryDetails.availability_days,
                 reference: unitaryDetails.reference,
                 images: kit2Details.images,
                 warranty: unitaryDetails.warranty,
@@ -532,7 +532,7 @@ export default function CreateFunction(props: Props){
                 release_date: new Date(),
                 available: unitaryDetails.available,
                 availability: unitaryDetails.availability,
-                availabilityDays: unitaryDetails.availabilityDays,
+                availability_days: unitaryDetails.availability_days,
                 reference: unitaryDetails.reference,
                 images: kit4Details.images,
                 warranty: unitaryDetails.warranty,

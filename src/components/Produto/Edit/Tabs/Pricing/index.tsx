@@ -111,7 +111,8 @@ export default function Pricing(props: Props){
                     <div
                     className={styles.autoPriceRow}
                     >
-                        <DefaultSelectorInput 
+                        <DefaultSelectorInput
+                        loading={unitaryDetails.hub_id? false : true }
                         display="flex"
                         width="100%"
                         label="regra de preço"
@@ -121,6 +122,7 @@ export default function Pricing(props: Props){
                         onChange={handleSelectValue}
                         />
                         <DefaultTextInput
+                        loading={unitaryDetails.hub_id? false : true }
                         width='100%'
                         label={`${autoPrice.priceRule}`}
                         name='autoPriceValue'
@@ -133,6 +135,7 @@ export default function Pricing(props: Props){
                         }}
                         />
                         <DefaultTextInput
+                        loading={unitaryDetails.hub_id? false : true }
                         width='100%'
                         label='resultado'
                         name='stock'
@@ -154,6 +157,7 @@ export default function Pricing(props: Props){
             setPricing={setScpneusPricing}
             />
             <DefaultTextInput
+            loading={unitaryDetails.hub_id? false : true }
             width='10rem'
             label='estoque'
             name='stock'
@@ -177,6 +181,7 @@ export default function Pricing(props: Props){
             className={styles.rowInput}
             >
                 <DefaultTextInput
+                loading={unitaryDetails.hub_id? false : true }
                 width='20rem'
                 label='disponibilidade'
                 name='availability'
@@ -186,6 +191,7 @@ export default function Pricing(props: Props){
                 }}
                 />
                 <DefaultTextInput
+                loading={unitaryDetails.hub_id? false : true }
                 width='10rem'
                 label='dias'
                 name='availabilityDays'

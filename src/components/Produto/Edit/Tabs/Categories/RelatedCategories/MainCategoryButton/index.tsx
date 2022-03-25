@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { NewProductContext } from '../../../../../../../contexts/NewProductContext'
+import { ProductContext } from '../../../../../../../contexts/ProductContext'
 import styles from './styles.module.scss'
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 
 export default function MainCategoryButton(props: Props){
 
-    const { unitaryDetails, setUnitaryDetails } = useContext(NewProductContext)
+    const { unitaryDetails, setUnitaryDetails } = useContext(ProductContext)
 
 
     const style = {

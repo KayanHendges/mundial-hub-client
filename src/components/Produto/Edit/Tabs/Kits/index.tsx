@@ -14,7 +14,6 @@ type Props = {
 export default function Kits(props: Props){
 
     const { 
-        unitaryDetails, setUnitaryDetails,
         kit2Details, setKit2Details,
         kit2Rules, setKit2Rules,
         kit4Details, setKit4Details,

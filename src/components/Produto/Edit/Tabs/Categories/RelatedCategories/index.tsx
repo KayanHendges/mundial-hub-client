@@ -88,7 +88,7 @@ export default function RelatedCategories(props: ListProps){
             listStyles.push(standartContainerStyle)
         }
         setCategoryStyle(listStyles)
-    }, [props.categories])
+    }, [props.categories, unitaryDetails.hub_id])
 
     useEffect(() => {
         const listStyles: ContainerStyle[] = []        

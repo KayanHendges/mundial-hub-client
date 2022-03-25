@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { Category, CategoryTree } from '../..'
-import { NewProductContext } from '../../../../../../../contexts/NewProductContext'
+import { ProductContext } from '../../../../../../../contexts/ProductContext'
 import HandleCategoryButton from '../../HandleCategoryButton'
 import Children from './Children'
 import styles from './styles.module.scss'
@@ -13,7 +13,7 @@ type Props = {
 
 export default function Subcategory(props: Props){
 
-    const { unitaryDetails, setUnitaryDetails } = useContext(NewProductContext)
+    const { unitaryDetails, setUnitaryDetails } = useContext(ProductContext)
 
     const [ open, setOpen ] = useState(false)
 

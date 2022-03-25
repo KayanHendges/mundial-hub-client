@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { Category, CategoryTree } from '../../..'
-import { NewProductContext } from '../../../../../../../../contexts/NewProductContext'
+import { ProductContext } from '../../../../../../../../contexts/ProductContext'
 import HandleCategoryButton from '../../../HandleCategoryButton'
 import styles from './styles.module.scss'
 
@@ -12,7 +12,7 @@ type ChildrenProps = {
 
 export default function Children(props: ChildrenProps){
 
-    const { unitaryDetails, setUnitaryDetails } = useContext(NewProductContext)
+    const { unitaryDetails, setUnitaryDetails } = useContext(ProductContext)
 
     function verifyDisplay(hubId: number): boolean{
         if(unitaryDetails.related_categories.includes(hubId)){
@@ -26,7 +26,6 @@ export default function Children(props: ChildrenProps){
         return (
             <div
             className={styles.wrapper}
-            // style={{ display: `${props.open? 'display:' : 'none'}` }}
             >
                 <div
                 className={styles.childrenContainer}

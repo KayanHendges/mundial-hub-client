@@ -17,7 +17,6 @@ export default function Header(props: HeaderProps) {
     const [ title, setTitle ] = useState<string>('')
 
     useEffect(() => {
-
         if(unitaryDetails.name.length > 0 && title.length == 0){
             setTitle(unitaryDetails.name)
         }
@@ -32,10 +31,29 @@ export default function Header(props: HeaderProps) {
             <div className={styles.toolsBar}>
                 <BackButton href={props.href} />
                 <div className={styles.title}>
+                    <span
+                    className={styles.placeholder}
+                    style={{ 
+                        display: `${unitaryDetails.hub_id == null? 'flex' : 'none' }`,
+                        height: '1.6rem'
+                    }}
+                    />
+                    <span
+                    className={styles.placeholder}
+                    style={{ 
+                        display: `${unitaryDetails.hub_id == null? 'flex' : 'none' }`,
+                        height: '1.15rem',
+                        width: '50%'
+                    }}
+                    />
                     <strong>
-                        {unitaryDetails.name}
+                        {title}
                     </strong>
-                    <span>
+                    <span
+                    style={{ 
+                        display: `${unitaryDetails.hub_id == null? 'none' : 'flex' }`,
+                    }}
+                    >
                         {props.title}
                     </span>
                     <span

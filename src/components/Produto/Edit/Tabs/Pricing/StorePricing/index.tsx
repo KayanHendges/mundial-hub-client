@@ -1,4 +1,4 @@
-import { differenceInDays, format, parseISO } from 'date-fns'
+import { differenceInDays, format, getDay, parseISO } from 'date-fns'
 import { useContext, useEffect, useState } from 'react'
 import { IPricing, NewProductContext } from '../../../../../../contexts/NewProductContext'
 import { ProductContext } from '../../../../../../contexts/ProductContext'
@@ -16,6 +16,8 @@ type Props = {
 
 export default function StorePricing(props: Props){
 
+    const { unitaryDetails } = useContext(ProductContext)
+
     const { errorsList, verifyErrorInput } = useContext(ProductContext)
 
     const [ promotionalProfit, setPromotionalProfit ] = useState<number>(0)
@@ -27,29 +29,36 @@ export default function StorePricing(props: Props){
     const [ visibility, setVisibility] = useState<boolean>(true)
 
     useEffect(() => {
+        setStartPromotion(format(props.pricing.startPromotion, 'yyyy-MM-dd'))
+        setEndPromotion(format(props.pricing.endPromotion, 'yyyy-MM-dd'))
+    }, [props.pricing.startPromotion, props.pricing.endPromotion])
+
+    useEffect(() => {
         if(props.pricing.promotionalPrice == 0){
             setVisibility(false)
             setTimeout(() => {
-                setStartPromotion('0001-01-01')
-                setEndPromotion('0001-01-01')
+                setStartPromotion('yyyy-MM-dd')
+                setEndPromotion('yyyy-MM-dd')
                 props.setPricing({
                     ...props.pricing,
-                    startPromotion: parseISO(startPromotion),
-                    endPromotion: parseISO(endPromotion)
+                    startPromotion: parseISO('0001-01-01'),
+                    endPromotion: parseISO('0001-01-01')
                 })
             }, 100)
         }
 
         if(props.pricing.promotionalPrice != 0 && !visibility){
             setVisibility(true)
-            const today = new Date()
-            setStartPromotion(format(today, 'yyyy-MM-dd'))
-            setEndPromotion(format(today, 'yyyy-MM-dd'))
-            props.setPricing({
-                ...props.pricing,
-                startPromotion: today,
-                endPromotion: today
-            })
+            if(format(props.pricing.startPromotion, 'yyyy-MM-dd') == '0001-01-01'){
+                const today = new Date()
+                setStartPromotion(format(today, 'yyyy-MM-dd'))
+                setEndPromotion(format(today, 'yyyy-MM-dd'))
+                props.setPricing({
+                    ...props.pricing,
+                    startPromotion: today,
+                    endPromotion: today
+                })
+            }
         }
     }, [props.pricing.promotionalPrice])
 
@@ -173,6 +182,7 @@ export default function StorePricing(props: Props){
                 className={styles.rowInput}
                 >
                     <DefaultTextInput
+                    loading={unitaryDetails.hub_id? false : true }
                     label='custo'
                     name='cost_price'
                     value={floatToPrice(props.pricing.cost_price)}
@@ -181,6 +191,7 @@ export default function StorePricing(props: Props){
                     }}
                     />
                     <DefaultTextInput
+                    loading={unitaryDetails.hub_id? false : true }
                     label='lucro tabela'
                     name='profit'
                     value={floatToPrice(props.pricing.profit)}
@@ -189,6 +200,7 @@ export default function StorePricing(props: Props){
                     }}
                     />
                     <DefaultTextInput
+                    loading={unitaryDetails.hub_id? false : true }
                     label='preço'
                     name='price'
                     value={floatToPrice(props.pricing.price)}
@@ -205,6 +217,7 @@ export default function StorePricing(props: Props){
                 className={styles.rowInput}
                 >
                     <DefaultTextInput
+                    loading={unitaryDetails.hub_id? false : true }
                     label='lucro promoção'
                     name='promotionalProfit'
                     value={floatToPrice(promotionalProfit)}
@@ -213,6 +226,7 @@ export default function StorePricing(props: Props){
                     }}
                     />
                     <DefaultTextInput
+                    loading={unitaryDetails.hub_id? false : true }
                     label='preço promocional'
                     name='promotionalPrice'
                     value={floatToPrice(props.pricing.promotionalPrice)}
@@ -221,6 +235,7 @@ export default function StorePricing(props: Props){
                     }}
                     />
                     <DefaultDataInput
+                    loading={unitaryDetails.hub_id? false : true }
                     label={`inicio`}
                     name='startPromotion'
                     value={startPromotion}
@@ -236,6 +251,7 @@ export default function StorePricing(props: Props){
                     }}
                     />
                     <DefaultDataInput
+                    loading={unitaryDetails.hub_id? false : true }
                     label='fim'
                     name='endPromotion'
                     value={endPromotion}

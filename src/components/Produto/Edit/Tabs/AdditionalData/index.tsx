@@ -33,6 +33,7 @@ export default function AdditionalData(props: Props){
             className={styles.inputRow}
             >
                 <DefaultTextInput 
+                loading={unitaryDetails.hub_id? false : true }
                 label='peso'
                 name='weight'
                 value={unitaryDetails.weight.toString()}
@@ -42,7 +43,8 @@ export default function AdditionalData(props: Props){
                     setUnitaryDetails({...unitaryDetails, weight: Math.floor(e.target.value)})
                 }
                 />
-                <DefaultTextInput 
+                <DefaultTextInput
+                loading={unitaryDetails.hub_id? false : true } 
                 label='comprimento'
                 name='length'
                 value={unitaryDetails.length.toString()}
@@ -53,6 +55,7 @@ export default function AdditionalData(props: Props){
                 }
                 />
                 <DefaultTextInput 
+                loading={unitaryDetails.hub_id? false : true }
                 label='largura'
                 name='width'
                 value={unitaryDetails.width.toString()}
@@ -62,7 +65,8 @@ export default function AdditionalData(props: Props){
                     setUnitaryDetails({...unitaryDetails, width: Math.floor(e.target.value)})
                 }
                 />
-                <DefaultTextInput 
+                <DefaultTextInput
+                loading={unitaryDetails.hub_id? false : true } 
                 label='altura'
                 name='height'
                 value={unitaryDetails.height.toString()}
@@ -79,6 +83,7 @@ export default function AdditionalData(props: Props){
                 Complementos
             </h1>
             <DefaultTextInput 
+            loading={unitaryDetails.hub_id? false : true }
             label='ncm'
             name='ncm'
             width='10rem'
@@ -88,6 +93,7 @@ export default function AdditionalData(props: Props){
             }
             />
             <DefaultTextAreaInput 
+            loading={unitaryDetails.hub_id? false : true }
             label='observações'
             name='comments'
             value={unitaryDetails.comments}

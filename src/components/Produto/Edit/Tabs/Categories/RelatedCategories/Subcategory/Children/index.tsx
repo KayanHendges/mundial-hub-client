@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { Category, CategoryTree } from '../../..'
-import { NewProductContext } from '../../../../../../../../contexts/NewProductContext'
+import { ProductContext } from '../../../../../../../../contexts/ProductContext'
 import HandleCategoryButton from '../../../HandleCategoryButton'
 import MainCategoryButton from '../../MainCategoryButton'
 import styles from './styles.module.scss'
@@ -15,7 +15,7 @@ type ChildrenProps = {
 
 export default function Children(props: ChildrenProps){
 
-    const { unitaryDetails, setUnitaryDetails } = useContext(NewProductContext)
+    const { unitaryDetails, setUnitaryDetails } = useContext(ProductContext)
 
     const [ hover, setHover ] = useState(false)
 

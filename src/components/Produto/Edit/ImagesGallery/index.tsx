@@ -3,6 +3,7 @@ import styles from './styles.module.scss'
 import ImageContainer from '../../../../components/Inputs/ImageContainer'
 
 type Values = {
+    hub_id: number | null;
     images: {imageUrl: string}[]
 }
 
@@ -24,7 +25,7 @@ export default function ImageGallery(props: Props){
             {"imageUrl": `${props.values.images[4].imageUrl}`},
             {"imageUrl": `${props.values.images[5].imageUrl}`}        
         ])
-    }, [])
+    }, [props.values.hub_id])
 
     useEffect(() => {
         props.setValues({
