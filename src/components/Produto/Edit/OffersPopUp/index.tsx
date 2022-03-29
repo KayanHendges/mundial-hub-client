@@ -1,3 +1,4 @@
+import router from 'next/router'
 import { useContext, useEffect, useState } from 'react'
 import { AlertContext } from '../../../../contexts/AlertContext'
 import { NewProductContext } from '../../../../contexts/NewProductContext'
@@ -72,7 +73,7 @@ export default function OffersPopUp(props: Props){
         },
         container: {
             padding: '.5rem',
-            height: '25rem'
+            height: '31rem'
         }
     }
 
@@ -151,6 +152,31 @@ export default function OffersPopUp(props: Props){
         lock: false,
         id: null,
         success: null,
+    })
+
+    useEffect(() => {
+    }, [])
+    SaveFunction({
+        created,
+        setCreated,
+        creating,
+        setCreating,
+        offerUnitaryMundial,
+        setOfferUnitaryMundial,
+        offerUnitaryScpneus,
+        setOfferUnitaryScpneus,
+        offerUnitaryKit2: offerKit2Mundial,
+        setOfferUnitaryKit2: setOfferKit2Mundial,
+        offerUnitaryKit4: offerKit4Mundial,
+        setOfferUnitaryKit4: setOfferKit4Mundial,
+        offerUnitaryMundialTray,
+        setOfferUnitaryMundialTray,
+        offerUnitaryScpneusTray,
+        setOfferUnitaryScpneusTray,
+        offerUnitaryKit2Tray: offerKit2MundialTray,
+        setOfferUnitaryKit2Tray: setOfferKit2MundialTray,
+        offerUnitaryKit4Tray: offerKit4MundialTray,
+        setOfferUnitaryKit4Tray: setOfferKit4MundialTray,
     })
 
     useEffect(() => {
@@ -270,6 +296,70 @@ export default function OffersPopUp(props: Props){
         }
     }, [submit])
  
+    useEffect(() => {
+
+        if(offerUnitaryMundialTray.function == 'delete' && unitaryDetails.hub_id != null){
+            setOfferKit2MundialTray({
+                ...offerKit2MundialTray,
+                function: null,
+                lock: true
+            })
+            setOfferKit4MundialTray({
+                ...offerKit4MundialTray,
+                function: null,
+                lock: true
+            })
+        } else {
+            if(offerKit2Mundial.function != 'delete'){
+                setOfferKit2MundialTray({
+                    ...offerKit2MundialTray,
+                    lock: false
+                })
+            }
+            if(offerKit4Mundial.function != 'delete'){
+                setOfferKit4MundialTray({
+                    ...offerKit4MundialTray,
+                    lock: false
+                })
+            }
+
+        }
+
+    }, [offerUnitaryMundialTray.function])
+
+    useEffect(() => {
+        if(offerKit2Mundial.function == 'delete' && kit2Details.hub_id != undefined){
+            setOfferKit2MundialTray({
+                ...offerKit2MundialTray,
+                function: null,
+                lock: true
+            })
+        } else {
+            if(offerUnitaryMundialTray.function != 'delete') {
+                setOfferKit2MundialTray({
+                    ...offerKit2MundialTray,
+                    lock: false
+                })
+            }
+        }
+    }, [offerKit2Mundial.function])
+
+    useEffect(() => {
+        if(offerKit4Mundial.function == 'delete' && kit4Details.hub_id != undefined){
+            setOfferKit4MundialTray({
+                ...offerKit4MundialTray,
+                function: null,
+                lock: true
+            })
+        } else {
+            if(offerUnitaryMundialTray.function != 'delete') {
+                setOfferKit4MundialTray({
+                    ...offerKit4MundialTray,
+                    lock: false
+                })
+            }
+        }
+    }, [offerKit4Mundial.function])
 
     async function handleSubmit(){
         const errors = validate([offerUnitaryMundial])
@@ -322,22 +412,30 @@ export default function OffersPopUp(props: Props){
                             hub
                         </div>
                         <OfferContainer
+                        key={0}
                         creating={creating} 
+                        created={created}
                         offer={offerUnitaryMundial}
                         setOffer={setOfferUnitaryMundial}
                         />
                         <OfferContainer
+                        key={1}
                         creating={creating} 
+                        created={created}
                         offer={offerUnitaryScpneus}
                         setOffer={setOfferUnitaryScpneus}
                         />
                         <OfferContainer
+                        key={2}
                         creating={creating} 
+                        created={created}
                         offer={offerKit2Mundial}
                         setOffer={setOfferKit2Mundial}
                         />
                         <OfferContainer
+                        key={3}
                         creating={creating} 
+                        created={created}
                         offer={offerKit4Mundial}
                         setOffer={setOfferKit4Mundial}
                         />
@@ -347,22 +445,30 @@ export default function OffersPopUp(props: Props){
                             tray
                         </div>
                         <OfferContainer
+                        key={4}
                         creating={creating} 
+                        created={created}
                         offer={offerUnitaryMundialTray}
                         setOffer={setOfferUnitaryMundialTray}
                         />
                         <OfferContainer
+                        key={5}
                         creating={creating} 
+                        created={created}
                         offer={offerUnitaryScpneusTray}
                         setOffer={setOfferUnitaryScpneusTray}
                         />
                         <OfferContainer
+                        key={6}
                         creating={creating} 
+                        created={created}
                         offer={offerKit2MundialTray}
                         setOffer={setOfferKit2MundialTray}
                         />
                         <OfferContainer
+                        key={7}
                         creating={creating} 
+                        created={created}
                         offer={offerKit4MundialTray}
                         setOffer={setOfferKit4MundialTray}
                         />
@@ -379,9 +485,15 @@ export default function OffersPopUp(props: Props){
                     </span>
                     <span
                     className={styles.submit}
-                    onClick={() => handleSubmit()}
+                    onClick={() => {
+                        if(created){
+                            router.back()
+                        } else {
+                            handleSubmit()
+                        }
+                    }}
                     >
-                        {`${creating? 'criando' : 'criar'}`}
+                        {`${creating? 'salvando' : created? 'voltar aos produtos' : 'salvar' }`}
                     </span>
                 </div>
             </div>

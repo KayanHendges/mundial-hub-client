@@ -34,9 +34,11 @@ export default function Pricing(props: Props){
     })
 
     useEffect(() => {
-        if(autoPrice.active){
+        if(autoPrice.active && scpneusPricing.tray_product_id != null){
             setScpneusPricing({
                 ...mundialPricing,
+                tray_pricing_id: scpneusPricing.tray_pricing_id,
+                tray_product_id: scpneusPricing.tray_product_id,
                 promotionalPrice: autoPriceCalc(mundialPricing.promotionalPrice),
             })
         }

@@ -1,5 +1,6 @@
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ProductContext } from '../../../../contexts/ProductContext'
+import useWindowSize from '../../../../services/windowSize/useWindowSize'
 import BackButton from '../../../Buttons/BackButton/Index'
 import styles from './styles.module.scss'
 
@@ -12,7 +13,7 @@ type HeaderProps = {
 
 export default function Header(props: HeaderProps) {
     
-    const { unitaryDetails, submit, setSubmit } = useContext(ProductContext)
+    const { unitaryDetails, kit4Details, submit, setSubmit } = useContext(ProductContext)
 
     const [ title, setTitle ] = useState<string>('')
 
@@ -63,13 +64,17 @@ export default function Header(props: HeaderProps) {
                 </div>
                 <div
                 className={styles.submitButton}
+                style={{ 
+                    opacity: `${unitaryDetails.hub_id == null || kit4Details.hub_id == null? '0%' : '100%' }`,
+                    cursor: `${unitaryDetails.hub_id == null || kit4Details.hub_id == null? 'default' : 'pointer' }`
+                 }}
                 onClick={() => {
-                    if(!submit){
+                    if(!submit && unitaryDetails.hub_id != null && kit4Details.hub_id != null){
                         setSubmit(true)
                     }
                 }}
                 >
-                    cadastrar
+                    salvar
                 </div>
             </div>
         </div>

@@ -30,6 +30,7 @@ interface IUnitaryDetails {
 
 export interface IKitDetails {
     hub_id: number | null;
+    tray_pricing_id: number | null;
     tray_product_id: number | null;
     name: string;
     description: string;
@@ -81,6 +82,7 @@ type ProductContextType = {
     setSelectedTab(selectedTab: number): void;
     submit: boolean;
     setSubmit(submit: boolean): void;
+    changedList: ChangedList;
     errorsList: Error[];
     setErrorsList(erros: Error[]): void; 
     validate(Offers: Offer[]): Error[];
@@ -167,6 +169,7 @@ export function ProductProvider ({ children })  {
 
     const [ kit2Details, setKit2Details ] = useState<IKitDetails>({
         hub_id: null,
+        tray_pricing_id: null,
         tray_product_id: null,
         name: '',
         description: '',
@@ -182,6 +185,7 @@ export function ProductProvider ({ children })  {
 
     const [ kit4Details, setKit4Details ] = useState<IKitDetails>({
         hub_id: null,
+        tray_pricing_id: null,
         tray_product_id: null,
         name: '',
         description: '',
@@ -280,7 +284,7 @@ export function ProductProvider ({ children })  {
         kit2Details.images[0].imageUrl,
         kit4Details.images[0].imageUrl
     ])
-
+    
     async function getData(){
         return new Promise(async(resolve) => {
 
@@ -340,6 +344,7 @@ export function ProductProvider ({ children })  {
                         gotMundialPricing = true
                     }
                     if(pricing.tray_store_id == 1049898){
+                        console.log(pricing.tray_product_id)
                         setScpneusPricing({
                             tray_pricing_id: pricing.tray_pricing_id,
                             tray_product_id: pricing.tray_product_id,
@@ -361,6 +366,7 @@ export function ProductProvider ({ children })  {
                 }
 
                 if(!gotScpneusPricing){
+                    console.log('ops')
                     setScpneusPricing({...scpneusPricing, tray_pricing_id: 0})
                 }
             })
@@ -389,6 +395,7 @@ export function ProductProvider ({ children })  {
 
                                     setKit2Details({
                                         hub_id: kit.details.hub_id,
+                                        tray_pricing_id: pricing.tray_pricing_id,
                                         tray_product_id: pricing.tray_product_id,
                                         name: kit.details.product_name,
                                         description: kit.details.product_description,
@@ -417,6 +424,7 @@ export function ProductProvider ({ children })  {
             
                                     setKit4Details({
                                         hub_id: kit.details.hub_id,
+                                        tray_pricing_id: pricing.tray_pricing_id,
                                         tray_product_id: pricing.tray_product_id,
                                         name: kit.details.product_name,
                                         description: kit.details.product_description,
@@ -621,6 +629,7 @@ export function ProductProvider ({ children })  {
             setSelectedTab,
             submit,
             setSubmit,
+            changedList,
             errorsList,
             setErrorsList,
             validate,

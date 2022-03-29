@@ -1,66 +1,13 @@
+import { AxiosRequestConfig } from "axios"
 import router from "next/router"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { AlertContext } from "../../../../contexts/AlertContext"
 import { ProductContext } from "../../../../contexts/ProductContext"
 import { api } from "../../../../services/api"
+import { IDetailsInput, IProductInput } from "../../../../types/api/Products"
+import { IPricing } from "../../../../contexts/ProductContext"
 
-type Styles = {
-    wrapper: {
-        display: string;
-        backgroundColor: string;
-    },
-    container: {
-        padding: string;
-        height: string;
-    }
-}
-
-type Offer = {
-    name: string;
-    store: string;
-    create: boolean;
-    lock: boolean;
-    id: number,
-    success: false,
-}
-
-type Props = {
-    hubOffers: Offer[],
-    setHubOffers(offer: Offer[]): void;
-    trayOffers: Offer[],
-    setTrayOffers(offer: Offer[]): void;
-    creating: boolean;
-    setCreating(creating: boolean): void;
-    created: boolean;
-    setCreated(created: boolean): void;
-}
-
-type UnitaryPostApi = {
-    is_kit: number;
-    ean: string;
-    ncm: string;
-    product_name: string;
-    description: string;
-    brand: string;
-    model: string;
-    weight: number;
-    length: number;
-    width: number;
-    height: number;
-    main_category_id: number;
-    related_categories: number[];
-    available: number;
-    release_date?: Date;
-    availability: string;
-    availability_days: number;
-    reference: string;
-    images: {imageUrl: string}[]
-    warranty: string;
-    comments: string;
-}
-
-type PricingPostApi = {
-    tray_product_id: number;
+interface IPricingInput {
     cost: number,
     profit: number,
     price: number,
@@ -73,406 +20,637 @@ type PricingPostApi = {
     related_categories: number[];
 }
 
-type KitRulesPostApi = {
-    tray_product_id?: number;
+interface IRulesInput {
     quantity: number;
     discount_type: string;
     discount_value: number;
     price_rule: number;
 }
 
-type CreateHubResponse = {
-    unitaryHubId: number,
-    kit2HubId: number,
-    kit4HubId: number,
-    mundialPricinglId: number,
-    scpneusPricingId: number,
-    kit2PricingId: number,
-    kit4PricingId: number,
-    offerList: Offer[]
+type Offer = {
+    name: string;
+    store: string;
+    function: string | null;
+    lock: boolean;
+    id: number | null,
+    success: boolean | null,
 }
 
-type CreateTrayResponse = {
-    mundialTrayId: number,
-    scpneusTrayId: number,
-    kit2MundialTrayId: number,
-    kit4MundialTrayId: number,
-    offerList: Offer[]
+type Props = {
+    offerUnitaryMundial: Offer,
+    setOfferUnitaryMundial(offer: Offer): void,
+    offerUnitaryScpneus: Offer,
+    setOfferUnitaryScpneus(offer: Offer): void,
+    offerUnitaryKit2: Offer,
+    setOfferUnitaryKit2(offer: Offer): void,
+    offerUnitaryKit4: Offer,
+    setOfferUnitaryKit4(offer: Offer): void,
+    offerUnitaryMundialTray: Offer,
+    setOfferUnitaryMundialTray(offer: Offer): void,
+    offerUnitaryScpneusTray: Offer,
+    setOfferUnitaryScpneusTray(offer: Offer): void,
+    offerUnitaryKit2Tray: Offer,
+    setOfferUnitaryKit2Tray(offer: Offer): void,
+    offerUnitaryKit4Tray: Offer,
+    setOfferUnitaryKit4Tray(offer: Offer): void,
+    creating: boolean,
+    setCreating(creating: boolean): void,
+    created: boolean,
+    setCreated(created: boolean): void,
 }
 
 export default function SaveFunction(props: Props){
-
+    
     const { 
-        unitaryDetails, mundialPricing,
-        scpneusPricing,
-        kit2Details, kit2Rules,
-        kit4Details, kit4Rules,
+        changedList,
+        unitaryDetails,
+        mundialPricing, setMundialPricing,
+        scpneusPricing, setScpneusPricing,
+        kit2Details, setKit2Details,
+        kit4Details, setKit4Details,
+        kit2Rules, kit4Rules,
     } = useContext(ProductContext)
 
     const { setAddAlert } = useContext(AlertContext)
 
-    const [ hubId, setHubId ] = useState<number>(0)
-    const [ kit2HubIdCreated, setKit2HubIdCreated ] = useState<number>(0)
-    const [ kit4HubIdCreated, setKit4HubIdCreated ] = useState<number>(0)
-
     useEffect(() => {
-
-        if(props.creating){
-
-            create()
-            .then(resolve => {
-                router.back()
-                setAddAlert({
-                    alertType: 'success',
-                    message: 'produto criado com sucesso',
-                    milliseconds: 3000
-                })
-            })
-            .catch(erro => {
-                setAddAlert({
-                    alertType: 'error',
-                    message: `erro em ${erro} anúncios`,
-                    milliseconds: 3000
-                })
-            })
-            .finally(() => {
-                props.setCreated(true)
-            })
-
+        
+        if(props.creating && !props.created){
+            submit()
         }
 
     }, [props.creating])
 
-    async function create(): Promise<void>{
+    async function submit(){
+
+        var getErrors = false 
+        
+       const unitary = submitUnitary()
+       .then(response => {
+           return true
+       })
+       .catch(erro => {
+           getErrors = true
+           setAddAlert({
+               alertType: 'error',
+               message: JSON.stringify(erro),
+               milliseconds: 2000
+           })
+       })
+
+       const kit2 = submitKit2()
+       .then(response => {
+            return true
+        })
+        .catch(erro => {
+            getErrors = true
+            setAddAlert({
+                alertType: 'error',
+                message: JSON.stringify(erro),
+                milliseconds: 2000
+            })
+        })
+
+        const kit4 = submitKit4()
+       .then(response => {
+            return true
+        })
+        .catch(erro => {
+            getErrors = true
+            setAddAlert({
+                alertType: 'error',
+                message: JSON.stringify(erro),
+                milliseconds: 2000
+            })
+        })
+
+        const offers = Promise.all([unitary, kit2, kit4])
+        .finally(() => {
+            props.setCreated(true)
+            props.setCreating(false)
+
+            if(!getErrors){
+                setAddAlert({
+                    alertType: 'success',
+                    message: 'produto salvo com sucesso',
+                    milliseconds: 2000
+                })
+                router.back()
+            }
+        })
+
+    }
+
+    async function submitUnitary(): Promise<void>{
         return new Promise(async(resolve, reject) => {
-
-            const failsOffers: Offer[] = []
-
-            const hubIds = await createHub()
-            const trayIds = await createTray(hubIds)
-
-            hubIds.offerList.map(offer => {
-                if(offer.create && offer.id <= 0){
-                    console.log(offer)
-                    failsOffers.push(offer)
+            const unitary: IDetailsInput = {
+                ean: unitaryDetails.ean,
+                ncm: unitaryDetails.ncm,
+                product_name: unitaryDetails.name,
+                description: unitaryDetails.description,
+                brand: unitaryDetails.brand,
+                model: unitaryDetails.model,
+                weight: unitaryDetails.weight,
+                length: unitaryDetails.length,
+                width: unitaryDetails.width,
+                height: unitaryDetails.height,
+                main_category_id: unitaryDetails.main_category_id,
+                related_categories: unitaryDetails.related_categories,
+                available: unitaryDetails.available,
+                availability: unitaryDetails.availability,
+                availabilityDays: unitaryDetails.availability_days,
+                reference: unitaryDetails.reference,
+                images: unitaryDetails.images,
+                warranty: unitaryDetails.warranty,
+                comments: unitaryDetails.comments,
+            }
+    
+            const submitDetails = changedList.details? api.post(
+                '/products/edit/unitary', {
+                    product: {...unitary, is_kit: 0}, hub_id: unitaryDetails.hub_id
                 }
+            )
+            .then(response => {
+                props.setOfferUnitaryMundial({...props.offerUnitaryMundial, success: true})
+                props.setOfferUnitaryScpneus({...props.offerUnitaryScpneus, success: true})
+                return true
             })
+            .catch(erro => {
+                console.log(erro.response.data.message)
+                return erro.response.data.message
+            }) 
+            : true
 
-            trayIds.offerList.map(offer => {
-                if(offer.create && offer.id <= 0){
-                    failsOffers.push(offer)
+            const mundialPricingApi: IPricingInput = {
+                cost: mundialPricing.cost_price,
+                profit: mundialPricing.profit,
+                price: mundialPricing.price,
+                hub_id: unitaryDetails.hub_id,
+                promotional_price: mundialPricing.promotionalPrice,
+                start_promotion: mundialPricing.startPromotion,
+                end_promotion: mundialPricing.endPromotion,
+                stock: mundialPricing.stock,
+                main_category_id: unitaryDetails.main_category_id,
+                related_categories: unitaryDetails.related_categories
+            }
+
+            const submitPricingMundial = changedList.pricing? api.post(
+                '/products/edit/pricing', {
+                    pricing: mundialPricingApi,
+                    tray_pricing_id: mundialPricing.tray_pricing_id,
+                    store_id: 668385
                 }
+            )
+            .then(response => {
+                props.setOfferUnitaryMundial({...props.offerUnitaryMundial, success: true})
+                return true
             })
+            .catch(erro => {
+                console.log(erro.response.data.message)
+                return erro.response.data.message
+            }) 
+            : true
 
-            if(failsOffers.length > 0){
-                reject(failsOffers.length)
+            const scpneusPricingApi: IPricingInput = {
+                cost: scpneusPricing.cost_price,
+                profit: scpneusPricing.profit,
+                price: scpneusPricing.price,
+                hub_id: unitaryDetails.hub_id,
+                promotional_price: scpneusPricing.promotionalPrice,
+                start_promotion: scpneusPricing.startPromotion,
+                end_promotion: scpneusPricing.endPromotion,
+                stock: scpneusPricing.stock,
+                main_category_id: unitaryDetails.main_category_id,
+                related_categories: unitaryDetails.related_categories
+            }
+
+            const submitPricingScpneus = changedList.pricing? api.post(
+                '/products/edit/pricing', {
+                    pricing: scpneusPricingApi,
+                    tray_pricing_id: scpneusPricing.tray_pricing_id,
+                    store_id: 1049898
+                }
+            )
+            .then(response => {
+                props.setOfferUnitaryScpneus({...props.offerUnitaryScpneus, success: true})
+                return true
+            })
+            .catch(erro => {
+                console.log(erro.response.data.message)
+                return erro.response.data.message
+            }) 
+            : true
+
+            if(await submitDetails != true || await submitPricingMundial != true || await submitPricingScpneus != true){
+                if(submitDetails != true){
+                    props.setOfferUnitaryMundial({...props.offerUnitaryMundial, success: false})
+                    props.setOfferUnitaryScpneus({...props.offerUnitaryScpneus, success: false})
+                    reject(submitDetails)
+                    return
+                }
+                if(submitPricingMundial != true){
+                    props.setOfferUnitaryMundial({...props.offerUnitaryMundial, success: false})
+                    reject(submitPricingMundial)
+                    return
+                }
+                if(submitPricingScpneus != true){
+                    props.setOfferUnitaryScpneus({...props.offerUnitaryScpneus, success: false})
+                    reject(submitPricingScpneus)
+                    return
+                }
             } else {
+                props.setOfferUnitaryMundial({...props.offerUnitaryMundial, success: true})
+                props.setOfferUnitaryScpneus({...props.offerUnitaryScpneus, success: true})
                 resolve()
             }
         })
     }
 
-    async function createHub(): Promise<CreateHubResponse>{
+    async function submitKit2(): Promise<void>{
         return new Promise(async(resolve, reject) => {
 
-            const unitary: UnitaryPostApi = {
-                is_kit: 0,
-                product_name: unitaryDetails.name,
-                description: unitaryDetails.description,
-                ean: unitaryDetails.ean,
-                ncm: unitaryDetails.ncm,
-                brand: unitaryDetails.brand,
-                model: unitaryDetails.model,
-                weight: unitaryDetails.weight,
-                length: unitaryDetails.length,
-                width: unitaryDetails.width,
-                height: unitaryDetails.height,
-                main_category_id: unitaryDetails.main_category_id,
-                related_categories: unitaryDetails.related_categories,
-                release_date: new Date(),
-                available: unitaryDetails.available,
-                availability: unitaryDetails.availability,
-                availability_days: unitaryDetails.availability_days,
-                reference: unitaryDetails.reference,
-                images: unitaryDetails.images,
-                warranty: unitaryDetails.warranty,
-                comments: unitaryDetails.comments,
-            }
+            if(props.offerUnitaryKit2.function == 'delete'){
 
-            const kit2: UnitaryPostApi = {
-                is_kit: 1,
-                product_name: kit2Details.name,
-                description: kit2Details.description,
-                ean: unitaryDetails.ean,
-                ncm: unitaryDetails.ncm,
-                brand: unitaryDetails.brand,
-                model: unitaryDetails.model,
-                weight: unitaryDetails.weight*2,
-                length: unitaryDetails.length,
-                width: unitaryDetails.width*2,
-                height: unitaryDetails.height,
-                main_category_id: unitaryDetails.main_category_id,
-                related_categories: [...unitaryDetails.related_categories, 520, 581],
-                release_date: new Date(),
-                available: unitaryDetails.available,
-                availability: unitaryDetails.availability,
-                availability_days: unitaryDetails.availability_days,
-                reference: unitaryDetails.reference,
-                images: kit2Details.images,
-                warranty: unitaryDetails.warranty,
-                comments: unitaryDetails.comments,
-            }
-
-            const kit4: UnitaryPostApi = {
-                is_kit: 1,
-                product_name: kit4Details.name,
-                description: kit4Details.description,
-                ean: unitaryDetails.ean,
-                ncm: unitaryDetails.ncm,
-                brand: unitaryDetails.brand,
-                model: unitaryDetails.model,
-                weight: unitaryDetails.weight*4,
-                length: unitaryDetails.length,
-                width: unitaryDetails.width*4,
-                height: unitaryDetails.height,
-                main_category_id: unitaryDetails.main_category_id,
-                related_categories: [...unitaryDetails.related_categories, 520, 540],
-                release_date: new Date(),
-                available: unitaryDetails.available,
-                availability: unitaryDetails.availability,
-                availability_days: unitaryDetails.availability_days,
-                reference: unitaryDetails.reference,
-                images: kit4Details.images,
-                warranty: unitaryDetails.warranty,
-                comments: unitaryDetails.comments,
-            }
-
-            var hubOfferList = props.hubOffers
-
-            const unitaryHubId = hubId > 0? hubId : await api.post('/products/create/unitary', {
-                product: unitary
-            })
-            .then(response => {
-                setHubId(response.data.hub_id)
-                return response.data.hub_id
-            })
-            .catch(erro => {
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
+                submitApi('delete', '/products/delete/kit',{
+                    hub_id: kit2Details.hub_id
+                }, false)
+                .then(() => resolve())
+                .catch(erro => {
+                    console.log(erro.response.data.message)
+                    reject(erro.response.data.message)
                 })
-                return 0
-            })
-
-            if(unitaryHubId <= 0){
-                reject()
                 return
-            } 
+            } else {
+                const details: IDetailsInput = {
+                    ean: unitaryDetails.ean,
+                    ncm: unitaryDetails.ncm,
+                    product_name: kit2Details.name,
+                    description: kit2Details.description,
+                    brand: unitaryDetails.brand,
+                    model: unitaryDetails.model,
+                    weight: unitaryDetails.weight*2,
+                    length: unitaryDetails.length,
+                    width: unitaryDetails.width*2,
+                    height: unitaryDetails.height,
+                    main_category_id: unitaryDetails.main_category_id,
+                    related_categories: [...unitaryDetails.related_categories, 520, 581],
+                    available: unitaryDetails.available,
+                    availability: unitaryDetails.availability,
+                    availabilityDays: unitaryDetails.availability_days,
+                    reference: unitaryDetails.reference,
+                    images: kit2Details.images,
+                    warranty: unitaryDetails.warranty,
+                    comments: unitaryDetails.comments,
+                }
 
-            const kit2HubId = kit2HubIdCreated > 0 || !props.hubOffers[2].create ? kit2HubIdCreated : api.post('/products/create/unitary', {
-                product: kit2
-            })
-            .then(response => {
-                setKit2HubIdCreated(response.data.hub_id)
-                return response.data.hub_id
-            })
-            .catch(erro => {
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
-                })
-                return 0
-            })
+                const kit2PricingApi: IPricingInput = {
+                    hub_id: kit2Details.hub_id,
+                    cost: mundialPricing.cost_price,
+                    profit: mundialPricing.profit,
+                    price: mundialPricing.price,
+                    promotional_price: mundialPricing.promotionalPrice,
+                    start_promotion: mundialPricing.startPromotion,
+                    end_promotion: mundialPricing.endPromotion,
+                    stock: mundialPricing.stock,
+                    main_category_id: unitaryDetails.main_category_id,
+                    related_categories: [...unitaryDetails.related_categories, 520, 581]
+                }
+                
+                const kit2RulesApi: IRulesInput = {
+                    quantity: kit2Rules.quantity,
+                    discount_type: kit2Rules.discount_type,
+                    discount_value: kit2Rules.discount_value,
+                    price_rule: kit2Rules.price_rule,
+                }
 
-            const kit4HubId = kit4HubIdCreated > 0 || !props.hubOffers[3].create ? kit4HubIdCreated : api.post('/products/create/unitary', {
-                product: kit4
-            })
-            .then(response => {
-                setKit4HubIdCreated(response.data.hub_id)
-                return response.data.hub_id
-            })
-            .catch(erro => {
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
-                })
-                return 0
-            })
-
-            const pricingMundial: PricingPostApi = {
-                hub_id: unitaryHubId,
-                tray_product_id: 0,
-                cost: mundialPricing.cost_price,
-                profit: mundialPricing.profit,
-                price: mundialPricing.price,
-                promotional_price: mundialPricing.promotionalPrice,
-                start_promotion: mundialPricing.startPromotion,
-                end_promotion: mundialPricing.endPromotion,
-                stock: mundialPricing.stock,
-                main_category_id: unitaryDetails.main_category_id,
-                related_categories: unitaryDetails.related_categories,
-            }
+                if(props.offerUnitaryKit2.function == 'create'){
+                    
     
-            const pricingScpneus: PricingPostApi = {
-                hub_id: unitaryHubId,
-                tray_product_id: 0,
-                cost: scpneusPricing.cost_price,
-                profit: scpneusPricing.profit,
-                price: scpneusPricing.price,
-                promotional_price: scpneusPricing.promotionalPrice,
-                start_promotion: scpneusPricing.startPromotion,
-                end_promotion: scpneusPricing.endPromotion,
-                stock: scpneusPricing.stock,
-                main_category_id: unitaryDetails.main_category_id,
-                related_categories: unitaryDetails.related_categories,
+                    const submitDetails = api.post(
+                        '/products/create/unitary', {
+                            product: {...details, is_kit: 1}
+                        }
+                    )
+                    .then(response => {
+                        if(response.data.code == 201){
+                            setKit2Details({...kit2Details, hub_id: response.data.hub_id})
+                            return true
+                        } else {
+                            console.log(response.data.message)
+                            return response.data.message
+                        }
+                    })
+                    .catch(erro => {
+                        console.log(erro.response.data.message)
+                        return erro.response.data.message
+                    })
+    
+                    const submitPricing = api.post('/products/create/pricing/kit', {
+                        pricing: kit2PricingApi,
+                        kit_rules: kit2RulesApi,
+                        store_id: 668385
+                    })
+                    .then(response => {
+                        if(response.data.code == 201){
+                            return true
+                        } else {
+                            console.log(response.data.message)
+                            return response.data.message
+                        }
+                    })
+                    .catch(erro => {
+                        console.log(erro.response.data.message)
+                        return erro.response.data.message
+                    })
+    
+                    if(await submitDetails != true || await submitPricing != true){
+                        props.setOfferUnitaryKit2({...props.offerUnitaryKit2, success: false})
+                        if(await submitDetails != true){
+                            reject(submitDetails)
+                            return
+                        }
+                        if(await submitPricing != true){
+                            reject(submitPricing)
+                            return
+                        }
+                    } else {
+                        resolve()
+                        props.setOfferUnitaryKit2({...props.offerUnitaryKit2, success: true})
+                    }
+
+                    return
+                }
+
+                if(props.offerUnitaryKit2.function == 'edit'){
+
+                    const submitDetails = changedList.details? api.post(
+                        '/products/edit/unitary', {
+                            product: {...details, is_kit: 1}, hub_id: kit2Details.hub_id
+                        }
+                    )
+                    .then(response => {
+                        return true
+                    })
+                    .catch(erro => {
+                        console.log(erro.response.data.message)
+                        return erro.response.data.message
+                    }) 
+                    : true
+
+                    const submitPricing = changedList.pricing? api.post(
+                        '/products/edit/pricing/kit', {
+                            tray_pricing_id: kit2Details.tray_pricing_id,
+                            pricing: kit2PricingApi,
+                            rules: kit2RulesApi
+                        }
+                    ) 
+                    .then(response => {
+                        // props.setOfferUnitaryKit2({...props.offerUnitaryKit2, success: true})
+                        return true
+                    })
+                    .catch(erro => {
+                        console.log(erro.response.data.message)
+                        return erro.response.data.message
+                    }) 
+                    : true
+
+                    if(await submitDetails != true || await submitPricing != true){
+                        props.setOfferUnitaryKit2({...props.offerUnitaryKit2, success: false})
+                        if(await submitDetails != true){
+                            reject(submitDetails)
+                            return
+                        }
+                        if(await submitPricing != true){
+                            reject(submitPricing)
+                            return
+                        }
+                    } else {
+                        resolve()
+                        props.setOfferUnitaryKit2({...props.offerUnitaryKit2, success: true})
+                    }
+                }
+
+                resolve()
             }
 
-            const pricingMundialId = props.hubOffers[0].id > 0? props.hubOffers[0].id : api.post('/products/create/pricing', {
-                store_id: 668385,
-                pricing: pricingMundial
-            })
-            .then(response => {
-                hubOfferList = handleHubOfferList(hubOfferList, {
-                    ...props.hubOffers[0],
-                    id: response.data.pricing_id
-                })
-                return response.data.pricing_id as number
-            })
-            .catch(erro => {
-                hubOfferList = handleHubOfferList(hubOfferList, {
-                    ...props.hubOffers[0],
-                    id: 0
-                })
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
-                })
-                return 0
-            })
-
-
-            const pricingScpneusId = props.hubOffers[1].id > 0? props.hubOffers[1].id : api.post('/products/create/pricing', {
-                store_id: 1049898,
-                pricing: pricingScpneus
-            })
-            .then(response => {
-                hubOfferList = handleHubOfferList(hubOfferList, {
-                    ...props.hubOffers[1],
-                    id: response.data.pricing_id
-                })
-                return response.data.pricing_id as number
-            })
-            .catch(erro => {
-                hubOfferList = handleHubOfferList(hubOfferList, {
-                    ...props.hubOffers[1],
-                    id: 0
-                })
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
-                })
-                return 0
-            })
-
-            const pricingKit2: PricingPostApi = {
-                ...pricingMundial,
-                hub_id: await kit2HubId,
-                tray_product_id: 0,
-            }
-
-            const rulesKit2: KitRulesPostApi = {
-                ...kit2Rules,
-                tray_product_id: 0
-            }
-
-            const kit2PricingRulesId = props.hubOffers[2].id > 0 || !props.hubOffers[2].create ? props.hubOffers[2].id : api.post('/products/create/pricing/kit', {
-                store_id: 668385,
-                pricing: pricingKit2,
-                kit_rules: rulesKit2
-            })
-            .then(response => {
-                hubOfferList = handleHubOfferList(hubOfferList, {
-                    ...props.hubOffers[2],
-                    id: response.data.pricing_id
-                })
-                return response.data.pricing_id as number
-            })
-            .catch(erro => {
-                hubOfferList = handleHubOfferList(hubOfferList, {
-                    ...props.hubOffers[2],
-                    id: 0
-                })
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
-                })
-                return 0
-            })
-
-            const pricingKit4: PricingPostApi = {
-                ...pricingMundial,
-                hub_id: await kit4HubId,
-                tray_product_id: 0,
-            }
-
-            const rulesKit4: KitRulesPostApi = {
-                ...kit4Rules,
-                tray_product_id: 0
-            }
-
-            const kit4PricingRulesId = props.hubOffers[3].id > 0 || !props.hubOffers[3].create ? props.hubOffers[3].id : api.post('/products/create/pricing/kit', {
-                store_id: 668385,
-                pricing: pricingKit4,
-                kit_rules: rulesKit4
-            })
-            .then(response => {
-                hubOfferList = handleHubOfferList(hubOfferList, {
-                    ...props.hubOffers[3],
-                    id: response.data.pricing_id
-                })
-                return response.data.pricing_id as number
-            })
-            .catch(erro => {
-                hubOfferList = handleHubOfferList(hubOfferList, {
-                    ...props.hubOffers[3],
-                    id: 0
-                })
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
-                })
-                return 0
-            })
-
-            resolve({
-                unitaryHubId: unitaryHubId,
-                kit2HubId: await kit2HubId,
-                kit4HubId: await kit4HubId,
-                mundialPricinglId: await pricingMundialId,
-                scpneusPricingId: await pricingScpneusId,
-                kit2PricingId: await kit2PricingRulesId,
-                kit4PricingId: await kit4PricingRulesId,
-                offerList: hubOfferList
-            })
         })
     }
 
-    async function createTray(hubIds: CreateHubResponse): Promise<CreateTrayResponse>{
-        return new Promise(async(resolve) => {
+    async function submitKit4(): Promise<void>{
+        return new Promise(async(resolve, reject) => {
 
-            const unitary: UnitaryPostApi = {
-                is_kit: 0,
-                product_name: unitaryDetails.name,
-                description: unitaryDetails.description,
+            if(props.offerUnitaryKit4.function == 'delete'){
+
+                submitApi('delete', '/products/delete/kit',{
+                    hub_id: kit4Details.hub_id
+                }, false)
+                .then(() => resolve())
+                .catch(erro => {
+                    console.log(erro.response.data.message)
+                    reject(erro.response.data.message)
+                })
+                return
+            } else {
+                const details: IDetailsInput = {
+                    ean: unitaryDetails.ean,
+                    ncm: unitaryDetails.ncm,
+                    product_name: kit4Details.name,
+                    description: kit4Details.description,
+                    brand: unitaryDetails.brand,
+                    model: unitaryDetails.model,
+                    weight: unitaryDetails.weight*4,
+                    length: unitaryDetails.length,
+                    width: unitaryDetails.width*4,
+                    height: unitaryDetails.height,
+                    main_category_id: unitaryDetails.main_category_id,
+                    related_categories: [...unitaryDetails.related_categories, 520, 540],
+                    available: unitaryDetails.available,
+                    availability: unitaryDetails.availability,
+                    availabilityDays: unitaryDetails.availability_days,
+                    reference: unitaryDetails.reference,
+                    images: kit4Details.images,
+                    warranty: unitaryDetails.warranty,
+                    comments: unitaryDetails.comments,
+                }
+
+                const kit4PricingApi: IPricingInput = {
+                    cost: mundialPricing.cost_price,
+                    profit: mundialPricing.profit,
+                    price: mundialPricing.price,
+                    hub_id: kit4Details.hub_id,
+                    promotional_price: mundialPricing.promotionalPrice,
+                    start_promotion: mundialPricing.startPromotion,
+                    end_promotion: mundialPricing.endPromotion,
+                    stock: mundialPricing.stock,
+                    main_category_id: unitaryDetails.main_category_id,
+                    related_categories: [...unitaryDetails.related_categories, 520, 540]
+                }
+                
+                const kit4RulesApi: IRulesInput = {
+                    quantity: kit4Rules.quantity,
+                    discount_type: kit4Rules.discount_type,
+                    discount_value: kit4Rules.discount_value,
+                    price_rule: kit4Rules.price_rule,
+                }
+
+                if(props.offerUnitaryKit4.function == 'create'){
+             
+                    const submitDetails = api.post(
+                        '/products/create/unitary', {
+                            product: {...details, is_kit: 1}
+                        }
+                    )
+                    .then(response => {
+                        if(response.data.code == 201){
+                            setKit4Details({...kit4Details})
+                            return true
+                        } else {
+                            console.log(response.data.message)
+                            return response.data.message
+                        }
+                    })
+                    .catch(erro => {
+                        console.log(erro.response.data.message)
+                        return erro.response.data.message
+                    })
+    
+                    const submitPricing = api.post('/products/create/pricing/kit', {
+                        pricing: kit4PricingApi,
+                        kit_rules: kit4RulesApi,
+                        store_id: 668385
+                    })
+                    .then(response => {
+                        if(response.data.code == 201){
+                            return true
+                        } else {
+                            console.log(response.data.message)
+                            return response.data.message
+                        }
+                    })
+                    .catch(erro => {
+                        console.log(erro.response.data.message)
+                        return erro.response.data.message
+                    })
+    
+                    if(await submitDetails != true || await submitPricing != true){
+                        props.setOfferUnitaryKit4({...props.offerUnitaryKit4, success: false})
+                        if(await submitDetails != true){
+                            reject(submitDetails)
+                            return
+                        }
+                        if(await submitPricing != true){
+                            reject(submitPricing)
+                            return
+                        }
+                    } else {
+                        props.setOfferUnitaryKit4({...props.offerUnitaryKit4, success: true})
+                        resolve()
+                    }
+                }
+
+                if(props.offerUnitaryKit4.function == 'edit'){
+
+                    const submitDetails = changedList.details? api.post(
+                        '/products/edit/unitary', {
+                            product: {...details, is_kit: 1}, hub_id: kit4Details.hub_id
+                        }
+                    )
+                    .then(response => {
+                        return true
+                    })
+                    .catch(erro => {
+                        console.log(erro.response.data.message)
+                        return erro.response.data.message
+                    }) 
+                    : true
+
+                    const submitPricing = changedList.pricing? api.post(
+                        '/products/edit/pricing/kit', {
+                            tray_pricing_id: kit4Details.tray_pricing_id,
+                            pricing: kit4PricingApi,
+                            rules: kit4RulesApi
+                        }
+                    ) 
+                    .then(response => {
+                        // props.setOfferUnitaryKit4({...props.offerUnitaryKit4, success: true})
+                        return true
+                    })
+                    .catch(erro => {
+                        console.log(erro.response.data.message)
+                        return erro.response.data.message
+                    }) 
+                    : true
+
+                    if(await submitDetails != true || await submitPricing != true){
+                        props.setOfferUnitaryKit4({...props.offerUnitaryKit4, success: false})
+                        if(await submitDetails != true){
+                            reject(submitDetails)
+                            return
+                        }
+                        if(await submitPricing != true){
+                            reject(submitPricing)
+                            return
+                        }
+                    } else {
+                        resolve()
+                        props.setOfferUnitaryKit4({...props.offerUnitaryKit4, success: true})
+                    }
+                }
+
+                resolve()
+            }
+
+        })
+    }
+
+    async function submitTray(): Promise<void>{
+        return new Promise(async(resolve, reject) => {
+
+            var getTrayErrors = false
+
+            const unitaryMundialTray = submitUnitaryTray(props.offerUnitaryMundialTray, mundialPricing)
+            .then(response => {
+                props.setOfferUnitaryMundialTray({...props.offerUnitaryMundialTray, success: true})
+                return true
+            })
+            .catch(erro => {
+                props.setOfferUnitaryMundialTray({...props.offerUnitaryMundialTray, success: false})
+                setAddAlert({
+                    alertType: 'error',
+                    message: JSON.stringify(erro),
+                    milliseconds: 2000,
+                })
+                getTrayErrors = true
+                return false
+            })
+
+            const unitaryScpneusTray = submitUnitaryTray(props.offerUnitaryScpneusTray, scpneusPricing)
+            .then(response => {
+                props.setOfferUnitaryScpneusTray({...props.offerUnitaryScpneusTray, success: true})
+                return true
+            })
+            .catch(erro => {
+                props.setOfferUnitaryScpneusTray({...props.offerUnitaryScpneusTray, success: false})
+                setAddAlert({
+                    alertType: 'error',
+                    message: JSON.stringify(erro),
+                    milliseconds: 2000,
+                })
+                getTrayErrors = true
+                return false
+            })
+
+        })
+    }
+    
+    async function submitUnitaryTray(unitaryOffer: Offer, pricing: IPricing): Promise<void>{
+        return new Promise(async(resolve, reject) => {
+
+            const unitary: IDetailsInput = {
                 ean: unitaryDetails.ean,
                 ncm: unitaryDetails.ncm,
+                product_name: unitaryDetails.name,
+                description: unitaryDetails.description,
                 brand: unitaryDetails.brand,
                 model: unitaryDetails.model,
                 weight: unitaryDetails.weight,
@@ -481,263 +659,117 @@ export default function SaveFunction(props: Props){
                 height: unitaryDetails.height,
                 main_category_id: unitaryDetails.main_category_id,
                 related_categories: unitaryDetails.related_categories,
-                release_date: new Date(),
                 available: unitaryDetails.available,
                 availability: unitaryDetails.availability,
-                availability_days: unitaryDetails.availability_days,
+                availabilityDays: unitaryDetails.availability_days,
                 reference: unitaryDetails.reference,
                 images: unitaryDetails.images,
                 warranty: unitaryDetails.warranty,
                 comments: unitaryDetails.comments,
             }
 
-            const kit2: UnitaryPostApi = {
-                is_kit: 1,
-                product_name: kit2Details.name,
-                description: kit2Details.description,
-                ean: unitaryDetails.ean,
-                ncm: unitaryDetails.ncm,
-                brand: unitaryDetails.brand,
-                model: unitaryDetails.model,
-                weight: unitaryDetails.weight*2,
-                length: unitaryDetails.length,
-                width: unitaryDetails.width*2,
-                height: unitaryDetails.height,
+            const pricingApi: IPricingInput = {
+                cost: pricing.cost_price,
+                profit: pricing.profit,
+                price: pricing.price,
+                hub_id: unitaryDetails.hub_id,
+                promotional_price: pricing.promotionalPrice,
+                start_promotion: pricing.startPromotion,
+                end_promotion: pricing.endPromotion,
+                stock: pricing.stock,
                 main_category_id: unitaryDetails.main_category_id,
-                related_categories: [...unitaryDetails.related_categories, 520, 581],
-                release_date: new Date(),
-                available: unitaryDetails.available,
-                availability: unitaryDetails.availability,
-                availability_days: unitaryDetails.availability_days,
-                reference: unitaryDetails.reference,
-                images: kit2Details.images,
-                warranty: unitaryDetails.warranty,
-                comments: unitaryDetails.comments,
+                related_categories: unitaryDetails.related_categories
             }
 
-            const kit4: UnitaryPostApi = {
-                is_kit: 1,
-                product_name: kit4Details.name,
-                description: kit4Details.description,
-                ean: unitaryDetails.ean,
-                ncm: unitaryDetails.ncm,
-                brand: unitaryDetails.brand,
-                model: unitaryDetails.model,
-                weight: unitaryDetails.weight*4,
-                length: unitaryDetails.length,
-                width: unitaryDetails.width*4,
-                height: unitaryDetails.height,
-                main_category_id: unitaryDetails.main_category_id,
-                related_categories: [...unitaryDetails.related_categories, 520, 540],
-                release_date: new Date(),
-                available: unitaryDetails.available,
-                availability: unitaryDetails.availability,
-                availability_days: unitaryDetails.availability_days,
-                reference: unitaryDetails.reference,
-                images: kit4Details.images,
-                warranty: unitaryDetails.warranty,
-                comments: unitaryDetails.comments,
+            const storeId = unitaryOffer.store == 'mundial'? 668385 : 1049898
+
+            if(unitaryOffer.function == 'delete'){
+
+                api.post('/products/delete/unitary-tray', {
+                    reference: unitaryDetails.reference,
+                    store_id: storeId
+                })
+                .then(response => {
+                    resolve()
+                })
+                .catch(erro => {
+                    reject(erro)
+                    return
+                })
             }
 
-            var trayOfferList = props.trayOffers
+            if(unitaryOffer.function == 'create') {
+                
+                api.post('/products/create/unitary-tray', {
+                    product: unitary,
+                    pricing: pricingApi,
+                    tray_pricing_id: pricing.tray_pricing_id,
+                    store_id: storeId
+                })
+                .then(response => {
+                    const trayId = response.data.tray_id
+                    if(unitaryOffer.store == 'mundial'){
+                        setMundialPricing({
+                            ...mundialPricing,
+                            tray_pricing_id: trayId
+                        })
+                    }
+                    if(unitaryOffer.store == 'scpneus'){
+                        setScpneusPricing({
+                            ...scpneusPricing,
+                            tray_pricing_id: trayId
+                        })
+                    }
+                    resolve()
+                })
+                .catch(erro => {
+                    reject(erro)
+                    return
+                })
 
-            const pricingMundial: PricingPostApi = {
-                hub_id: hubIds.unitaryHubId,
-                tray_product_id: 0,
-                cost: mundialPricing.cost_price,
-                profit: mundialPricing.profit,
-                price: mundialPricing.price,
-                promotional_price: mundialPricing.promotionalPrice,
-                start_promotion: mundialPricing.startPromotion,
-                end_promotion: mundialPricing.endPromotion,
-                stock: mundialPricing.stock,
-                main_category_id: unitaryDetails.main_category_id,
-                related_categories: unitaryDetails.related_categories,
-            }
-    
-            const pricingScpneus: PricingPostApi = {
-                hub_id: hubIds.unitaryHubId,
-                tray_product_id: 0,
-                cost: scpneusPricing.cost_price,
-                profit: scpneusPricing.profit,
-                price: scpneusPricing.price,
-                promotional_price: scpneusPricing.promotionalPrice,
-                start_promotion: scpneusPricing.startPromotion,
-                end_promotion: scpneusPricing.endPromotion,
-                stock: scpneusPricing.stock,
-                main_category_id: unitaryDetails.main_category_id,
-                related_categories: unitaryDetails.related_categories,
-            }
-
-            const unitaryMundialTrayId = props.trayOffers[0].id > 0 || !props.trayOffers[0].create? props.trayOffers[0].id: api.post('/products/create/unitary-tray', {
-                product: unitary,
-                pricing: pricingMundial,
-                tray_pricing_id: hubIds.mundialPricinglId,
-                store_id: 668385
-            })
-            .then(response => {
-                trayOfferList = handleTrayOfferList(trayOfferList, {
-                    ...props.trayOffers[0],
-                    id: response.data.tray_id
-                })
-                return response.data.tray_id as number
-            })
-            .catch(erro => {
-                trayOfferList = handleTrayOfferList(trayOfferList, {
-                    ...props.trayOffers[0],
-                    id: 0
-                })
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
-                })
-                return 0
-            })
-
-            const unitaryScpneusTrayId = props.trayOffers[1].id > 0 || !props.trayOffers[1].create? props.trayOffers[1].id: api.post('/products/create/unitary-tray', {
-                product: unitary,
-                pricing: pricingScpneus,
-                tray_pricing_id: hubIds.scpneusPricingId,
-                store_id: 1049898
-            })
-            .then(response => {
-                console.log(response.data)
-                trayOfferList = handleTrayOfferList(trayOfferList, {
-                    ...props.trayOffers[1],
-                    id: response.data.tray_id
-                })
-                return response.data.tray_id as number
-            })
-            .catch(erro => {
-                console.log(erro.response.data)
-                trayOfferList = handleTrayOfferList(trayOfferList, {
-                    ...props.trayOffers[1],
-                    id: 0
-                })
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
-                })
-                return 0
-            })
-
-            const kit2RulesTray = {
-                ...kit2Rules,
-                tray_product_id: await unitaryMundialTrayId
             }
 
-            const kit2MundialTrayId = props.trayOffers[2].id > 0 || !props.trayOffers[2].create? props.trayOffers[2].id: await api.post('/products/create/kit-tray', {
-                product: kit2,
-                pricing: {...pricingMundial, related_categories: kit2.related_categories},
-                rules: kit2RulesTray,
-                tray_pricing_id: hubIds.kit2PricingId,
-                store_id: 668385
-            })
-            .then(response => {
-                trayOfferList = handleTrayOfferList(trayOfferList, {
-                    ...props.trayOffers[2],
-                    id: response.data.tray_id
-                })
-                return response.data.pricing_id as number
-            })
-            .catch(erro => {
-                trayOfferList = handleTrayOfferList(trayOfferList, {
-                    ...props.trayOffers[2],
-                    id: 0
-                })
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
-                })
-                return 0
-            })
+            if(unitaryOffer.function == 'edit'){
 
-            await sleep(300)
-
-            const kit4RulesTray = {
-                ...kit4Rules,
-                tray_product_id: await unitaryMundialTrayId
-            }
-
-            const kit4MundialTrayId = props.trayOffers[3].id > 0 || !props.trayOffers[3].create? props.trayOffers[3].id: await api.post('/products/create/kit-tray', {
-                product: kit4,
-                pricing: {...pricingMundial, related_categories: kit4.related_categories},
-                rules: kit4RulesTray,
-                tray_pricing_id: hubIds.kit4PricingId,
-                store_id: 668385
-            })
-            .then(response => {
-                trayOfferList = handleTrayOfferList(trayOfferList, {
-                    ...props.trayOffers[3],
-                    id: response.data.tray_id
+                api.post('/products/edit/unitary-tray', {
+                    details: unitary,
+                    pricing: pricingApi,
+                    tray_id: pricing.tray_pricing_id,
+                    store_id: storeId
                 })
-                return response.data.pricing_id as number
-            })
-            .catch(erro => {
-                trayOfferList = handleTrayOfferList(trayOfferList, {
-                    ...props.trayOffers[3],
-                    id: 0
+                .then(response => {
+                    resolve()
                 })
-                setAddAlert({
-                    alertType: 'error',
-                    message: erro.response.data.message,
-                    milliseconds: 3000
+                .catch(erro => {
+                    
+                    reject(erro)
+                    return
                 })
-                return 0
-            })
 
-            resolve({
-                mundialTrayId: await unitaryMundialTrayId,
-                scpneusTrayId: await unitaryScpneusTrayId,
-                kit2MundialTrayId: await kit2MundialTrayId,
-                kit4MundialTrayId: await kit4MundialTrayId,
-                offerList: trayOfferList
-            })
-
-            async function sleep(ms: number): Promise<void>{
-                return new Promise(resolve=> {
-                    setTimeout(() => {
-                        resolve()
-                    }, ms)
-                })
             }
         })
     }
 
-    function handleHubOfferList(list: Offer[], newOffer: Offer){
+    async function submitApi(handlerFunction: string, apiPath: string, data: any, getResponse: boolean )
+    : Promise<any>{
+        return new Promise(async(resolve, reject) => {
 
-        const newList = list.map(offer => {
-            if(offer.name == newOffer.name && offer.store == newOffer.store){
-                return newOffer
-            } else {
-                return {
-                    ...offer,
-                }
+            const method = handlerFunction == 'delete'? 'delete' : 'post' 
+
+            const config: AxiosRequestConfig = {
+                url: apiPath,
+                method: method,
+                data: data
             }
-        })
 
-        props.setHubOffers(newList)
-        return newList
+            api(config)
+            .then(response => {
+                resolve(response.data)
+            })
+            .catch(erro => {
+                reject(erro.response.data)
+            })
+        })
     }
 
-    function handleTrayOfferList(list: Offer[], newOffer: Offer){
-
-        const newList = list.map(offer => {
-            if(offer.name == newOffer.name && offer.store == newOffer.store){
-                return newOffer
-            } else {
-                return {
-                    ...offer,
-                }
-            }
-        })
-
-        props.setTrayOffers(newList)
-        return newList
-    }
-
-    return (<></>)
 }

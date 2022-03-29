@@ -14,6 +14,7 @@ type Props = {
     offer: Offer
     setOffer(offer: Offer): void;
     creating: boolean;
+    created: boolean;
 }
 
 type ContainerStyle = {
@@ -94,12 +95,54 @@ export default function OfferContainer(props: Props){
 
     }, [props.offer.id])
 
+    function apiLoadingStyle(offer: Offer){
+        if((props.creating && offer.function != null) || props.created){
+            if(offer.success == false){
+                return (
+                    <span className="material-icons-round"
+                    id={styles.successIcon}
+                    style={{ color: '#E83C3C' }}
+                    >
+                        highlight_off
+                    </span>
+                )
+            }
+
+            if(offer.success == null){
+                return (
+                    <span
+                    className="material-icons-round"
+                    id={styles.loadingIcon}
+                    >
+                        autorenew
+                    </span>
+                )
+            }
+
+            if(offer.success){
+                return (
+                    <span className="material-icons-round"
+                    id={styles.successIcon}
+                    style={{ color: '#00D848' }}
+                    >
+                        task_alt
+                    </span>
+                )
+            }
+
+
+        } else {
+            return <></>
+        }
+    }
+
     return (
         <div
         className={styles.wrapper}
         style={{...containerStyle, cursor: `${props.offer.lock? 'default' : 'pointer' }`}}
         >
             <span
+            key={0}
             className={styles.name}
             style={{ color: `${containerStyle.color}` }}
             >
@@ -108,15 +151,19 @@ export default function OfferContainer(props: Props){
             <div
             className={styles.functionSelector}
             >
-                {functionList.map(offerFunction => {
+                {functionList.map((offerFunction, index) => {
                     return (
                         <span
+                        key={index}
                         style={{
                             color: `${props.offer.function == offerFunction.name?
                                 'var(--complementar-text)' : 'var(--gray-line)'}`,
                             cursor: `${props.offer.lock? 'default' : 'pointer' }`
                         }}
                         onClick={() => {
+                            if(props.offer.lock){
+                                return
+                            }
                             if(props.offer.function == offerFunction.name){
                                 props.setOffer({
                                     ...props.offer, function: null
@@ -136,7 +183,7 @@ export default function OfferContainer(props: Props){
             <div
             className={styles.result}
             >
-                resultado
+                {apiLoadingStyle(props.offer)}
             </div>
         </div>
     )

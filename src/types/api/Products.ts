@@ -1,4 +1,4 @@
-interface IDetailsInput {
+export interface IDetailsInput {
     ean: string;
     ncm: string;
     product_name: string;
