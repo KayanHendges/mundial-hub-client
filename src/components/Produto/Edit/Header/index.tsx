@@ -55,7 +55,7 @@ export default function Header(props: HeaderProps) {
                         display: `${unitaryDetails.hub_id == null? 'none' : 'flex' }`,
                     }}
                     >
-                        {/* {props.title} */} kit2 {kit2Details.tray_pricing_id} kit4 {kit4Details.tray_pricing_id}
+                        {props.title}
                     </span>
                     <span
                     className={styles.placeholding}
