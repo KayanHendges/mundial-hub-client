@@ -180,6 +180,9 @@ export default function OffersPopUp(props: Props){
     })
 
     useEffect(() => {
+        if(creating){
+            return
+        }
         if(unitaryDetails.hub_id != null){
             setOfferUnitaryMundial({...offerUnitaryMundial, id: unitaryDetails.hub_id})
             setOfferUnitaryScpneus({...offerUnitaryScpneus, id: unitaryDetails.hub_id})            
@@ -188,6 +191,9 @@ export default function OffersPopUp(props: Props){
     }, [unitaryDetails.hub_id])
 
     useEffect(() => {
+        if(creating){
+            return
+        }
         if(kit2Details.hub_id > 0){
             setOfferKit2Mundial({
                 ...offerKit2Mundial,
@@ -204,6 +210,9 @@ export default function OffersPopUp(props: Props){
     }, [kit2Details.hub_id])
 
     useEffect(() => {
+        if(creating){
+            return
+        }
         if(kit4Details.hub_id > 0){
             setOfferKit4Mundial({
                 ...offerKit4Mundial,
@@ -220,6 +229,9 @@ export default function OffersPopUp(props: Props){
     }, [kit4Details.hub_id])
 
     useEffect(() => {
+        if(creating){
+            return
+        }
         if(mundialPricing.tray_product_id > 0){
             setOfferUnitaryMundialTray({
                 ...offerUnitaryMundialTray,
@@ -252,6 +264,9 @@ export default function OffersPopUp(props: Props){
     }, [scpneusPricing.tray_product_id])
 
     useEffect(() => {
+        if(creating){
+            return
+        }
         if(kit2Details.tray_product_id > 0){
             setOfferKit2MundialTray({
                 ...offerKit2MundialTray,
@@ -268,6 +283,9 @@ export default function OffersPopUp(props: Props){
     }, [kit2Details.tray_product_id])
 
     useEffect(() => {
+        if(creating){
+            return
+        }
         if(kit4Details.tray_product_id > 0){
             setOfferKit4MundialTray({
                 ...offerKit4MundialTray,
@@ -297,7 +315,9 @@ export default function OffersPopUp(props: Props){
     }, [submit])
  
     useEffect(() => {
-
+        if(creating){
+            return
+        }
         if(offerUnitaryMundialTray.function == 'delete' && unitaryDetails.hub_id != null){
             setOfferKit2MundialTray({
                 ...offerKit2MundialTray,
@@ -328,6 +348,9 @@ export default function OffersPopUp(props: Props){
     }, [offerUnitaryMundialTray.function])
 
     useEffect(() => {
+        if(creating){
+            return
+        }
         if(offerKit2Mundial.function == 'delete' && kit2Details.hub_id != undefined){
             setOfferKit2MundialTray({
                 ...offerKit2MundialTray,
@@ -345,6 +368,9 @@ export default function OffersPopUp(props: Props){
     }, [offerKit2Mundial.function])
 
     useEffect(() => {
+        if(creating){
+            return
+        }
         if(offerKit4Mundial.function == 'delete' && kit4Details.hub_id != undefined){
             setOfferKit4MundialTray({
                 ...offerKit4MundialTray,

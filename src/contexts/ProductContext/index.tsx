@@ -284,7 +284,7 @@ export function ProductProvider ({ children })  {
         kit2Details.images[0].imageUrl,
         kit4Details.images[0].imageUrl
     ])
-    
+
     async function getData(){
         return new Promise(async(resolve) => {
 
@@ -341,10 +341,10 @@ export function ProductProvider ({ children })  {
                             endPromotion: parseISO(pricing.end_promotion),
                             modified: pricing.modified,
                         })
+
                         gotMundialPricing = true
                     }
                     if(pricing.tray_store_id == 1049898){
-                        console.log(pricing.tray_product_id)
                         setScpneusPricing({
                             tray_pricing_id: pricing.tray_pricing_id,
                             tray_product_id: pricing.tray_product_id,
@@ -362,6 +362,7 @@ export function ProductProvider ({ children })  {
                 })
 
                 if(!gotMundialPricing){
+                    console.log('bao')
                     setMundialPricing({...mundialPricing, tray_pricing_id: 0})
                 }
 

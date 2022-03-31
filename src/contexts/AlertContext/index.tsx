@@ -22,9 +22,7 @@ export function AlertProvider ({ children })  {
 
     useEffect(() => {
 
-        console.log(alert, addAlert)
         if(alert == null && addAlert){
-            console.log('passou')
             setAlert(addAlert)
             setAddAlert(null)
         }

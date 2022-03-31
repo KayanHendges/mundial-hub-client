@@ -30,13 +30,13 @@ type OfferFunction = {
 
 export default function OfferContainer(props: Props){
 
-    const selectedContainerStyle = {
+    const selectedContainerStyle: ContainerStyle = {
         backgroundColor: 'var(--gray-5)',
         color: 'var(--complementar-text)',
         border: '1px solid transparent'
     }
 
-    const deselectedContainerStyle = {
+    const deselectedContainerStyle: ContainerStyle = {
         backgroundColor: 'var(--gray-3)',
         color: 'var(--complementar-text)',
         border: '1px solid transparent'
@@ -96,7 +96,10 @@ export default function OfferContainer(props: Props){
     }, [props.offer.id])
 
     function apiLoadingStyle(offer: Offer){
-        if((props.creating && offer.function != null) || props.created){
+        if(offer.function == null){
+            return <></>
+        }
+        if(props.creating || props.created){
             if(offer.success == false){
                 return (
                     <span className="material-icons-round"

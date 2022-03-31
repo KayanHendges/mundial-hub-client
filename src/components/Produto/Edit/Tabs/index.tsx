@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ProductContext } from '../../../../contexts/ProductContext'
 import AdditionalData from './AdditionalData'
 import Categories from './Categories'
@@ -51,9 +51,15 @@ export default function Tabs(){
         }
     }
 
+    useEffect(() => {
+        const wrapper = window.document.getElementById('wrapper')
+        wrapper.scrollTo(0, 0)
+    }, [selectedTab])
+
     return (
         <div
         className={styles.wrapper}
+        id='wrapper'
         >
             <div
             className={styles.carousel}
