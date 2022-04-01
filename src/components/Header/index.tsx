@@ -1,7 +1,10 @@
+import axios from 'axios';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
+import sleep from '../../services/sleep';
+import RectangularPlaceholder from '../Placeholders/Rectangular';
 import PopUpVideo from '../PopUpVideo';
 import styles from './styles.module.scss';
 
@@ -10,7 +13,12 @@ export default function Header() {
     const { user } = useContext(AuthContext)
     const [ trayRequests, setTrayRequests ] = useState({
         label: ``,
-        request: false
+        request: null
+    })
+
+    const [ trayProducts, setTrayProducts ] = useState({
+        label: null,
+        request: null,
     })
 
     const [ dropDownStyle, setDropDownStyle ] = useState({
@@ -87,21 +95,72 @@ export default function Header() {
     }
 
     function requestCount(){
-        if(!trayRequests.request){
-            api.get('/users/tray-requests')
-            .then(response => {
-                if(response.data.code == 200){
-                    setTrayRequests({
-                        label: `${response.data.requests} requisições`,
-                        request: true
-                    })
-                } else {
-                    console.log(response.data)
-                }
+        setTrayRequests({...trayRequests, request: null})
+        api.get('/users/tray-requests')
+        .then(response => {
+            setTrayRequests({
+                label: `${response.data.requests} requisições`,
+                request: true
             })
+        })
+        .catch(erro => {
+            console.log(erro.response.data)
+            setTrayRequests({
+                ...trayRequests,
+                label: 'erro ao procurar requisições na tray',
+                request: false,
+            })
+        })
+    }
+
+    function trayProductsCount(){
+        setTrayProducts({...trayProducts, request: null})
+        api.get('/users/tray-products?store_id=668385')
+        .then(response => {
+            const totalProducts = response.data.products.total
+            setTrayProducts({
+                ...trayProducts,
+                label: `${totalProducts} produtos na tray`,
+                request: true
+            })
+        })
+        .catch(erro => {
+            console.log(erro.response.data)
+            setTrayProducts({
+                ...trayProducts,
+                label: 'erro ao procurar produtos na tray',
+                request: false,
+            })
+        })
+    }
+
+    function handleRequests(){
+
+        if(trayRequests.request == null){
+            requestCount()
+        }
+
+        if(trayProducts.request == null){
+            trayProductsCount()
         }
 
     }
+
+    function keyPressVideo(e: KeyboardEvent){
+        if(e.key == 'v'){
+            setPopUpVideo(!popUpVideo)
+        }
+    }
+
+    useEffect(() => {
+        
+        if(dropDownStyle.active){
+            window.addEventListener('keypress', keyPressVideo, true)
+            return () => window.removeEventListener('keypress', keyPressVideo, true)
+        }
+
+    }, [dropDownStyle.active])
+
 
     const [ popUpVideo, setPopUpVideo ] = useState<boolean>(false)
 
@@ -124,7 +183,7 @@ export default function Header() {
                 onClick={() => handleDropDown(!dropDownStyle.active)}
                 onMouseEnter={() => {
                     handleUserContainer(true)
-                    requestCount()
+                    handleRequests()
                 }}
                 onMouseLeave={() => handleUserContainer(false)}
                 >
@@ -150,6 +209,9 @@ export default function Header() {
                 >
                     <div
                     className={styles.itemContainer}
+                    onClick={() => {
+                        requestCount()
+                    }}
                     >
                         <span 
                         className="material-icons-round"
@@ -159,25 +221,37 @@ export default function Header() {
                         </span>
                         <span
                         className={styles.itemTitle}
+                        style={{ display: `${trayRequests.request != null? 'flex' : 'none'}` }}
                         >
                             {trayRequests.label}
                         </span>
+                        <RectangularPlaceholder 
+                        display={trayRequests.request == null? 'flex' : 'none'}
+                        height='1.1rem'
+                        />
                     </div>
                     <div
                     className={styles.itemContainer}
-                    onClick={() => setPopUpVideo(!popUpVideo)}
+                    onClick={() => {
+                        trayProductsCount()
+                    }}
                     >
                         <span 
-                        className="material-icons-round"
+                        className="material-icons-outlined"
                         id={styles.itemIcon}
                         >
-                            featured_video
+                            sell
                         </span>
                         <span
                         className={styles.itemTitle}
+                        style={{ display: `${trayProducts.request != null? 'flex' : 'none'}` }}
                         >
-                            {`janela de video`}
+                            {trayProducts.label}
                         </span>
+                        <RectangularPlaceholder 
+                        display={trayProducts.request == null? 'flex' : 'none'}
+                        height='1.1rem'
+                        />
                     </div>
                 </div>
             </div>
