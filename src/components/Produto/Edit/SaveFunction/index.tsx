@@ -774,6 +774,7 @@ export default function SaveFunction(props: Props){
 
             if(unitaryOffer.function == 'delete'){
 
+                console.log('entoru no delete')
                 api.post('/products/delete/unitary-tray', {
                     reference: unitaryDetails.reference,
                     store_id: storeId
@@ -797,7 +798,9 @@ export default function SaveFunction(props: Props){
                 })
                 .then(response => {
                     const trayId = response.data.tray_id
+                    console.log('criado', trayId)
                     if(unitaryOffer.store == 'mundial'){
+                        console.log('aplicado na mundial', trayId)
                         setMundialPricing({
                             ...mundialPricing,
                             tray_product_id: trayId
@@ -904,13 +907,17 @@ export default function SaveFunction(props: Props){
 
             if(props.offerUnitaryKit2Tray.function == 'create'){
 
-                api.post('/products/create/kit-tray', {
+                const product = {
                     product: {...details, is_kit: 1},
                     pricing: kit2PricingApi,
                     rules: {...kit2RulesApi, tray_product_id: mundialPricing.tray_product_id},
                     tray_pricing_id: kit2Details.tray_pricing_id,
                     store_id: storeId
-               })
+                }
+
+                console.log(product)
+
+                api.post('/products/create/kit-tray', product)
                .then(response => {
                 resolve()
                 })

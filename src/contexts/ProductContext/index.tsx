@@ -285,6 +285,10 @@ export function ProductProvider ({ children })  {
         kit4Details.images[0].imageUrl
     ])
 
+    useEffect(() => {
+        console.log(mundialPricing.tray_product_id)
+    }, [mundialPricing.tray_product_id])
+
     async function getData(){
         return new Promise(async(resolve) => {
 
