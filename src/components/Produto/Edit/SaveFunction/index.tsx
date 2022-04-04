@@ -6,7 +6,6 @@ import { ProductContext } from "../../../../contexts/ProductContext"
 import { api } from "../../../../services/api"
 import { IDetailsInput, IProductInput } from "../../../../types/api/Products"
 import { IPricing } from "../../../../contexts/ProductContext"
-import sleep from "../../../../services/sleep"
 
 interface IPricingInput {
     cost: number,
@@ -699,7 +698,7 @@ export default function SaveFunction(props: Props){
                 return false
             })
 
-            const kit4Tray = submitKit4Tray()
+            const kit4Tray = await submitKit4Tray()
             .then(response => {
                 props.setOfferUnitaryKit4Tray({...props.offerUnitaryKit4Tray, success: true})
                 return true
