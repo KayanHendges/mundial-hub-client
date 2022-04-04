@@ -6,6 +6,7 @@ import { ProductContext } from "../../../../contexts/ProductContext"
 import { api } from "../../../../services/api"
 import { IDetailsInput, IProductInput } from "../../../../types/api/Products"
 import { IPricing } from "../../../../contexts/ProductContext"
+import sleep from "../../../../services/sleep"
 
 interface IPricingInput {
     cost: number,
@@ -682,7 +683,7 @@ export default function SaveFunction(props: Props){
                 return
             }
 
-            const kit2Tray = submitKit2Tray()
+            const kit2Tray = await submitKit2Tray()
             .then(response => {
                 props.setOfferUnitaryKit2Tray({...props.offerUnitaryKit2Tray, success: true})
                 return true
@@ -715,14 +716,9 @@ export default function SaveFunction(props: Props){
                 return false
             })
 
-            const kits = await Promise.all([kit2Tray, kit4Tray])
-            .then(response => {
-                return true
-            })
-            .catch(erro => {
-                reject(erro.response.data.message)
-                return false
-            })
+            if(await kit2Tray == false && await kit4Tray == false){
+                reject()
+            }
 
             if (!getTrayErrors){
                 resolve()

@@ -287,7 +287,7 @@ export function ProductProvider ({ children })  {
 
     useEffect(() => {
         console.log(mundialPricing.tray_product_id)
-    }, [mundialPricing.tray_product_id])
+    }, [kit2Details.tray_product_id, mundialPricing.tray_product_id])
 
     async function getData(){
         return new Promise(async(resolve) => {
