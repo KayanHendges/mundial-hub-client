@@ -2,9 +2,10 @@ import { differenceInDays, format, getDay, parseISO } from 'date-fns'
 import { useContext, useEffect, useState } from 'react'
 import { IPricing, NewProductContext } from '../../../../../../contexts/NewProductContext'
 import { ProductContext } from '../../../../../../contexts/ProductContext'
+import convertDate from '../../../../../../services/ConvertDate/convertDate'
 import floatToPrice from '../../../../../../services/floatToPrice'
 import priceToFloat from '../../../../../../services/priceToFloat'
-import DefaultDataInput from '../../../../../Inputs/DefaultDataInput'
+import DefaultDateInput from '../../../../../Inputs/DefaultDateInput'
 import DefaultTextInput from '../../../../../Inputs/DefaultTextInput'
 import styles from './styles.module.scss'
 
@@ -26,19 +27,19 @@ export default function StorePricing(props: Props){
     const [ endPromotion, setEndPromotion ] = useState<string>(format(props.pricing.endPromotion, 'yyyy-MM-dd'))
     const [ promotionDateError, setPromotionDateError ] = useState<boolean>(false)
 
-    const [ visibility, setVisibility] = useState<boolean>(true)
+    const [ visibility, setVisibility] = useState<'visible' | 'hidden'>('visible')
 
     useEffect(() => {
-        setStartPromotion(format(props.pricing.startPromotion, 'yyyy-MM-dd'))
-        setEndPromotion(format(props.pricing.endPromotion, 'yyyy-MM-dd'))
+        setStartPromotion(format(props.pricing.startPromotion, 'dd/MM/yyyy'))
+        setEndPromotion(format(props.pricing.endPromotion, 'dd/MM/yyyy'))
     }, [props.pricing.startPromotion, props.pricing.endPromotion])
 
     useEffect(() => {
         if(props.pricing.promotionalPrice == 0){
-            setVisibility(false)
+            setVisibility('hidden')
             setTimeout(() => {
-                setStartPromotion('yyyy-MM-dd')
-                setEndPromotion('yyyy-MM-dd')
+                setStartPromotion('')
+                setEndPromotion('')
                 props.setPricing({
                     ...props.pricing,
                     startPromotion: parseISO('0001-01-01'),
@@ -47,12 +48,12 @@ export default function StorePricing(props: Props){
             }, 100)
         }
 
-        if(props.pricing.promotionalPrice != 0 && !visibility){
-            setVisibility(true)
+        if(props.pricing.promotionalPrice != 0 && visibility == 'hidden'){
+            setVisibility('visible')
             if(format(props.pricing.startPromotion, 'yyyy-MM-dd') == '0001-01-01'){
                 const today = new Date()
-                setStartPromotion(format(today, 'yyyy-MM-dd'))
-                setEndPromotion(format(today, 'yyyy-MM-dd'))
+                setStartPromotion(format(today, 'dd/MM/yyyy'))
+                setEndPromotion(format(today, 'dd/MM/yyyy'))
                 props.setPricing({
                     ...props.pricing,
                     startPromotion: today,
@@ -234,23 +235,34 @@ export default function StorePricing(props: Props){
                         onChangePromotionalPrice(priceToFloat(e.target.value))
                     }}
                     />
-                    <DefaultDataInput
+                    <DefaultDateInput
                     loading={unitaryDetails.hub_id? false : true }
                     label={`inicio`}
                     name='startPromotion'
                     value={startPromotion}
                     visibility={visibility}
                     onChange={(e) => {
-                        setStartPromotion(e.target.value)
+                        setStartPromotion(e)
                     }}
-                    leaveInput={() => {
-                        props.setPricing({
-                            ...props.pricing,
-                            startPromotion: parseISO(startPromotion)
-                        })
+                    leaveInput={(date) => {
+                        const newDate = parseISO(convertDate(date))
+                        
+                        if(newDate.toString() == 'Invalid Date'){
+                            console.log('data invalida')
+                            props.setPricing({
+                                ...props.pricing,
+                                startPromotion: new Date()
+                            })
+                            setStartPromotion(format(new Date(), 'dd/MM/yyyy'))
+                        } else {
+                            props.setPricing({
+                                ...props.pricing,
+                                startPromotion: newDate
+                            })
+                        }
                     }}
                     />
-                    <DefaultDataInput
+                    <DefaultDateInput
                     loading={unitaryDetails.hub_id? false : true }
                     label='fim'
                     name='endPromotion'
@@ -258,13 +270,24 @@ export default function StorePricing(props: Props){
                     visibility={visibility}
                     border={promotionDateError? '1px solid #E01D10' : undefined}
                     onChange={(e) => {
-                        setEndPromotion(e.target.value)
+                        setEndPromotion(e)
                     }}
-                    leaveInput={() => {
-                        props.setPricing({
-                            ...props.pricing,
-                            endPromotion: parseISO(endPromotion)
-                        })
+                    leaveInput={(date) => {
+                        const newDate = parseISO(convertDate(date))
+                        
+                        if(newDate.toString() == 'Invalid Date'){
+                            console.log('data invalida')
+                            props.setPricing({
+                                ...props.pricing,
+                                endPromotion: new Date()
+                            })
+                            setEndPromotion(format(new Date(), 'dd/MM/yyyy'))
+                        } else {
+                            props.setPricing({
+                                ...props.pricing,
+                                endPromotion: newDate
+                            })
+                        }
                     }}
                     />
                 </div>

@@ -1,8 +1,16 @@
+import { Pages, Search } from '../../../../pages/produtos'
 import PageSelector from './PageSelector'
 import PerPageSelector from './PerPageSelector'
 import styles from './styles.module.scss'
 
-export default function Footer(props){
+type Props = {
+    search: Search,
+    setSearch(search: Search): void,
+    pages: Pages,
+    setPages(pages: Pages): void;
+}
+
+export default function Footer(props: Props){
 
     return(
         <div
@@ -11,7 +19,7 @@ export default function Footer(props){
             <span
             className={styles.results}
             >
-                {`foram encontrados ${props.pages.resultsLength == undefined ? "0" : props.pages.resultsLength} produtos`}
+                {`foram encontrados ${props.pages.resultLength == undefined ? "0" : props.pages.resultLength} produtos`}
             </span>
             <div
             className={styles.inputs}

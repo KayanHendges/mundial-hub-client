@@ -9,9 +9,31 @@ import Footer from '../../components/Produto/ProductList/Footer';
 import Head from 'next/head';
 import { parseCookies } from 'nookies';
 
-export default function produtos(props){
+type Props = {
+    query: string,
+}
 
-    const [ search, setSearch ] = useState({
+export type Search = {
+    searchInput: string,
+    onChangeSearch: number,
+    perPage: number,
+    page: number,
+    showKits: number,
+    orderBy: string,
+    order: string,
+    store: number,
+}
+
+export type Pages = {
+    perPage: number,
+    pages: number,
+    page: number,
+    resultLength: number
+}
+
+export default function produtos(props: Props){
+
+    const [ search, setSearch ] = useState<Search>({
         searchInput: `${props.query}`,
         onChangeSearch: 0,
         perPage: 20,
@@ -22,11 +44,11 @@ export default function produtos(props){
         store: 668385,
     })
 
-    const [ pages, setPages ] = useState({
+    const [ pages, setPages ] = useState<Pages>({
         perPage: 20,
         pages: 1,
         page: 1,
-        resultLength: "0"
+        resultLength: 0
     })
 
     function setValue(chave, valor) {

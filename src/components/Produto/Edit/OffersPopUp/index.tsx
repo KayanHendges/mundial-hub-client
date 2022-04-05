@@ -39,7 +39,8 @@ export default function OffersPopUp(props: Props){
         mundialPricing, scpneusPricing,
         submit, setSubmit,
         validate, errorsList,
-        setSelectedTab
+        setSelectedTab,
+        changedList
     } = useContext(ProductContext)
 
     const { setAddAlert } = useContext(AlertContext)

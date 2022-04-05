@@ -194,7 +194,7 @@ export default function KitContainer(props: Props){
                 className={styles.containerInfo}
                 >
                     <DefaultTextInput
-                    loading={props.kitDetails.hub_id? false : true }
+                    loading={props.kitDetails.hub_id != null? false : true }
                     label='nome'
                     name='name'
                     value={props.kitDetails.name}
@@ -210,7 +210,7 @@ export default function KitContainer(props: Props){
                     className={styles.inputRow}
                     >
                         <DefaultSelectorInput
-                        loading={props.kitDetails.hub_id? false : true }
+                        loading={props.kitDetails.hub_id != null? false : true }
                         label='regra de preço'
                         optionList={['igual da loja','desconto']}
                         value={`${props.kitRules.price_rule == 1? 'igual da loja' : 'desconto' }`}
@@ -218,7 +218,7 @@ export default function KitContainer(props: Props){
                         hideSelectedOption={true}
                         />
                         <DefaultSelectorInput
-                        loading={props.kitDetails.hub_id? false : true }
+                        loading={props.kitDetails.hub_id != null? false : true }
                         label='desconto em'
                         optionList={['porcentagem','reais']}
                         value={`${props.kitRules.discount_type == '%'? 'porcentagem' : 'reais' }`}
@@ -227,7 +227,7 @@ export default function KitContainer(props: Props){
                         visibility={props.kitRules.price_rule == 1? 'hidden' : 'visible' }
                         />
                         <DefaultTextInput 
-                        loading={props.kitDetails.hub_id? false : true }
+                        loading={props.kitDetails.hub_id != null? false : true }
                         label='desconto'
                         name='discount_value'
                         value={floatToPrice(props.kitRules.discount_value)}
@@ -260,7 +260,7 @@ export default function KitContainer(props: Props){
                         />
                     </div>
                     <DefaultTextAreaInput
-                    loading={props.kitDetails.hub_id? false : true }
+                    loading={props.kitDetails.hub_id != null? false : true }
                     label='descrição'
                     name='description'
                     value={props.kitDetails.description}

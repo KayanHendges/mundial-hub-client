@@ -60,7 +60,7 @@ export default function DefaultDataInput(props: InputProps){
                     {props.label}
                 </label>
                 <input
-                type="date"
+                type="text"
                 style={inputStyle}
                 name={props.name}
                 value={props.value}

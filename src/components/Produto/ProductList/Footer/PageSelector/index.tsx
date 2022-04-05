@@ -1,155 +1,121 @@
-import { useState } from 'react'
 import styles from './styles.module.scss' 
+import { Pages, Search } from '../../../../../pages/produtos'
+import { CSSProperties, useEffect, useState } from 'react'
 
-export default function PageSelector(props){
+type Props = {
+    search: Search,
+    setSearch(search: Search): void,
+    pages: Pages,
+    setPages(pages: Pages): void;
+}
 
-    const pageList = () => {
-        const arrayPages = []
-        for(var page = 1; page <= props.pages.pages; page++){
-            arrayPages.push(page)
-        }
-        return arrayPages
+type SelectorStyles = {
+    pages: CSSProperties,
+    selectedPage: CSSProperties,
+}
+
+export default function PageSelector(props: Props){
+    
+    const [ allPages, setAllPages ] = useState<number[]>([]) 
+
+    const closedStyles: SelectorStyles = {
+        pages: {
+            // position: 'relative',
+            width: '2rem',
+        },
+        selectedPage: {}
     }
-
-    const [ pageStyle, setPageStyle ] = useState({
-        dropList: false,
-        displayList: "none",
+    
+    const openStyle: SelectorStyles = {
+        pages: {
+            // position: 'absolute',
+            width: `${allPages.length * 2}rem`
+        },
         selectedPage: {
-            backgroundColor: "var(--gray-5)",
-            fontSize: ".8rem",
-        }
-    })
-
-    function openPageList(boolean){
-        if(!boolean){
-            setPageStyle({
-                displayList: "none",
-                dropList: false,
-                selectedPage: {
-                    backgroundColor: "var(--gray-5)",
-                    fontSize: ".8rem",
-                }
-            })
-        } else {
-            setPageStyle({
-                displayList: "flex",
-                dropList: true,
-                selectedPage: {
-                    backgroundColor: "var(--blue-button)",
-                    fontSize: ".7rem",
-                }
-            })
+            color: 'var(--white-text)',
+            backgroundColor: 'var(--gray-4)'
         }
     }
+    
+    const [ expand, setExpand ] = useState<boolean>(false)
+    const [ selectorStyles, setSelectorStyles ] = useState<SelectorStyles>(closedStyles)
+    
+    useEffect(() => {
 
-    return(
+        if(expand){
+            setSelectorStyles(openStyle)
+        }
+
+        if(!expand){
+            setSelectorStyles(closedStyles)
+        }
+
+    }, [expand])
+
+    useEffect(() => {
+        const pages = []
+
+        for (let index = 0; index < props.pages.pages; index++) {
+            pages.push(index+1)            
+        }
+
+        setAllPages(pages)
+    }, [props.pages.pages])
+
+    return (
         <div
-        className={styles.pageContainer}
-        onClick={() => openPageList(!pageStyle.dropList)}
+        className={styles.wrapper}
         >
             <span
-            className={styles.pageSpan}
+            className={styles.label}
             >
                 pagina
             </span>
             <div
-            className={styles.anchor}
+            className={styles.pages}
+            style={selectorStyles.pages}
             >
                 <div
-                className={styles.pageList}
+                className={styles.pagesList}
                 >
-                    <div
-                    className={styles.pageItemList}
-                    style={{
-                        display: `${pageStyle.displayList}`,
-                    }}
-                    >
-                        {pageList().map((page, index) => {
-                            if(page == props.pages.page){
-                                return(
-                                    <div
-                                    key={1001}
-                                    className={styles.pageSelectedItem}
-                                    onClick={() => openPageList(!pageStyle.dropList)}
-                                    >
-                                        {page}
-                                    </div>
-                                )
-                            } else {
-                                if(index > 4 && (index+1) == pageList().length){
-                                    return(
-                                        <div
-                                        key={index}
-                                        style={{display: "flex", flexDirection: "column"}}
-                                        >   
-                                            <div
-                                            className={styles.pageItem}
-                                            onClick={() => {
-                                                openPageList(!pageStyle.dropList)
-                                                props.setPages({...props.pages, page: page})
-                                                props.setSearch({...props.search, page: page})
-                                            }}
-                                            >
-                                                {page}
-                                            </div>
-                                            <div
-                                            className={styles.pageItem}
-                                            >
-                                                ...
-                                            </div>
-                                        </div>
-                                    )
-                                } 
-                                
-                                if(pageList().length > 5) {
-                                    if(index < 3){
-                                        return(
-                                    
-                                            <div
-                                            key={index}
-                                            className={styles.pageItem}
-                                            onClick={() => {
-                                                openPageList(!pageStyle.dropList)
-                                                props.setPages({...props.pages, page: page})
-                                                props.setSearch({...props.search, page: page})
-                                            }}
-                                            >
-                                                {page}
-                                            </div>
-                                        )
-                                    }
-                                } else {
-                                    return(
-                                    
-                                        <div
-                                        key={index}
-                                        className={styles.pageItem}
-                                        onClick={() => {
-                                            openPageList(!pageStyle.dropList)
-                                            props.setPages({...props.pages, page: page})
-                                            props.setSearch({...props.search, page: page})
-                                        }}
-                                        >
-                                            {page}
-                                        </div>
-                                    )
-                                }
-                            }
-                            
-                        })}
-                    </div>
-                    <div
-                    className={styles.selectedPage}
-                    style={{
-                        backgroundColor: `${pageStyle.selectedPage.backgroundColor}`,
-                        fontSize: `${pageStyle.selectedPage.fontSize}`,
-                    }}
-                    onClick={() => openPageList(!pageStyle.dropList)}
-                    >
-                        {props.pages.page}
-                    </div>
+                    {allPages.map(page => {
+
+                        if(page == props.pages.page){
+                            return (
+                                <span
+                                className={styles.selectedPage}
+                                style={selectorStyles.selectedPage}
+                                onClick={() => {
+                                    setExpand(!expand)
+                                }}
+                                key={page}
+                                >
+                                    {page}
+                                </span>
+                            )
+                        }
+
+                        if(!expand){
+                            return
+                        }
+
+                        if(page < props.pages.page || page > props.pages.page){
+                            return (
+                                <span
+                                className={styles.page}
+                                onClick={() => {
+                                    setExpand(!expand)
+                                }}
+                                key={page}
+
+                                >
+                                    {page}
+                                </span>
+                            )
+                        }
+                    })}
                 </div>
-            </div>
+            </div>   
         </div>
     )
 }

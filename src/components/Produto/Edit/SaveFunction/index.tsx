@@ -351,19 +351,14 @@ export default function SaveFunction(props: Props){
                 if(props.offerUnitaryKit2.function == 'create'){
                     
     
-                    const submitDetails = api.post(
+                    const submitDetails = await api.post(
                         '/products/create/unitary', {
                             product: {...details, is_kit: 1}
                         }
                     )
                     .then(response => {
-                        if(response.data.code == 201){
-                            setKit2Details({...kit2Details, hub_id: response.data.hub_id})
-                            return true
-                        } else {
-                            console.log(response.data.message)
-                            return response.data.message
-                        }
+                        setKit2Details({...kit2Details, hub_id: response.data.hub_id})
+                        return {hub_id: response.data.hub_id as number}
                     })
                     .catch(erro => {
                         console.log(erro.response.data.message)
@@ -371,7 +366,7 @@ export default function SaveFunction(props: Props){
                     })
     
                     const submitPricing = api.post('/products/create/pricing/kit', {
-                        pricing: kit2PricingApi,
+                        pricing: {...kit2PricingApi, hub_id: await submitDetails.hub_id},
                         kit_rules: kit2RulesApi,
                         store_id: 668385
                     })
@@ -522,19 +517,14 @@ export default function SaveFunction(props: Props){
 
                 if(props.offerUnitaryKit4.function == 'create'){
              
-                    const submitDetails = api.post(
+                    const submitDetails = await api.post(
                         '/products/create/unitary', {
                             product: {...details, is_kit: 1}
                         }
                     )
                     .then(response => {
-                        if(response.data.code == 201){
-                            setKit4Details({...kit4Details, hub_id: response.data.hub_id})
-                            return true
-                        } else {
-                            console.log(response.data.message)
-                            return response.data.message
-                        }
+                        setKit4Details({...kit4Details, hub_id: response.data.hub_id})
+                        return {hub_id: response.data.hub_id as number}
                     })
                     .catch(erro => {
                         console.log(erro.response.data.message)
@@ -542,7 +532,7 @@ export default function SaveFunction(props: Props){
                     })
     
                     const submitPricing = api.post('/products/create/pricing/kit', {
-                        pricing: kit4PricingApi,
+                        pricing: {...kit4PricingApi, hub_id: await submitDetails.hub_id},
                         kit_rules: kit4RulesApi,
                         store_id: 668385
                     })
@@ -858,7 +848,7 @@ export default function SaveFunction(props: Props){
                 availability: unitaryDetails.availability,
                 availabilityDays: unitaryDetails.availability_days,
                 reference: unitaryDetails.reference,
-                images: !changedList.images || props.offerUnitaryKit2.function == 'edit' ? undefined : kit2Details.images,
+                images: !changedList.images? undefined : kit2Details.images,
                 warranty: unitaryDetails.warranty,
                 comments: unitaryDetails.comments,
             }
@@ -903,7 +893,7 @@ export default function SaveFunction(props: Props){
             if(props.offerUnitaryKit2Tray.function == 'create'){
 
                 const product = {
-                    product: {...details, is_kit: 1},
+                    product: {...details, is_kit: 1, images: kit2Details.images},
                     pricing: kit2PricingApi,
                     rules: {...kit2RulesApi, tray_product_id: mundialPricing.tray_product_id},
                     tray_pricing_id: kit2Details.tray_pricing_id,
@@ -973,7 +963,7 @@ export default function SaveFunction(props: Props){
                 availability: unitaryDetails.availability,
                 availabilityDays: unitaryDetails.availability_days,
                 reference: unitaryDetails.reference,
-                images: !changedList.images || props.offerUnitaryKit4.function == 'edit' ? undefined : kit4Details.images,
+                images: !changedList.images? undefined : kit4Details.images,
                 warranty: unitaryDetails.warranty,
                 comments: unitaryDetails.comments,
             }
@@ -1018,7 +1008,7 @@ export default function SaveFunction(props: Props){
             if(props.offerUnitaryKit4Tray.function == 'create'){
 
                 api.post('/products/create/kit-tray', {
-                    product: {...details, is_kit: 1},
+                    product: {...details, is_kit: 1, images: kit4Details.images},
                     pricing: kit4PricingApi,
                     rules: {...kit4RulesApi, tray_product_id: mundialPricing.tray_product_id},
                     tray_pricing_id: kit4Details.tray_pricing_id,

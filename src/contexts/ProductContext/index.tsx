@@ -275,6 +275,7 @@ export function ProductProvider ({ children })  {
             } else {
                 setChangedList({
                     ...changedList,
+                    details: true,
                     images: true
                 })
             }
@@ -284,10 +285,6 @@ export function ProductProvider ({ children })  {
         kit2Details.images[0].imageUrl,
         kit4Details.images[0].imageUrl
     ])
-
-    useEffect(() => {
-        console.log(mundialPricing.tray_product_id)
-    }, [kit2Details.tray_product_id, mundialPricing.tray_product_id])
 
     async function getData(){
         return new Promise(async(resolve) => {
@@ -467,6 +464,10 @@ export function ProductProvider ({ children })  {
                 if(!gotKit4){
                     setKit4Details({...kit4Details, hub_id: 0})
                 }
+            })
+            .catch(err => {
+                setKit2Details({...kit2Details, hub_id: 0})
+                setKit4Details({...kit4Details, hub_id: 0})
             })
         })
     }
