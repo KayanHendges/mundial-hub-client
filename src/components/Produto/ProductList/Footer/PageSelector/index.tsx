@@ -9,6 +9,8 @@ type Props = {
     page: Page,
     setPage(page: Page): void,
     pages: Page[],
+    display?: 'flex' | 'none',
+    opacity?: number,
 }
 
 type SelectorStyles = {
@@ -19,6 +21,11 @@ type SelectorStyles = {
 
 export default function  PageSelector(props: Props){
     
+    const wrapperStyles: CSSProperties = {
+        opacity: `${props.opacity}%`,
+        display: `${props.display? props.display : 'flex' }`,
+    }
+
     const closedStyles: SelectorStyles = {
         pages: {
             width: 'calc(2rem + 2px)',
@@ -155,6 +162,7 @@ export default function  PageSelector(props: Props){
     return (
         <div
         className={styles.wrapper}
+        style={wrapperStyles}
         >
             <span
             className={styles.label}
@@ -186,7 +194,7 @@ export default function  PageSelector(props: Props){
                 id='pagesList'
                 >
                     
-                    {props.pages.map(page => {
+                    {props.pages.map((page, index) => {
 
                         if(page == props.page){
                             return (
@@ -195,6 +203,13 @@ export default function  PageSelector(props: Props){
                                 style={selectorStyles.selectedPage}
                                 onClick={() => {
                                     setExpand(!expand)
+                                    if(!expand){
+                                        setTimeout(() => {
+                                            if(index > 5){
+                                                handleListPosition('right', (index-4)*31)
+                                            }
+                                        }, 1)
+                                    }
                                 }}
                                 key={page}
                                 >

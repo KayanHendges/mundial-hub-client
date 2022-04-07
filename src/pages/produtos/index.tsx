@@ -28,7 +28,7 @@ export type Pages = {
     perPage: number,
     pages: number,
     page: number,
-    resultLength: number
+    resultsLength: number
 }
 
 export default function produtos(props: Props){
@@ -48,7 +48,7 @@ export default function produtos(props: Props){
         perPage: 20,
         pages: 1,
         page: 1,
-        resultLength: 0
+        resultsLength: 0
     })
 
     function setValue(chave, valor) {
