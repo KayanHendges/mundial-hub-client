@@ -2,17 +2,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: .5rem;
-
+    position: relative;
 
     .label {
         color: var(--complementar-text);
+        margin-right: 2.5rem;
+        white-space: nowrap;
     }
 
     .pages {
-        max-width: 100%;
+        max-width: 20rem;
         min-width: 2rem;
-        min-height: 2rem;
+        height: calc(2rem + 2px);
+        
+        position: absolute;
+        right: 0;
         
         display: flex;
         justify-content: flex-start;
@@ -31,8 +35,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: absolute;
+
+            transition: .5s;
 
             .selectedPage, .page {
+                overflow: hidden;
                 height: 2rem;
                 width: 2rem;
                 
@@ -49,11 +57,35 @@
     
                 &:hover {
                     background-color: var(--gray-3);
+                    color: var(--white-text);
                 }
             }
-
         }
 
-        
+        #arrow {
+            width: 2rem;
+            height: 2rem;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    
+            color: var(--complementar-text);
+            position: absolute;
+            z-index: 20;
+
+            cursor: pointer;
+            transition: .2s;
+
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            &:hover {
+                color: var(--white-text);
+            }
+        }        
     }
 }

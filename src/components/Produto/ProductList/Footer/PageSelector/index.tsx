@@ -1,36 +1,37 @@
 import styles from './styles.module.scss' 
 import { Pages, Search } from '../../../../../pages/produtos'
-import { CSSProperties, useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useState, WheelEvent } from 'react'
+
+type Page = string | number 
 
 type Props = {
-    search: Search,
-    setSearch(search: Search): void,
-    pages: Pages,
-    setPages(pages: Pages): void;
+    label: string
+    page: Page,
+    setPage(page: Page): void,
+    pages: Page[],
 }
 
 type SelectorStyles = {
     pages: CSSProperties,
+    pagesList: CSSProperties,
     selectedPage: CSSProperties,
 }
 
-export default function PageSelector(props: Props){
+export default function  PageSelector(props: Props){
     
-    const [ allPages, setAllPages ] = useState<number[]>([]) 
-
     const closedStyles: SelectorStyles = {
         pages: {
-            // position: 'relative',
-            width: '2rem',
+            width: 'calc(2rem + 2px)',
         },
-        selectedPage: {}
+        pagesList: {},
+        selectedPage: {},
     }
     
     const openStyle: SelectorStyles = {
         pages: {
-            // position: 'absolute',
-            width: `${allPages.length * 2}rem`
+            width: `${props.pages.length * 2}rem`
         },
+        pagesList: {},
         selectedPage: {
             color: 'var(--white-text)',
             backgroundColor: 'var(--gray-4)'
@@ -39,28 +40,117 @@ export default function PageSelector(props: Props){
     
     const [ expand, setExpand ] = useState<boolean>(false)
     const [ selectorStyles, setSelectorStyles ] = useState<SelectorStyles>(closedStyles)
+    const [ pagesListPosition, setPagesListPosition ] = useState<number>(0)
+    const [ displayRightArrow, setDisplayRightArrow ] = useState<boolean>(false)
+    const [ displayLeftArrow, setDisplayLeftArrow ] = useState<boolean>(false)
+    const [ notSelectedPageStyle, setNotSelectedPageStyle ] = useState<CSSProperties>({
+        display: 'none'
+    })
     
     useEffect(() => {
 
         if(expand){
             setSelectorStyles(openStyle)
+            setNotSelectedPageStyle({ display: 'flex' })
+            if(props.pages.length >= 10){
+                setDisplayRightArrow(true)
+            }
         }
 
         if(!expand){
             setSelectorStyles(closedStyles)
+            setPagesListPosition(0)
+            setTimeout(() => {
+                setNotSelectedPageStyle({ display: 'none' })
+            }, 100)
+
+            setDisplayLeftArrow(false)
+            setDisplayRightArrow(false)
         }
 
     }, [expand])
 
     useEffect(() => {
-        const pages = []
 
-        for (let index = 0; index < props.pages.pages; index++) {
-            pages.push(index+1)            
+        setExpand(false)
+
+    }, [props.page])
+
+    useEffect(() => {
+
+        if(pagesListPosition < -22){
+            setDisplayLeftArrow(true)
+        } else {
+            setDisplayLeftArrow(false)
         }
 
-        setAllPages(pages)
-    }, [props.pages.pages])
+        const container = document.querySelector('#pages')
+        const containerWidth = container? container.clientWidth - (container.clientWidth*2) : 0
+        
+        const pagesList = document.querySelector('#pagesList')
+        const pagesListWidth = pagesList? pagesList.clientWidth - (pagesList.clientWidth*2) : 0
+
+        const maxPosition = pagesListWidth - containerWidth
+
+        const difference = Math.abs(pagesListPosition - maxPosition)
+
+        if(difference > 22 && expand){
+            setDisplayRightArrow(true)
+            return
+        }
+
+    }, [pagesListPosition])
+
+    function handleScrollList(event: WheelEvent){
+        if(!expand){
+            return
+        }
+
+        if(event.deltaY > 0){ // scroll para baixo
+            handleListPosition('left', 20)
+        } 
+        
+        if(event.deltaY < 0) { // scroll para cima
+            handleListPosition('right', 20)
+        }
+    }
+
+    function handleListPosition(direction: 'right' | 'left', speed?: number){
+
+        const container = document.querySelector('#pages')
+        const containerWidth = container? container.clientWidth - (container.clientWidth*2) : 0
+        
+        const pagesList = document.querySelector('#pagesList')
+        const pagesListWidth = pagesList? pagesList.clientWidth - (pagesList.clientWidth*2) : 0
+
+        const speedControl = speed? speed : containerWidth * 0.9
+
+        if(direction == 'left'){
+            const difference = Math.abs(pagesListPosition - 0)
+
+            if(difference < speedControl){
+                setPagesListPosition(pagesListPosition + difference)
+                return
+            }
+            setPagesListPosition(pagesListPosition+speedControl)
+        }
+
+        if(direction == 'right'){
+
+            const maxPosition = pagesListWidth - containerWidth
+
+            const difference = Math.abs(pagesListPosition - maxPosition)
+
+            if(difference < speedControl){
+                setPagesListPosition(pagesListPosition-difference)
+                setDisplayRightArrow(false)
+                return
+            }
+            setDisplayRightArrow(true)
+            setPagesListPosition(pagesListPosition-speedControl)
+
+        }
+    }
 
     return (
         <div
@@ -69,18 +159,36 @@ export default function PageSelector(props: Props){
             <span
             className={styles.label}
             >
-                pagina
+                {props.label}
             </span>
             <div
             className={styles.pages}
             style={selectorStyles.pages}
+            id='pages'
+            onWheel={(e) => handleScrollList(e)}
+            onMouseLeave={() => setExpand(false)}
             >
+                <span
+                className='material-icons-round'
+                id={styles.arrow}
+                style={{ 
+                    display: `${displayLeftArrow? 'flex' : 'none'}`,
+                    left: '0',
+                    backgroundImage: 'linear-gradient(to right, var(--gray-2) 50%, transparent 100%)'
+                }}
+                onClick={() => handleListPosition('left', 200)}
+                >
+                    arrow_back_ios
+                </span>
                 <div
                 className={styles.pagesList}
+                style={{ left: `${pagesListPosition}px` }}
+                id='pagesList'
                 >
-                    {allPages.map(page => {
+                    
+                    {props.pages.map(page => {
 
-                        if(page == props.pages.page){
+                        if(page == props.page){
                             return (
                                 <span
                                 className={styles.selectedPage}
@@ -95,19 +203,15 @@ export default function PageSelector(props: Props){
                             )
                         }
 
-                        if(!expand){
-                            return
-                        }
-
-                        if(page < props.pages.page || page > props.pages.page){
+                        if(page < props.page || page > props.page){
                             return (
                                 <span
                                 className={styles.page}
+                                style={notSelectedPageStyle}
                                 onClick={() => {
-                                    setExpand(!expand)
+                                    props.setPage(page)
                                 }}
                                 key={page}
-
                                 >
                                     {page}
                                 </span>
@@ -115,6 +219,18 @@ export default function PageSelector(props: Props){
                         }
                     })}
                 </div>
+                <span
+                className='material-icons-round'
+                id={styles.arrow}
+                style={{ 
+                    display: `${displayRightArrow? 'flex' : 'none'}`,
+                    right: '0',
+                    backgroundImage: 'linear-gradient(to left, var(--gray-2) 50%, transparent 100%)'
+                }}
+                onClick={() => handleListPosition('right', 200)}
+                >
+                    arrow_forward_ios
+                </span>
             </div>   
         </div>
     )

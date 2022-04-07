@@ -12,6 +12,17 @@ type Props = {
 
 export default function Footer(props: Props){
 
+    function getPagesArray(pages: number): number[]{
+        
+        const list: number[] = []
+
+        for (let index = 1; index <= pages; index++) {
+            list.push(index)
+        }
+        
+        return list
+    }
+
     return(
         <div
         className={styles.wrapper}
@@ -25,16 +36,22 @@ export default function Footer(props: Props){
             className={styles.inputs}
             >
                 <PageSelector
-                pages={props.pages}
-                setPages={props.setPages}
-                search={props.search}
-                setSearch={props.setSearch}
+                label='pagina'
+                pages={getPagesArray(props.pages.pages)}
+                page={props.search.page}
+                setPage={page => {
+                    props.setPages({...props.pages, page: page as number})
+                    props.setSearch({...props.search, page: page as number})
+                }}
                 />
-                <PerPageSelector
-                pages={props.pages}
-                setPages={props.setPages}
-                search={props.search}
-                setSearch={props.setSearch}
+                <PageSelector
+                label='produtos por paginas'
+                pages={[10, 20, 30, 50]}
+                page={props.search.perPage}
+                setPage={page => {
+                    props.setPages({...props.pages, perPage: page as number})
+                    props.setSearch({...props.search, perPage: page as number})
+                }}
                 />
             </div>
         </div>
