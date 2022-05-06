@@ -1,4 +1,4 @@
-import { differenceInDays, format, getDay, parseISO } from 'date-fns'
+import { addHours, differenceInDays, format, getDay, parseISO } from 'date-fns'
 import { useContext, useEffect, useState } from 'react'
 import { IPricing, NewProductContext } from '../../../../../../contexts/NewProductContext'
 import { ProductContext } from '../../../../../../contexts/ProductContext'
@@ -257,7 +257,7 @@ export default function StorePricing(props: Props){
                         } else {
                             props.setPricing({
                                 ...props.pricing,
-                                startPromotion: newDate
+                                startPromotion: addHours(newDate, 3)
                             })
                         }
                     }}
@@ -285,7 +285,7 @@ export default function StorePricing(props: Props){
                         } else {
                             props.setPricing({
                                 ...props.pricing,
-                                endPromotion: newDate
+                                endPromotion: addHours(newDate, 3)
                             })
                         }
                     }}
