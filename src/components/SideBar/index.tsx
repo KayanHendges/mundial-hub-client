@@ -30,7 +30,7 @@ type Item = {
     subItems?: SubItem[];
 }
 
-export default function SideBar (){
+export default function SideBar(props){
 
     const shortWrapperStyle: WrapperStyle = {
         extended: false,
