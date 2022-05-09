@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns'
+import { addHours, format, parseISO } from 'date-fns'
 import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { api } from '../../../../services/api'
@@ -39,8 +39,8 @@ export default function ResultList(props){
                 function isPromotion(){
                     if(produto.tray_promotional_price > 0 ){
                           return {
-                              startPromotion: format(parseISO(produto.start_promotion), "dd/MM/yyyy"),
-                              endPromotion: format(parseISO(produto.end_promotion), "dd/MM/yyyy")
+                              startPromotion: format(addHours(parseISO(produto.start_promotion), 3), "dd/MM/yyyy"),
+                              endPromotion: format(addHours(parseISO(produto.end_promotion), 3), "dd/MM/yyyy")
                           }
                     } else {
                         return {

@@ -1,4 +1,4 @@
-import { differenceInDays, format, parseISO } from "date-fns";
+import { addHours, differenceInDays, format, parseISO } from "date-fns";
 import router, { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../../services/api";
@@ -330,6 +330,7 @@ export function ProductProvider ({ children })  {
 
                 response.data.pricing?.map(pricing => {
                     if(pricing.tray_store_id == 668385){
+
                         setMundialPricing({
                             tray_pricing_id: pricing.tray_pricing_id,
                             tray_product_id: pricing.tray_product_id,
@@ -338,8 +339,8 @@ export function ProductProvider ({ children })  {
                             price: pricing.tray_price,
                             stock: pricing.tray_stock,
                             promotionalPrice: pricing.tray_promotional_price,
-                            startPromotion: parseISO(pricing.start_promotion),
-                            endPromotion: parseISO(pricing.end_promotion),
+                            startPromotion: addHours(parseISO(pricing.start_promotion), 3),
+                            endPromotion: addHours(parseISO(pricing.end_promotion), 3),
                             modified: pricing.modified,
                         })
 
@@ -354,8 +355,8 @@ export function ProductProvider ({ children })  {
                             price: pricing.tray_price,
                             stock: pricing.tray_stock,
                             promotionalPrice: pricing.tray_promotional_price,
-                            startPromotion: parseISO(pricing.start_promotion),
-                            endPromotion: parseISO(pricing.end_promotion),
+                            startPromotion: addHours(parseISO(pricing.start_promotion), 3),
+                            endPromotion: addHours(parseISO(pricing.end_promotion), 3),
                             modified: pricing.modified,
                         })
                         gotScpneusPricing = true
