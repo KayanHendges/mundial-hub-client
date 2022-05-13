@@ -1,5 +1,4 @@
 import styles from './styles.module.scss'
-import { } from './componentStyles'
 import { GetServerSideProps } from "next"
 import { parseCookies } from "nookies"
 import OrdersHeader from '../../components/Pages/Vendas/Pedidos/OrdersHeader'
