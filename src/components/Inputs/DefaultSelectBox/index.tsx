@@ -26,7 +26,7 @@ export default function DefaultSelectBox(props: Props){
         minWidth: width,
         minHeight: height,
         visibility,
-
+        display
     }
 
     const selectedStyle: CSSProperties = {

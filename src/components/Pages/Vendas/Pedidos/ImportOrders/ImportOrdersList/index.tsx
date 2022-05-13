@@ -1,4 +1,3 @@
-import { differenceInDays, format, getDay, parseISO } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { ListTrayOrdersParams, ListTrayOrdersResponse } from '../../../../../../services/api/types/Tray/Orders/Orders';
 import { useFetch } from '../../../../../../services/api/useFetch'
@@ -6,15 +5,17 @@ import floatToPrice from '../../../../../../services/floatToPrice';
 import DefaultSelectBox from '../../../../../Inputs/DefaultSelectBox';
 import RectangularPlaceholder from '../../../../../Placeholders/Rectangular';
 import dateFormat from './dataFormat';
+import selectAll from './importFunctions';
 import styles from './styles.module.scss'
 
 type Props = {
+    findStores: boolean;
     fetchOrders: boolean,
     setFetchOrder(fetchOrders: boolean): void;
     ordersParams: ListTrayOrdersParams
 }
 
-type ImportItem = {
+export type ImportItem = {
     trayId: number,
     importing: boolean,
     success: boolean | null
@@ -27,8 +28,11 @@ export default function ImportOrdersList(props: Props){
 
     const { data, isFetching, error } = useFetch<ListTrayOrdersResponse>('get', path, props.fetchOrders)
     const orders = isFetching? [] : data?.orders
+    const totalOrders = isFetching? 0 : data?.total
 
     const [ importList, setImportList ] = useState<ImportItem[]>([])
+
+    const { selecting, setSelecting } = selectAll(props.ordersParams, { set: setImportList }, totalOrders)
 
     useEffect(() => {
 
@@ -76,17 +80,34 @@ export default function ImportOrdersList(props: Props){
         >
             <div
             className={styles.header}
+            style={{
+                visibility: `${isFetching? 'hidden' : 'visible'}`
+            }}
             >
                 <DefaultSelectBox 
-                selected={false}
-                click={() => {}}
+                display={`${isFetching? 'none' : 'flex'}`}
+                selected={importList.length == totalOrders? true : false}
+                click={() => {
+                    if(importList.length == totalOrders){
+                        setImportList([])
+                        return
+                    } 
+
+                    if(!selecting){
+                        setSelecting(true)
+                        return
+                    }
+                }}
                 width={'1.1rem'}
                 lock={false}
                 />
                 <span
                 className={styles.selectAll}
                 >
-                    importar todos
+                    {importList.length}
+                </span>
+                <span>
+                    {`${totalOrders} pedidos`}
                 </span>
             </div>
             <div
@@ -96,7 +117,7 @@ export default function ImportOrdersList(props: Props){
                 className={styles.listContainer}
                 >
                     {placeholderList(20).map( placeholder => {
-                        if(isFetching){
+                        if(isFetching || props.findStores){
                             return (
                                 <RectangularPlaceholder
                                 key={placeholder}
@@ -133,8 +154,8 @@ export default function ImportOrdersList(props: Props){
                                 <span>
                                     {dateFormat(order.date)}
                                 </span>
-                                <span>
-                                    {order?.status}
+                                <span title={order?.status}>
+                                    {order?.status.substring(0, 22)}
                                 </span>
                                 <span>
                                     {`R$${floatToPrice(parseFloat(order?.total))}`}

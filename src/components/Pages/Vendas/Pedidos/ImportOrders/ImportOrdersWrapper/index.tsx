@@ -151,6 +151,7 @@ export default function ImportOrdersWrapper(props: Props){
                     </div>
                 </div>
                 <ImportOrdersList 
+                findStores={findStores}
                 ordersParams={ordersParams}
                 fetchOrders={fetchOrders}
                 setFetchOrder={setFetchOrders}
