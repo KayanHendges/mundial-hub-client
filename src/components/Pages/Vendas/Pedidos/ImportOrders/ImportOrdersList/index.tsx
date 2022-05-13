@@ -1,10 +1,11 @@
 import { differenceInDays, format, getDay, parseISO } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ListTrayOrdersParams, ListTrayOrdersResponse } from '../../../../../../services/api/types/Tray/Orders/Orders';
 import { useFetch } from '../../../../../../services/api/useFetch'
 import floatToPrice from '../../../../../../services/floatToPrice';
 import DefaultSelectBox from '../../../../../Inputs/DefaultSelectBox';
 import RectangularPlaceholder from '../../../../../Placeholders/Rectangular';
+import dateFormat from './dataFormat';
 import styles from './styles.module.scss'
 
 type Props = {
@@ -29,6 +30,12 @@ export default function ImportOrdersList(props: Props){
 
     const [ importList, setImportList ] = useState<ImportItem[]>([])
 
+    useEffect(() => {
+
+        setImportList([])
+        
+    }, [props.ordersParams])
+
     const placeholderList = (length: number) => {
         const array: number[] = []
         for (let index = 0; index < length; index++) {
@@ -37,84 +44,105 @@ export default function ImportOrdersList(props: Props){
         return array
     }
 
+    function isSelected(order: ImportItem){
+        var selected = false
+        importList.map(item => {
+            if(item.trayId == order.trayId){
+                selected = true
+            }
+        })
+        return selected
+    }
+
+    function handleImportOrder(order: ImportItem){
+        const list: ImportItem[] = []
+        var isSelected = false
+        importList.map((item, index) => {
+            if(item.trayId == order.trayId){
+                isSelected = true
+            } else {
+                list.push(item)
+            }
+        })
+        if(!isSelected){
+            list.push(order)
+        }
+        setImportList(list)
+    }
+
     return (
         <div
         className={styles.wrapper}
         >
             <div
+            className={styles.header}
+            >
+                <DefaultSelectBox 
+                selected={false}
+                click={() => {}}
+                width={'1.1rem'}
+                lock={false}
+                />
+                <span
+                className={styles.selectAll}
+                >
+                    importar todos
+                </span>
+            </div>
+            <div
             className={styles.list}
             >
-                {placeholderList(20).map( placeholder => {
-                    return (
-                        <RectangularPlaceholder
-                        key={placeholder}
-                        display={isFetching? 'flex' : 'none'}
-                        height={'3rem'}
-                        width={'100%'}
-                        />
-                    )
-                } )}
-                {orders?.map((order, index) => {
+                <div
+                className={styles.listContainer}
+                >
+                    {placeholderList(20).map( placeholder => {
+                        if(isFetching){
+                            return (
+                                <RectangularPlaceholder
+                                key={placeholder}
+                                display={isFetching? 'flex' : 'none'}
+                                height={'3rem'}
+                                width={'100%'}
+                                />
+                            )
+                        }
+                    } )}
+                    {orders?.map((order, index) => {
 
-                    function dateFormat(date: string): string{
-                        if(!date){
-                            return ''
+                        const importOrder = {
+                            trayId: parseInt(order.id),
+                            importing: null,
+                            success: null
                         }
 
-                        const today = new Date()
-                        const orderDate = parseISO(order.date)
-                        const differenceDate = differenceInDays(orderDate, today)
-
-                        if(differenceDate == 0){
-                            return 'hoje'
-                        }
-
-                        if(differenceDate == -1){
-                            return 'ontem'
-                        }
-
-                        if(differenceDate > -7){
-                            return `${Math.abs(differenceDate)} dias atrás`
-                        }
-
-                        const returnDate = date.split('-').reverse().join('/')
-
-                        return returnDate
-                    }
-
-                    const importOrder = {
-                        trayId: parseInt(order.id),
-                        importing: null,
-                        success: null
-                    }
-
-                    return (
-                        <div
-                        className={styles.orderContainer}
-                        key={index}
-                        >
-                            <DefaultSelectBox 
-                            selected={false}
-                            width={'1.3rem'}
-                            click={e => {
-                            }}
-                            />
-                            <span
+                        return (
+                            <div
+                            className={styles.orderContainer}
+                            key={index}
                             >
-                                {order?.id}
-                            </span>
-                            <span>
-                                {dateFormat(order.date)}
-                            </span>
-                            <span>
-                                {order?.status}
-                            </span>
-                            <span>
-                                {`R$${floatToPrice(parseFloat(order?.total))}`}
-                            </span>
-                        </div>
-                    )
-                })}
+                                <DefaultSelectBox 
+                                visibility={order.imported? 'hidden' : 'visible'}
+                                selected={isSelected(importOrder)}
+                                width={'1.1rem'}
+                                click={e => handleImportOrder(importOrder)}
+                                />
+                                <span
+                                >
+                                    {order?.id}
+                                </span>
+                                <span>
+                                    {dateFormat(order.date)}
+                                </span>
+                                <span>
+                                    {order?.status}
+                                </span>
+                                <span>
+                                    {`R$${floatToPrice(parseFloat(order?.total))}`}
+                                </span>
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
         </div>
     )
