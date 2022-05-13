@@ -88,11 +88,12 @@ export default function GeneralData(props: Props){
             loading={unitaryDetails.hub_id? false : true }
             label='descrição'
             name='description'
-            value={unitaryDetails.description}
+            value={unitaryDetails.description.replaceAll('</br>', '\n')}
             border={verifyErrorInput('description')? '1px solid #E01D10' : undefined}
-            onChange={(e) => 
-                setUnitaryDetails({...unitaryDetails, description: e.target.value})
-            }
+            onChange={(e) => {
+                const description = e.target.value.replaceAll('</br>', '\n')
+                setUnitaryDetails({...unitaryDetails, description})
+            }}
             />
             <span
             className={styles.autoDescription}
