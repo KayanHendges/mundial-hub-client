@@ -1,0 +1,111 @@
+.wrapper {
+    
+    overflow: hidden;
+
+    border-radius: .4rem 0rem 0rem .4rem;
+    padding: 1rem;
+
+    background-color: var(--gray-3);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    overflow: hidden;
+
+    .header {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        gap: 1rem;
+
+        .titleContainer {
+
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 1rem;
+
+            .title {
+                color:  var(--white-text);
+                font-weight: 400;
+            }            
+
+            #resume {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5rem;
+    
+                color: var(--complementar-text);
+                border: 2px solid var(--gray-line);
+                border-radius: 50%;
+            
+                -webkit-tap-highlight-color: transparent;
+                -moz-user-select: none;
+                -khtml-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+
+                transition: .2s;
+                cursor: pointer;
+    
+                &:hover {
+                    color: var(--white-text);
+                    border-color: var(--blue-button);
+                }
+                
+            }
+        }
+
+        .inputRow {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            gap: .5rem;
+            align-items: flex-end;
+        }
+    }
+}
+
+@media (max-width: 900px) {
+    
+    .wrapper {
+        
+        border-radius: 1rem 1rem 0rem 0rem;
+        
+        .header {
+
+            .titleContainer {
+                
+                #resume {
+
+                    font-size: 2.2rem;
+                }
+            }
+
+        }
+    }
+
+}
+
+@media (max-width: 450px) {
+    .wrapper {
+
+        .header {
+
+            .inputRow {
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }    
+        }
+
+
+    }
+}

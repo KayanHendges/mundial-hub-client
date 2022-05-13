@@ -5,22 +5,28 @@ type Props = {
     display?: string;
     visibility?: 'visible' | 'hidden';
     width?: string;
+    maxWidth?: string;
     label?: string;
     loading?: boolean;
     value: string | number;
     optionList: string[] | number[];
     arrowKeyControl?: boolean;
     hideSelectedOption?: boolean;
+    increaseZIndex?: number;
+    lock?: boolean;
     onChange(value: string | number): void;
 }
 
 export default function DefaultSelectorInput(props: Props){
 
     const arrowKeyControl = props.arrowKeyControl? props.arrowKeyControl : true 
+    const lock = props.lock != undefined? props.lock : false
+    const increaseIndex = props.increaseZIndex? props.increaseZIndex : 0
 
     const [ dropDown, setDropDown ] = useState({
         show: false,
-        display: "none"
+        display: "none",
+        lock: lock
     })
 
     const hideSelectedOption = props.hideSelectedOption != undefined? props.hideSelectedOption : false
@@ -28,11 +34,13 @@ export default function DefaultSelectorInput(props: Props){
     function showDropDown(boolean){
         if(boolean){
             setDropDown({
+                ...dropDown,
                 show: true,
                 display: "flex"
             })
         } else {
             setDropDown({
+                ...dropDown,
                 show: false,
                 display: "none"
             })
@@ -72,6 +80,7 @@ export default function DefaultSelectorInput(props: Props){
             className={styles.wrapper}
             style={{
                 width: `${props.width? props.width : '100%' }`,
+                maxWidth: `${props.maxWidth? props.maxWidth : '' }`,
                 display: `${props.display? props.display : 'flex' }`,
                 visibility: `${props.visibility? props.visibility : 'visible' }`
             }}
@@ -81,7 +90,10 @@ export default function DefaultSelectorInput(props: Props){
                 </label>
                 <div
                 className={styles.placeholder}
-                style={{ width: `${props.width? props.width : '100%'}` }}
+                style={{ 
+                    width: `${props.width? props.width : '100%'}`,
+                    maxWidth: `${props.maxWidth? props.maxWidth : '' }`
+                }}
                 />
             </div>
         )
@@ -91,6 +103,7 @@ export default function DefaultSelectorInput(props: Props){
             className={styles.wrapper}
             style={{
                 width: `${props.width? props.width : '100%' }`,
+                maxWidth: `${props.maxWidth? props.maxWidth : '' }`,
                 display: `${props.display? props.display : 'flex' }`,
                 visibility: `${props.visibility? props.visibility : 'visible' }`
             }}
@@ -103,17 +116,36 @@ export default function DefaultSelectorInput(props: Props){
                 >
                     {props.label}
                 </div>
-                <input
-                type='text'
-                value={props.value}
-                readOnly={true}
-                onKeyDown={(e) => handleArrowKey(e)}
-                />
+                <div
+                className={styles.selectedInput}
+                style={{ 
+                    zIndex: increaseIndex+3
+                }}
+                >
+                    <input
+                    type='text'
+                    value={props.value}
+                    readOnly={true}
+                    onKeyDown={(e) => handleArrowKey(e)}
+                    />
+                    <span
+                    className={styles.separator}
+                    >
+                    </span>
+                    <span 
+                    className="material-icons-round" 
+                    id={styles.dropIcon}
+                    style={{ transform: `${dropDown.show? 'scaleY(-1)' : 'scaleY(1)' }` }}
+                    >
+                        expand_more
+                    </span>
+                </div>
                 <div
                 className={styles.options}
                 style={{
                     display: `${props.optionList.length > 0? dropDown.display : 'none'}`,
                     bottom: `-${((props.optionList.length-(hideSelectedOption? 1 : 0 ))*2.5)-.1}rem`,
+                    zIndex: increaseIndex+2,
                 }}
                 >
                     {props.optionList.map((option, index) => {

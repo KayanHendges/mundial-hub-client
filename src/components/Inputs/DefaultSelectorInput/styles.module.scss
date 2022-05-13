@@ -5,40 +5,86 @@
     align-items: flex-start;
     justify-content: center;
 
+    -webkit-tap-highlight-color: transparent;
+
     .label{
         font-size: 1rem;
         padding-left: 0.4rem;
         margin-bottom: .2rem;
     }
 
-    input{
-        width: 100%;
+    .selectedInput {
         height: 2.5rem;
+        width: 100%;
 
-        font-size: 1rem;
-        font-weight: 500;
-        text-align: center;
-        color: var(--white-text);
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+
         background-color: var(--gray-4);
-    
         border: 1px solid var(--gray-line);
         border-radius: .4rem;
-        padding: 1rem .8rem 1rem;
-    
-        outline: none;
-        cursor: pointer;
-        transition: 0.1s ease-in;
-        z-index: 3;
+
+
+        input {
+            width: 100%;
+            height: calc(2.5rem - 2px);
+
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            color: var(--white-text);
+            border-radius: .4rem;
+            background-color: var(--gray-4);
+            padding: 1rem .8rem 1rem;
+            border: none;
         
+            outline: none;
+            cursor: pointer;
+            transition: 0.1s ease-in;
+        
+        }
+
+        .separator {
+
+            height: calc(100% - .4rem);
+            width: 1px;
+            background-color: var(--gray-line);
+            margin: .2rem 0;
+
+        }
+
+        #dropIcon {
+            height: 100%;
+            width: calc(2.5rem - 1px);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            color: var(--complementar-text);
+            cursor: pointer;
+            transition: 0.2s ease-in;
+
+            &:hover {
+                color: var(--white-text);
+                border-color: var(--complementar-text);
+                transform: scaleY(-1);
+            }
+
+        }
 
         &:hover{
             border: 1px solid var(--complementar-text);
+
+            .separator {
+                color: var(--complementar-text);
+            }
         }
         
         &:focus {
             border: 1px solid var(--white-text);
-            background-color: var(--gray-5);
-            
+            background-color: var(--gray-5);            
         }
     }
     
@@ -54,7 +100,6 @@
         padding-top: 1rem;
         bottom: 0;
         overflow: hidden;
-        z-index: 2;
 
         .optionContainer{
             width: 100%;

@@ -1,0 +1,12 @@
+.wrapper {
+    height: 100%;
+    width: 100%;
+
+    position: absolute;
+    z-index: 100;
+    right: 0;
+    top: 0;
+
+    transition: background-color .2s;
+
+}
