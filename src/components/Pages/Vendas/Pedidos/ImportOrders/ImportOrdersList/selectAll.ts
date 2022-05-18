@@ -26,7 +26,7 @@ export default function selectAll(ordersParams: ListTrayOrdersParams, list: Impo
         if(data){
             const orders = data?.orders
             const newList: ImportItem[] = []
-            
+            console.log(data)
             orders.map( order => {
                 const trayId = parseInt(order.id)
 

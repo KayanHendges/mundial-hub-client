@@ -4,8 +4,12 @@ import { useFetch } from '../../../../../../services/api/useFetch'
 import floatToPrice from '../../../../../../services/floatToPrice';
 import DefaultSelectBox from '../../../../../Inputs/DefaultSelectBox';
 import RectangularPlaceholder from '../../../../../Placeholders/Rectangular';
+import ImportButton from '../ImportButton';
 import dateFormat from './dataFormat';
-import selectAll from './importFunctions';
+import Footer from './Footer';
+import ImportOrderLoader from './ImportOrderLoader';
+import importQueue from './importQueue';
+import selectAll from './selectAll';
 import styles from './styles.module.scss'
 
 type Props = {
@@ -13,6 +17,7 @@ type Props = {
     fetchOrders: boolean,
     setFetchOrder(fetchOrders: boolean): void;
     ordersParams: ListTrayOrdersParams
+    setOrdersParams(ordersParams: ListTrayOrdersParams): void;
 }
 
 export type ImportItem = {
@@ -31,14 +36,43 @@ export default function ImportOrdersList(props: Props){
     const totalOrders = isFetching? 0 : data?.total
 
     const [ importList, setImportList ] = useState<ImportItem[]>([])
+    const { queue, currentId, addToQueue } = importQueue()
 
     const { selecting, setSelecting } = selectAll(props.ordersParams, { set: setImportList }, totalOrders)
+
+
+    useEffect(() => {
+        if(!isFetching){
+            props.setFetchOrder(false)
+        }
+    }, [isFetching])
+
+    useEffect(() => {
+        if(error){
+            console.log(error)
+        }
+    }, [error])
 
     useEffect(() => {
 
         setImportList([])
         
     }, [props.ordersParams])
+
+    useEffect(() => { // clean the importList when every request was completed
+        if(importList.length == 0){ return }
+
+        var hasNotCompleted = false
+        importList.map( item => {
+            if(item.success == null){
+                hasNotCompleted = true
+            }
+        })
+
+        if(!hasNotCompleted){
+            setImportList([])
+        }
+    }, [importList])
 
     const placeholderList = (length: number) => {
         const array: number[] = []
@@ -74,6 +108,35 @@ export default function ImportOrdersList(props: Props){
         setImportList(list)
     }
 
+    function selectedOrdesLabel(amount: number): string{
+
+        if(selecting){
+            return 'selecionando todos'
+        }
+
+        if(props.fetchOrders || props.findStores){
+            return ''
+        }
+
+        if(amount == totalOrders){
+            return 'todos'
+        }
+
+        return 'selecionar todos'
+
+    }
+
+    function loadingFooter(): boolean{
+        if(props.findStores){return true}
+        if(props.fetchOrders){return true}
+        return false
+    }
+
+    const alreadyDisplayed = []
+    orders?.map( order => {
+        alreadyDisplayed.push(parseInt(order.id))
+    })
+
     return (
         <div
         className={styles.wrapper}
@@ -81,7 +144,7 @@ export default function ImportOrdersList(props: Props){
             <div
             className={styles.header}
             style={{
-                visibility: `${isFetching? 'hidden' : 'visible'}`
+                visibility: `${isFetching || props.findStores? 'hidden' : 'visible'}`
             }}
             >
                 <DefaultSelectBox 
@@ -104,11 +167,29 @@ export default function ImportOrdersList(props: Props){
                 <span
                 className={styles.selectAll}
                 >
-                    {importList.length}
+                    {selectedOrdesLabel(importList.length)}
                 </span>
-                <span>
-                    {`${totalOrders} pedidos`}
+                <span
+                >
+                    {`${importList.length > 0? importList.length : ''}${importList.length > 0? ' selecionados' : ''}`}
                 </span>
+                <ImportButton 
+                importList={importList}
+                label='importar produtos'
+                css={{ width: '10rem' }}
+                action={e => {
+                    const pushList = []
+                    const orderImportList = importList?.sort((a, b) => {
+                        if(a.trayId > b.trayId){ return 1 }
+                        if(a.trayId < b.trayId){ return -1 }
+                        return 0
+                    })
+                    orderImportList.map(order => {
+                        pushList.push(order.trayId)
+                    })
+                    addToQueue(pushList)
+                }}
+                />
             </div>
             <div
             className={styles.list}
@@ -121,7 +202,6 @@ export default function ImportOrdersList(props: Props){
                             return (
                                 <RectangularPlaceholder
                                 key={placeholder}
-                                display={isFetching? 'flex' : 'none'}
                                 height={'3rem'}
                                 width={'100%'}
                                 />
@@ -160,11 +240,45 @@ export default function ImportOrdersList(props: Props){
                                 <span>
                                     {`R$${floatToPrice(parseFloat(order?.total))}`}
                                 </span>
+                                <ImportOrderLoader 
+                                importList={importList}
+                                setImportList={setImportList}
+                                id={importOrder.trayId}
+                                storeCode={props.ordersParams.storeCode}
+                                queue={queue}
+                                addToQueue={addToQueue}
+                                currentId={currentId}
+                                html={true}
+                                />
                             </div>
                         )
                     })}
                 </div>
             </div>
+            <Footer 
+            orders={data}
+            ordersParams={props.ordersParams}
+            setOrdersParams={props.setOrdersParams}
+            loading={loadingFooter()}
+            />
+            {importList?.map( (item, index) => {
+
+                if(!alreadyDisplayed.includes(item.trayId)){
+                    return (
+                        <ImportOrderLoader 
+                        key={index}
+                        html={false}
+                        id={item.trayId}
+                        addToQueue={addToQueue}
+                        currentId={currentId}
+                        importList={importList}
+                        queue={queue}
+                        setImportList={setImportList}
+                        storeCode={props.ordersParams.storeCode}
+                        />
+                    )
+                }
+            })}
         </div>
     )
 }

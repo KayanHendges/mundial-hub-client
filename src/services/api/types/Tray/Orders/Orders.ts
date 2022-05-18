@@ -52,3 +52,12 @@ export interface ListTrayOrdersResponse {
     totalPages: number,
     orders: trayOrdersToImport[]
 }
+
+export interface ImportTrayOrderParams {
+    id: number,
+    storeCode: number
+}
+
+export interface ImportTrayOrderResponse {
+    createdId: number,
+}

@@ -107,7 +107,11 @@ export default function DefaultSelectorInput(props: Props){
                 display: `${props.display? props.display : 'flex' }`,
                 visibility: `${props.visibility? props.visibility : 'visible' }`
             }}
-            onClick={() => showDropDown(!dropDown.show)}
+            onClick={() => {
+                if(!lock){
+                    showDropDown(!dropDown.show)
+                }
+            }}
             onMouseLeave={() => showDropDown(false)}
             >
                 <div
@@ -155,7 +159,11 @@ export default function DefaultSelectorInput(props: Props){
                             return(
                                 <div
                                 className={styles.optionContainer}
-                                onClick={() => props.onChange(option)}
+                                onClick={() => {
+                                    if(!lock){
+                                        props.onChange(option)
+                                    }
+                                }}
                                 key={index}
                                 >
                                     <span

@@ -31,13 +31,12 @@ export default function ImportOrdersWrapper(props: Props){
         stores: { active: true }
     })
 
-
     const [ fetchOrders, setFetchOrders ] = useState<boolean>(false)
     const [ ordersParams, setOrdersParams ] = useState<ListTrayOrdersParams>({
         storeCode: 0,
         includeImported: true,
         page: 1,
-        limit: 50,
+        limit: 20,
     })
 
     const stores = storeList?.stores? storeList.stores : []
@@ -55,6 +54,7 @@ export default function ImportOrdersWrapper(props: Props){
 
         if(stores.length > 0){
             setSelectedStore(stores[0])
+            setFindStores(false)
         }
 
     }, [stores])
@@ -64,6 +64,7 @@ export default function ImportOrdersWrapper(props: Props){
             setOrdersParams({
                 ...ordersParams,
                 storeCode: selectedStore.trayId,
+                page: 1
             })
         }
     }, [selectedStore])
@@ -133,6 +134,7 @@ export default function ImportOrdersWrapper(props: Props){
                         width='100%'
                         maxWidth='16rem'
                         loading={isFetching}
+                        lock={isFetching || fetchOrders}
                         hideSelectedOption={true}
                         increaseZIndex={2}
                         />
@@ -141,9 +143,11 @@ export default function ImportOrdersWrapper(props: Props){
                         optionList={['todos', 'não importados']}
                         onChange={value => {
                             const boolean = value == 'todos'? true : false
-                            setOrdersParams({...ordersParams, includeImported: boolean})
+                            setOrdersParams({...ordersParams, includeImported: boolean, page: 1})
                         }}
                         label='importar'
+                        loading={isFetching}
+                        lock={isFetching || fetchOrders}
                         width='100%'
                         maxWidth='12rem'
                         hideSelectedOption={true}
@@ -153,6 +157,7 @@ export default function ImportOrdersWrapper(props: Props){
                 <ImportOrdersList 
                 findStores={findStores}
                 ordersParams={ordersParams}
+                setOrdersParams={setOrdersParams}
                 fetchOrders={fetchOrders}
                 setFetchOrder={setFetchOrders}
                 />
