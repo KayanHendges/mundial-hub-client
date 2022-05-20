@@ -7,7 +7,7 @@ import DefaultSelectorInput from '../../../../../Inputs/DefaultSelectorInput'
 import styles from './styles.module.scss'
 import floatToPrice from '../../../../../../services/floatToPrice'
 import priceToFloat from '../../../../../../services/priceToFloat'
-import titleize from '../../../../../../services/Titleize'
+import { titleize } from '../../../../../../services/Titleize'
 
 type Props = {
     kitDetails: IKitDetails;

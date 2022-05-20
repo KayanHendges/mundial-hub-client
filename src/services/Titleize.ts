@@ -1,4 +1,7 @@
-function titleize(text) {
+export function titleize(text: string) {
+    if(!text){
+        return ''
+    }
     var words = text.toLowerCase().split(" ");
     var emptySpace = 0
     for (var a = 0; a < words.length; a++) {
@@ -11,5 +14,3 @@ function titleize(text) {
     }
     return words.join(" ");
 }
-
-module.exports = titleize

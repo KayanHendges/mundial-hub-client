@@ -1,5 +1,9 @@
 export default function floatToPrice(float: number): string {
 
+    if(!float){
+        return ''
+    }
+
     const strArray = float.toFixed(2).replace('.', '').split('')
 
     if(strArray.length == 3){

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { parseCookies } from "nookies";
 
-export function apiAxiosConfig(ctx?: any) {
+function apiAxiosConfig(ctx?: any) {
   const { 'mundialhub.token': token } = parseCookies(ctx)
 
   const api = axios.create({
@@ -15,3 +15,5 @@ export function apiAxiosConfig(ctx?: any) {
 
   return api;
 }
+
+export const apiV2 = apiAxiosConfig()

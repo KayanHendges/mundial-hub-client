@@ -1,9 +1,12 @@
 import styles from './styles.module.scss'
 import { GetServerSideProps } from "next"
 import { parseCookies } from "nookies"
-import OrdersHeader from '../../components/Pages/Vendas/Pedidos/OrdersHeader'
-import ImportOrders from '../../components/Pages/Vendas/Pedidos/ImportOrders'
+
 import { OrdersProvider } from '../../contexts/OrdersContext'
+
+import OrdersContainer from '../../components/Pages/Vendas/Pedidos/OrdersContainer'
+import OrderContainer from '../../components/Pages/Vendas/Pedidos/OrderContainer'
+import ImportOrders from '../../components/Pages/Vendas/Pedidos/ImportOrders'
 
 export default function Orders(){
 
@@ -12,8 +15,9 @@ export default function Orders(){
             <div
             className={styles.wrapper}
             >
+                <OrdersContainer />
+                <OrderContainer />
                 <ImportOrders />
-                <OrdersHeader />
             </div>
         </OrdersProvider>
     )

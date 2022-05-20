@@ -1,8 +1,8 @@
 import { useContext } from 'react'
-import { OrdersContext } from '../../../../../contexts/OrdersContext'
-import useWindowSize from '../../../../../services/windowSize/useWindowSize'
-import BackButton from '../../../../Buttons/BackButton/Index'
-import BlueButtonAction from '../../../../Buttons/BlueButtonAction'
+import { OrdersContext } from '../../../../../../contexts/OrdersContext'
+import useWindowSize from '../../../../../../services/windowSize/useWindowSize'
+import BackButton from '../../../../../Buttons/BackButton/Index'
+import BlueButtonAction from '../../../../../Buttons/BlueButtonAction'
 import styles from './styles.module.scss'
 
 export default function OrdersHeader(){

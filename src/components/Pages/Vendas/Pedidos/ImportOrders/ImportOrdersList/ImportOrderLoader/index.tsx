@@ -43,7 +43,6 @@ export default function ImportOrderLoader(props: Props){
         const createdId = data?.createdId
 
         if(createdId){
-            console.log(props.id, 'criou', createdId)
             setImportItem({...importItem, importing: false, success: true})
         }
     }, [ data ])

@@ -1,0 +1,10 @@
+.wrapper {
+    height: 100%;
+    flex-grow: 0;
+
+    background-color: var(--gray-3);
+    border-radius: .4rem;
+    border: 1px solid var(--white-text);
+
+    transition: .5s;
+}

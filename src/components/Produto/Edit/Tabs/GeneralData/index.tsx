@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { ProductContext } from '../../../../../contexts/ProductContext'
 import { api } from '../../../../../services/api'
-import titleize from '../../../../../services/Titleize'
+import { titleize } from '../../../../../services/Titleize'
 import DefaultTextAreaInput from '../../../../Inputs/DefaultTextAreaInput'
 import DefaultTextInput from '../../../../Inputs/DefaultTextInput'
 import ImageGallery from '../../ImagesGallery'

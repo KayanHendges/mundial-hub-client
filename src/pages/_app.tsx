@@ -6,38 +6,30 @@ import SideBar from '../components/SideBar';
 import { AuthProvider } from '../contexts/AuthContext';
 import { AlertProvider } from '../contexts/AlertContext';
 import Alert from '../components/Alert';
-import { useEffect, useState } from 'react';
-import useWindowSize from '../services/windowSize/useWindowSize';
+import { QueryClientProvider } from 'react-query'
+import { queryClient } from '../services/queryClient';
 
 function MyApp({ Component, pageProps }) {
-
-  const windowSize = useWindowSize()
-
-  
-
-  useEffect(() => {
-
-    console.log(windowSize)
-
-  }, [windowSize])
   
   return (
-    <AlertProvider >
-      <AuthProvider >
-        <div className={styles.wrapper}>
-          <Header />
-          <main>
-            <SideBar />
-            <div
-            className={styles.container}
-            >
-              <Component {...pageProps} />
-              <Alert />
-            </div>
-          </main>
-        </div>
-      </AuthProvider>
-    </AlertProvider>
+    <QueryClientProvider  client={queryClient}>
+      <AlertProvider >
+        <AuthProvider >
+          <div className={styles.wrapper}>
+            <Header />
+            <main>
+              <SideBar />
+              <div
+              className={styles.container}
+              >
+                <Component {...pageProps} />
+                <Alert />
+              </div>
+            </main>
+          </div>
+        </AuthProvider>
+      </AlertProvider>
+    </QueryClientProvider>
   )
 }
   

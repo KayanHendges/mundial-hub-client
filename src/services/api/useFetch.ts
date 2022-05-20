@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios"
 import { useEffect, useState } from "react"
-import { apiAxiosConfig } from "./apiAxiosConfig"
+import { apiV2 } from "./apiAxiosConfig"
 
 type Method = null | 'get' | 'post' | 'put' | 'delete'  
 
@@ -9,8 +9,6 @@ export function useFetch<T = unknown>(method: Method, path: string, execute: boo
     const [ data, setData ] = useState<T | null>(null)
     const [ isFetching, setIsFetching ] = useState<boolean>(false)
     const [ error, setError ] = useState<Error | null>(null)
-
-    const api = apiAxiosConfig()
 
     useEffect(() => {
 
@@ -27,7 +25,7 @@ export function useFetch<T = unknown>(method: Method, path: string, execute: boo
             data: body
         }
 
-        api(config)
+        apiV2(config)
         .then(response => {
 
             if(response.data){
