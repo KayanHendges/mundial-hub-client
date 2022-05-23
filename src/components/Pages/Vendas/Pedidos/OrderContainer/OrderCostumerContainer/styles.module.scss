@@ -1,0 +1,11 @@
+.wrapper {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: .5rem;
+    gap: .4rem;
+}

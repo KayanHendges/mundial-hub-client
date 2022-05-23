@@ -72,6 +72,41 @@ export default function OrderContainer(props: Props){
         return names.join(' ')
     }
 
+    function shipmentValue(price: number): string{
+
+        if(price == 0){
+            return 'frete grátis'
+        }
+
+        if(!price){
+            return ''
+        }
+
+        return floatToPrice(price)
+    }
+
+    function statusColor(status: string): string {
+        if(!status){
+            return 
+        }
+
+        const words = status.toLowerCase().split(' ')
+
+        if(words.includes('enviar')){
+            return '#00D647'
+        }
+
+        if(words.includes('aguardando')){
+            return '#ffbf00'
+        }
+
+        if(words.includes('cancelado')){
+            return '#d60b00'
+        }
+        
+        return '#FFF'
+    }
+
     return (
         <div
         className={styles.wrapper}
@@ -106,23 +141,39 @@ export default function OrderContainer(props: Props){
                 width='10rem'
                 height='1.2rem'
                 />
-                <span className={styles.info}> 
+                <span className={styles.info} title={customer?.name}> 
                     {customerName(customer?.name)}
                 </span>
                 <span className={styles.subInfo}>{deliveryAddress()?.city} - {deliveryAddress()?.state}</span>
             </div>
-            {/* forma de envio */}
+            {/* shipment type and value */}
             <div
             className={styles.infoContainer}
             >
                 <span className={styles.info}>{titleize(order?.chosenShippingType.substring(0, 18))}</span>
-                <span className={styles.subInfo}>{floatToPrice(order?.chosenShippingValue)}</span>
+                <span className={styles.subInfo}>{shipmentValue(order?.chosenShippingValue)}</span>
             </div>
+            {/* total order and payment method */}
             <div
             className={styles.infoContainer}
             >
                 <span className={styles.info}>{floatToPrice(order?.total)}</span>
                 <span className={styles.subInfo}>{titleize(order?.paymentMethod)}</span>
+            </div>
+            {/* status of order */}
+            <div
+            className={styles.statusContainer}
+            >
+                <span
+                className={styles.statusColor}
+                style={{ backgroundColor: statusColor(order?.status) }}
+                ></span>
+                <span
+                className={styles.statusLabel}
+                title={order?.status}
+                >
+                    {order?.status?.toLowerCase().substring(0, 14)}{order?.status.length > 13? '...' : ''}
+                </span>
             </div>
         </div>
     )

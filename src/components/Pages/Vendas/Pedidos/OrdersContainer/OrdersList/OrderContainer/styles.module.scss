@@ -1,8 +1,9 @@
 .wrapper {
     width: 100%;
 
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    justify-content: center;
     align-items: center;
 
     gap: .5rem;
@@ -34,6 +35,36 @@
         .subInfo {
             font-size: .9rem;
             color: var(--complementar-text);
+        }
+
+    }
+
+    .statusContainer {
+        width: min-content;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        margin: 0 auto;
+        padding: .2rem .4rem;
+        gap: .4rem;
+
+        border-radius: 4rem;
+        border: 1px solid var(--white-text);
+
+        .statusColor {
+            width: .75rem;
+            height: .75rem;
+
+            border-radius: 50%;
+            background-color: white;
+        }
+
+        .statusLabel {
+            font-size: .85rem;
+            color: var(--complementar-text);
+            white-space: nowrap;
         }
     }
 }
