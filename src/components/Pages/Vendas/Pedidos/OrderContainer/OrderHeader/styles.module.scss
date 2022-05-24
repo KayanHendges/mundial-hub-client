@@ -1,0 +1,17 @@
+.wrapper {
+    width: 100%;
+    
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: .5rem;
+    background-color: var(--gray-2);
+    border-radius: .4rem 0 0 .4rem;
+    padding: .4rem 1rem;
+
+    span {
+        font-size: .9rem;
+        color: var(--white-text);
+    }
+}
