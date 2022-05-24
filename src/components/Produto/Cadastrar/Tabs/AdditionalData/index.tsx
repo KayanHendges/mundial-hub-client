@@ -1,11 +1,7 @@
-import { rejects } from 'assert'
 import { useContext, useEffect, useState } from 'react'
 import { NewProductContext } from '../../../../../contexts/NewProductContext'
-import { api } from '../../../../../services/api'
-import titleize from '../../../../../services/Titleize'
 import DefaultTextAreaInput from '../../../../Inputs/DefaultTextAreaInput'
 import DefaultTextInput from '../../../../Inputs/DefaultTextInput'
-import ImageGallery from '../../ImagesGallery'
 import styles from './styles.module.scss'
 
 type Styles = {
