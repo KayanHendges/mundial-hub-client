@@ -1,5 +1,5 @@
 import { addHours, format, parseISO } from 'date-fns';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useQuery } from 'react-query';
 import { OrdersContext } from '../../../../../../../contexts/OrdersContext';
 import { apiV2 } from '../../../../../../../services/api/apiAxiosConfig';
@@ -8,6 +8,7 @@ import { Order } from '../../../../../../../services/api/types/Orders/Orders';
 import floatToPrice from '../../../../../../../services/floatToPrice';
 import { titleize } from '../../../../../../../services/Titleize';
 import RectangularPlaceholder from '../../../../../../Placeholders/Rectangular';
+import handleStyles from './styles';
 import dateFormat from './dateFormat';
 import styles from './styles.module.scss';
 
@@ -20,6 +21,8 @@ export default function OrderContainer(props: Props){
     const order = props?.order
 
     const { expandOrderId, setExpandOrderId } = useContext( OrdersContext )
+    const [ resumeOrder, setResumeOrder ] = useState<boolean>(false)
+    const { wrapperStyles, infoStyles } = handleStyles({resumeOrder, setResumeOrder})
 
     const { data, isFetching: customerFetching } = useQuery<FindCustomerResponse>(`orders_customer_id_${order?.customerId}`,
     async() => {
@@ -107,9 +110,42 @@ export default function OrderContainer(props: Props){
         return '#FFF'
     }
 
+    if(resumeOrder){
+        return (
+            <div
+            className={styles.wrapper}
+            style={wrapperStyles}
+            onClick={() => {
+                if(expandOrderId == null || expandOrderId != order.id){
+                    setExpandOrderId(order.id)
+                    return
+                }
+                setExpandOrderId(null)
+            }}
+            >
+                {/* externalOrderId and customer name */}
+                <div
+                className={styles.infoContainer}
+                style={infoStyles}
+                >
+                    <RectangularPlaceholder 
+                    display={customer? 'none' : 'flex'}
+                    width='10rem'
+                    height='1.2rem'
+                    />
+                    <span className={styles.info}>
+                        {order?.trayOrderId}
+                    </span>
+                    <span className={styles.subInfo}>{customerName(customer?.name)}</span>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div
         className={styles.wrapper}
+        style={wrapperStyles}
         onClick={() => {
             if(expandOrderId == null || expandOrderId != order.id){
                 setExpandOrderId(order.id)
@@ -121,6 +157,7 @@ export default function OrderContainer(props: Props){
             {/* externalOrderId and store name */}
             <div
             className={styles.infoContainer}
+            style={infoStyles}
             >
                 <span className={styles.info}>{order?.trayOrderId}</span>
                 <span className={styles.subInfo}>{storeName(order?.storeCode)}</span>
@@ -128,6 +165,7 @@ export default function OrderContainer(props: Props){
             {/* creation date */}
             <div
             className={styles.infoContainer}
+            style={infoStyles}
             >
                 <span className={styles.info}>{dateFormat(order?.created)}</span>
                 <span className={styles.subInfo}>{format(addHours(parseISO(order?.created), 3), 'hh:mm:ss')}</span>
@@ -135,6 +173,7 @@ export default function OrderContainer(props: Props){
             {/* name and delivery city - state */}
             <div
             className={styles.infoContainer}
+            style={infoStyles}
             >
                 <RectangularPlaceholder 
                 display={customer? 'none' : 'flex'}
@@ -149,6 +188,7 @@ export default function OrderContainer(props: Props){
             {/* shipment type and value */}
             <div
             className={styles.infoContainer}
+            style={infoStyles}
             >
                 <span className={styles.info}>{titleize(order?.chosenShippingType.substring(0, 18))}</span>
                 <span className={styles.subInfo}>{shipmentValue(order?.chosenShippingValue)}</span>
@@ -156,6 +196,7 @@ export default function OrderContainer(props: Props){
             {/* total order and payment method */}
             <div
             className={styles.infoContainer}
+            style={infoStyles}
             >
                 <span className={styles.info}>{floatToPrice(order?.total)}</span>
                 <span className={styles.subInfo}>{titleize(order?.paymentMethod)}</span>
@@ -163,6 +204,7 @@ export default function OrderContainer(props: Props){
             {/* status of order */}
             <div
             className={styles.statusContainer}
+            style={infoStyles}
             >
                 <span
                 className={styles.statusColor}

@@ -9,6 +9,22 @@ export default function OrdersHeader(){
 
     const { setOpenImportOrders, hasOpenImportOrders, setHasOpenImportOrders } = useContext(OrdersContext)
     const { width } = useWindowSize()
+    const { expandOrderId } = useContext(OrdersContext)
+    
+    if(expandOrderId){
+        return (
+            <div
+            className={styles.wrapper}
+            >
+                <BackButton />
+                <h1
+                className={styles.header}
+                >
+                    Pedidos
+                </h1>
+            </div>
+        )
+    }
     
     if(width > 900){
         return (
