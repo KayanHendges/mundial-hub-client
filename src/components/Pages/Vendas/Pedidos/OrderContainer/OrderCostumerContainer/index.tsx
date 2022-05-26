@@ -2,13 +2,14 @@ import { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { OrdersContext } from '../../../../../../contexts/OrdersContext'
 import { apiV2 } from '../../../../../../services/api/apiAxiosConfig'
-import { Customer, FindCustomerParams, FindCustomerResponse } from '../../../../../../services/api/types/Customers/Customer'
-import DefaultTextInput from '../../../../../Inputs/DefaultTextInput'
+import { Customer, CustomerAddress, FindCustomerParams, FindCustomerResponse } from '../../../../../../services/api/types/Customers/Customer'
+import { Order } from '../../../../../../services/api/types/Orders/Orders'
 import handleStyles from './handleStyles'
 import styles from './styles.module.scss'
 
 type Props = {
     customerId: number | null
+    order: Order
 }
 
 export default function OrderCostumerContainer(props: Props){
@@ -18,7 +19,6 @@ export default function OrderCostumerContainer(props: Props){
 
     const { expandOrderId } = useContext(OrdersContext)
     const [ refresh, setRefresh ] = useState<boolean>(false)
-    const [ customer, setCustomer ] = useState<Customer | null>(null)
 
     const { data, isFetching: customerFetching } = useQuery<FindCustomerResponse>(`orders_customer_id_${props.customerId}`,
     async() => {
@@ -36,16 +36,9 @@ export default function OrderCostumerContainer(props: Props){
         enabled: true
     })
 
-    useEffect(() => {
-        const customerData = data?.customer
+    const [ addresses, setAddresses ] = useState<CustomerAddress[]>([])
 
-        if(!customerData){
-            return
-        }
-
-        setCustomer(customerData)
-
-    }, [data])
+    const customer = data?.customer
 
     useEffect(() => {
         setRefresh(false)
@@ -57,6 +50,29 @@ export default function OrderCostumerContainer(props: Props){
         setTimeout(() => { setRefresh(true), 1})
 
     }, [props.customerId])
+
+    useEffect(() => {
+        const order = props?.order
+
+        if(!order){
+            return
+        }
+        
+        const addressesList: CustomerAddress[] = []
+
+        customer?.addresses?.map(address => {
+            if(address.id == order.billingAddressId){
+                addressesList.push(address)
+            }
+
+            if(address.id == order.shippingAddressId){
+                addressesList.push(address)
+            }
+        })
+
+        setAddresses(addressesList)
+
+    }, [customer])
 
     return (
         <div
@@ -73,25 +89,47 @@ export default function OrderCostumerContainer(props: Props){
             className={styles.container}
             style={containerStyles}
             >
-                <DefaultTextInput 
-                label='nome'
-                value={customer?.name}
-                onChange={e => { setCustomer({...customer, name: e.target.value}) }}
-                loading={customerFetching}
-                />
-                <DefaultTextInput 
-                label='CPF'
-                value={customer?.cpf}
-                onChange={e => { setCustomer({...customer, name: e.target.value}) }}
-                loading={customerFetching}
-                />
-                <DefaultTextInput 
-                display={`${customer?.cnpj? 'flex' : 'none'}`}
-                label='CNPJ'
-                value={customer?.cpf}
-                onChange={e => { setCustomer({...customer, name: e.target.value}) }}
-                loading={customerFetching}
-                />
+                <div
+                className={styles.customerInfo}
+                >
+                    <div
+                    className={styles.nameContainer}
+                    >
+                        <h4>
+                            {customer?.name}
+                        </h4>
+                        <div
+                        className={styles.documents}
+                        >
+                            <span>cpf: {customer?.cpf}</span>
+                            {customer?.cnpj? '- cnpj' : ''}
+                            {customer?.cnpj? customer.cnpj : ''}
+                        </div>
+                    </div>
+                    <div
+                    className={styles.contactContainer}
+                    >
+                        <span>{ customer?.email }</span>
+                        <span>{ customer?.cellphone }</span>
+                        <span>{ customer?.phone }</span>
+                    </div>
+                </div>
+                {/* billingAddress if exists */}
+                {addresses?.map(address => {
+                    return (
+                        <div
+                        className={styles.addressContainer}
+                        >
+                            <span>{ address.type }</span>
+                            <span>{ address?.name }</span>
+                            <span>{ address?.address }</span>
+                            <span>{ address?.number }</span>
+                            <span>{ address?.complement }</span>
+                            <span>{ address?.neighborhood }</span>
+                            <span>{ address?.city }/{ address?.state }</span>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )

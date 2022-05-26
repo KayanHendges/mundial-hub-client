@@ -55,6 +55,7 @@ export default function OrderContainer(props: Props){
             >
                 <OrderCostumerContainer 
                 customerId={data?.order?.customerId}
+                order={order}
                 />
             </div>
         </div>
