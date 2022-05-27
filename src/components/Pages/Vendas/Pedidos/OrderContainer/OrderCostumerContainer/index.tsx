@@ -120,13 +120,17 @@ export default function OrderCostumerContainer(props: Props){
                         <div
                         className={styles.addressContainer}
                         >
-                            <span>{ address.type }</span>
+                            <span className={styles.addressType}>{ address.type }</span>
                             <span>{ address?.name }</span>
-                            <span>{ address?.address }</span>
-                            <span>{ address?.number }</span>
-                            <span>{ address?.complement }</span>
+                            <p>
+                                { address?.address }
+                                { address?.number? `, ${address.number}` : '' }
+                                { address?.complement? `. ${address.complement}` : '' }
+                            </p>
                             <span>{ address?.neighborhood }</span>
                             <span>{ address?.city }/{ address?.state }</span>
+                            <span>{ address?.zipCode }</span>
+                            <span>{ address?.recipient? `entregar para: ${address?.recipient}` : ''}</span>
                         </div>
                     )
                 })}

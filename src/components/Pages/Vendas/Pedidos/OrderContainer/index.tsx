@@ -6,6 +6,7 @@ import styles from './styles.module.scss';
 import { Order } from '../../../../../services/api/types/Orders/Orders'
 import handleStyles from './styles';
 import OrderHeader from './OrderHeader';
+import OrderProductsSold from './OrderProductsSold';
 
 type Props = {
 
@@ -56,6 +57,9 @@ export default function OrderContainer(props: Props){
                 <OrderCostumerContainer 
                 customerId={data?.order?.customerId}
                 order={order}
+                />
+                <OrderProductsSold 
+                orderId={expandOrderId}
                 />
             </div>
         </div>

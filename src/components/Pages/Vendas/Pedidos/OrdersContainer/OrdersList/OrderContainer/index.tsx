@@ -110,11 +110,18 @@ export default function OrderContainer(props: Props){
         return '#FFF'
     }
 
+    const selectedBorder = () => {
+        if(order.id == expandOrderId){
+            return { border: '1px solid var(--white-text)' }
+        }
+        return {}
+    }
+
     if(resumeOrder){
         return (
             <div
             className={styles.wrapper}
-            style={wrapperStyles}
+            style={{...wrapperStyles, ...selectedBorder()}}
             onClick={() => {
                 if(expandOrderId == null || expandOrderId != order.id){
                     setExpandOrderId(order.id)

@@ -45,3 +45,32 @@ export interface ListOrdersResponse {
     paging?: PagingParam,
     sort?: SortParams<Order>
 }
+
+export interface OrderProductSold {
+    id: number | null
+    orderId: number | null
+    trayId: number | null
+    trayKitId: number | null
+    productId: number
+    kitId: number | null
+    reference: string
+    name: string
+    cost: number | null
+    price: number
+    paidPrice: number
+    modified: Date | null
+    created: Date
+}
+
+export interface ListOrdersProductsSoldParams {
+    productsSold: Partial<OrderProductSold>,
+    paging?: PagingParam,
+    sort?: SortParams<OrderProductSold>
+}
+
+export interface ListOrdersProductsSoldResponse {
+    ordersProductsSold: OrderProductSold[],
+    total: number,
+    paging?: PagingParam,
+    sort?: SortParams<OrderProductSold>
+}
