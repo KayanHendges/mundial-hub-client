@@ -11,6 +11,7 @@ import RectangularPlaceholder from '../../../../../../Placeholders/Rectangular';
 import handleStyles from './styles';
 import dateFormat from './dateFormat';
 import styles from './styles.module.scss';
+import axios from 'axios';
 
 type Props = {
     order: Order
@@ -135,14 +136,14 @@ export default function OrderContainer(props: Props){
                 className={styles.infoContainer}
                 style={infoStyles}
                 >
+                    <span className={styles.info}>
+                        {order?.trayOrderId}
+                    </span>
                     <RectangularPlaceholder 
                     display={customer? 'none' : 'flex'}
                     width='10rem'
                     height='1.2rem'
                     />
-                    <span className={styles.info}>
-                        {order?.trayOrderId}
-                    </span>
                     <span className={styles.subInfo}>{customerName(customer?.name)}</span>
                 </div>
             </div>

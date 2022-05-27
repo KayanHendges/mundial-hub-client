@@ -11,7 +11,7 @@ type Props = {
     orderId: number | null
 }
 
-export default function OrderProductsSold(props: Props){
+export default function OrderFinances(props: Props){
 
     const [ open, setOpen ] = useState<boolean>(true)
     const { containerStyles } = handleStyles({ open })
@@ -49,17 +49,9 @@ export default function OrderProductsSold(props: Props){
             style={containerStyles}
             >
                 <div
-                className={styles.productsList}
+                className={styles.financesList}
                 >
-                    {data?.ordersProductsSold.map(product => {
-                        return (
-                            <div
-                            className={styles.productContainer}
-                            >
-                                <span>{ product?.name }</span>
-                            </div>
-                        )
-                    })}
+                    
                 </div>
             </div>
         </div>

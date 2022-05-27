@@ -7,6 +7,7 @@ import { Order } from '../../../../../services/api/types/Orders/Orders'
 import handleStyles from './styles';
 import OrderHeader from './OrderHeader';
 import OrderProductsSold from './OrderProductsSold';
+import OrderFinances from './OrderFinances';
 
 type Props = {
 
@@ -59,6 +60,9 @@ export default function OrderContainer(props: Props){
                 order={order}
                 />
                 <OrderProductsSold 
+                orderId={expandOrderId}
+                />
+                <OrderFinances
                 orderId={expandOrderId}
                 />
             </div>
