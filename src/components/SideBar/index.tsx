@@ -61,6 +61,15 @@ export default function SideBar(props){
 
     const itemsList: Item[] = [
         {
+            title: 'vendas',
+            googleIcon: 'sell',
+            subItems: [
+                {
+                    title: 'pedidos',
+                    href: '/pedidos'
+                }
+            ]
+        },{
             title: 'catalogo',
             googleIcon: 'storefront',
             subItems: [
@@ -168,7 +177,7 @@ export default function SideBar(props){
                                 className={styles.headerIcon}
                                 >
                                     <span 
-                                    className="material-icons"
+                                    className="material-icons-outlined"
                                     id={styles.iconSpan}
                                     >
                                         {item.googleIcon}
