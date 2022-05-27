@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import { OrdersContext } from '../../../../../../contexts/OrdersContext';
 import { apiV2 } from '../../../../../../services/api/apiAxiosConfig';
 import { ListOrdersParams, ListOrdersResponse } from '../../../../../../services/api/types/Orders/Orders';
 import RectangularPlaceholder from '../../../../../Placeholders/Rectangular';
@@ -13,7 +14,8 @@ export default function OrdersList(props: Props){
 
     const [ firstFetch, setFirstFetch ] = useState<boolean>(false)
 
-    const { data, isFetching, isError,  } = useQuery<ListOrdersResponse>('orders', async () => {
+    const { openImportOrders } = useContext(OrdersContext)
+    const { data, isFetching, isError, refetch } = useQuery<ListOrdersResponse>('orders', async () => {
         const body: ListOrdersParams = {
             orders: {},
             paging: {
@@ -42,6 +44,14 @@ export default function OrdersList(props: Props){
     for (let index = 0; index < 20; index++) {
         placeholdersList.push(index)
     }
+
+    useEffect(() => { // refetch when close openImportOrders
+
+        if(!openImportOrders){
+            refetch()
+        }
+
+    }, [openImportOrders])
 
     return (
         <div
