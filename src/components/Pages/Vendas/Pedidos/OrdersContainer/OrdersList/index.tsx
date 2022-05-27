@@ -65,6 +65,7 @@ export default function OrdersList(props: Props){
                     if(isFetching && !firstFetch){
                         return (
                         <RectangularPlaceholder 
+                        key={placeholder}
                         height='3.2rem'
                         />
                         )

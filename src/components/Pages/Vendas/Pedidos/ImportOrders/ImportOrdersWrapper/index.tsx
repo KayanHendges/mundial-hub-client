@@ -34,7 +34,7 @@ export default function ImportOrdersWrapper(props: Props){
     const [ fetchOrders, setFetchOrders ] = useState<boolean>(false)
     const [ ordersParams, setOrdersParams ] = useState<ListTrayOrdersParams>({
         storeCode: 0,
-        includeImported: true,
+        includeImported: false,
         page: 1,
         limit: 20,
     })
