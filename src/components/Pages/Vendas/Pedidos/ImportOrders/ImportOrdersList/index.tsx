@@ -110,6 +110,10 @@ export default function ImportOrdersList(props: Props){
 
     function selectedOrdesLabel(amount: number): string{
 
+        if(totalOrders == 0){
+            return ''
+        }
+
         if(selecting){
             return 'selecionando todos'
         }
@@ -144,12 +148,12 @@ export default function ImportOrdersList(props: Props){
             <div
             className={styles.header}
             style={{
-                visibility: `${isFetching || props.findStores? 'hidden' : 'visible'}`
+                visibility: `${isFetching || props.findStores || orders.length == 0? 'hidden' : 'visible'}`
             }}
             >
                 <DefaultSelectBox 
-                display={`${isFetching? 'none' : 'flex'}`}
-                selected={importList.length == totalOrders? true : false}
+                display={`${isFetching && orders.length == 0? 'none' : 'flex'}`}
+                selected={importList.length == totalOrders && importList.length > 0? true : false}
                 click={() => {
                     if(importList.length == totalOrders){
                         setImportList([])
@@ -175,8 +179,8 @@ export default function ImportOrdersList(props: Props){
                 </span>
                 <ImportButton 
                 importList={importList}
-                label='importar produtos'
-                css={{ width: '10rem' }}
+                label='importar pedidos'
+                css={{ width: '10rem', display: `${importList.length > 0? 'flex' : 'none' }` }}
                 action={e => {
                     const pushList = []
                     const orderImportList = importList?.sort((a, b) => {

@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { OrdersContext } from '../../../../../../contexts/OrdersContext'
 import { apiV2 } from '../../../../../../services/api/apiAxiosConfig'
-import { Customer, CustomerAddress, FindCustomerParams, FindCustomerResponse } from '../../../../../../services/api/types/Customers/Customer'
 import { ListOrdersProductsSoldParams, ListOrdersProductsSoldResponse, Order } from '../../../../../../services/api/types/Orders/Orders'
+import floatToPrice from '../../../../../../services/floatToPrice'
 import handleStyles from './handleStyles'
 import styles from './styles.module.scss'
 
@@ -34,6 +33,16 @@ export default function OrderProductsSold(props: Props){
 
     const products = data?.ordersProductsSold
 
+    function totalProducts(): string{
+        var somaProdutos = 0
+
+        products.map(product => {
+            somaProdutos += product.paidPrice
+        })
+
+        return `R$${floatToPrice(somaProdutos)}`
+    }
+
     return (
         <div
         className={styles.wrapper}
@@ -56,11 +65,20 @@ export default function OrderProductsSold(props: Props){
                             <div
                             className={styles.productContainer}
                             >
-                                <span>{ product?.name }</span>
+                                <span>{ product?.reference } - { product?.name }</span>
+                                <span>{ product?.quantity }un</span>
+                                <span>{ `R$${floatToPrice(product?.paidPrice)}` }</span>
                             </div>
                         )
                     })}
                 </div>
+                {data?.ordersProductsSold.length > 0? 
+                <span
+                className={styles.totalProducts}
+                >
+                    total em produtos {totalProducts()}
+                </span>
+                : <></>}
             </div>
         </div>
     )

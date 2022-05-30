@@ -14,19 +14,19 @@ export default function OrdersList(props: Props){
 
     const [ firstFetch, setFirstFetch ] = useState<boolean>(false)
 
-    const { openImportOrders } = useContext(OrdersContext)
+    const { openImportOrders, ordersParams } = useContext(OrdersContext)
     const { data, isFetching, isError, refetch } = useQuery<ListOrdersResponse>('orders', async () => {
-        const body: ListOrdersParams = {
-            orders: {},
-            paging: {
-                page: 1,
-                limit: 20
-            },
-            sort: {
-                trayOrderId: 'desc'
-            }
-        }
-        const response = await apiV2.post('/orders/list', body)
+        // const body: ListOrdersParams = {
+        //     orders: {},
+        //     paging: {
+        //         page: 1,
+        //         limit: 20
+        //     },
+        //     sort: {
+        //         trayOrderId: 'desc'
+        //     }
+        // }
+        const response = await apiV2.post('/orders/list', ordersParams)
         
         return response.data
     })
@@ -45,13 +45,14 @@ export default function OrdersList(props: Props){
         placeholdersList.push(index)
     }
 
-    useEffect(() => { // refetch when close openImportOrders
+    useEffect(() => { // refetch when close openImportOrders or the ordersParams changes
 
         if(!openImportOrders){
+            console.log('refetch')
             refetch()
         }
 
-    }, [openImportOrders])
+    }, [openImportOrders, ordersParams])
 
     return (
         <div

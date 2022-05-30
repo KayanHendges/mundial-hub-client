@@ -54,6 +54,7 @@ export interface OrderProductSold {
     productId: number
     kitId: number | null
     reference: string
+    quantity: number
     name: string
     cost: number | null
     price: number

@@ -1,4 +1,5 @@
 import { addHours, differenceInDays, parseISO } from "date-fns"
+import { format } from "date-fns"
 
 export default function dateFormat(date: string): string{
     if(!date){
@@ -21,7 +22,7 @@ export default function dateFormat(date: string): string{
         return `${Math.abs(differenceDate)} dias atrás`
     }
 
-    const returnDate = date.split('-').reverse().join('/')
+    const returnDate = format(orderDate, 'dd/MM/yyyy')
 
     return returnDate
 }

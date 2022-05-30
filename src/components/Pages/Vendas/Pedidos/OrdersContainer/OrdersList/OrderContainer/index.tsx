@@ -11,7 +11,6 @@ import RectangularPlaceholder from '../../../../../../Placeholders/Rectangular';
 import handleStyles from './styles';
 import dateFormat from './dateFormat';
 import styles from './styles.module.scss';
-import axios from 'axios';
 
 type Props = {
     order: Order
@@ -176,7 +175,7 @@ export default function OrderContainer(props: Props){
             style={infoStyles}
             >
                 <span className={styles.info}>{dateFormat(order?.created)}</span>
-                <span className={styles.subInfo}>{format(addHours(parseISO(order?.created), 3), 'hh:mm:ss')}</span>
+                <span className={styles.subInfo}>{format(addHours(parseISO(order?.created), 3), 'HH:mm:ss')}</span>
             </div>
             {/* name and delivery city - state */}
             <div
