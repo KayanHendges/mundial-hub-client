@@ -40,7 +40,7 @@ export default function AdditionalData(props: Props){
                 unity='g'
                 onlyNumber={true}
                 onChange={(e) => 
-                    setUnitaryDetails({...unitaryDetails, weight: Math.floor(e.target.value)})
+                    setUnitaryDetails({...unitaryDetails, weight: parseFloat(e.target.value)})
                 }
                 />
                 <DefaultTextInput
@@ -51,7 +51,7 @@ export default function AdditionalData(props: Props){
                 unity='cm'
                 onlyNumber={true}
                 onChange={(e) => 
-                    setUnitaryDetails({...unitaryDetails, length: Math.floor(e.target.value)})
+                    setUnitaryDetails({...unitaryDetails, length: parseInt(e.target.value)})
                 }
                 />
                 <DefaultTextInput 
@@ -62,7 +62,7 @@ export default function AdditionalData(props: Props){
                 unity='cm'
                 onlyNumber={true}
                 onChange={(e) => 
-                    setUnitaryDetails({...unitaryDetails, width: Math.floor(e.target.value)})
+                    setUnitaryDetails({...unitaryDetails, width: parseInt(e.target.value)})
                 }
                 />
                 <DefaultTextInput
@@ -73,7 +73,7 @@ export default function AdditionalData(props: Props){
                 unity='cm'
                 onlyNumber={true}
                 onChange={(e) => 
-                    setUnitaryDetails({...unitaryDetails, height: Math.floor(e.target.value)})
+                    setUnitaryDetails({...unitaryDetails, height: parseInt(e.target.value)})
                 }
                 />
             </div>

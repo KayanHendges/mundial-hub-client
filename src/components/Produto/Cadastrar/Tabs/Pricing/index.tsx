@@ -161,8 +161,8 @@ export default function Pricing(props: Props){
             textAlign={'center'}
             onlyNumber={true}
             onChange={(e) => {
-                setMundialPricing({...mundialPricing, stock: Math.floor(e.target.value)})
-                setScpneusPricing({...scpneusPricing, stock: Math.floor(e.target.value)})
+                setMundialPricing({...mundialPricing, stock: parseInt(e.target.value)})
+                setScpneusPricing({...scpneusPricing, stock: parseInt(e.target.value)})
             }}
             />
             <AvailableInput 
@@ -192,7 +192,7 @@ export default function Pricing(props: Props){
                 value={unitaryDetails.availabilityDays.toString()}
                 textAlign={'center'}
                 onChange={(e) => {
-                    setUnitaryDetails({...unitaryDetails, availabilityDays: Math.floor(e.target.value)})
+                    setUnitaryDetails({...unitaryDetails, availabilityDays: parseInt(e.target.value)})
                 }}
                 />
             </div>
