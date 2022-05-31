@@ -4,14 +4,14 @@ import { api } from '../../services/api';
 import Head from 'next/head'
 
 import Header from '../../components/Produto/Header';
-import DefaultInput from '../../components/Inputs/DefaultInput';
-import DefaultTextArea from '../../components/Inputs/DefaultTextArea';
 import SlugInput from '../../components/Inputs/SlugInput';
 
 import stringToSlug from '../../services/stringToSlug';
 import { useState, useEffect } from 'react';
 import router from 'next/router';
 import { parseCookies } from "nookies";
+import DefaultTextInput from "../../components/Inputs/DefaultTextInput";
+import DefaultTextAreaInput from "../../components/Inputs/DefaultTextAreaInput";
 
 export default function addSubcategory(props){
 
@@ -125,31 +125,30 @@ export default function addSubcategory(props){
             className={styles.formContainer}
             style={{ display: `${display}` }}
             >
-                <DefaultInput // Nome
+                <DefaultTextInput // Nome
                 label="Nome da Categoria"
                 name="category_name"
                 value={values.category_name}
                 onChange={handleChange}
                 placeholder="Insira o nome da categoria"
                 leaveInput={leaveInput}
-                required
+                required={true}
                 />
-                <DefaultInput // Small Description
+                <DefaultTextInput // Small Description
                 label="Descrição breve"
                 name="category_small_desc"
                 value={values.category_small_desc}
                 onChange={handleChange}
                 placeholder=""
                 />
-                <DefaultTextArea
+                <DefaultTextAreaInput
                 label="Descrição" // Description
-                rows={1}
                 name="category_description"
                 value={values.category_description}
                 onChange={handleChange}
                 placeholder="Descrição da categoria..."
                 />
-                <DefaultInput // title
+                <DefaultTextInput // title
                 label="título"
                 name="category_title"
                 value={values.category_title}
@@ -178,23 +177,22 @@ export default function addSubcategory(props){
                 style={{display: `${acceptanceTerm.display}`}}
                 className={styles.acceptanceTerm}
                 >
-                    <DefaultTextArea
+                    <DefaultTextAreaInput
                     label="termo de aceitação" // acceptance_term
-                    rows={1}
                     name="acceptance_term"
                     value={values.acceptance_term}
                     onChange={handleChange}
                     placeholder="eu aceito..."
                     />
                 </div>
-                <DefaultInput // meta_keywords
+                <DefaultTextInput // meta_keywords
                 label="keywords meta tag"
                 name="category_meta_key"
                 value={values.category_meta_key}
                 onChange={handleChange}
                 placeholder=""
                 />
-                <DefaultInput // meta_description
+                <DefaultTextInput // meta_description
                 label="descrição Meta tag"
                 name="category_meta_desc"
                 value={values.category_meta_desc}

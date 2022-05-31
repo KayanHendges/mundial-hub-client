@@ -1,9 +1,10 @@
-import { differenceInDays, format, parseISO } from 'date-fns'
+import { addHours, differenceInDays, format, parseISO } from 'date-fns'
 import { useContext, useEffect, useState } from 'react'
 import { IPricing, NewProductContext } from '../../../../../../contexts/NewProductContext'
+import convertDate from '../../../../../../services/ConvertDate/convertDate'
 import floatToPrice from '../../../../../../services/floatToPrice'
 import priceToFloat from '../../../../../../services/priceToFloat'
-import DefaultDataInput from '../../../../../Inputs/DefaultDataInput'
+import DefaultDateInput from '../../../../../Inputs/DefaultDateInput'
 import DefaultTextInput from '../../../../../Inputs/DefaultTextInput'
 import styles from './styles.module.scss'
 
@@ -219,35 +220,57 @@ export default function StorePricing(props: Props){
                         onChangePromotionalPrice(priceToFloat(e.target.value))
                     }}
                     />
-                    <DefaultDataInput
+                    <DefaultDateInput
                     label={`inicio`}
                     name='startPromotion'
                     value={startPromotion}
-                    visibility={visibility}
+                    visibility={visibility? 'visible' : 'hidden'}
                     onChange={(e) => {
-                        setStartPromotion(e.target.value)
+                        setStartPromotion(e)
                     }}
-                    leaveInput={() => {
-                        props.setPricing({
-                            ...props.pricing,
-                            startPromotion: parseISO(startPromotion)
-                        })
+                    leaveInput={(date) => {
+                        const newDate = parseISO(convertDate(date))
+                        
+                        if(newDate.toString() == 'Invalid Date'){
+                            console.log('data invalida')
+                            props.setPricing({
+                                ...props.pricing,
+                                startPromotion: new Date()
+                            })
+                            setStartPromotion(format(new Date(), 'dd/MM/yyyy'))
+                        } else {
+                            props.setPricing({
+                                ...props.pricing,
+                                startPromotion: addHours(newDate, 3)
+                            })
+                        }
                     }}
                     />
-                    <DefaultDataInput
+                    <DefaultDateInput
                     label='fim'
                     name='endPromotion'
                     value={endPromotion}
-                    visibility={visibility}
+                    visibility={visibility? 'visible' : 'hidden'}
                     border={promotionDateError? '1px solid #E01D10' : undefined}
                     onChange={(e) => {
-                        setEndPromotion(e.target.value)
+                        setEndPromotion(e)
                     }}
-                    leaveInput={() => {
-                        props.setPricing({
-                            ...props.pricing,
-                            endPromotion: parseISO(endPromotion)
-                        })
+                    leaveInput={(date) => {
+                        const newDate = parseISO(convertDate(date))
+                        
+                        if(newDate.toString() == 'Invalid Date'){
+                            console.log('data invalida')
+                            props.setPricing({
+                                ...props.pricing,
+                                endPromotion: new Date()
+                            })
+                            setEndPromotion(format(new Date(), 'dd/MM/yyyy'))
+                        } else {
+                            props.setPricing({
+                                ...props.pricing,
+                                endPromotion: addHours(newDate, 3)
+                            })
+                        }
                     }}
                     />
                 </div>

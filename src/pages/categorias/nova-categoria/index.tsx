@@ -3,8 +3,6 @@ import { api } from '../../../services/api';
 import styles from './styles.module.scss'
 
 import Header from '../../../components/Produto/Header';
-import DefaultInput from '../../../components/Inputs/DefaultInput';
-import DefaultTextArea from '../../../components/Inputs/DefaultTextArea';
 import SlugInput from '../../../components/Inputs/SlugInput';
 
 import stringToSlug from '../../../services/stringToSlug';
@@ -12,6 +10,8 @@ import { useState } from 'react';
 import router from 'next/router';
 import Head from 'next/head';
 import { parseCookies } from 'nookies';
+import DefaultTextInput from '../../../components/Inputs/DefaultTextInput';
+import DefaultTextAreaInput from '../../../components/Inputs/DefaultTextAreaInput';
 
 export default function novaCategorias(props){
 
@@ -120,7 +120,7 @@ export default function novaCategorias(props){
             href="/categorias"
             />
             <div className={styles.formContainer}>
-                <DefaultInput // Nome
+                <DefaultTextInput // Nome
                 label="Nome da Categoria"
                 name="category_name"
                 value={values.category_name}
@@ -129,22 +129,21 @@ export default function novaCategorias(props){
                 leaveInput={leaveInput}
                 required
                 />
-                <DefaultInput // Small Description
+                <DefaultTextInput // Small Description
                 label="Descrição breve"
                 name="category_small_desc"
                 value={values.category_small_desc}
                 onChange={handleChange}
                 placeholder=""
                 />
-                <DefaultTextArea
+                <DefaultTextAreaInput
                 label="Descrição" // Description
-                rows={1}
                 name="category_description"
                 value={values.category_description}
                 onChange={handleChange}
                 placeholder="Descrição da categoria..."
                 />
-                <DefaultInput // title
+                <DefaultTextInput // title
                 label="título"
                 name="category_title"
                 value={values.category_title}
@@ -174,23 +173,22 @@ export default function novaCategorias(props){
                 style={{display: `${acceptanceTerm.display}`}}
                 className={styles.acceptanceTerm}
                 >
-                    <DefaultTextArea
+                    <DefaultTextAreaInput
                     label="termo de aceitação" // acceptance_term
-                    rows={1}
                     name="acceptance_term"
                     value={values.acceptance_term}
                     onChange={handleChange}
                     placeholder="eu aceito..."
                     />
                 </div>
-                <DefaultInput // meta_keywords
+                <DefaultTextInput // meta_keywords
                 label="keywords meta tag"
                 name="category_meta_key"
                 value={values.category_meta_key}
                 onChange={handleChange}
                 placeholder=""
                 />
-                <DefaultInput // meta_description
+                <DefaultTextInput // meta_description
                 label="descrição Meta tag"
                 name="category_meta_desc"
                 value={values.category_meta_desc}
