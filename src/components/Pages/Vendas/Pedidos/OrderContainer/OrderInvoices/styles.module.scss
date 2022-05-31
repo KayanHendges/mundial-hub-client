@@ -31,7 +31,7 @@
         transition: .2s;
         overflow: hidden;
 
-        .financesList {
+        .invoicesList {
             width: 100%;
             
             display: flex;
@@ -41,12 +41,12 @@
 
             gap: .3rem;
 
-            .financeContainer {
+            .invoiceContainer {
                 width: 100%;
 
                 display: grid;
-                grid-template-columns: 1fr 6fr 1fr;
-                justify-content: flex-start;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                justify-content: center;
                 align-items: center;
 
                 padding: .3rem .6rem;
@@ -55,22 +55,34 @@
 
                 span {
                     color: var(--complementar-text);
+                    display: flex;
                     font-size: .9rem;
+                    text-align: center;
+                }
+
+                a {
+                    color: var(--light-blue-button);
+                    font-size: .9rem;
+                    text-decoration: none;
+                    cursor: pointer;
+
+                    &:hover, &:active {
+                        color: var(--blue-button);
+                    }
+                }
+
+                #spanLabel {
+                    color: var(--complementar-text);
+                    font-size: .9rem;
+                    text-align: center;
                 }
             }
         }
 
-        .balance {
-            margin-left: auto;
-            padding-right: 1rem;
-            color: var(--white-text);
-            font-size: .9rem;
+        .noResults {
+            width: 100%;
+            font-size: .8rem;
+            color: var(--complementar-text);
         }
-    }
-
-    .noResults {
-        width: 100%;
-        font-size: .8rem;
-        color: var(--complementar-text);
     }
 }

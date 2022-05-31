@@ -74,6 +74,19 @@ export default function OrderCostumerContainer(props: Props){
 
     }, [customer])
 
+    useEffect(() => {
+        if(!expandOrderId){
+            setOpen(false)
+        }
+
+        if(expandOrderId){
+            setTimeout(() => {
+                setOpen(true)
+            }, 300)
+        }
+
+    }, [expandOrderId])
+
     return (
         <div
         className={styles.wrapper}
@@ -115,9 +128,10 @@ export default function OrderCostumerContainer(props: Props){
                     </div>
                 </div>
                 {/* billingAddress if exists */}
-                {addresses?.map(address => {
+                {addresses?.map((address, index) => {
                     return (
                         <div
+                        key={index}
                         className={styles.addressContainer}
                         >
                             <span className={styles.addressType}>{ address.type }</span>

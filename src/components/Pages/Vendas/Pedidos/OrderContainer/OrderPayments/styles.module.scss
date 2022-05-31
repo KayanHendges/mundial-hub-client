@@ -31,7 +31,7 @@
         transition: .2s;
         overflow: hidden;
 
-        .financesList {
+        .paymentsList {
             width: 100%;
             
             display: flex;
@@ -41,7 +41,7 @@
 
             gap: .3rem;
 
-            .financeContainer {
+            .paymentContainer {
                 width: 100%;
 
                 display: grid;
@@ -66,11 +66,11 @@
             color: var(--white-text);
             font-size: .9rem;
         }
-    }
 
-    .noResults {
-        width: 100%;
-        font-size: .8rem;
-        color: var(--complementar-text);
+        .noResults {
+            width: 100%;
+            font-size: .8rem;
+            color: var(--complementar-text);
+        }
     }
 }

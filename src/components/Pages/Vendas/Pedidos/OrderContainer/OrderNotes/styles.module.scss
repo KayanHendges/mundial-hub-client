@@ -31,7 +31,7 @@
         transition: .2s;
         overflow: hidden;
 
-        .financesList {
+        .notesList {
             width: 100%;
             
             display: flex;
@@ -41,11 +41,10 @@
 
             gap: .3rem;
 
-            .financeContainer {
+            .noteContainer {
                 width: 100%;
-
-                display: grid;
-                grid-template-columns: 1fr 6fr 1fr;
+                
+                display: flex;
                 justify-content: flex-start;
                 align-items: center;
 
@@ -53,24 +52,17 @@
                 background-color: var(--gray-2);
                 border-radius: .4rem;
 
-                span {
+                p {
                     color: var(--complementar-text);
                     font-size: .9rem;
                 }
             }
         }
 
-        .balance {
-            margin-left: auto;
-            padding-right: 1rem;
-            color: var(--white-text);
-            font-size: .9rem;
+        .noResults {
+            width: 100%;
+            font-size: .8rem;
+            color: var(--complementar-text);
         }
-    }
-
-    .noResults {
-        width: 100%;
-        font-size: .8rem;
-        color: var(--complementar-text);
     }
 }

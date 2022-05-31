@@ -8,6 +8,10 @@ import handleStyles from './styles';
 import OrderHeader from './OrderHeader';
 import OrderProductsSold from './OrderProductsSold';
 import OrderFinances from './OrderFinances';
+import OrderPayments from './OrderPayments';
+import OrderNotes from './OrderNotes';
+import OrderInvoices from './OrderInvoices';
+import OrderMarketPlace from './OrderMarketPlace';
 
 type Props = {
 
@@ -59,10 +63,23 @@ export default function OrderContainer(props: Props){
                 customerId={data?.order?.customerId}
                 order={order}
                 />
+                <OrderMarketPlace 
+                orderId={expandOrderId}
+                />
                 <OrderProductsSold 
                 orderId={expandOrderId}
                 />
+                <OrderPayments
+                orderId={expandOrderId}
+                order={order}
+                />
                 <OrderFinances
+                orderId={expandOrderId}
+                />
+                <OrderInvoices
+                orderId={expandOrderId}
+                />
+                <OrderNotes
                 orderId={expandOrderId}
                 />
             </div>

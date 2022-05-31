@@ -1,6 +1,6 @@
 export default function floatToPrice(float: number): string {
 
-    if(!float){
+    if(typeof float != 'number'){
         return ''
     }
 

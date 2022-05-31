@@ -1,4 +1,4 @@
-import { ChangeEvent, CSSProperties } from 'react'
+import { ChangeEvent, CSSProperties, KeyboardEvent } from 'react'
 import onlyNumber from '../../../services/onlyNumber'
 import onlyNumberText from '../../../services/onlyNumberText'
 import styles from './styles.module.scss'
@@ -20,6 +20,7 @@ type InputProps = {
     unity?: string;
     onlyNumber?: boolean;
     onChange?(value: ChangeEvent<HTMLInputElement>): any;
+    onKeyPress?(event: KeyboardEvent): void;
     leaveInput?(): any;
 }
 
@@ -75,9 +76,13 @@ export default function DefaultTextInput(props: InputProps){
                 onChange={event => {
                     props.onChange(event)
                 }}
-                onKeyPress={(e) => {
+                onKeyPress={(event) => {
+                    if(props.onKeyPress){
+                        props.onKeyPress(event)
+                    }
+                    
                     if(props.onlyNumber){
-                        onlyNumber(e)
+                        onlyNumber(event)
                     }
                 }}
                 placeholder={props.placeholder}

@@ -68,12 +68,12 @@ export default function InputsContainer(props: Props){
                 const list = response?.data?.customers
 
                 if(list.length == 0){
-                    return undefined
+                    return 0
                 }
                 
                 return list[0].id
             })
-            .catch(err => { return undefined })
+            .catch(err => { return 0 })
 
             setOrdersParams({
                 ...ordersParams,
@@ -95,7 +95,12 @@ export default function InputsContainer(props: Props){
             onChange={e => {
                 setSearch(e.target.value)
             }}
-            leaveInput={() => sendSearch(search)}
+            onKeyPress={e => {
+                if(e.key == 'Enter'){
+                    sendSearch(search)
+                }
+            }}
+            // leaveInput={() => sendSearch(search)}
             placeholder='pesquise pelo número do pedido ou nome do cliente'
             />
         </div>

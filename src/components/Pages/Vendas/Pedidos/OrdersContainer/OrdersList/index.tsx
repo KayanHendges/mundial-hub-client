@@ -48,7 +48,6 @@ export default function OrdersList(props: Props){
     useEffect(() => { // refetch when close openImportOrders or the ordersParams changes
 
         if(!openImportOrders){
-            console.log('refetch')
             refetch()
         }
 
