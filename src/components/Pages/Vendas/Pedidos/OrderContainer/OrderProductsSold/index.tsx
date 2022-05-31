@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
+import { OrdersContext } from '../../../../../../contexts/OrdersContext'
 import { apiV2 } from '../../../../../../services/api/apiAxiosConfig'
 import { ListOrdersProductsSoldParams, ListOrdersProductsSoldResponse, Order } from '../../../../../../services/api/types/Orders/Orders'
 import floatToPrice from '../../../../../../services/floatToPrice'
@@ -12,6 +13,7 @@ type Props = {
 
 export default function OrderProductsSold(props: Props){
 
+    const { expandOrderId } = useContext(OrdersContext)
     const [ open, setOpen ] = useState<boolean>(true)
     const { containerStyles } = handleStyles({ open })
 
@@ -31,17 +33,30 @@ export default function OrderProductsSold(props: Props){
         enabled: true
     })
 
-    const products = data?.ordersProductsSold
+    const products = data?.ordersProductsSold? data.ordersProductsSold : []
 
     function totalProducts(): string{
         var somaProdutos = 0
 
         products.map(product => {
-            somaProdutos += product.paidPrice
+            somaProdutos += product.paidPrice * product.quantity
         })
 
         return `R$${floatToPrice(somaProdutos)}`
     }
+
+    useEffect(() => {
+        if(!expandOrderId){
+            setOpen(false)
+        }
+
+        if(expandOrderId){
+            setTimeout(() => {
+                setOpen(true)
+            }, 300)
+        }
+
+    }, [expandOrderId])
 
     return (
         <div
@@ -60,14 +75,20 @@ export default function OrderProductsSold(props: Props){
                 <div
                 className={styles.productsList}
                 >
-                    {data?.ordersProductsSold.map(product => {
+                    {data?.ordersProductsSold.map((product, index) => {
                         return (
                             <div
+                            key={index}
                             className={styles.productContainer}
                             >
-                                <span>{ product?.reference } - { product?.name }</span>
+                                <span>
+                                    { product?.reference } - { product?.name }
+                                    { product?.kitId? ` (relacionado ao kit id ${product.kitId})` : '' }
+                                </span>
                                 <span>{ product?.quantity }un</span>
-                                <span>{ `R$${floatToPrice(product?.paidPrice)}` }</span>
+                                <span style={{ textAlign: 'end' }} >
+                                    { `R$${floatToPrice(product?.paidPrice)}` }
+                                </span>
                             </div>
                         )
                     })}
@@ -79,6 +100,9 @@ export default function OrderProductsSold(props: Props){
                     total em produtos {totalProducts()}
                 </span>
                 : <></>}
+                {products?.length == 0 && !isFetching?
+                <span className={styles.noResults}>nenhum produto vendido nesse pedido</span>
+                : <></> }
             </div>
         </div>
     )
