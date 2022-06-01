@@ -148,11 +148,11 @@ export default function ImportOrdersList(props: Props){
             <div
             className={styles.header}
             style={{
-                visibility: `${isFetching || props.findStores || orders.length == 0? 'hidden' : 'visible'}`
+                visibility: `${isFetching || props.findStores || orders?.length == 0? 'hidden' : 'visible'}`
             }}
             >
                 <DefaultSelectBox 
-                display={`${isFetching && orders.length == 0? 'none' : 'flex'}`}
+                display={`${isFetching && orders?.length == 0? 'none' : 'flex'}`}
                 selected={importList.length == totalOrders && importList.length > 0? true : false}
                 click={() => {
                     if(importList.length == totalOrders){
