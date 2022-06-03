@@ -167,20 +167,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         return []
     })
 
-    const { ['mundialhub.token']: token } = parseCookies(ctx)
-
     const providerId = ctx.query.provider_id
     const search = ctx.query.search
-
-    if(!token){
-        const { url } = ctx.req
-        return {
-            redirect: {
-            destination: `/login?redirect=${url}`,
-            permanent: false
-            }
-        }
-    }
 
     return {
         props: {

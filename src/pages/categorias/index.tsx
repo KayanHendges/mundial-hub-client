@@ -4,7 +4,6 @@ import styles from './styles.module.scss'
 import Header from '../../components/Categorias/Header';
 import CategoryList from '../../components/Categorias/CategoryList';
 import Head from 'next/head';
-import { parseCookies } from 'nookies';
 
 export default function categorias(props){
     return (
@@ -26,17 +25,6 @@ export default function categorias(props){
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const { ['mundialhub.token']: token } = parseCookies(ctx)
-  
-    if(!token){
-      const { url } = ctx.req
-      return {
-          redirect: {
-          destination: `/login?redirect=${url}`,
-          permanent: false
-          }
-      }
-  }
   
     return {
       props: {}

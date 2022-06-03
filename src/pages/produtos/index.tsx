@@ -7,7 +7,6 @@ import SearchForm from '../../components/Produto/ProductList/SearchForm';
 import ResultList from '../../components/Produto/ProductList/ResultList';
 import Footer from '../../components/Produto/ProductList/Footer';
 import Head from 'next/head';
-import { parseCookies } from 'nookies';
 
 type Props = {
     query: string,
@@ -129,18 +128,6 @@ export default function produtos(props: Props){
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
-    const { ['mundialhub.token']: token } = parseCookies(ctx)
-
-    if(!token){
-        const url = ctx.resolvedUrl
-        return {
-            redirect: {
-            destination: `/login?redirect=${encodeURIComponent(url)}`,
-            permanent: false
-            }
-        }
-    }
 
     const query = ctx.query.search ?  ctx.query.search : ''
 

@@ -201,18 +201,7 @@ export default function novaCategorias(props){
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const { ['mundialhub.token']: token } = parseCookies(ctx)
-  
-    if(!token){
-        const { url } = ctx.req
-        return {
-            redirect: {
-            destination: `/login?redirect=${url}`,
-            permanent: false
-            }
-        }
-    }
-  
+
     return {
       props: {}
     }

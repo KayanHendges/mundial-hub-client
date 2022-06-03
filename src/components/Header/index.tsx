@@ -1,16 +1,16 @@
-import axios from 'axios';
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
 import { api } from '../../services/api';
-import sleep from '../../services/sleep';
 import RectangularPlaceholder from '../Placeholders/Rectangular';
 import PopUpVideo from '../PopUpVideo';
 import styles from './styles.module.scss';
 
 export default function Header() {
 
-    const { user } = useContext(AuthContext)
+    const user = {
+        name: 'visitante'
+    }
+
     const [ trayRequests, setTrayRequests ] = useState({
         label: ``,
         request: null

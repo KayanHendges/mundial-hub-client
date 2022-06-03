@@ -1,4 +1,3 @@
-import { parseCookies } from 'nookies'
 import styles from './styles.module.scss'
 import {api} from '../../../services/api'
 import Head from 'next/head'
@@ -57,18 +56,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         console.log(erro.response.data)
         return []
     })
-
-    const { ['mundialhub.token']: token } = parseCookies(ctx)
-
-    if(!token){
-        const { url } = ctx.req
-        return {
-            redirect: {
-            destination: `/login?redirect=${url}`,
-            permanent: false
-            }
-        }
-    }
 
     return {
         props: {

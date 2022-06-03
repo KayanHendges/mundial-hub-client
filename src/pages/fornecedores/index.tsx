@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next'
-import { parseCookies } from 'nookies'
 import styles from './styles.module.scss'
 
 export default function Fornecedores(props){
@@ -13,18 +12,6 @@ export default function Fornecedores(props){
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
-    const { ['mundialhub.token']: token } = parseCookies(ctx)
-
-    if(!token){
-        const { url } = ctx.req
-        return {
-            redirect: {
-            destination: `/login?redirect=${url}`,
-            permanent: false
-            }
-        }
-    }
 
     const query = ctx.query.search ?  ctx.query.search : ''
 

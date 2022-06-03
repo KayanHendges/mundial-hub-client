@@ -216,19 +216,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const parentId  = ctx.params.slug
 
-    const { ['mundialhub.token']: token } = parseCookies(ctx)
-  
-    if(!token){
-        const { url } = ctx.req
-        return {
-            redirect: {
-            destination: `/login?redirect=${url}`,
-            permanent: false
-            }
-        }
-    }
-
-
     return {
         props: {
             parentId: parentId,

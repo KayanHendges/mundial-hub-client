@@ -1,6 +1,5 @@
 import styles from './styles.module.scss'
 import { GetServerSideProps } from "next"
-import { parseCookies } from "nookies"
 
 import { OrdersProvider } from '../../contexts/OrdersContext'
 
@@ -24,18 +23,6 @@ export default function Orders(){
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
-    const { ['mundialhub.token']: token } = parseCookies(ctx)
-
-    if(!token){
-        const url = ctx.resolvedUrl
-        return {
-            redirect: {
-            destination: `/login?redirect=${encodeURIComponent(url)}`,
-            permanent: false
-            }
-        }
-    }
 
     return {
         props: {

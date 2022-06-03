@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles.module.scss';
 
 type WrapperStyle = {
