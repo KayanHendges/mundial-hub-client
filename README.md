@@ -3,7 +3,7 @@
 Hub desenvolvido para gerenciar produtos e pedidos de um e-commerce com 2 sites. 
 
 Esse projeto desenvolvi quando trabalhei na Mundial Pneumáticos, antigo e-commerce de pneus, durante 1 ano e meio.
-O Hub se comunica com duas APIs, sendo a [primeira versão](https://github.com/KayanHendges/mundial-hub-api-v1) para os produtos, utilizando modelo MVC, rodando em NodeJs. Já a (segunda versão)[https://github.com/KayanHendges/mundial-hub-api-v2] para os pedidos, utilizando Clean Architecture, SOLID e Typescript. Essa segunda API foi desenvolvida após avançar nos estudos de boas práticas.
+O Hub se comunica com duas APIs, sendo a [primeira versão](https://github.com/KayanHendges/mundial-hub-api-v1) para os produtos, utilizando modelo MVC, rodando em NodeJs. Já a [segunda versão](https://github.com/KayanHendges/mundial-hub-api-v2) para os pedidos, utilizando Clean Architecture, SOLID e Typescript. Essa segunda API foi desenvolvida após avançar nos estudos de boas práticas.
 
 Atualmente o projeto está parado com o fim da empresa, mas está disponível aqui uma versão de demonstração.
 
